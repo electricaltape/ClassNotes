@@ -163,3 +163,100 @@ Proof - negate both conditions - prove that E in R disconnected iff not 2.42
 ** Upcoming Dates
    HW5 due on Monday (extra credit as well)
    HW6 due on Friday (connectedness)
+
+** Definition : K in X is compact means:
+   given any open cover {G_alpha : alpha in A} of K (so K is in the union of
+   all G_alpha) there is a finite subcover consisting of a finite collection of
+   alphas such that K subset union over alpha of G_alpha
+
+*** Examples:
+
+   K = (0,1) is covered by {(0,3/4),(1/2,1)} (finite cover)
+
+   another cover: (1/n, 1) for n in NN, has no finite subcover.
+
+   Not hard to show not compact just from creating a cover with no finite
+   subcover.
+
+   For the homework problem {0} U {1/n}, we can use Heine-Borel, but it is more
+   instructive to use the definition.
+
+*** TODO Archimedes Corollary
+    all but finitely many something something. Fill this out.
+
+*** Nested interval theorem
+
+    for nullset /= In = [a_n, b_n] superset Im
+*** Heine-Borel
+
+    Not closed implies not compact.
+    Alternatively, we can say that if K is closed and bounded in R then it is
+    compact.
+
+*** Compactness of [0,1]
+
+**** Classic version
+
+     Take [0,1] - it is compact (proof : by contradiction : suppose that there
+     exists an open cover of [0,1] {G_alpha} with no finite subcover. Note that
+     then {G_alpha} covers [0,1/2] and [1/2,1].
+
+     Step 1: assumption implies that {G_alpha} has a cover of at least one of
+     [0,1/2] and [1/2,1] . Therefore we have a finite subcover for each, and
+     their union is finite and covers [0,1]: a contradiction.
+
+     Part 2: Pick I1 = one of the two so {G_alpha} has no finite subcover of
+     I1.
+
+     Get I1 superset I2 ... superset In - by nested interval theorem -> the
+     intersection is nonempty - in fact, it must be a single point, x0, since
+     the length of In -> 0 (cannot be two things in the intersection, the
+     length between them always decreases)
+
+     but x0 in G_alpha for some alpha. and I subset G_alpha0 since the length
+     goes to zero. Therefore there is a finite subcover of In.
+
+     Therefore for n large enough, we have a finite subcover of In after all; a
+     contradiction.)
+
+**** Other version - not in our book.
+
+     How do we distinguish between [0,1] intersect Q and [0,1] ? completeness.
+
+     Suppose {G_alpha} is an open cover of [0,1]. Our goal is to find some
+     finite subcover. Define a set
+
+     E = {x in [0,1] | {G_alpha} has a finite subcover of [0,x]}
+
+     Check : E /= nullset. We are allowed to take x = 0 in E as 0 in G_alpha0
+     (as {G_ALPHA} covers [0,1]) so [0,0] has a finite subcover.
+
+     E is bounded above by 1, so by the Least Upper Bound property for RR,
+
+     x0 = sup E exists, 0 leq x0 leq 1
+
+     Claim : x0 exists and x0 = 1. Then we are done.
+
+     x0 exists -> If x0 = 0 we are done.
+
+         Assume x0 > 0 so x0 in [0,1] -> some G_alpha0prime in {G_alpha} such
+         that G_alpha0prime open -> exists delta > 0 s.t.
+
+         N_delta(x_0) = (x0 - delta, x0 + delta) subset of G_alpha0prime
+
+         Then x0 - delta < x0 -> exists s in E s.t. x0 - delta leq s leq x0
+
+         Then {G_alpha} has a finite subcover over [0,s]. Then throw in to that
+         union of sets G_alpha0prime which covers [0,x0].
+
+         In conclusion : x0 in E (used t < x0 -> t not an upper bound)
+
+     Part 2: Suppose that x0 /= 1, so x0 < 1.
+
+     x0 in G_alpha0prime and (x0 - s, x0 + s) in G_alpha0prime. For x0 in E
+     there exists some union of Gs s.t. their union covers [0,x0] then that
+     union with G_alpha0prime is a superset of [0, x + delta] -> 1 in E and 1
+     is least upper bound -> {G_alpha} has a finite subcover of [0,1].
+
+
+

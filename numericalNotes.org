@@ -1,6 +1,8 @@
 * General Tips
     Never compute the inverse!
     Use properties of special matricies.
+    Proofs on homework - don't be afraid to go back.
+
 
 * 9.9.11
 ** Pivoting
@@ -116,6 +118,37 @@ partial pivoting is as good (a belief, not a truth)
    Now assume A is SPD so A = LU. L is unit lower triangular. Note
 
    P_k(A) = P_k(L) P_k(U) (slide 64)
+
+
+
+
+* 9.14.11
+** Theorem 3.8
+   Let A be symmetric, nxn. A is SPD iff A + L(transpose L)
+   Better explanation in slides. Shows that if we have a symmetric matrix we
+   don't need to do LU!
+** Cholesky Factorization
+   Given some SPD matrix we can compute L with the following algorithm:
+   do k = 1,n
+       l_kk = sqrt ( a_kk - sum (l_{ks})^2, for s = 1 to k-1)
+       do i = k+1,n
+           l_{ik} = 1/l_{kk} (a_{ik} - sum l_{is} l_{ks} for s = 1 to k-1)
+       end do
+   end do
+
+   operation count is homework! show that it is n^3/6 + O(n^2).
+
+   This algorithm is nice and stable - no need to pivoting. It also is faster
+   than LU factorization (n^3/6 instead of n^3/3 multiplications)
+** Sparse Matricies!!!
+   First challenge - storage space. Not as big a problem as it once was, but
+   still nontrivial.
+
+   More examples of sparse matricies - telephone grids. Represent with a matrix
+   of ones and zeros - if two are connected, write 1. Otherwise write 0.
+
+
+
 
 
 
