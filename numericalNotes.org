@@ -140,15 +140,54 @@ partial pivoting is as good (a belief, not a truth)
 
    This algorithm is nice and stable - no need to pivoting. It also is faster
    than LU factorization (n^3/6 instead of n^3/3 multiplications)
-** Sparse Matricies!!!
+** Sparse Matricies
    First challenge - storage space. Not as big a problem as it once was, but
    still nontrivial.
 
    More examples of sparse matricies - telephone grids. Represent with a matrix
    of ones and zeros - if two are connected, write 1. Otherwise write 0.
 
+   Some references : Saad (sparse book), Meschach (noncommercial sparse
+   package).
 
+   We like sparse matricies - can skip operations on zero entries, save a lot
+   of time.
 
+*** Coordinate Format
+    Goal - don't store zeros.
+    Accordian format.
 
+    one array - store nonzero entries in any order.
+    two other arrays - store row and column indicies.
+
+    This requires 3Nz entries, where Nz is the number of nonzero entries.
+
+*** Compressed Sparse Row format
+    Real array to store entries row by row
+    Integer array J to store column indicies
+    Integer array of pointers to where each row starts.
+
+*** Tridiagonal matricies
+    A square matrix A = (a_ij) is said to be tri-diagonal if a_ij = 0 for all
+    i, j such that | i - j | > 1.
+
+    Nice properties - principle minors are nonsingular if:
+    |a_1| > |c_1|
+    |a_k| \geq |b_k| + |c_k|
+    |a_n| > |b_n|
+
+    Proof by induction: show that the first 2x2 matrix is fine, assume nxn,
+    show (n+1)x(n+1).
+
+    How can we compute something that is tridiagonal? Factorize and solve.
+
+**** Trick - Crout factorization = Thomas algorithm
+
+     Crout requires about 2n operations for solution.
+
+     Nice feature: superdiagonal entries of U are always less than 1.
+     Nice feature: subdiagonal entries of L are bounded.
+
+     Turns out Crout is very stable - we like it.
 
 
