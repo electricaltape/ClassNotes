@@ -1,0 +1,121 @@
+* General Tips
+    Never compute the inverse!
+    Use properties of special matricies.
+
+* 9.9.11
+** Pivoting
+s_i = max over 1 \leq j \leq n \abs{a_{ij}}
+scale of the ith row - use for another pivoting policy
+
+** LU by GESRP
+
+Set A1 = A
+    scan the first column of A1 : set a_{r1,1} / s_r1 := (max A[:,0])
+    exchange that row r1 and row 1 of A1 to form A~1, or
+    A~1 = I_r1,1 A1 .
+
+for true numerical analysis, need to know/do:
+    understand troublesome parts
+    understand algorithm by hand
+    use examples to check code.
+    we like test-first coding practices - each part valid.
+
+for A = 0 1 1
+        1 2 3
+        1 0 2
+
+s1 = 1, s2 = 3, s3 = 2 (largest element in each row)
+max [a_31 / s_3 , a_11 / s_1, a_21 / s2] = a_31/ s_3 so use r_1 = 3.
+
+Therefore R1 -> R3 so carry out elimination.
+
+Most stable is full pivoting, but that is generally difficult. generally
+partial pivoting is as good (a belief, not a truth)
+
+** Applications of LU factorization
+    solve Ax = b - O(n^3/3) long operations (optional hw - find exact number)
+    (should be less, as there is less division)
+    Much worse strategy - compute determinants and solve by
+        Cramer's rule - (n + 1)(n - 1)n! operations (far worse.)
+    quickly compute the determinant of a matrix
+        works because det(AB) = det(A)det(B)
+        and the determinant of a triangular matrix is the trace
+        so det(P)det(A) = det(L)det(U), det(L) = 1, det(U) = trace(U)
+    find rank(A)
+    solve Ax = b1, Ax = b2, Ax = b3, ... good for gaming calculations
+        (moving polygons/vectors)
+        compute inverse(A) - requires O(4n^3/3) long operations
+        repeatedly solve for [1 0 0], [0 1 0], [0 0 1] etc to form columns
+
+** solving LU factorization systems
+    Ax    = b
+    PAx   = Pb
+    (LU)x = Pb
+    so solve Ly = Pb -> Ux = y
+
+    Algorithms are already coded and available. Nothing particularly new.
+    matlab : [L,U,P] = lu(A)
+             y = L \ (P * b)
+             x = U \ y
+    Google netlib
+
+
+* 9.12.11
+** LU factorization of RDD matricies
+   Pay attention! important for scientific computing.
+   diagonally dominant matrix
+       - magnitude of diagonal entry \leq sum of magnitudes of other entries
+       - strictly : use > not \leq
+   Theorem 3
+   - If GE is applied to fint the LU factorization of a strictly RDD matrix A,
+     A^(k) = (A_(ij)^(k)) k in NN in the elimination procedure are strictly RDD
+   - every RDD matrix has an LU factorization.
+   - the LU based on GESRP for a RDD matrix is the same as the LU based on GE.
+
+   kinda nice - for RDD we do not need pivoting. The greatest entry is already
+   on the diagonal! We can handle LU faster, more accurately.
+
+   Proof of Theorem 3
+   Let A = (a_ij) nxn be a strictly RDD matrix. Prove R^(2) is strictly RDD and
+   similar arguments can be shown for A^(3), A^(4), etc.
+
+   so show that | a_ii^(2) | > sum off-diagonals. (slide 59)
+
+   follow the algorithm for the second row and use the property of diagonal
+   dominance from the first row.
+** LU factorization of SPD matricies
+   Lots of physical problems (like heat flow) are symmetrical.
+
+   SPD <-> following properties:
+   - A = transpose(A) (symmetrical)
+   - (transpose x) A x > 0 for x /= 0 (positive definite, by test vector)
+
+   SPD matricies are nice! Check out some properties:
+   - A nonsingular, (inverse A) SPD
+   - leading principle submatricies are SPD
+   - principal minors of A are positive.
+   - eigenvalues are positive.
+
+   Lemma 1 - go backwards.
+   - if all eigenvalues of A are positive then A is SPD
+   - if all principal minors are positive then A is SPD
+
+   SPD is symmetric - we should only need to look at half of it.
+
+   Theorem 3.8 - (SPD? A) <-> exists L s.t. A = L(transpose L)
+
+   (LLT is cholesky factorization!)
+   Proof. assume A = L(transpose L), so A symmetric. (show A positive definite)
+   let y = (transpose L)x so (nonzero x -> nonzero y). Then
+
+   (transpose x) A x = (transpose x) L (transpose L) x
+                     = (transpose y) y
+                     > 0, for x /= 0.
+   so A is SPD.
+
+   Now assume A is SPD so A = LU. L is unit lower triangular. Note
+
+   P_k(A) = P_k(L) P_k(U) (slide 64)
+
+
+
