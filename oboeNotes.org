@@ -1,3 +1,14 @@
+* Chapter 0 - What Dr. Walker Said
+** Regarding reedmaking and oboeplaying
+   Continuum - great player and shitty reeds, good player and awesome reeds
+   Important to have a balance and spend time on both.
+   DeLancie and Tabuteau would just steal good reeds
+   Always snap off the guide string first
+** Supplies
+   FF thread diameter - fishing lure
+   Revlon Finishing file - don't settle for less (cheaper ones not as good)
+
+
 * Chapter 1 - Philosophy
 
 ** Work on reeds constantly!
@@ -115,21 +126,32 @@
 
 * Chapter 4 - Tying The Blank
   Soak in hot tap water, about 20 minutes
-*** TODO Question: should cane sink in water?
+*** DONE Question: should cane sink in water?
+    soak 15-20 minutes - sinking irrelevant
+    heated or not - no large difference
+    CLOSED: [2011-09-15 Thu 14:09]
   Cut off a length of string; tie one end to a hook, other around dowel
 ** Tying technique
   Place about 12mm of cane on the tube
   First wrap to left of guide (tied-to-hook) string
   Next five or so - also to left of both the guide string and current work
-*** TODO Question: Necessary to slip blades manually?
+*** DONE Question: Necessary to slip blades manually?
+    No. They may slip themselves. This is okay but not needed.
+    (need to slip? Why using such wide cane?)
+    CLOSED: [2011-09-15 Thu 14:20]
 *** TODO Question: Good way to not make left tying so awkward?
+
   Check for suction against tube - works? Good. Start tying on right of guide.
   Keep going until the metal ends - start tying knots. Tie many!
 ** Logistics
    Okay to tie off many blanks at the same time with no further work.
    If not completing the reed, go ahead and finish the tip (see later)
    Do not let the reed dry with bark out to the tip (will set undesirably)
-*** TODO Question: Page 58, 'do not cut the hinge off': why not? Are we not about to finish?
+*** DONE Question: Page 58, 'do not cut the hinge off': why not? Are we not about to finish?
+    Only open the reed if planning to finish it
+    will open too far if chopped and left to dry
+    tip opening important, can screw it up
+    CLOSED: [2011-09-15 Thu 14:11]
 
 
 * Chapter 5 - Knife Technique
@@ -148,3 +170,40 @@
   "Where the knife doesn't touch, it won't cut."
   Follow through the scrape - go all the way off the reed. Otherwise one will
   create a 'catch'
+
+
+* Chapter 6 - The Scrape
+  Three major sections - tip, hump, back
+  focused, not haphazard
+  (haphazard: work every section simultaneously)
+  pinpoint approach: get the tip right, get the hump right, get the back
+  right. Adjust at the end.
+  Use tests and outlines - adjust as necessary at the end.
+** The Tip of the Reed
+   35-40 degree angle, 2mm back from end
+   extend to 4mm back from tip
+   Very tip = very thinest
+   center should be a bit thicker than sides
+   At this point, if not continuing - allow the blank to dry.
+*** DONE Question: Why not clip now? Previously told to ALWAYS clip at this point
+    CLOSED: [2011-09-15 Thu 14:14]
+    See above note.
+** Tip post-processing
+   After drying, clip hinge. Cut as little as possible off.
+   For fun, try to crow the reed - if you can you went too far!
+   Plaque should be held securely (if not probably a dud)
+   Continue thinning the reed - just the tip for now
+   Do not be afraid of a fuzzy tip - will be clipped again.
+   Knife barely clicks when going off end - about thin enough. Keep going.
+   Crow again - should be tight, weak, resistant sound.
+** The Hump
+   Resharpen the knife.
+   Begin at bark by right side of tip
+   Work back from the tip/bark edge - should here clicks. When clicks stop we
+   are almost done.
+   Cut should extend 10-11 mm back from tip/hump interface
+   No bark on sides of tip
+   Near the tip it should smoothly taper in to the definition
+
+
+
