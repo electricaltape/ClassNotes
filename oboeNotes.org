@@ -1,0 +1,150 @@
+* Chapter 1 - Philosophy
+
+** Work on reeds constantly!
+   John Mack: "a reed a day keeps the psychiatrist away"
+   cannot practice once a week, and cannot practice reed making once a
+   week
+   Light's Law: "The best time to make reeds is when you don't need
+   reeds"
+
+** Eliminate variables
+   Stick with one dealer, buy in bulk
+   use the same tools
+   test often, but you cannot add back cane.
+   learn to play on bad reeds anyway. Tabuteau would smash students'
+   good reeds.
+
+** What makes a good reed?
+   Requires minimal manipulation with embouchure
+   should not need great strength or acrobatics of lips to play
+   reed 'allowed' to play, not 'beaten into submission' to play
+
+** Basic criteria for reeds
+   Tabuteau likened reeds/oboists to horses/cowboys
+   well trained and manageable but able to save its master
+   Will take time - throw out lots on the way to mastery.
+*** Response - allowed to vibrate
+    Say it ten times before scraping.
+    should respond well from Bb to high G at any dynamic.
+*** Pitch - no oboe tuning slide
+    "I can't think of anything less pleasant than spending a two-hour
+    concert... trying to lip up or down to meet the median pitch"
+*** Stability - how much embouchure adjustment needed for octaves
+    100% stable <-> high C requires no more lip than lower octave
+    Generally not obtainable. Aim for 95%, and don't bite.
+*** Dynamic Range - Wagner to Mendelssohn
+    projection /= dynamic range
+    No easy trick to cover whole range
+*** Tone Quality - deliberately last feature
+    Not useful with-out first four
+    Sacrifice for stability or range
+
+
+* Chapter 2 - Equipment/Supplies
+
+** Essential tools
+*** Knife
+   Most important - extension of hand (literally) and of soul
+   (figuratively)
+   "with the knife he remakes his instrument every day"
+   What counts the most - sharpenable, feels good
+   become handed, or start handed
+*** Mandrel
+   Eliminate variables - make it fit tubes as best as it can
+*** Plaque
+   Slightly wider than reed
+   thin sliver of steel.
+*** Cutting block
+   can't be perfectly flat - not a clean cut
+   Stick to wood - does not become pitted
+*** Roller
+   for holding thread while wrapping
+*** Tuning
+   must-have for reedmaking
+   use an electronic one or tuning fork (use fork for calibration)
+*** Light
+   bright, moveable
+*** Soaking Pan
+   Some item (like a shot glass) for soaking reeds
+   35mm film case useful while traveling
+
+** other tools
+   600A grit sandpaper for smothing sides
+   peg oboe stand
+   metal ruler, metric
+   container for said tools
+   chest of small drawers for small parts
+   rag
+   razor blades for removing ears
+
+** Cane
+   Key ingredient. Do as much work as possible yourself for
+   consistency.
+   Beginner - buy gouged and shaped cane. Aim for 580-620 microns in
+   the center and 450-500 on the sides.
+   Best cane - right by bark.
+*** Variations based on shape
+    wider - easier to close sides
+    dependent on cane itself.
+    Generally, most manufacturers make cane too wide - order
+    narrowest possible
+    so aim for softer, thinner, narrower cane from purchases.
+** Tubes
+   Airtight fitting between reed and oboe
+   "Would the lone ranger use silver bullets?" Mack
+** String
+   buy locally, not from dealer
+   bonded nylon
+   flattens against tube when pulled, high tensile strength
+** Fishskin
+   from cow intestine. Apply to all reeds to avoid any leakage
+
+
+* Chapter 3 - Knife Sharpening
+  Knife sharpening is necessary for good reed making, but not sufficient
+** Technique
+   Sharpen from left to right - raise fat end about 1/8th an inch above stone
+   Sharpen from right to left - entire blade flat
+   alternate between the two 5-6 times, final left-right stroke to get a bevel
+** Testing
+   Should scrape off some thumb nail with no pressure besides that from knife
+   weight
+   repeat procedure if needed.
+   Do not use a dull knife! Will result in destroyed tips.
+
+
+* Chapter 4 - Tying The Blank
+  Soak in hot tap water, about 20 minutes
+*** TODO Question: should cane sink in water?
+  Cut off a length of string; tie one end to a hook, other around dowel
+** Tying technique
+  Place about 12mm of cane on the tube
+  First wrap to left of guide (tied-to-hook) string
+  Next five or so - also to left of both the guide string and current work
+*** TODO Question: Necessary to slip blades manually?
+*** TODO Question: Good way to not make left tying so awkward?
+  Check for suction against tube - works? Good. Start tying on right of guide.
+  Keep going until the metal ends - start tying knots. Tie many!
+** Logistics
+   Okay to tie off many blanks at the same time with no further work.
+   If not completing the reed, go ahead and finish the tip (see later)
+   Do not let the reed dry with bark out to the tip (will set undesirably)
+*** TODO Question: Page 58, 'do not cut the hinge off': why not? Are we not about to finish?
+
+
+* Chapter 5 - Knife Technique
+  "Nobody ever learned to play golf or tennis well without knowing something
+  about the correct grip and stroke"
+  Hold bottom with middle joint of index finger and palm
+  Use right thumb for leverage
+  Optimal - thumbs touch while working for better control
+  Beneath thumbs - best control, middle of reed.
+** Scraping
+  35 to 40 degree angle from center - NEVER straight down
+  Scrape in one direction towards tip
+  Knife does not touch cane on way back
+  Should not 'make chips fly' - too vigorous
+  Deepest cut when perpendicular - poise the blade exactly over what you cut.
+  "Where the knife doesn't touch, it won't cut."
+  Follow through the scrape - go all the way off the reed. Otherwise one will
+  create a 'catch'
