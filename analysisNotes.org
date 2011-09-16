@@ -260,3 +260,123 @@ Proof - negate both conditions - prove that E in R disconnected iff not 2.42
 
 
 
+
+* 9/16/11
+** 2.16, last problem on HW4
+   p in QQ s.t. 2 < p^2 < 3
+   E = (-srt(3), -sqrt(2)) U (sqrt(2), sqrt(3)) intersect Q
+
+*** E is closed in Q
+    show that E closed in RR, so closed in R intersect QQ -> QQ closed
+
+*** E is bounded
+    E is bounded as d(p,0) < sqrt(3)
+
+*** E is not compact in QQ
+    since E is not closed in RR, E is not compact in R
+    so by Heine-Borel E is not compact in QQ.
+**** Directly
+     Gn = {(-sqrt(3) + 1/n, sqrt(3))} intersect Q
+        = open cover with no finite subcover.
+
+*** E is QQ-open:
+    E = [-sqrt(3), -sqrt(2)] U [sqrt(2), sqrt(3)] intersect QQ
+    so RR-open intersect QQ -> E is QQ-open
+
+** Hint for next homework - correction
+*** for 4,7 problem
+    4, 7 decimal expansions
+    at each step, end points go away
+    when proving perfect : take point in the intersection of the layers, find a
+    point in the interval (in the generalized Cantor set)
+    Show that we have a fractal thing - same no matter where we start (same
+    thing at every scale)
+    Fun problem once understood!
+
+*** Announcement - HW6 and Test 1, Friday September 23
+    HW not too hard.
+    Test - everything up to connectedness (basic topology, sets, neighborhoods,
+    completeness)
+
+** Next Chapter - Sequences in Metric Spaces
+   We will start in RR and many ideas hold for general metric spaces.
+   for metric space (X,d)
+   some function NN -> X is called a sequence (n -> pn)
+   Say {p_n} = [p_1, p_2, p_3, ...]
+
+*** Fundamental Notion : Convergence.
+    Given traditional epsilon:
+    limit as n -> inf of p_n = P means
+    given epsilon > 0, exists N s.t. n > N -> d(p_n, p) < epsilon
+
+*** Example
+    1/n has limit p_n = 0 (by archimedes)
+    given epsilon, exists N s.t. if n > N -> 0 < 1/n < epsilon
+    which implies d(1/n, 0) < epsilon for n > N
+
+*** Elementary Facts
+    Convergence: {p_n} -> P <-> every neighborhood of P contains all but
+    finitely many terms {p_n}
+    Uniqueness: if {p_n} -> P and {p_n} -> P' then P = P'
+    Convergence: {p_n} convergent -> {p_n} bounded.
+**** Proof of Uniqueness
+     (show the distance between P and P' is less than epsilon, for epsilon > 0)
+     We do equality here by exhaustion
+     Given epsilon > 0, exists N_1 s.t. n > N_1 -> d(p_n, P) < epsilon/2
+     Given epsilon > 0, exists N_2 s.t. n > N_2 -> d(p_n, P') < epsilon/2
+
+     Then by the triangle inequality, for m > max(N_1, N_2) we get
+     d(P, P') leq d(P, p_m) + d(p_m, P') < epsilon/2 + epsilon/2
+                                         < epsilon
+     so 0 leq d(P, P') < epsilon for all epsilon
+     implies d(P, P') = 0 -> P = P' (metric space definition)
+**** Proof of Convergence
+     choose epsilon = 1
+     so there is some N_1 s.t. d(p_n, p) < 1 for n geq N
+     Let M = max(d(p_1, p), d(p_2, p) ... d(p_n-1, p), 1) < inf
+     so d(p_n, p) leq M for all n -> {p_n} bounded.
+
+*** Complex Numbers
+    X = CC
+    congruent to RR
+    x + iy equivalent to (x,y)
+    d(x + iy, x' + iy') = sqrt( (x - x')^2 + (y - y')^2)
+
+    Theorem : {s_n}, {t_n} complex, s_n -> s, t_n -> t implies:
+    1. s_n + t_n -> s + t
+    2. s_n t_n -> s t
+    3. For c in CC, c s_n -> c s
+    4. If s_n /= 0 and s /= 0 then 1/s_n -> 1/s.
+**** Proof of Laundry List
+***** 1. | s_n + t_n - s - t| = | (s_n - s) - (t_n - t)|
+      \leq | (s_n - s) | + |(t_n - t)| < eps
+      \leq | (s_n - s) | + |(t_n - t)| < epsilon/2 + epsilon/2
+      and of course individually | (s_n - s) | < epsilon/2, etc, so done
+***** 2. s_n t_n -> s t
+      | s_n t_n - s t | = | (s_n - s) t_n + s(t_n - t)|
+      \leq | (s_n - s) | | t_n | + | s | | (t_n - t) |
+      both bounded.
+
+     Others similar.
+
+*** RR^k
+    Theorem: in RR^k, X_n = (alpha_(1, n) ... alpha_(E,n)) implies X = vector
+    of converged alphas
+
+    Reason: comprable norms. Can generally just interchange them with absolute
+    value signs from RR.
+
+    x_n dot y_n -> x dot y.
+    book proof : brute force
+    elegant proof : Cauchy-Schwarz
+
+    for | xn dot yn - x dot y | =    (xn - x) dot yn + x dot (yn - y) |
+                                leq | (xn - x) dot yn | + | x dot (yn - y) |
+                                leq | (xn - x) | | yn | + ...
+                                all bounded!
+
+
+
+
+
+
