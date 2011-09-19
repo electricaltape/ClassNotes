@@ -43,76 +43,69 @@
     Therefore z in Nr(x) \ {x}, which is true for r > 0 -> x in E'.
 
 
-*Number 8*
+*** Number 8
+    E subset R^2, E open -> E subset E'
 
-E subset R^2, E open -> E subset E'
+    E open -> exists r > 0 with Nr(x) subset E
 
-E open -> exists r > 0 with Nr(x) subset E
+    for x in E subset R^2, Nr(x) infinite -> for r small enough,
+    (Nr(x) \ {x}) intersect E /= nullset
 
-for x in E subset R^2, Nr(x) infinite -> for r small enough,
-(Nr(x) \ {x}) intersect E /= nullset
+*** Actual lecture connectedness
+    for subsets A and B of some metric space X, A and B are separated if
 
-Actual lecture begins here
+    A intersect (closure B) = nullset and (closure A) intersect B = nullset
 
-Connectedness
-for subsets A and B of some metric space X, A and B are separated if
+**** Example:
+     A = (0,1) and B = (1,2) not separated
+     A set E subset X is connected if E is not disconnected
+    E is disconnected -> E has a disconnection -> E = A U B and A,B separated.
 
-A intersect (closure B) = nullset and (closure A) intersect B = nullset
-
-Example:
-
-A = (0,1) and B = (1,2) not separated
-
-A set E subset X is connected if E is not disconnected
-
-E is disconnected -> E has a disconnection -> E = A U B and A,B separated.
-
-Equivalently - E is disconnected if E = A (disjoint union) B (write it as such, union of two sets minus the intersection)
+    Equivalently - E is disconnected if E = A (disjoint union) B (write it as
+    such, union of two sets minus the intersection)
     where A and B are both (E-open OR E-closed OR A is both E-open and E-closed)
 
-Now lets go to R^1.
+*** Now lets go to R^1.
 
-Theorem 2.42 - A nonempty subset E subset R1 is connected iff E has the following properties:
-(for a < b)
+    Theorem 2.42 - A nonempty subset E subset R1 is connected iff E has the following properties:
+    (for a < b)
 
-1. x in E, y in E, x < z < y -> z in E
-2. E is an interval, i.e. E = one of (-inf, b) (-inf, b], [a,b], (a,b], [a,b), R, etc
-3.
+    1. x in E, y in E, x < z < y -> z in E
+    2. E is an interval, i.e. E = one of (-inf, b) (-inf, b], [a,b], (a,b], [a,b), R, etc
+3. ???
 
-Proof
+**** Proof
+    Let a = inf E
+    Let b = sup E
+    proceed to show that one of the cases of (2) is valid.
 
-Let a = inf E
-Let b = sup E
+***** Connectedness proof
 
-proceed to show that one of the cases of (2) is valid.
+      negate both conditions - prove that E in R disconnected iff not 2.42
 
-Connectedness proof
+      (trick - set defined by a property. Negate step by step to show x `notin` A)
 
-Proof - negate both conditions - prove that E in R disconnected iff not 2.42
+      not [(forall x, y in E with x < y) (and forall z in R with x < z < y), then z in E]
 
-    (trick - set defined by a property. Negate step by step to show x `notin` A)
+      Therefore we need to produce a z such that x < z < y but z `notin` E
 
-    not [(forall x, y in E with x < y) (and forall z in R with x < z < y), then z in E]
+      Set Az = E intersect (-inf, z), Bz = E intersect (z, +inf)
 
-    Therefore we need to produce a z such that x < z < y but z `notin` E
+      for x in Az, Az /= nullset
+      for y in Bz, Bz /= nullset
 
-    Set Az = E intersect (-inf, z), Bz = E intersect (z, +inf)
+      z notin E, Az union z union Bz = R
 
-    for x in Az, Az /= nullset
-    for y in Bz, Bz /= nullset
+      Note that Az intersect (closure Bz) = nullset, and (closure A) intersect Bz = nullset
+      so E is disconnected (as z `notin` E)
 
-    z notin E, Az union z union Bz = R
+      (other direction) assume E disconnected, so E = A (disjoint union) B with A, B
+      nonempty and separated. Pick x in A, y in B : WLOG x < y.
 
-    Note that Az intersect (closure Bz) = nullset, and (closure A) intersect Bz = nullset
-    so E is disconnected (as z `notin` E)
+      (we will use completeness of the reals)
 
-    (other direction) assume E disconnected, so E = A (disjoint union) B with A, B
-    nonempty and separated. Pick x in A, y in B : WLOG x < y.
-
-    (we will use completeness of the reals)
-
-    define z = sup (A intersect [x,y])
-    then z in (closure A)
+      define z = sup (A intersect [x,y])
+      then z in (closure A)
          (by a previous result, sup f in (closure F) for F nonempty, bounded above, subset of R)
 
     so z `notin` B as the sets are separated.
@@ -122,9 +115,6 @@ Proof - negate both conditions - prove that E in R disconnected iff not 2.42
 
     If z in A, then z notin (closure B) implies (exists z_1 with z < z_1 < y) and z_1 notin B
        Then x < z_1 < y and z_1 notin B. As z_1 > x, z_1 notin A so z_1 notin E and we are done.
-
-
-
 
 * 9/14/11
 ** Hints for hw5
@@ -374,9 +364,5 @@ Proof - negate both conditions - prove that E in R disconnected iff not 2.42
                                 leq | (xn - x) dot yn | + | x dot (yn - y) |
                                 leq | (xn - x) | | yn | + ...
                                 all bounded!
-
-
-
-
 
 

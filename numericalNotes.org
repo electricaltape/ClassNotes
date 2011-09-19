@@ -190,4 +190,57 @@ partial pivoting is as good (a belief, not a truth)
 
      Turns out Crout is very stable - we like it.
 
+     Like 'undetermined matrix'
+     Propose that we factor some tridiagonal matrix by
+     A = (alphas on diagonal, bs on subdiagonal) times
+         (ones on diagonal, gammas on superdiagonal)
+     What happens when we multiply them?
+     get a tridiagonal back.
+     so row 1 = (alpha1, alpha1*gamma1, 0, 0, ...)
+     so row 2 = (b2 , b2* gamma1 + alpha2, alpha2 * gamma2,    0, 0, ...)
+     so row 3 = (0  , b3,                  b3*gamma2 + alpha3, alpha3*gamma3,
+     0, 0, ...)
+
+     set this equal to the LHS, so alpha1 = a1, alpha1*gamma1 = c1, etc
+
+     follow in repetition, for k = 2 .. n - 1
+     alphak = ak - bk*gamma(k-1)
+     gammak = ck / alphak
+
+     operation counts: 2n - 2 (nice!)
+
+* 9.16.11
+** Announcement
+   Test in a week! May be take-home.
+   Do exercises, read books, do research: we have to take tests too :(
+
+** Features of Crout : Theorem 4
+   For meeting the conditions (see slide 73/195):
+   (diagonally dominant, last and first rows diagonally dominant)
+   see slide 77/195
+
+** Normed Linear Spaces
+   We have to talk about error - that means norms.
+   our solutions are vectors so we need norms - how do we compare?
+   Another problem - how do we call them 'large' or 'small'?
+
+   RR^n - set of length n arrays. What operation? Norm! Inner Product! Vector
+   addition!
+
+   Matricies - normally boring containers. Not interesting. We need operations
+   to make them worthwhile. Matricies have structure and addition.
+
+   On RR^2 : f(x1, x2) = e^x1 + e^x2 - not a norm on RR^2 as f(0,0) /= 0
+   norms are just special functions of RR^n.
+
+   We can also create a distance function : d(x,y) = || x - y ||
+   (a metric, relates vectors)
+   we want d(x,y) to be small to say that x ~ y : one number to gauge accuracy.
+
+*** Some specific norms
+    L_p norm : Holer's norm  on CC^n : for p geq 1, L_p norm is
+    norm : ||x||_p = ( Sum |x_i|^p)^(1/p)
+
+    so p is arbitrary, p can be a real. We use p=1, p=2, p=inf most often.
+
 
