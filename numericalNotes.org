@@ -209,6 +209,7 @@ partial pivoting is as good (a belief, not a truth)
 
      operation counts: 2n - 2 (nice!)
 
+
 * 9.16.11
 ** Announcement
    Test in a week! May be take-home.
@@ -242,5 +243,206 @@ partial pivoting is as good (a belief, not a truth)
     norm : ||x||_p = ( Sum |x_i|^p)^(1/p)
 
     so p is arbitrary, p can be a real. We use p=1, p=2, p=inf most often.
+
+
+
+
+* 9.19.11
+** Test
+   Allowed to bring 1-page of information (open sheet, 8.5 x 11)
+   In-class exam
+   will have LU factorization (at most, 3x3; no huge problems)
+   able to do 3x3 LU factorization by hand.
+
+   A lot of error estimate style things, like chapter 1.
+
+   Bring a calculator. Should not need it, but it is nice.
+   Test covers all material up to Wednesday. Review slides!
+
+** More on normed linear spaces
+   Use the entries of two vectors to form a single number:
+   Cauchy-Schwarz : sum of x_i bar(y_i) leq 2-norm(x) * 2-norm(y)
+   This is similar to the triangle inequality:
+   norm(x + y) leq norm(x) + norm(y)
+
+** Vectors and matricies
+   matricies tend to be functions and vectors tend to be 'variables'. We should
+   study matricies too!
+   Say that the norm of a matrix, norm(A) geq 0. norm(A) = 0 iff A = 0. All the
+   usual properties of norms hold.
+
+*** Compatible Norms
+   We say that a matrix norm and a vector norm are compatible if
+   norm(Ax) leq norm(A)norm(x), forall x, forall A.
+
+**** Frobenius Norm
+     not Natural/Induced/Subordinate : square root of the sum of squares
+**** P norm
+     equivalent of p norm for vectors.
+
+*** Natural/Induced/Subordinate matrix norms
+    for some vector norm norm(), we say it is Natural/Induced/Subordinate if
+
+    norm(A) = sup(x /= 0) norm(Ax)/norm(A)
+
+    not a nice definition - needs supremum. We can find a beter finite formula.
+
+*** Proposition 3.4 - norm(A, inf)
+    compute it by the max absolute row sum.
+    so: find absolute values of all entries, sum each row, take the max rowsum
+
+    Similarly: norm(A, 1) is the maximum absolute column sum.
+
+**** TODO prove rest as informal HW
+     for norm(A, inf) we have
+
+     norm(Ax) = max of the absolute sums of of rows by definition. Rearrange
+     with leq. See slide 87.
+
+*** Spectral Radius
+    Assume a matrix has eigenvalues lambda_i. Call
+
+    rho(A) = max |(lambda_i)|
+
+    and call it the spectral radius of A.
+
+    why radius? Create a circle with radius max | lambda_i |. This will inclose
+    all eigenvalues in the complex plane.
+
+**** Theorem : norm(A,2) = sqrt (spectralRadius((conjugate-transpose A) * A))
+     Proof : Note that (conjugate-transpose A) * A is symmetric and has n
+     orthonormal independent eigenvectors. v_i, and
+
+     lambda_i = (Av_i, Av_i) geq 0.
+
+
+
+* 9.21.11
+** Spectral Radius and Norms
+   For any matrix norm we have that rho(A) leq norm(A)
+   (spectral radius is always leq norm)
+
+*** Proof
+    Assume norm is induced and lambda is an eigenvalue. Then exists x /= 0
+    s.t. Ax = lambda x.
+
+    Then |lambda| || x || = ||lambda x|| = ||Ax|| leq || A || || x ||
+
+    which implies that |lambda| leq || A ||
+
+    note that the spectral radius is the largest eigenvalue so we are done.
+
+*** Can we bound the matrix norm by the spectral radius? No.
+    A = [0 2; 0 0] so || A || = 2, but rho(A) = 0.
+
+*** Schur Decomposition - necessary details
+
+    forall A, exists nonsingular matrix P and an upper triangular matrix T s.t.
+
+    PAP^-1 = T
+
+    additionally, given nonsingular B, ||x|| = ||Bx||2 is a norm.
+    (useful only theoretically)
+
+*** Proposition 3.6 - from above facts. (implicit homework)
+    Given an nxn matrix A and epsilon > 0 :
+
+    exists norm s.t. || A || leq rho(A) + epsilon
+
+**** Proof
+     Let P, T be the matricies of the Schur decomposition of A and let
+
+     T = Lambda + U
+     Lambda = diagonal matrix of eigenvalues of A
+     U(i,j) = 0 for i geq j.
+
+     Then for any delta > 0, can form
+
+     D^-1 = diagonal matrix of 1, delta, delta^2, ...
+     C = DTD^-1 = Lambda + E
+     E = DUD^-1.
+
+     Because DP is nonsingular, we introduce:
+
+     vector norm || x || = || DPx ||2 = (x^H P^H D^H DPx)^(1/2)
+
+     and further
+
+     an induced matrix norm || A || = supremum over ||y|| = 1 ||Ay||.
+
+     Let z = DPy. If ||y|| = 1 then ||z||2 = ||DPy||2 = ||y|| = 1.
+
+     Note that A = P^-1 T P = P^-1 D^-1 CDP, DPAP^-1D^-1 = C.
+
+     So, again for ||y|| = 1, we get
+
+     that ||Ay||^2 = = ||DPAy||2^2 = || mess ||2^2 = ||Cz||2^2 = gets
+     worse. See slide 93.
+
+** Matrix Norms and Sequences
+*** Proposition 3.7 - equivalency of matrix norms
+    We can bound any two norms with constants c1 and c2 by something like
+
+    c1 || A ||_alpha leq || A ||_beta \leq c2 || A ||
+
+*** Definition 3.27 - Sequence of matricies
+    sequence of matricies {A_k} converges to A iff
+
+                    lim (k -> inf)|| A_k - A|| = 0.
+
+    (this will be important in the second half of this chapter, iterative
+    methods)
+
+*** The following are Equivalent
+
+    1. lim (k -> inf) A^k = 0.
+    2. lim (k -> inf) A^k x = 0 forall x in CC^n.
+    3. rho(A) < 1.
+    4. exists norm s.t. norm(A) < 1.
+
+    there are more that can go here.
+
+**** Proof
+     (1 -> 2) norm(A^k x) leq norm(A^k) norm(x)
+     therefore
+     0 leq lim (k -> inf) norm(A^k x) leq lim (k -> inf) norm(A^k) norm(x) = 0
+
+     Therefore it is squeezed between 0 and 0; goes to 0.
+
+     (2 -> 3) let lambda be an eigen value, so |lambda|^k must go to zero ->
+     lambda < 1.
+
+*** Gathering up the eigenvalues
+
+    Call sigma(A) the set of all eigenvalues of A.
+
+    If P(x) is a polynomial then we get something like
+
+    sigma(P(A)) = {P(lambda), lambda in sigma(A)}
+
+    we can even extend this beyond polynomials to analytical functions (exp(A),
+    sin(A) all defined... interestingly)
+
+    Even more interesting: sigma(A^-1) = P(1/x) evaluated at lambdas. We know
+    the eigenvalues with out knowing the matrix! Wow. Magical!
+**** Example
+
+     P(x) = 1/sqrt(3) x^2 + pi x + \sqrt(2) I
+
+     Hard to evaluate. However, easy to find eigenvalues.
+
+** Geometric series
+
+   I + A + A^2 + A^3 + ... converges iff lim (k -> inf) A^k = 0
+
+   Also: if the limit exists then I - A is nonsingular and
+
+           Sum (from k=0) (to infinity) A^k = (I - A)^(-1)
+
+**** Proof
+     Assume that lim (k -> inf) A^k = 0. Then
+
+     rho(A) < 1 by Theorem 3.5 .
+     then sigma(I - A) = stuff. See slide 97.
 
 

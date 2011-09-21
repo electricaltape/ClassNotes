@@ -366,3 +366,284 @@
                                 all bounded!
 
 
+
+* 9/19/11
+** Limits
+*** Limit Review
+    lim over (n -> inf) p_n = p means:
+    forall epsilon > 0 exists N in NN s.t. n geq N -> d(p_n,p) < epsilon.
+
+    this is the same as saying that every neighborhood of p contains all but
+    finitely many terms of the sequence p_n.
+
+*** Limit Properties
+    {p_n} convergent to p -> {p_n} bounded.
+
+    we proved that exists M < inf s.t. d(p_n,p) leq M for all n (bounded)
+
+    Pick any p_o in X. then exists M' s.t. d(p_n, p_o) leq M': (use the
+    triangle inequality) Since the distance
+
+    d(p_n, p_o) leq d(p_n, p) + d(p_o, p)
+                leq M + d(p, p_o) = M'
+
+*** Connection between sequential limits and limit points
+    If E subset X, p in E -> {p_n} subset E, lim p_n = p.
+**** Limit Points and Limits
+     Suppose that {p_n} is a sequence, lim p_n = p.
+
+     set E = Ran {p_n} = {p_1, p_2, ...} subset X
+
+     is p in E' ?
+     Suppose that p_n = p for all n. Then lim p_n = p but p notin (Ran {p_n})'
+
+     If Ran {p_n} is infinite and lim p_n = p, then p in (Ran {p_n})'.
+
+     (limit points and limits of sequences do not always line up in an
+     intuitive manner)
+*** Subsequences of {p_n}
+    Suppose the subsequences of {p_n} subset X, a metric space. Consider some
+    sequence k -> n_k of positive integers (so a function :: NN -> NN) which
+    is strictly increasing. : n_1 < n_2 < ... etc. Thus necessarily n_k geq k.
+
+    Perhaps lim (n -> inf) p_n does not exist, but lim (k -> inf) p_(n_k) does
+    exist for some subsequences {p_(n_k)}.
+**** Example
+     x_n = (-1)^n : fails for n = 1,2,3... but converges to 1 for n = 2,4,6,...
+     (a good example of bounded, but not convergent)
+**** Fact : {p_n} -> p iff every subsequence converges to p
+***** Proof (<-) trivial. Every subsequences converges means that p_n -> p.
+
+      (->) need some definitions. p_n -> p means that we can use the epsilon
+      definition. So pick some {p_(n_k)}, any subsequence.
+
+      k geq N -> n_k geq N, so d(p_(n_k), p) < epsilon
+      which is equivalent to lim (k -> inf) p_(n_k) = p.
+
+***** Usefulness
+      This is a useful theorem. Why:
+
+      Theorem 3.6 - if {p_n} some sequence in a compact set (in a metric space)
+      then there exists some {p_(n_k)} that converges to some p in X.
+
+****** Proof
+       Let E = range {p_n}, if E is finite, we can choose a constant subsequence
+       and therefore it is convergent.
+
+       Suppose E is infinite. X compact -> E' /= nullset (earlier theorem).
+       Pick some x in E'.  Construct {p_(n_k)} subset E s.t. lim (k -> inf)
+       {p_(n_k)} = x.
+
+       step 1 : choose n_1 s.t. p_(n_1) /= x and d(p_n, x) leq 1. Choose each n
+       s.t. n_1 < n_2 < ... where
+
+       d({p_(n_k)}, p) < 1/k . Find n_(k+1) > n_k s.t.
+       d({p_(n_(k + 1))}, p) < 1 / (k+1).
+
+       This is possible since there are infinitely many p_ns in N_(1/(k+1))(p).
+
+       Now choose some K(epsilon) s.t. 1/K(epsilon) < epsilon (by archimedes)
+
+*** TODO Every bounded sequence in RR^k contains a convergent subsequence.
+       so {x_n} bounded -> {x_n} subset of a k-cell I, which is compact by
+       Heine-Borel. Rest of proof hard to read
+
+** Theorem 3.9
+
+   Given some {p_n}, (if some function n = p_n) then it is a subset of a metric
+   space X.
+
+   Let E* = {p in X : exists subsequence {p_(n_k)} s.t. lim (k -> inf) p_n_k ->
+   p} (sequential limit set)
+
+   Then E* is closed. This is similar to the (E')' subset E'.
+*** Proof (different from book version)
+    suppose q is the limit point of (E*)' (to show: q in E*).
+
+    (i.e. we must cook up some n_1 < n_2 < ... s.t. lim (k -> inf) p_n_k = q)
+
+    step 1: given q, there is some p1* in E* s.t. d(p1*, q) < 1. Therefore as
+    p1* in E* we can say that p1* = lim (i -> inf) p_(n_i), where {p_(n_i)} is
+    some subsequence of {p_n}. Then
+
+    exists k_1 in {n_1, n_2, ...} s.t. d(p^(1)_(k_1), p1*) < 1 - d(p1*, q) > 0
+
+    this gives us p_(k_1) = p^(1)_(k_1).
+
+    Note that d(p^(1)_(k), q) leq d(p^(1)_(k_1) p1*) + d(p1*, q) < 1.
+
+    INDUCTIVE STEP - assume that we have k_1 < k_2 < ... < k_n with distance
+    d(p_(k_j), q) < 1/j. Choose k_(n+1) as follows:
+
+    choose p*_(n+1) in E* with d(p^*_(n+1), q) < 1 / (n + 1)
+
+    then p*_(n+1) in E* -> p*_(n+1) = lim (k -> inf) p^(n+1)_k
+
+    so {p^(n + 1)_k} subset {p_n}
+
+    choose p_n_(k + 1) in {p^(n + 1)_k}, n_(k + 1) > n_k.
+
+    so d(p_n_(k+1), p*_(n+1)) < 1/(n+1) - d(p^*_(n+1), q) ->
+
+
+* 9/21/11
+** Review of homework 5
+*** Problem 17
+    Uncountable - show that it is perfect or use Cantor diagonalization.
+    (as nonempty perfect -> uncountable)
+
+    Dense : contains no intervals, so 'nowhere dense'
+
+    compact : Yes, by decimal expansions.
+
+    x in Ec -> (x - eps, x + eps) subset Ec
+
+**** Countable
+
+     E = infinite intersection of En, where
+     En = disjoint union of 2^n closed intervals, length 1/10^n
+
+     Yet another way : x = 0.alpha1 alpha2 alpha3 etc, 4 or 7.  Pick n
+     s.t. 1/10^n < delta.
+
+     Let x' = 0. phi1 phi2 etc where if k /= n then phi_k = alpha_k else flip to
+     other digit.
+
+     Then x' in E, x' /= x, so uncountable.
+
+*** Problem 18
+    Is there a nonempty perfect set with no rationals? Yes!
+
+    we went over a sketch in class - here is Sara's version.
+
+    Know that QQ is countable, = {r1, r2, r3, ...} and use 'a touch of measure
+    theory'
+
+    Let epsilon > 0, let In = (r_n - epsilon/(2*2^n), r_n + epsilon/(2*2^n))
+    and use these to 'cover up' intervals.
+
+    so the sum of all In is epsilon.
+
+    E = RR \ union of In - uncountable, closed (uncountable because the
+    measure, epsilon, is positive)
+
+    (now show that it is perfect - no isolated points)
+    so delete countably many isolated points (number of isolated points must be
+    countable because each has some interval around it; injection of isolated
+    points in to rationals) so we still have an uncountable set and i is
+    perfect.
+
+*** Problem on Baire's Theorem
+    Baire's Theorem - if Fn closed and nowhere dense subset of RR^k then
+
+                                union Fn /= RR^k.
+
+    Important to have RR^k - if we used QQ we could write QQ as a countable
+    union of sets (each set has exactly one point of QQ).
+
+    Therefore we expect our proof of a special case to use some special feature
+    of RR^k to work (completeness).
+
+** Extra Credit Answers
+
+   Was fun. Let (X,d) be a metric space then the following are equivalent:
+
+   1. every open cover has a finite subcover (definition of compactness)
+
+   2. Every collection of closed sets {F_alpha : alpha in A}  with the FIP has
+      the property intersection of F_alpha /= nullset
+
+   3. Every infinite subset has a limit point.
+
+   4. (next chapter!) every sequence has a convergent subsequence.
+
+   Things related to these may be on the test.
+
+*** harder part: 3 -> 1
+
+    break up in to three pieces.
+
+    X separable -> X has a countable base (#23)
+
+    V_alpha, alpha in A
+
+    base means that for each G open, x in G, there is a V_alpha with x in
+    V_alpha (so G is the union of V_alpha s)
+
+**** Solution
+     V = { N_q(s) : s in S, q in QQ+} (S is the separable set)
+     V is indexed by S x QQ+, so it is countable.
+
+     triangle inequality 'tap dance' follows
+
+     Let x in G, G open. Choose r in QQ+, N_r(x) subset G.
+     Choose s in S with s in N_(r/2)(x). Then x in N_(r/2)(x) and y in the same
+     neighborhood implies thad d(y,x) leq d(y,s) + d(s,x) < r
+
+     so x in N_(r/2)(s) subset G : this gives us our V!
+
+*** Number 24
+    X - metric space such that every infinite subset has a limit point -> X is
+    separable.
+
+**** Proof
+     Fix delta > 0. Pick x1 in X.
+
+     having chosen x1, ... , xj in X choose (if possible) x_j+1 in X
+
+     with d(x_j+1, x_k) geq delta for k = 1 .. j. Then: if this is always
+     possible we get an infinite set s.t. E = {x1, x2, ...} s.t. d(x, x') geq
+     delta for x, x' in E, x /= E'.
+
+     If p = limit point of E, then the distance d(x,x') leq d(x,p) + d(p,x')
+     leq delta for any distinct x, x' in E intersect N(p) -> a
+     contradiction. Therefore this stops as X subset N(x_j^delta)
+
+     so for each delta, we repeat this and get finitely many per delta.
+
+     This notation is really bad. Can we improve it?
+
+     set x^(n)_j = x_j^(1/n) for n in NN delta = 1 / n
+
+     then let S = {x_j^(n) : j = 1 .. K(1/n), n in NN} which is a countable
+     set. Details : more triangle inequality.
+
+*** Number 26
+    Let X be a metric space where every infinite subset has a limit
+    point. Prove that X is compact.
+
+**** Proof
+
+     #24 -> X is separable.
+     #23 -> X has a countable base.
+
+     Let G_alpha, alpha in A be any open cover of X. Then:
+     1. {G_alpha} has a countable subcover (as we have a countable base) How
+        does this work (namely, countable base -> countable subcover)? Each x
+        in X is in some G_alpha, so there exists some V_n(x, alpha) in the
+        countable base with x in V_n(x, alpha) and V_n(x, alpha) subset
+        G_alpha.
+
+        Define n -> alpha(n) by G_alpha(n) as any choice of G_alpha where V_n
+        subset G_alpha(n) (if no such n, leave alpha(n) undefined)
+
+        Then what we did above implies that X subset {G_alpha(n), n in NN} so a
+        subcover.
+
+        If {G_alpha(n)} has no finite subcover then
+
+        F_n = (union G_alpha(j))^c /= nullset (cannot cover everything with
+        finite set)
+
+        and the intersection of all F_ns is the nullset.
+
+        By hypothesis, every set has a limit point, so x in E' exists, so x is
+        in the intersection of all F_n -> a contradiction.
+
+** Test mechanics
+   mostly definitions, things we have seen before (easier than the extra
+   credit)
+
+   Do all the homework, get experience, know the 'lay of the land' of analysis.
+
+
