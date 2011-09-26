@@ -647,3 +647,163 @@
    Do all the homework, get experience, know the 'lay of the land' of analysis.
 
 
+* 9/26/11
+** Test news
+   reverse bell curve: 5 below 80, 5 above 90, 2 inbetween.
+
+** Review of connectedness HW
+
+*** Problem 20
+    pick the 'eyeglasses' in RR^2 - circle at -1, circle at 1:
+    connected, but E^' disconnected.
+    the definition of connected is too hard to work with - use disconnected.
+**** Show that (closure E) disconnected -> E disconnected.
+     Say that closure E has a separation, or
+     (closure E) = A disjoint union B
+
+     so (closure A) intersect B = nullset.
+     so A intersect (closure B) = nullset.
+
+     THen show that E = (A intersect E) disjoint union (B intersect E) is a
+     disconnection of E.
+
+     The nontrivial part is to show A intersect E /= nullset.
+*** Problem 19
+**** Show A, B closed , A intersect B = nullset -> (closure A) intersect B = nullset
+     (and that (closure B) intersect A = nullset)
+
+     make it easier - E disconnected <-> E is a disjoint union of A and B.
+     Therefore for A and B disjoint, A = E (where E is open and E is closed)
+**** Show that A = (fix p) {q | d(p,q) < delta } = open on X.
+     and that B = { q | d(p,q) > delta} open on X.
+
+     E = disjoint union of A and B -> E disconnected.
+
+     A and B clearly disjoint.
+**** X has two points (at least), X disconnected -> X uncountable.
+     For each alpha, 0 < alpha < d(p,q), if there is no q_alpha s.t.
+
+     d(p,q_alpha) = alpha -> X disconnected (we know that)
+
+     Therefore for each alpha choose some q_alpha in X with s.t. d(p,q_alpha) =
+     alpha.
+
+     (show that q_alpha is one-to-one) cannot have two values for distance.
+     we can do a similar trick to show that q_alpha works for
+     alpha in some [0, d(p,q)] - an uncountable interval.
+
+** Chapter 3 - more sequences.
+*** Limits
+    lim (n -> inf) p_n = p implies :
+
+    forall epsilon > 0, exists N(epsilon) in NN s.t.
+    if n geq N then d(p_n,p) < epsilon.
+    lim s_n = s means : | s_n - s | < epsilon
+
+*** Subsequences
+    Function k in NN, n_k in NN
+    with n_1 < n_2 < ... < n_k_1 < ...
+    subsequences still converge to the original limit.
+
+*** Characterizations of compact metric spaces
+    if X is a metric space, then the following are equivalent:
+    1. X is compact.
+    2. F_n closed then {F_n} has the finite intersection property (intersection
+       of all nonempty)
+    3. Every countably infinite subset of X has a limit point in X.
+    4. Every sequence P_n contained in X has a convergent subsequence.
+
+**** Proving it
+     1 -> 2 : extra credit problem: an open cover may be 'collapsed' to a
+     countable open cover. Then "De'Morganize" the contrapositive.
+     (compact and countably compact are the same for metric spaces)
+     2 -> 3 : straightforward.
+     3 -> 1 : extra credit problem from Ch2.
+
+***** 3 <-> 4
+      Create the list E = {p_1, p_2, ...} = countably infinite subset of
+      X. View this as a sequence. Identify a limit point of E = limit point of
+      the subsequence of {p_n}
+
+      then showing 3 -> 4 is trivial by boundedness.
+
+*** Corollaries to the Laundry List
+    Infinite subsets E of RR^k have limit points (since E subset closed k-cell,
+    which is compact)
+
+    Bounded sequences have convergent subsequences.
+
+    (these imply completeness)
+
+*** Theorem 3.7 - Given a sequence {p_n} in some metric space X
+
+    Let E = subsequential limit set, or
+    E = { q | exists {n_k} s.t. q = lim (k -> inf) p_(n_k) }
+    then E is closed (limit points of subsequential limits themselves
+    subsequential limits)
+**** Proof
+     Two-step tango - use triangle inequality. In other news, Cameron's parents
+     are professional ballroom dancers.
+
+*** Cauchy Sequences
+    A sequence {p_n} in a metric space X is cauchy <-> given epsilon > 0,
+    exists N(epsilon) in NN s.t. m,n geq N -> d(p_n,p_m) < epsilon
+    (the terms get close to each other)
+
+    Result: Theorem 3.11
+
+*** Theorem 3.11 : {p_n} convergent -> {p_n} cauchy
+    for some compact metric space the converse is also true.
+    X subset RR^k also implies the converse.
+
+    suggests a definition : X is complete if its cauchy sequences converge.
+
+*** Corollary to 3.11
+    X is compact, or X = RR^k -> X complete.
+    (however the reverse is not true. Complete does not imply compact.)
+**** Proof
+     part one - easy - use a delta epsilon arguement.
+     Say lim (n -> inf) p_n = p, so we know the usual things about epsilon and
+     N(epsilon).
+     then for n, m geq N(epsilon/2) we get
+     d(p_n,p_m) leq d(p, p_n) + d(p, p_m) leq epsilon/2 + epsilon/2 leq epsilon
+
+     part two - {p_n} cauchy -> {p_n} convergent
+
+     {p_n} cauchy -> {p_n} bounded. Choose N = N(1). Then n geq N ->
+     d(p_m, p_N) < 1. Let M = max(d(p_1,p_N), d(p_2, p_N), ... , d(p_N-1, p_N))
+
+     Specialize : pick X = RR^k. By Heine-Borel we get that closed k-cells are
+     compact. Therefore for p_n bounded -> {p_n} subset J = closed k-cell in
+     RR^k. By Heine-Borel J is compact. Therefore this implies that {p_n} has a
+     convergent subsequence with a limit in J.
+
+     The guts chunk (X = RR^k : {p_n} cauchy -> {p_n} convergent)
+
+     Say that {p_n} is cauchy in a compact metric space X.
+     X compact -> exists {p_n_k} subsequence with limit p, p in X.
+     Claim : lim p_n = p.
+     (show that if the subsequence coverges to p, everything converges to p)
+     (different from Rudin : Rudin reproves that 2 -> 3 from earlier. Not
+     optimal.)
+     (we will use 4 - every sequence has a convergent subsequence.)
+
+     Let epsilon > 0 . Then choose N_1 s.t. k geq N_1 -> d(p_n_k, p) <
+     epsilon/2.
+
+     Similarly, choose N_2 s.t. n, m geq N_2 -> d(p_n, p_m) < epsilon/2.
+
+     Suppose that n > N_2. Then choose k_0 s.t. n_k_0 >  N_2 and k0 > N1
+
+     then d(p_n, p) leq d(p_n, p_k0) + d(p_nk0, p)
+                    =   epsilon/2 + epsilon/2
+
+
+
+
+
+
+
+
+
+

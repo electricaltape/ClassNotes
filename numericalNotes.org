@@ -446,3 +446,88 @@ partial pivoting is as good (a belief, not a truth)
      then sigma(I - A) = stuff. See slide 97.
 
 
+* 9.26.11
+** Powers of a matrix
+
+   the geometric series
+
+   I + A + A^2 + A^3 + ... (to infinity)
+
+   converges iff lim (k -> infinity) A^k = 0.
+
+   If the limit exists then I - A is nonsingular and
+
+   sum (k from 0 to infinity) A^k = (I - A)^-1
+
+*** Proposition 3.9
+    if the matrix norm ||A|| < 1 then both I - A and I + A are nonsingular, and
+
+        1/(1 + norm(A)) leq norm((I plusminus A)^-1) leq 1/(1 - norm(A))
+
+    (proving the plusminus is homework.)
+
+**** Proof
+     by previous work : rho(A) leq norm(A) < 1. Then by definition of rho (and
+     the fact that I +/- A is a polynomial) then the eigenvalues of (1 +/- A)
+     are 1 +/- rho(A) /= 0 (as rho(A) is the max eigenvalue)
+
+     Therefore both have nonzero eigenvalues, so they are invertible.
+
+     next part: I = (I + A)(I + A)^-1
+
+     so by norm properties (see slide 99, mostly triangular tango) we have that
+
+     1 = norm((I + A)^-1) * norm(I + A)
+
+     so 1/(1 + norm(A)) leq norm((I + A)^-1)
+
+     other part: show that I + A has an inverse, then distribute and
+     rearrange with more triangular tango - more slide 99.
+
+     Works as (1 - norm(A)) > 0 by assumption.
+
+     (this is usually combined with 3.8 and is called Banach's lemma)
+
+**** Example
+     See slide 100 - for a infinity norm of 0.6 then (I + A)^-1 and (I - A)^-1
+     should exist. If we go and calculate the inverses and (I +/- A)^-1 we get
+     that they do fall between the bounds.
+
+** Roundoff Error and conditioning in Gaussian Elimination
+   Numbers on computers - always some error. LU, GE, Cholesky - all corrupt.
+   Ax = b -> computer sees A + dA, b + db. Start off badly - can't even enter
+   the problem!
+
+   so the computer handles what WE would call (A + da)(x + dx) = b + db
+
+   how large is dx? forward error analysis.
+
+*** Theorem 3.10 (more general version)
+    Assume that some beta-norm is an induced matrix norm, A is nonsingular, and
+
+    norm(dA, beta) norm(A^-1, beta) < 1.
+
+    then
+
+    norm(dx, beta)/norm(x,beta) leq combination of norms of A, B, dA, db,
+    A^-1. Bounded!
+
+    therefore, to a constant, the solution error is proportional to the data
+    error.
+
+**** Proof - standard things.
+     Distribute (A + da)(x + dx) = b + db. Recall that Ax = b to simplify the
+     result (every term should have a d on it).
+
+     see slide 103 and use Banach's Lemma twice - just brute force field
+     algebra from there on.
+*** Conditioning
+    We say that the problem is ill-conditioned if a slight change in A or b
+    drastically changes x. The factor from the work before is called the
+    condition number (again, it is very long. See slide 103).
+
+    condition number = K_beta(A) = norm(A,beta) * norm(A^-1,beta)
+
+
+
+
