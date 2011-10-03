@@ -799,11 +799,459 @@
                     =   epsilon/2 + epsilon/2
 
 
+* 9/28/11
+** New homework due on Monday (check email for PDF)
+   page 78, #5 and handout, page 7.1
+
+** Review
+   for some metric space X, the following are equivalent:
+   1. X compact
+   2. {F_n} bounded with the finite intersection property
+   2. Countably infinite subsets have a limit point.
+   2. Any sequence has a convergent subsequence.
+
+** Theorem 3.1
+   X compact metric space and
+   {p_n} cauchy -> {p_n} convergent.
+
+   A more efficient proof - start with 4 and show that Cauchy sequences
+   converge.
+
+*** Proof
+    Lemma required - show that if {p_n_k} -> p then {p_n} -> p (#20)
+
+    Variation on #20:
+    Suppose that {p_n} is a sequence and contained in the metric space. Every
+    subsequence {p_n_k} has, in turn, a subsequence {p_n_k_j} with limit as (j
+    -> inf) p_n_k_j = p (limit independent of choice of subsequence). Then as a
+    subsequence converges the whole sequence converges.
+
+    This is used in the presence of compactness (we know that any sequence has
+    a convergent subsequence). If we can show that two subsequences converge to
+    the same thing we are okay.
+
+    Therefore, for reformulation, use the contrapositive:
+
+    not (lim p_n = p) implies exists {p_n_k} such that no subsequence {p_n_k_j}
+    can converge to p.
+
+    (therefore cook up a subsequence such that all subsequences cannot converge
+    to p)
+
+    a.k.a find p_n_k s.t. d(p_n_k,p) geq epsilon (all terms stay away from p,
+    so subsequences cannot converge to p)
+**** Example
+     (-1)^n is a good example of lim (n -> inf) (-1)^n = 1. We can pick the
+     subsequence (-1)^odd, which is never one, so all of its subsequences are
+     never 1 as well.
+
+** Limits
+   Limits do not always exist! Take X = RR. We have seen that cauchy ->
+   bounded, but the converse fails in general (remember (-1)^n, nice and
+   bounded). However, bounded and 'something else' -> cauchy -> convergence (as
+   RR is complete).
+
+   This something else is 'monotonic'.
+
+*** Monotone Convergence Theorem
+    Let {x_n} subset RR. Then if x_n leq x_(n+1) for all n in NN, we say it is
+    monotonically increasing. If {x_n} is bounded as well then it is
+    convergent.
+**** Proof, for RR
+     Our candidate for the limit is the sup. Now we just show that this is the
+     case.
+     Given epsilon > 0, there is N such that n geq N implies | s_n - s | <
+     epsilon, so
+
+     -epsilon < s_n - s < epsilon
+
+     by definition of the sup, sup - epsilon is not an upper bound, so
+
+     for some N in NN, s - epsilon < s_NN.
+
+     For n geq N, s - epsilon < s_N leq s_n leq s < s + epsilon Done!
+
+     (this is valid by completeness of RR)
+
+**** Inconvenience and lim sup
+     Given {s_n}, lim s_n may not exist. That would be a problem.
+
+     Fix it by: lim sup s_n and over{RR} = RR U {inf, -inf}
+     Don't subtract inf and -inf, or multiply them by zero. Instead 'throw up
+     your hands' (this isn't really a field)
+
+     Expand the definition of lim (n -> inf) s_n to include inf and -inf.
+
+     lim (n -> inf) = inf means that given M < inf there exists N in NN such
+     that n geq N -> M < s_n.
+
+     lim (n -> inf) = -inf means that given M in RR then N in NN exists such
+     that n geq N implies s_n < -M.
+
+*** Refined Bolzano-Weirstrass
+    Any sequence {s_n} contained in bar{RR} has a convergent subsequence.
+    (we no longer need boundedness, if we are in bar{RR})
+    (most of our sequences are real valued, but can converge to +/- inf)
+
+    bar{RR} is a metric space by d(s,t) = | artcan s - arctan t |
+    where arctan inf  = pi / 2
+          arctan -inf = -pi / 2
+
+**** Consequences
+     So let {s_n} be a subsequence in RR (recall that we are allowed now to
+     converge to things in bar{RR}). Then
+
+     E = subsequential limits of {s_n} in bar{RR}
+
+     is nonempty by the refined Bolzano-Weirstrass.
+
+     Refine the least upper bound property for some S subset bar{RR}. in
+     particular, S subset RR has a least upper bound in bar{RR}
+
+     (the upper bound on the empty set is -inf. Weird.)
+
+** Lim Sup
+   {s_n} in RR, define bar{lim} (also known as lim sup) as
+
+   sup E({s_n}), where E is the set of subsequential limits of its
+   arguements.
+
+   nice - this always exists.
+
+   Homework problem - show that lim sup s_n + t_n leq lim sup s_n + lim sup
+   t_n (provided that the sum is not inf - inf; assume one is finite).
+
+   add part b : give an example where it is a strict inequality.
+
+   Where does this notation come from? 'Supremum of the subsequential limit
+   set' of this sequence.
+
+   equivalency theorem : lim sup s_n = lim (n -> inf) (sup (k geq n) {s_k})
+
+   also called the sequence of the tail. As n increases, the number of elements
+   in {s_k} decreases, so we expect the sup to not 'blow up'.
+
+*** Proof
+    Suppose x in E = (subsequential limit set of {s_n}), so
+
+    x = limit (j -> inf) s_n_j for some s_n_j in {s_n}.
+
+    We will do the finite case (do the infinite case for practice).
+
+    choose some epsilon > 0, so x - epsilon < s_n_k (n_k strictly increasing)
+    for k geq K(epsilon).
+
+    Therefore x - epsilon < sup (k geq n) s_k for all n.
+
+    therefore this implies that for x = any element of E, x - epsilon leq inf
+    (n -> inf) (sup (k geq n) s_k) which implies that
+
+    x leq inf sup s_k
+
+    which implies that x leq upper bound for E, so the sup of E leq inf sup
+    s_k.
+
+    next time : show inf sup in E.
+**** TODO : Infinite case
+
+* 9/30/11
+** Homework due on Wednesday
+   3,4,16 78-81
+
+*** Homework hints 3.3
+
+    Monoconte convergence theorem, define {s_n} by s_1 specified, s_n+1 =
+    f(s_n)
+
+    and s_n bounded and monotonically decreasing -> convergent.
+
+*** 3.4
+    Recursively defined lim sup condition
+
+    or rather, s_n defined recursively. Find the lim sup
+
+    strategy : show that the limit of s_2m = s_even (exists)
+    and limit of s_(2m-1) = s_odd (exists)
+    therefore the limit of the infimum, we get to subsequential limits (s_even
+    and s_odd)
+
+    so lim s_n overbar = max (s_e, s_o)
+    so lim s_n underbar = min (s_e, s_o)
+
+*** Homework hints 3.16 - Newton's method for x^2 = alpha.
+
+    Everyone loves Newton's method!
+    instead of the picture we use monotone convergence theorem. Show that the
+    subsequence converges, or something.
+
+*** More hints
+
+    not sure what problem these go with. Oh well.
+
+    for f :: RR -> RR
+    if f is increasing then x < y -> x(x) < f(y)
+    so s_2 < s_1 -> s_n+1 < s_n for all n
+
+** More Lim Sup and Lim Inf
+*** Lim Sup
+
+    overbar lim (m -> inf) s_n := (subsequential limit set for s_n)
+                                = sup E({s_n})
+                                = lim (n -> inf) (sup, k geq n) of {s_k}
+    We can split them apart! Compose it with two more 'fundamental' operations
+    (lim and sup)
+
+    last time - showed that x in s_n -> x leq infimum (sup {s_k}, k geq n)
+    call this the Rudin definition. Then
+
+    overbar lim s_n leq lim (sup {s_k})
+
+    how about the reverse? Suffices to show that
+
+    lim (n -> inf) sup (k geq n) s_k is in E({s_n}) (so of course it is less
+    than or equal to the sup)
+
+    Say that L := lim (n -> inf) sup (k geq n) s_k
+
+    Then this guy (sup k geq n s_k) is a sequence; call it t_n
+    Choose some n_1 with L leq t_n_1 leq  L + 1, so choose k_1 > n_1 with
+
+    L - 1 < s_k+1 leq t_n1 < L + 1
+
+    as t_n1 was a supremum larger than L, so find something less than L.
+
+    Then:
+    L - 1/i < s_k_i < L + 1/i
+
+    so choose some n_j+1 > k_1 with L leq t_j < L + 1/(i+1)
+
+    we get layers of subscripts!
+
+    L - 1/(j+1) < s_k_(j+1) leq t_j
+
+    In this way we can get some {s_k_j} such that
+
+    L - 1/j < S_k_j < L + 1/j implies s_k_j -> L.
+
+    Another way to look at the problem - 3.17 - real valued sequences
+
+    {s_n} subset RR (could also use bar(RR))
+
+    Let s* = lim sup of s_n. Then
+
+    s* is a subsequential limit and we can skip to the last few steps.
+
+    If x > s* then exists N s.t. n geq n implies s_n < x. Therefore we have a
+    subsequential limit.
+
+    Therefore s* = lim sup s_n, which means :
+
+    a. forall epsilon, exists infinitely many ns with s* - epsilon < s_n, so
+    there is a subsequence whose limit is greater than s* - epsilon, so there
+    are subsequences with limits greater than s*,
 
 
+    b. Exists N(epsilon) so that s_n < s* + epsilon for all n geq N(epsilon).
+    No matter how far you go, you could still go farther. This tears apart
+    sequences.
+
+**** Proof of b
+     We don't really need to prove this. There is a subsequence that goes to
+     s*.
+
+     Uniqueness : two distinct such numbers p and q satisfying (a,b) then say x
+     (say that p < x < q) then all s_n with n geq N have s_n < x and infinitely
+     many s_ns including some bigger than N have s_n > x -> contradiction. This
+     determines s* uniquely.
+
+** similarly:
+   lim inf {s_n} = inf E({s_n}) = lim (n -> inf) infimum (k geq n) {s_k}
+                                          sup over n inf (k geq n) {s_k}
+
+**** Proof by 'erasure' - same as before.
+     exists sme N(epsilon) such that for all n past a certain point,
+     s_n > s* - epsilon for n geq N.
+
+*** Examples
+
+    s_n = (-1)^n n -> the subsequential limit set is inf, -inf
+    therefore lim sup is inf, lim inf is -inf
+
+    s_n = r_n where r_1,r_2 is an enumeration of QQ
+    so E({s_n}) = bar(RR) (we can get anything we please out of it.)
+
+    s_n = (-1)^n / (1 + 1/n)
+
+    therefore E({s_n}) = {1, -1} (we can approach both.)
+
+    How about something more interesting - recursive formula
+
+    #4 on page 78 - good luck.
+
+** Relation with lim s_n = s
+
+   means that forall epsilon > 0, exists N(epsilon) s.t. n geq N(epsilon)
+   implies s - epsilon < s_n < s + epsilon.
+
+   (if this is satisfied, then lim sup = lim inf (it is iff))
+
+   always true : lim inf s_n = inf E ({s_n}) leq sup E({s_n}) leq lim sup.
+
+*** sneaky proofs - showing that certain limits exist.
+
+    to show s_n convergent (to something) it suffices to show that
+
+    lim sup of s_n leq lim inf s_n.
+
+    (as lim sup geq lim inf, so we have sandwiching, so the limit exists)
+
+    this is a useful trick! We will need it.
+
+** Advanced Calculus Theorem, 4225 equivalent
+
+   lim t_n exists, equals t, s_n leq t_n -> lim s_n leq t.
+
+   better formulation - for s_n leq t_n forall n geq N (some N) then
+
+   a. lim inf s_n leq lim inf t_n
+
+   b. lim sup s_n leq lim sup t_n.
+
+**** Proof
+     (b) via lim sup of s_n = sup ({s_n})
+     let x in E({s_n}) so x = lim s_n_k
+
+     by the limit theorem : x leq lim t_n_k exists.
+     pick some {t_n_j_k} subset {t_n_k} with
+     t_n_j_k exists and the limit is t. So this is a subsequence of t_n, and
+     therefore t in E({s_n}), t leq lim sup of t_n.
+
+     but also : lim s_n_j_k = s.
+
+     also know that s_n_k_j leq t_n_k_j, so by the advanced calculus theorem,
+     we have that x leq t leq lim sup of t_n forall x in E({s_n}) that
+     lim sup s_n leq lim sup t_n
+
+* 10/03/11
+** Sophomore Calculus level maths
+*** special sequences
+    p > 0 -> lim 1/n^p = 0
+    p > 0 -> lim nth root of p = 1
+    lim nth root of n = 1
+    p > 0, alpha real -> lim n^alpha / (1 + p)^n = 0
+    abs(x) < 1 -> lim x^n = 0
+
+*** Proofs
+    1. take the logarithm:
+       ln n^(-p) = -p ln n -> - inf
+       which implies the limit is exp(-inf) = 0
+    2. again, take the logarithm:
+       ln nth root of p = 1/n ln p -> 0 so exp(0) = 1.
+    3. ln n root n = ln n / n approx 1/n / 1 -> 0, so we get exp(0) = 1.
+    4. n^alpha = exp(alpha ln n)
+       goes to 0 for alpha < 0
+       goes to 1 for alpha = 0
+       goes to inf for alpha > 0
+    5. abs(x^n) = abs(x)^n suffices to assume 0 < x < 1
+       ln x^n = n ln x -> - inf
+
+*** We are agnostics and don't know how to do any of that.
+    What do we know? Combinatorics, binomial theorem, not calculus.
+
+*** Proving stuff with just the binomial theorem
+    3224 proof, epsilons and Ns
+
+    1. take n > (1/epsilon)^(1/p). Then 1/n^p < epsilon
+       for n > N(epsilon) = (1/epsilon)^(1/p)
+    2. If p > 1, let x_n = (nth root of p) - 1. Then
+       (binomial theorem) 1 + n * x_n leq (1 + x_n)^n = p
+       (keep only the first two terms: this part is an art.)
+       Therefore 0 < x_n leq (p - 1)/n
+       by the squeeze theorem x_n must go to zero, as it is bounded by
+       sequences that converge to zero.
+
+       some more cases:
+       p = 1 : trivial (everything zero)
+       p < 1 : take the reciprocals.
+       (nth root of p) = 1 / (nth root of 1/p) and 1/p > 1.
+
+    3. Put x_n = (nth root of n) - 1 geq 0
+       so again by the binomial theorem we have
+       n = (1 + x_n)^n geq n(n-1)/2 x_n^2 geq (n-1)x_n^2 valid for n geq 2.
+
+       a clearer way : 2n geq n(n-1)x_n^2 or 2/(n-1) geq x_n^2
+
+       (by 1. x_n leq (sqrt 2 / (n-1)), which goes to zero)
+
+       therefore we are squeezed again as x_n leq something that goes to zero
 
 
+    4. p > 0 and alpha real : pick integer k, k > alpha, k > 0. For n > 2k,
 
+       (1 + p)^n > (n k)p^k
 
+       where (n k) is permutations (n * (n-1) * (n - 2) ... (n - k + 1))/k!
 
+       so (n k) p^k > (n^k/2^k) * (p^k / k!)
+       so if we take reciprocals of everything :
+       0 < n^alpha / (1 + p)^n < (2^k k!) / (p^k)  * (n^(alpha - k))
+       where the RHS is some constant times a decreasing sequence (n^(alpha
+       -k))
+
+       therefore by the squeeze theorem we get it.
+
+    5. Also binomial theorem!
+
+** Series - sequence with recursion.
+   Some summation that forms a sequence of partial sums.
+   s_n = sum (from k = 1 to n) a_k
+   so form s_n+1 = s_n + a_n+1
+
+   challenge - knowing a_n, understand s_n.
+
+   we say that the sum converges if lim (n -> inf) s_n in RR
+
+*** Cauchy Criterion
+    The summation sum (n from 1 to inf) a_n converges if the series of partial
+    sums {s_n} is convergent, namely given epsilon > 0, exists N s.t.
+
+    m > n geq N -> abs(s_m - s_n) < epsilon.
+
+    put another way, abs(sum (k = n+1 to m) a_k) < epsilon.
+    in particular, pick some m = n + 1; then abs(a_{n+1}) < epsilon.
+    or lim (n to infinity) a_n = 0. (recall that the converse is not true.)
+
+*** Monotone convergence theorem
+    Assume that s_n is monotonically increasing. so s_n+1 geq s_n for a_n geq 0.
+
+    Then sum (from k = 1 to infinity) a_k convergent iff the partial sums are
+    bounded.
+
+*** Alternating Series Test
+    if the terms alternate in sign and the a_n goes to zero, and abs(a_n)
+    monotone, then the summation converges.
+
+*** Comparison Test
+    If abs(a_n) leq b_n and sum (from n = 1 to inf) b_n converges then sum
+    (from n = 1 to inf) a_n converges.
+
+**** Proof - two-step tango
+     step 1 : show that the summation of abs(a_n) converges by showing some t_n
+     = partial sums of a_k is bounded.
+
+     Note that by definition sum abs(a_k) leq sum b_k < inf (termwise, finite)
+     Therefore by the monotone convergence theorem -> the summation abs(a_k)
+     converges (the sequence of partial sums is monotone, each non-negative)
+
+     step 2 : show that the summation of abs(a_k) convergent -> summation of
+     a_k converges. (absolute converge -> convergence)
+
+     Trick - use Cauchy. abs(s_n - s_m) = abs(sum (from k=n+1 to m) a_k) <
+     epsilon. THen
+
+     abs(sum (from n+1 to m) a_k) leq sum (from k=n+1 to m) abs(a_k) < epsilon
+     for m > n geq N(epsilon)
+     as {t_n} is Cauchy -> done.
+
+*** Convergence and Absolute Convergence
 

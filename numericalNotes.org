@@ -4,7 +4,7 @@
     Proofs on homework - don't be afraid to go back.
 
 
-* 9.9.11
+* 9/9/11
 ** Pivoting
 s_i = max over 1 \leq j \leq n \abs{a_{ij}}
 scale of the ith row - use for another pivoting policy
@@ -62,7 +62,7 @@ partial pivoting is as good (a belief, not a truth)
     Google netlib
 
 
-* 9.12.11
+* 9/12/11
 ** LU factorization of RDD matricies
    Pay attention! important for scientific computing.
    diagonally dominant matrix
@@ -122,7 +122,7 @@ partial pivoting is as good (a belief, not a truth)
 
 
 
-* 9.14.11
+* 9/14/11
 ** Theorem 3.8
    Let A be symmetric, nxn. A is SPD iff A + L(transpose L)
    Better explanation in slides. Shows that if we have a symmetric matrix we
@@ -210,7 +210,7 @@ partial pivoting is as good (a belief, not a truth)
      operation counts: 2n - 2 (nice!)
 
 
-* 9.16.11
+* 9/16/11
 ** Announcement
    Test in a week! May be take-home.
    Do exercises, read books, do research: we have to take tests too :(
@@ -247,7 +247,7 @@ partial pivoting is as good (a belief, not a truth)
 
 
 
-* 9.19.11
+* 9/19/11
 ** Test
    Allowed to bring 1-page of information (open sheet, 8.5 x 11)
    In-class exam
@@ -317,7 +317,7 @@ partial pivoting is as good (a belief, not a truth)
 
 
 
-* 9.21.11
+* 9/21/11
 ** Spectral Radius and Norms
    For any matrix norm we have that rho(A) leq norm(A)
    (spectral radius is always leq norm)
@@ -446,7 +446,121 @@ partial pivoting is as good (a belief, not a truth)
      then sigma(I - A) = stuff. See slide 97.
 
 
-* 9.26.11
+* Numerical Test
+** Backward error
+   Wikipedia : delta x s.t. f(x + delta x) = y* (what problem the algorithm
+   actually solved)
+
+   Sauer : Say that f(r) = 0 (a root), xc ~ r. backward error is f(xc). This is
+   the amount we need to change the input by to get the approximation out.
+*** Examples
+**** Matrix
+     Say we solve a matrix problem Ax = b and get result x*. Then the backward
+     error is delta b in:
+
+     Ax* = b + delta b, find delta b.
+
+     Better example, from Purple Book : for backward error, show that x* is the
+     exact solution of
+
+     (A + F) x* = b.
+
+**** Sine button
+     (from Sauer) say that we find an approximation to sin(x) - x = 0, xc =
+     0.001. Backward error is 1.6e-10 (amount we need to change f(xc) by)
+
+** Forward error
+   Wikipedia : difference between result and solution
+
+   Sauer : Say that f(r) = 0, xc ~ r. Then forward error is r - xc. This is the
+   amount we need to change the approximation by to make it correct.
+
+**** Sine button
+     Same example as above: sin(x) - x = 0, xc = 0.001. Plug it in and get r =
+     xc = 0 - 0.001 = 0.001
+
+** LU Factorization
+   L unit lower -> Doolittle factorization (L(k,k) = 1 at kth step)
+   U unit lower -> Crout factorization (U(k,k) = 1 at kth step)
+*** Solving
+    from A = LU, solve Ly = b -> Ux = y.
+*** Building
+    Create U by row operations (Gaussian elimination)
+    Store the -1*(row multipliers) in L (with unit diagonal.)
+    takes about n^3/3 multiplications/divisions.
+*** Pivoting
+    Solve PA = LU instead - put largest entries on diagonals.
+    Find the largest entry in the 1st column and row swap so it is now at the
+    pivot. Reduce.
+    Repeat the same thing for each column.
+
+** Elementary Matricies
+   Describe the 3 elementary row operations
+*** Constructor
+    ElementaryMatrix E = ElementaryMatrix Vector u, Vector v, Float sigma
+    ElementaryMatrix u v sigma = IdentityMatrix - sigma * u * (conj. trans. v)
+**** Exchange rows
+     u = v = e_i - e_j to interchange rows i and j
+     E = I - (e_i - e_j)(e_i - e_j)^T
+
+     also referred to as I_ij : I_ij A permutes ith and jth rows of A
+     A I_ij permutes ith and jth COLUMNS of A
+**** Scale row i by alpha
+     u = v = e_i
+     sigma = 1 - alpha
+     so E = I - (1 - alpha)e_i e_i^T
+
+     then EA scales the ith row by alpha.
+**** alpha * R_i + R_j -> R_j
+     u = e_j, v = e_i
+     sigma = -alpha
+     E = I + alpha e_j e_i^T
+
+     then EA does what we want.
+*** Nice properties
+    u is an eigenvector of E if u /= 0 : eigenvalue is 1 - sigma v^H u.
+    if v^H x = 0 then x is an eigenvector, eigenvalue 1.
+    if sigma /= 0, v /= 0, and u^H v /= 0 then E has two eigenvalues:
+    1. 1 n-1 times
+    2. 1 - sigma v^H u one time
+
+    If 1 - sigma v^H u /= 0 (the determinant, see above) then
+
+    E^-1 = E(u, v, -sigma/det(E))
+** Gaussian transformation matrix
+   special case of the elementary matrix
+   L_j(l_j) = E(l_j, e_j, -1)
+   where l_j = [0, 0, .. l[j+1,j], .. , l[n,j]]^T.
+
+   looks something like the indentity matrix where one column, below the main
+   diagonal, is filled with l[j+1, j] etc
+*** Properties
+    L_j(l_j)^-1 = E(l_j, e_j, 1) = -1 * L_j(l_j)
+
+    in particular, for a lower triangular matrix:
+
+    L = L_1(l_j) L_2(l_2) .. (product of Gaussian transformation matricies)
+
+
+
+** Things to put on cheat sheet
+*** Chapter 1
+    Lagrange form of interpolation error
+    MVT for integrals, MVT plain
+    IVT
+    Taylor's Theorem
+    something about the problem with error analysis in PS2 p3
+    O/o notation
+    Machine arithmetic fun facts
+*** Chapter 3
+    LU formula - GEPP, GESRP
+    Cholesky formula
+    Sparse matrix storage.
+    Thomas algorithm
+    Spectral radius and norms
+
+
+* 9/26/11
 ** Powers of a matrix
 
    the geometric series
@@ -529,5 +643,266 @@ partial pivoting is as good (a belief, not a truth)
     condition number = K_beta(A) = norm(A,beta) * norm(A^-1,beta)
 
 
+* 9/28/11
+** Computing Project 1
+   coming up. Most code will be supplied.
+
+** Condition Numbers
+   If the solution Ax = b changes 'drastically' when A or B are perturbed we
+   call it 'ill-conditioned'
+
+   Call K_beta (A) = norm(A, beta) * norm(A^-1, beta) to be the condition
+   number of A
+   why? All the neat things we derived! See above slides.
+
+   Computing the condition number is not easy, but important
+
+   always have that the condition number is geq 1. homework - show that it can
+   be one (namely identity, others work as well)
+
+*** Condition number in 2-norm
+    for A^H A has eigenvalues mu1 geq mu2 geq mu3 geq ...
+
+    then (A^H A)^-1 has eigenvalues 0 leq 1/mu1 leq 1/mu2 leq ...
+
+    As we know that norm(A,2) = sqrt(spectral radius of (A^H A)) = sqrt (mu1)
+    so norm(A^-1,2) = sqrt (1/mu_n)
+
+    so for a small matrix, we can calculate by finding eigenvalues of A^H A.
+
+**** Hermitian A
+     Then A^H = A, so we want eigenvalues of A^2. THerefore the eigenvalues are
+     (mu)^2s. Therefore we get
+
+     cond(A) = abs( max(eigenvalue)/min(eigenvalue) )
+
+** Error in Gaussian Elimination
+   solving Ax = b yields xhat. By backward analysis we get
+
+   (A + F)xhat = b (the problem we actually solved)
+
+   Ax - Axhat = -F xhat
+   so x - xhat = -A^-1 F xhat.
+
+   then (with some forward analysis)
+
+   norm(x - xhat,inf) / norm(xhat,inf) leq norm(A^-1,inf)norm(F,inf)
+                   = K_inf(A) norm(F,inf) / norm(A,inf)
+
+   Someone showed something like
+   norm(F,inf)/norm(A,inf) leq c_n g theta
+
+   where c_n depends on the size of A
+   g is a constant factor in Gaussian Elimination
+
+   g = max over i,j,k of | a_ij^(k) | / max over i,j of | a_ij |
+
+   theta is the roundoff error on the machine.
+
+*** generally
+
+    c_n = 1.01 n^3 + 5(n + 1)^2
+
+    for complete pivoting:
+    g leq (n 2 3^(1/2)4^(1/3)...n^(1/(n-1)))^(1/2) (thanks, Wilkinson)
+
+    for partial pivoting:
+    g leq 2^(n-1)
+
+    no pivoting: g can be arbitrarily large (!!!)
+
+    in most applications, the growth factor is much smaller. Good research area
+    (finding tighter bounds based on applications)
+
+** Iterative Methods for solving Ax = b
+
+*** TODO : update with neat general info from slides.
+
+** Classical methods
+   Choose M such that solving My = g is easy.
+
+   Let A = M - N. Then Ax = b -> Mx = Nx + b
+
+   Choose a guess x^(0) and update by Mx^(k+1) = Nx^(k) + b.
+
+* 9/30/11
+ cm** Basic ideas for classical iterative methods
+   Strategy - split so that My = g is easy to solve.
+
+   Set A = M - N
+   Ax = b -> Mx = Nx + b
+   guess x0, find x1 by Mx1 = Nx0 + b, easy to solve by design.
+
+   We can rewrite this for B = M^-1 N, c = M^-1 b, as
+   x^k+1 = Bx + c (theoretical! can't invert.)
+
+   this is useful for analyzing convergence. We will see why soon.
+   (lots of homework discussing the convergence of this sort of thing)
+
+*** How do we turn this in to a finite procedure?
+    Usually artificial (best one - physics of the application)
+    one way to do it - see if xk, xk+1 close. Not much improvement means we are
+    not getting anywhere (so stop)
+
+    another way to do it - look at the residual of the solution (substitute in
+    Axk - b, solve and check residue)
+
+    yet another way - set number of iterations (very artificial)
+
+    can mix and match!
+
+*** Classical ways to split A
+    splitting - not factorizing
+    say A = L + D + U (free to do)
+
+**** Jacobi method
+
+     set M = D, N = -1(C_L + C_U) (C_L is lower diagonal entries of A, C_U is
+     upper)
+
+     so for Jacobi - Dxk+1 = -(C_L + C_U)xk + b.
+
+**** Gauss-Seidel method
+     ALso calles successive relaxation.
+
+     M = C_L + D, N = -C_U
+
+     then (C_L + D) xk+1 = -C_U xk + b (solve and update! new vectors depend on
+     the old vectors)
+
+     this is were the 'successive' relaxation comes from.
+
+*** What is the difference?
+
+    Jacobi needs xk and xk+1, Gauss Seidel stores xk and sequentially
+    overwrites.
+
+    Jacobi, however, may be done in parallel! However in sequence GS is faster
+    (we will see why soon)
+
+*** Successive Overrelaxation
+    Best for the 60s
+    M = C_L + 1/sigma D
+    N = - [ C_U + (1 - 1/sigma)D]
+
+    relaxation parameter sigma.
+
+    derivation - A = D + C_L + C_U
+    therefore 1/sigma D x + (D + C_L + C_U)x = 1/sigma D x + b
+    therefore (C_L + 1/sigma D)x = -[C_U (1 - 1/sigma) D]x + b
+    (this is a fixed point form, so we may iterate)
+
+    This is the same as Gauss-Seidel if we pick sigma = 1.
+
+**** How do we pick a good sigma? Depends on each problem.
+     Very fast for good sigma values. However, if we have an odd problem, no
+     tuned sigma -> slow.
+
+     sigma < 1 -> underrelaxed (generally bad, but not always)
+     sigma = 1 -> Gauss-Seidel
+     sigma > 1 -> overrelaxed (most common)
+
+** Comparison of Jacobi, Gauss-Seidel, and SOR
+   can we always compute? Will they always converge? (no)
+
+*** Convergence
+    say convergent if it works for all starting points.
+
+    errork = x^k - x which implies that e^k+1 = B^k+1 error(0)
+
+    rate of convergence depends upon the initial guess!
+
+**** Theorem 3.14
+     the following are equivalent:
+     a. iterative method convergent
+     b. rho(B) < 1
+     c. Exists matrix norm such that norm(B) < 1.
+
+*** Error bounds Slide 124
+    From a lot of matrix math, we get that
+    epsilonk = - (I - B)^-1 B^k(x(1) - x(0))
+
+* 10/03/11
+** More iterative methods
+   Review : norm(e^(k+1)) leq norm(B^k+1) * norm(e^0)
+   There are two ways to lower the error - better initial guess, get
+   norm(B^k+1) closer to zero.
+
+*** How can we get a more concrete bound?
+    say that norm(B^k) * norm(epsilon^1) leq TOL * norm(epsilon^1)
+
+    then (norm(B^k)^k)^(1/k) leq TOL, so, using logarithms
+
+    (-1/k log(norm(B^k))) log(tol^-1) .LEQ. TOL
+
+    which gives us that the number of iterations needed is proportional to the
+    inverse of the log of the matrix norm.
+
+    Then R_inf (B) + lim R_k(B) = - ln (rho(B)) where rho(B) < 1 for
+    convergence.
+
+    Where does this crazy condition come from?
+
+*** Theorem 3.21 : bounding the matrix norm for B
+    For any nxn matrix B and any matrix norm, we have
+    lim (k to infty) norm(B^k)^(1/k) = rho(B)
+**** Proof.
+     (rho(B))^k = rho(B^k) leq norm(B^k)
+     by proposition 3.3 -> rho(B) leq norm(B^k)^(1/k), for all k.
+
+     Lets use an auxillary matrix. Let
+
+     B(epsilon) = 1/(rho(B) + epsilon) B ->
+     rho(B(epsilon)) = rho(B) / (rho(B) + epsilon) < 1
+
+     therefore lim (k to infty) (B(epsilon))^k = 0. The matrix converges!
+
+     this means that the norm of B(epsilon) goes to zero, so for some k > k0 we
+     get that
+
+     norm(B^k) / (rho(B) + epsilon)^k = norm(B(epsilon)^k) < 1, forall k
+     .GEQ. k0
+
+     Therefore if we take the limit for epsilon -> 0 we get that
+
+     lim (k to infty) norm(B^k)^(1/k) leq rho(B) because epsilon is arbitrary.
+
+*** Asymptotic rate of convergence
+    We say that the asymptotic rate of convergence for B is R_inf(B).
+
+*** Theorem 3.16 (Stein, Rosenberg)
+    if B_J is nonnegative then B_J and B_GS can satisfy precisely one of the
+    following relations:
+
+    1. rho(B_GS) = rho(B_J) = 0
+    2. 0 < rho(B_GS) < rho(B_J) < 1
+    3. rho(B_GS) = rho(B_J) = 1 (if one spectral radius is 1, the other is as
+       well)
+    4. 1 < rho(B_J) < rho(B_GS) (if it converges, it converges faster. If it
+       diverges, it diverges faster)
+
+    useful - if the iteration matrix for Jacobi fails then the iteration matrix
+    for Gauss-Seidel fails as well.
+
+*** Special matricies
+    Given some M, consider the absolute value of each entry; call this
+    matrix |M|
+
+    we say that M .GEQ. N iff M[i][j] > N[i][j]
+
+    then | AB | .LEQ. |A| |B|.
+
+**** Theorem 5
+     if A is strictly diagonally dominant, then
+     norm(B_GS) .LEQ. norm(B_J) < 1.
+***** Proof
+      A = D + C_L + C_U and
+      B_J = -D^-1 (C_L + C_U) = -D^-1 (D + C_L + C_U - D) = I - D^-1 A
+      (D inverse is guaranteed to exist because of strict diagonal dominance)
+
+      norm(B_J,inf) = norm(I - D^-1 A,inf) = max ( sum (from j=1, j /= i, to j
+      = n) abs( A[i][j] / A[i][i])) < 1.
+
+      There are several steps for the first inequality. Know this for prelim.
 
 

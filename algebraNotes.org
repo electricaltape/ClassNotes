@@ -1,0 +1,53 @@
+* Goals
+  I encounter more technical terms in Algebra that are somewhat vaguely defined
+  every day now. I should collect them together.
+
+* Fibers
+  homomorphism phi :: G -> H
+  fibers of phi := [[g | phi g == h , g <- G] h <- H] :: [Set G]
+  (set of elements in g projecting to a single element in h)
+  each fiber is a set corresponding to exactly one element in H.
+
+** Elements with bars over them
+   notation for 'this is a fiber'
+   also means 'this is a representative for a certain coset'
+*** Example
+    ZZ to Zn by phi(a + b) = x^{a+b}, so some a+b is a fiber
+    this ties back in to the coset example as well. In the integers mod 4,
+    bar(3) represents 3, 7, 11, etc (a fiber, because they all go to bar(3))
+
+* Kernel (of a homomorphism phi)
+  set [phi g == 1 | g <- G]
+
+* Quotient Group
+  Name derived from the quotient group Z / nZ (integers mod n)
+  a.k.a. common quotients (equivalence classes)
+
+  from wikipedia : a quotient group of G is some partition of G that is a group
+  under the operation
+
+  S + T = [ s + t | s <- S t <- T] for partitions S and T.
+  (associative as S, T subsets, a monoid because {e} is a subgroup)
+
+** Normal subgroup
+   Na = aN (all elements of the normal subgroup commute)
+   By theorem 3, if phi is a homomorphism from G to H and K = kernel(phi) then
+   the left cosets of K in G form a group by
+
+   uK * vK = (uv) K
+*** Why do we need normal subgroups?
+    the operation on left cosets is well defined iff g^-1Ng = N.
+*** Large 'The Following Are Equivalent*** Theorem
+    1. N a normal subgroup of G
+    2. N_G(N) = G
+    3. gN = Ng
+    4. the operation uK * vK = (uv) K makes the left cosets a group.
+    5. gNg^-1 `subset` N
+
+** For Arbitrary Subgroups
+   Proposition 3.1.4 : for N `subgroup` G, left cosets of N partition G
+*** Why do the left cosets of a subgroup partition the group itself?
+    leftCosets = [(map g N) | g in G] :: [G], and N has the identity element, so
+    every element appears in at least one list of leftCosets
+*** if u,v in G then uN = vN iff v^-1 u in N
+    in particular, uN = vN if u and v represent the same coset (fibers!)
