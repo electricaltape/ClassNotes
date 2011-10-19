@@ -43,76 +43,69 @@
     Therefore z in Nr(x) \ {x}, which is true for r > 0 -> x in E'.
 
 
-*Number 8*
+*** Number 8
+    E subset R^2, E open -> E subset E'
 
-E subset R^2, E open -> E subset E'
+    E open -> exists r > 0 with Nr(x) subset E
 
-E open -> exists r > 0 with Nr(x) subset E
+    for x in E subset R^2, Nr(x) infinite -> for r small enough,
+    (Nr(x) \ {x}) intersect E /= nullset
 
-for x in E subset R^2, Nr(x) infinite -> for r small enough,
-(Nr(x) \ {x}) intersect E /= nullset
+*** Actual lecture connectedness
+    for subsets A and B of some metric space X, A and B are separated if
 
-Actual lecture begins here
+    A intersect (closure B) = nullset and (closure A) intersect B = nullset
 
-Connectedness
-for subsets A and B of some metric space X, A and B are separated if
+**** Example:
+     A = (0,1) and B = (1,2) not separated
+     A set E subset X is connected if E is not disconnected
+    E is disconnected -> E has a disconnection -> E = A U B and A,B separated.
 
-A intersect (closure B) = nullset and (closure A) intersect B = nullset
-
-Example:
-
-A = (0,1) and B = (1,2) not separated
-
-A set E subset X is connected if E is not disconnected
-
-E is disconnected -> E has a disconnection -> E = A U B and A,B separated.
-
-Equivalently - E is disconnected if E = A (disjoint union) B (write it as such, union of two sets minus the intersection)
+    Equivalently - E is disconnected if E = A (disjoint union) B (write it as
+    such, union of two sets minus the intersection)
     where A and B are both (E-open OR E-closed OR A is both E-open and E-closed)
 
-Now lets go to R^1.
+*** Now lets go to R^1.
 
-Theorem 2.42 - A nonempty subset E subset R1 is connected iff E has the following properties:
-(for a < b)
+    Theorem 2.42 - A nonempty subset E subset R1 is connected iff E has the following properties:
+    (for a < b)
 
-1. x in E, y in E, x < z < y -> z in E
-2. E is an interval, i.e. E = one of (-inf, b) (-inf, b], [a,b], (a,b], [a,b), R, etc
-3.
+    1. x in E, y in E, x < z < y -> z in E
+    2. E is an interval, i.e. E = one of (-inf, b) (-inf, b], [a,b], (a,b], [a,b), R, etc
+3. ???
 
-Proof
+**** Proof
+    Let a = inf E
+    Let b = sup E
+    proceed to show that one of the cases of (2) is valid.
 
-Let a = inf E
-Let b = sup E
+***** Connectedness proof
 
-proceed to show that one of the cases of (2) is valid.
+      negate both conditions - prove that E in R disconnected iff not 2.42
 
-Connectedness proof
+      (trick - set defined by a property. Negate step by step to show x `notin` A)
 
-Proof - negate both conditions - prove that E in R disconnected iff not 2.42
+      not [(forall x, y in E with x < y) (and forall z in R with x < z < y), then z in E]
 
-    (trick - set defined by a property. Negate step by step to show x `notin` A)
+      Therefore we need to produce a z such that x < z < y but z `notin` E
 
-    not [(forall x, y in E with x < y) (and forall z in R with x < z < y), then z in E]
+      Set Az = E intersect (-inf, z), Bz = E intersect (z, +inf)
 
-    Therefore we need to produce a z such that x < z < y but z `notin` E
+      for x in Az, Az /= nullset
+      for y in Bz, Bz /= nullset
 
-    Set Az = E intersect (-inf, z), Bz = E intersect (z, +inf)
+      z notin E, Az union z union Bz = R
 
-    for x in Az, Az /= nullset
-    for y in Bz, Bz /= nullset
+      Note that Az intersect (closure Bz) = nullset, and (closure A) intersect Bz = nullset
+      so E is disconnected (as z `notin` E)
 
-    z notin E, Az union z union Bz = R
+      (other direction) assume E disconnected, so E = A (disjoint union) B with A, B
+      nonempty and separated. Pick x in A, y in B : WLOG x < y.
 
-    Note that Az intersect (closure Bz) = nullset, and (closure A) intersect Bz = nullset
-    so E is disconnected (as z `notin` E)
+      (we will use completeness of the reals)
 
-    (other direction) assume E disconnected, so E = A (disjoint union) B with A, B
-    nonempty and separated. Pick x in A, y in B : WLOG x < y.
-
-    (we will use completeness of the reals)
-
-    define z = sup (A intersect [x,y])
-    then z in (closure A)
+      define z = sup (A intersect [x,y])
+      then z in (closure A)
          (by a previous result, sup f in (closure F) for F nonempty, bounded above, subset of R)
 
     so z `notin` B as the sets are separated.
@@ -122,9 +115,6 @@ Proof - negate both conditions - prove that E in R disconnected iff not 2.42
 
     If z in A, then z notin (closure B) implies (exists z_1 with z < z_1 < y) and z_1 notin B
        Then x < z_1 < y and z_1 notin B. As z_1 > x, z_1 notin A so z_1 notin E and we are done.
-
-
-
 
 * 9/14/11
 ** Hints for hw5
@@ -257,6 +247,563 @@ Proof - negate both conditions - prove that E in R disconnected iff not 2.42
      there exists some union of Gs s.t. their union covers [0,x0] then that
      union with G_alpha0prime is a superset of [0, x + delta] -> 1 in E and 1
      is least upper bound -> {G_alpha} has a finite subcover of [0,1].
+
+
+
+
+* 9/16/11
+** 2.16, last problem on HW4
+   p in QQ s.t. 2 < p^2 < 3
+   E = (-srt(3), -sqrt(2)) U (sqrt(2), sqrt(3)) intersect Q
+
+*** E is closed in Q
+    show that E closed in RR, so closed in R intersect QQ -> QQ closed
+
+*** E is bounded
+    E is bounded as d(p,0) < sqrt(3)
+
+*** E is not compact in QQ
+    since E is not closed in RR, E is not compact in R
+    so by Heine-Borel E is not compact in QQ.
+**** Directly
+     Gn = {(-sqrt(3) + 1/n, sqrt(3))} intersect Q
+        = open cover with no finite subcover.
+
+*** E is QQ-open:
+    E = [-sqrt(3), -sqrt(2)] U [sqrt(2), sqrt(3)] intersect QQ
+    so RR-open intersect QQ -> E is QQ-open
+
+** Hint for next homework - correction
+*** for 4,7 problem
+    4, 7 decimal expansions
+    at each step, end points go away
+    when proving perfect : take point in the intersection of the layers, find a
+    point in the interval (in the generalized Cantor set)
+    Show that we have a fractal thing - same no matter where we start (same
+    thing at every scale)
+    Fun problem once understood!
+
+*** Announcement - HW6 and Test 1, Friday September 23
+    HW not too hard.
+    Test - everything up to connectedness (basic topology, sets, neighborhoods,
+    completeness)
+
+** Next Chapter - Sequences in Metric Spaces
+   We will start in RR and many ideas hold for general metric spaces.
+   for metric space (X,d)
+   some function NN -> X is called a sequence (n -> pn)
+   Say {p_n} = [p_1, p_2, p_3, ...]
+
+*** Fundamental Notion : Convergence.
+    Given traditional epsilon:
+    limit as n -> inf of p_n = P means
+    given epsilon > 0, exists N s.t. n > N -> d(p_n, p) < epsilon
+
+*** Example
+    1/n has limit p_n = 0 (by archimedes)
+    given epsilon, exists N s.t. if n > N -> 0 < 1/n < epsilon
+    which implies d(1/n, 0) < epsilon for n > N
+
+*** Elementary Facts
+    Convergence: {p_n} -> P <-> every neighborhood of P contains all but
+    finitely many terms {p_n}
+    Uniqueness: if {p_n} -> P and {p_n} -> P' then P = P'
+    Convergence: {p_n} convergent -> {p_n} bounded.
+**** Proof of Uniqueness
+     (show the distance between P and P' is less than epsilon, for epsilon > 0)
+     We do equality here by exhaustion
+     Given epsilon > 0, exists N_1 s.t. n > N_1 -> d(p_n, P) < epsilon/2
+     Given epsilon > 0, exists N_2 s.t. n > N_2 -> d(p_n, P') < epsilon/2
+
+     Then by the triangle inequality, for m > max(N_1, N_2) we get
+     d(P, P') leq d(P, p_m) + d(p_m, P') < epsilon/2 + epsilon/2
+                                         < epsilon
+     so 0 leq d(P, P') < epsilon for all epsilon
+     implies d(P, P') = 0 -> P = P' (metric space definition)
+**** Proof of Convergence
+     choose epsilon = 1
+     so there is some N_1 s.t. d(p_n, p) < 1 for n geq N
+     Let M = max(d(p_1, p), d(p_2, p) ... d(p_n-1, p), 1) < inf
+     so d(p_n, p) leq M for all n -> {p_n} bounded.
+
+*** Complex Numbers
+    X = CC
+    congruent to RR
+    x + iy equivalent to (x,y)
+    d(x + iy, x' + iy') = sqrt( (x - x')^2 + (y - y')^2)
+
+    Theorem : {s_n}, {t_n} complex, s_n -> s, t_n -> t implies:
+    1. s_n + t_n -> s + t
+    2. s_n t_n -> s t
+    3. For c in CC, c s_n -> c s
+    4. If s_n /= 0 and s /= 0 then 1/s_n -> 1/s.
+**** Proof of Laundry List
+***** 1. | s_n + t_n - s - t| = | (s_n - s) - (t_n - t)|
+      \leq | (s_n - s) | + |(t_n - t)| < eps
+      \leq | (s_n - s) | + |(t_n - t)| < epsilon/2 + epsilon/2
+      and of course individually | (s_n - s) | < epsilon/2, etc, so done
+***** 2. s_n t_n -> s t
+      | s_n t_n - s t | = | (s_n - s) t_n + s(t_n - t)|
+      \leq | (s_n - s) | | t_n | + | s | | (t_n - t) |
+      both bounded.
+
+     Others similar.
+
+*** RR^k
+    Theorem: in RR^k, X_n = (alpha_(1, n) ... alpha_(E,n)) implies X = vector
+    of converged alphas
+
+    Reason: comprable norms. Can generally just interchange them with absolute
+    value signs from RR.
+
+    x_n dot y_n -> x dot y.
+    book proof : brute force
+    elegant proof : Cauchy-Schwarz
+
+    for | xn dot yn - x dot y | =    (xn - x) dot yn + x dot (yn - y) |
+                                leq | (xn - x) dot yn | + | x dot (yn - y) |
+                                leq | (xn - x) | | yn | + ...
+                                all bounded!
+
+
+
+* 9/19/11
+** Limits
+*** Limit Review
+    lim over (n -> inf) p_n = p means:
+    forall epsilon > 0 exists N in NN s.t. n geq N -> d(p_n,p) < epsilon.
+
+    this is the same as saying that every neighborhood of p contains all but
+    finitely many terms of the sequence p_n.
+
+*** Limit Properties
+    {p_n} convergent to p -> {p_n} bounded.
+
+    we proved that exists M < inf s.t. d(p_n,p) leq M for all n (bounded)
+
+    Pick any p_o in X. then exists M' s.t. d(p_n, p_o) leq M': (use the
+    triangle inequality) Since the distance
+
+    d(p_n, p_o) leq d(p_n, p) + d(p_o, p)
+                leq M + d(p, p_o) = M'
+
+*** Connection between sequential limits and limit points
+    If E subset X, p in E -> {p_n} subset E, lim p_n = p.
+**** Limit Points and Limits
+     Suppose that {p_n} is a sequence, lim p_n = p.
+
+     set E = Ran {p_n} = {p_1, p_2, ...} subset X
+
+     is p in E' ?
+     Suppose that p_n = p for all n. Then lim p_n = p but p notin (Ran {p_n})'
+
+     If Ran {p_n} is infinite and lim p_n = p, then p in (Ran {p_n})'.
+
+     (limit points and limits of sequences do not always line up in an
+     intuitive manner)
+*** Subsequences of {p_n}
+    Suppose the subsequences of {p_n} subset X, a metric space. Consider some
+    sequence k -> n_k of positive integers (so a function :: NN -> NN) which
+    is strictly increasing. : n_1 < n_2 < ... etc. Thus necessarily n_k geq k.
+
+    Perhaps lim (n -> inf) p_n does not exist, but lim (k -> inf) p_(n_k) does
+    exist for some subsequences {p_(n_k)}.
+**** Example
+     x_n = (-1)^n : fails for n = 1,2,3... but converges to 1 for n = 2,4,6,...
+     (a good example of bounded, but not convergent)
+**** Fact : {p_n} -> p iff every subsequence converges to p
+***** Proof (<-) trivial. Every subsequences converges means that p_n -> p.
+
+      (->) need some definitions. p_n -> p means that we can use the epsilon
+      definition. So pick some {p_(n_k)}, any subsequence.
+
+      k geq N -> n_k geq N, so d(p_(n_k), p) < epsilon
+      which is equivalent to lim (k -> inf) p_(n_k) = p.
+
+***** Usefulness
+      This is a useful theorem. Why:
+
+      Theorem 3.6 - if {p_n} some sequence in a compact set (in a metric space)
+      then there exists some {p_(n_k)} that converges to some p in X.
+
+****** Proof
+       Let E = range {p_n}, if E is finite, we can choose a constant subsequence
+       and therefore it is convergent.
+
+       Suppose E is infinite. X compact -> E' /= nullset (earlier theorem).
+       Pick some x in E'.  Construct {p_(n_k)} subset E s.t. lim (k -> inf)
+       {p_(n_k)} = x.
+
+       step 1 : choose n_1 s.t. p_(n_1) /= x and d(p_n, x) leq 1. Choose each n
+       s.t. n_1 < n_2 < ... where
+
+       d({p_(n_k)}, p) < 1/k . Find n_(k+1) > n_k s.t.
+       d({p_(n_(k + 1))}, p) < 1 / (k+1).
+
+       This is possible since there are infinitely many p_ns in N_(1/(k+1))(p).
+
+       Now choose some K(epsilon) s.t. 1/K(epsilon) < epsilon (by archimedes)
+
+*** TODO Every bounded sequence in RR^k contains a convergent subsequence.
+       so {x_n} bounded -> {x_n} subset of a k-cell I, which is compact by
+       Heine-Borel. Rest of proof hard to read
+
+** Theorem 3.9
+
+   Given some {p_n}, (if some function n = p_n) then it is a subset of a metric
+   space X.
+
+   Let E* = {p in X : exists subsequence {p_(n_k)} s.t. lim (k -> inf) p_n_k ->
+   p} (sequential limit set)
+
+   Then E* is closed. This is similar to the (E')' subset E'.
+*** Proof (different from book version)
+    suppose q is the limit point of (E*)' (to show: q in E*).
+
+    (i.e. we must cook up some n_1 < n_2 < ... s.t. lim (k -> inf) p_n_k = q)
+
+    step 1: given q, there is some p1* in E* s.t. d(p1*, q) < 1. Therefore as
+    p1* in E* we can say that p1* = lim (i -> inf) p_(n_i), where {p_(n_i)} is
+    some subsequence of {p_n}. Then
+
+    exists k_1 in {n_1, n_2, ...} s.t. d(p^(1)_(k_1), p1*) < 1 - d(p1*, q) > 0
+
+    this gives us p_(k_1) = p^(1)_(k_1).
+
+    Note that d(p^(1)_(k), q) leq d(p^(1)_(k_1) p1*) + d(p1*, q) < 1.
+
+    INDUCTIVE STEP - assume that we have k_1 < k_2 < ... < k_n with distance
+    d(p_(k_j), q) < 1/j. Choose k_(n+1) as follows:
+
+    choose p*_(n+1) in E* with d(p^*_(n+1), q) < 1 / (n + 1)
+
+    then p*_(n+1) in E* -> p*_(n+1) = lim (k -> inf) p^(n+1)_k
+
+    so {p^(n + 1)_k} subset {p_n}
+
+    choose p_n_(k + 1) in {p^(n + 1)_k}, n_(k + 1) > n_k.
+
+    so d(p_n_(k+1), p*_(n+1)) < 1/(n+1) - d(p^*_(n+1), q) ->
+
+
+* 9/21/11
+** Review of homework 5
+*** Problem 17
+    Uncountable - show that it is perfect or use Cantor diagonalization.
+    (as nonempty perfect -> uncountable)
+
+    Dense : contains no intervals, so 'nowhere dense'
+
+    compact : Yes, by decimal expansions.
+
+    x in Ec -> (x - eps, x + eps) subset Ec
+
+**** Countable
+
+     E = infinite intersection of En, where
+     En = disjoint union of 2^n closed intervals, length 1/10^n
+
+     Yet another way : x = 0.alpha1 alpha2 alpha3 etc, 4 or 7.  Pick n
+     s.t. 1/10^n < delta.
+
+     Let x' = 0. phi1 phi2 etc where if k /= n then phi_k = alpha_k else flip to
+     other digit.
+
+     Then x' in E, x' /= x, so uncountable.
+
+*** Problem 18
+    Is there a nonempty perfect set with no rationals? Yes!
+
+    we went over a sketch in class - here is Sara's version.
+
+    Know that QQ is countable, = {r1, r2, r3, ...} and use 'a touch of measure
+    theory'
+
+    Let epsilon > 0, let In = (r_n - epsilon/(2*2^n), r_n + epsilon/(2*2^n))
+    and use these to 'cover up' intervals.
+
+    so the sum of all In is epsilon.
+
+    E = RR \ union of In - uncountable, closed (uncountable because the
+    measure, epsilon, is positive)
+
+    (now show that it is perfect - no isolated points)
+    so delete countably many isolated points (number of isolated points must be
+    countable because each has some interval around it; injection of isolated
+    points in to rationals) so we still have an uncountable set and i is
+    perfect.
+
+*** Problem on Baire's Theorem
+    Baire's Theorem - if Fn closed and nowhere dense subset of RR^k then
+
+                                union Fn /= RR^k.
+
+    Important to have RR^k - if we used QQ we could write QQ as a countable
+    union of sets (each set has exactly one point of QQ).
+
+    Therefore we expect our proof of a special case to use some special feature
+    of RR^k to work (completeness).
+
+** Extra Credit Answers
+
+   Was fun. Let (X,d) be a metric space then the following are equivalent:
+
+   1. every open cover has a finite subcover (definition of compactness)
+
+   2. Every collection of closed sets {F_alpha : alpha in A}  with the FIP has
+      the property intersection of F_alpha /= nullset
+
+   3. Every infinite subset has a limit point.
+
+   4. (next chapter!) every sequence has a convergent subsequence.
+
+   Things related to these may be on the test.
+
+*** harder part: 3 -> 1
+
+    break up in to three pieces.
+
+    X separable -> X has a countable base (#23)
+
+    V_alpha, alpha in A
+
+    base means that for each G open, x in G, there is a V_alpha with x in
+    V_alpha (so G is the union of V_alpha s)
+
+**** Solution
+     V = { N_q(s) : s in S, q in QQ+} (S is the separable set)
+     V is indexed by S x QQ+, so it is countable.
+
+     triangle inequality 'tap dance' follows
+
+     Let x in G, G open. Choose r in QQ+, N_r(x) subset G.
+     Choose s in S with s in N_(r/2)(x). Then x in N_(r/2)(x) and y in the same
+     neighborhood implies thad d(y,x) leq d(y,s) + d(s,x) < r
+
+     so x in N_(r/2)(s) subset G : this gives us our V!
+
+*** Number 24
+    X - metric space such that every infinite subset has a limit point -> X is
+    separable.
+
+**** Proof
+     Fix delta > 0. Pick x1 in X.
+
+     having chosen x1, ... , xj in X choose (if possible) x_j+1 in X
+
+     with d(x_j+1, x_k) geq delta for k = 1 .. j. Then: if this is always
+     possible we get an infinite set s.t. E = {x1, x2, ...} s.t. d(x, x') geq
+     delta for x, x' in E, x /= E'.
+
+     If p = limit point of E, then the distance d(x,x') leq d(x,p) + d(p,x')
+     leq delta for any distinct x, x' in E intersect N(p) -> a
+     contradiction. Therefore this stops as X subset N(x_j^delta)
+
+     so for each delta, we repeat this and get finitely many per delta.
+
+     This notation is really bad. Can we improve it?
+
+     set x^(n)_j = x_j^(1/n) for n in NN delta = 1 / n
+
+     then let S = {x_j^(n) : j = 1 .. K(1/n), n in NN} which is a countable
+     set. Details : more triangle inequality.
+
+*** Number 26
+    Let X be a metric space where every infinite subset has a limit
+    point. Prove that X is compact.
+
+**** Proof
+
+     #24 -> X is separable.
+     #23 -> X has a countable base.
+
+     Let G_alpha, alpha in A be any open cover of X. Then:
+     1. {G_alpha} has a countable subcover (as we have a countable base) How
+        does this work (namely, countable base -> countable subcover)? Each x
+        in X is in some G_alpha, so there exists some V_n(x, alpha) in the
+        countable base with x in V_n(x, alpha) and V_n(x, alpha) subset
+        G_alpha.
+
+        Define n -> alpha(n) by G_alpha(n) as any choice of G_alpha where V_n
+        subset G_alpha(n) (if no such n, leave alpha(n) undefined)
+
+        Then what we did above implies that X subset {G_alpha(n), n in NN} so a
+        subcover.
+
+        If {G_alpha(n)} has no finite subcover then
+
+        F_n = (union G_alpha(j))^c /= nullset (cannot cover everything with
+        finite set)
+
+        and the intersection of all F_ns is the nullset.
+
+        By hypothesis, every set has a limit point, so x in E' exists, so x is
+        in the intersection of all F_n -> a contradiction.
+
+** Test mechanics
+   mostly definitions, things we have seen before (easier than the extra
+   credit)
+
+   Do all the homework, get experience, know the 'lay of the land' of analysis.
+
+
+* 9/26/11
+** Test news
+   reverse bell curve: 5 below 80, 5 above 90, 2 inbetween.
+
+** Review of connectedness HW
+
+*** Problem 20
+    pick the 'eyeglasses' in RR^2 - circle at -1, circle at 1:
+    connected, but E^' disconnected.
+    the definition of connected is too hard to work with - use disconnected.
+**** Show that (closure E) disconnected -> E disconnected.
+     Say that closure E has a separation, or
+     (closure E) = A disjoint union B
+
+     so (closure A) intersect B = nullset.
+     so A intersect (closure B) = nullset.
+
+     THen show that E = (A intersect E) disjoint union (B intersect E) is a
+     disconnection of E.
+
+     The nontrivial part is to show A intersect E /= nullset.
+*** Problem 19
+**** Show A, B closed , A intersect B = nullset -> (closure A) intersect B = nullset
+     (and that (closure B) intersect A = nullset)
+
+     make it easier - E disconnected <-> E is a disjoint union of A and B.
+     Therefore for A and B disjoint, A = E (where E is open and E is closed)
+**** Show that A = (fix p) {q | d(p,q) < delta } = open on X.
+     and that B = { q | d(p,q) > delta} open on X.
+
+     E = disjoint union of A and B -> E disconnected.
+
+     A and B clearly disjoint.
+**** X has two points (at least), X disconnected -> X uncountable.
+     For each alpha, 0 < alpha < d(p,q), if there is no q_alpha s.t.
+
+     d(p,q_alpha) = alpha -> X disconnected (we know that)
+
+     Therefore for each alpha choose some q_alpha in X with s.t. d(p,q_alpha) =
+     alpha.
+
+     (show that q_alpha is one-to-one) cannot have two values for distance.
+     we can do a similar trick to show that q_alpha works for
+     alpha in some [0, d(p,q)] - an uncountable interval.
+
+** Chapter 3 - more sequences.
+*** Limits
+    lim (n -> inf) p_n = p implies :
+
+    forall epsilon > 0, exists N(epsilon) in NN s.t.
+    if n geq N then d(p_n,p) < epsilon.
+    lim s_n = s means : | s_n - s | < epsilon
+
+*** Subsequences
+    Function k in NN, n_k in NN
+    with n_1 < n_2 < ... < n_k_1 < ...
+    subsequences still converge to the original limit.
+
+*** Characterizations of compact metric spaces
+    if X is a metric space, then the following are equivalent:
+    1. X is compact.
+    2. F_n closed then {F_n} has the finite intersection property (intersection
+       of all nonempty)
+    3. Every countably infinite subset of X has a limit point in X.
+    4. Every sequence P_n contained in X has a convergent subsequence.
+
+**** Proving it
+     1 -> 2 : extra credit problem: an open cover may be 'collapsed' to a
+     countable open cover. Then "De'Morganize" the contrapositive.
+     (compact and countably compact are the same for metric spaces)
+     2 -> 3 : straightforward.
+     3 -> 1 : extra credit problem from Ch2.
+
+***** 3 <-> 4
+      Create the list E = {p_1, p_2, ...} = countably infinite subset of
+      X. View this as a sequence. Identify a limit point of E = limit point of
+      the subsequence of {p_n}
+
+      then showing 3 -> 4 is trivial by boundedness.
+
+*** Corollaries to the Laundry List
+    Infinite subsets E of RR^k have limit points (since E subset closed k-cell,
+    which is compact)
+
+    Bounded sequences have convergent subsequences.
+
+    (these imply completeness)
+
+*** Theorem 3.7 - Given a sequence {p_n} in some metric space X
+
+    Let E = subsequential limit set, or
+    E = { q | exists {n_k} s.t. q = lim (k -> inf) p_(n_k) }
+    then E is closed (limit points of subsequential limits themselves
+    subsequential limits)
+**** Proof
+     Two-step tango - use triangle inequality. In other news, Cameron's parents
+     are professional ballroom dancers.
+
+*** Cauchy Sequences
+    A sequence {p_n} in a metric space X is cauchy <-> given epsilon > 0,
+    exists N(epsilon) in NN s.t. m,n geq N -> d(p_n,p_m) < epsilon
+    (the terms get close to each other)
+
+    Result: Theorem 3.11
+
+*** Theorem 3.11 : {p_n} convergent -> {p_n} cauchy
+    for some compact metric space the converse is also true.
+    X subset RR^k also implies the converse.
+
+    suggests a definition : X is complete if its cauchy sequences converge.
+
+*** Corollary to 3.11
+    X is compact, or X = RR^k -> X complete.
+    (however the reverse is not true. Complete does not imply compact.)
+**** Proof
+     part one - easy - use a delta epsilon arguement.
+     Say lim (n -> inf) p_n = p, so we know the usual things about epsilon and
+     N(epsilon).
+     then for n, m geq N(epsilon/2) we get
+     d(p_n,p_m) leq d(p, p_n) + d(p, p_m) leq epsilon/2 + epsilon/2 leq epsilon
+
+     part two - {p_n} cauchy -> {p_n} convergent
+
+     {p_n} cauchy -> {p_n} bounded. Choose N = N(1). Then n geq N ->
+     d(p_m, p_N) < 1. Let M = max(d(p_1,p_N), d(p_2, p_N), ... , d(p_N-1, p_N))
+
+     Specialize : pick X = RR^k. By Heine-Borel we get that closed k-cells are
+     compact. Therefore for p_n bounded -> {p_n} subset J = closed k-cell in
+     RR^k. By Heine-Borel J is compact. Therefore this implies that {p_n} has a
+     convergent subsequence with a limit in J.
+
+     The guts chunk (X = RR^k : {p_n} cauchy -> {p_n} convergent)
+
+     Say that {p_n} is cauchy in a compact metric space X.
+     X compact -> exists {p_n_k} subsequence with limit p, p in X.
+     Claim : lim p_n = p.
+     (show that if the subsequence coverges to p, everything converges to p)
+     (different from Rudin : Rudin reproves that 2 -> 3 from earlier. Not
+     optimal.)
+     (we will use 4 - every sequence has a convergent subsequence.)
+
+     Let epsilon > 0 . Then choose N_1 s.t. k geq N_1 -> d(p_n_k, p) <
+     epsilon/2.
+
+     Similarly, choose N_2 s.t. n, m geq N_2 -> d(p_n, p_m) < epsilon/2.
+
+     Suppose that n > N_2. Then choose k_0 s.t. n_k_0 >  N_2 and k0 > N1
+
+     then d(p_n, p) leq d(p_n, p_k0) + d(p_nk0, p)
+                    =   epsilon/2 + epsilon/2
+
+
+
+
+
+
+
 
 
 
