@@ -1,0 +1,51 @@
+* Describing Vorticity and Stream Functions
+
+** Vorticity
+
+*** From lec16.pdf
+
+    Starting point for large-scale circulation
+    Similar to 2D incompressible flow (Navier-Stokes)
+    main difference - Vorticity variable is 3D Laplacian of Stream Function
+
+
+**** TODO Assumption - wind driven ocean flow. Check this.
+
+** Stream Function
+
+*** From ch13.pdf
+
+    Psi is the stream function
+    Say that geostrophic flow is parallel to constant lines Psi
+    Strength proportional to 'spacing of iso-lines of Psi'
+
+*** Equation
+
+    Laplacian_p of Psi = dv_g/dx - du_g/dy ~ Zeta_rel
+
+* Physical Constants
+
+** Rossby Number
+
+** f-plane
+
+*** From ch13.pdf
+
+    Coriolis parameter f - some trigonometric function of latitude (ch13)
+    f-plane approximation - replace occurances of f with a constant f0
+
+**** From ch13.pdf : Better Approximation - Beta-plane
+
+     Allow f to vary in north-south direction linearly:
+
+     f = f0 + beta * (y - y0)
+
+     where beta = (df/ (a d phi) )_0 = 2 * Omega * cos phi_0 / a
+     (so beta is the linearization constant for moving in direction y)
+
+     typical choice - phi_0 = 45 degrees -> beta = 1.62e-11 m^-1 s^-1
+
+
+
+
+
