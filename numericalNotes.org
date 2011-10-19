@@ -2,7 +2,8 @@
     Never compute the inverse!
     Use properties of special matricies.
     Proofs on homework - don't be afraid to go back.
-
+    modern mathematics is about structure! We do not care about sets anymore;
+    anything worthwhile has structure behind it, certain properties, etc
 
 * 9/9/11
 ** Pivoting
@@ -644,6 +645,7 @@ partial pivoting is as good (a belief, not a truth)
 
 
 * 9/28/11
+
 ** Computing Project 1
    coming up. Most code will be supplied.
 
@@ -724,6 +726,7 @@ partial pivoting is as good (a belief, not a truth)
    Let A = M - N. Then Ax = b -> Mx = Nx + b
 
    Choose a guess x^(0) and update by Mx^(k+1) = Nx^(k) + b.
+
 
 * 9/30/11
  cm** Basic ideas for classical iterative methods
@@ -822,6 +825,7 @@ partial pivoting is as good (a belief, not a truth)
     From a lot of matrix math, we get that
     epsilonk = - (I - B)^-1 B^k(x(1) - x(0))
 
+
 * 10/03/11
 ** More iterative methods
    Review : norm(e^(k+1)) leq norm(B^k+1) * norm(e^0)
@@ -906,3 +910,292 @@ partial pivoting is as good (a belief, not a truth)
       There are several steps for the first inequality. Know this for prelim.
 
 
+* 10/05/11
+** Recommendation - reread slide 131 onward
+** Convergence of the SOR method
+   We have two general ways to show convergence - norm(B) < 1 or rho(B) < 1.
+*** Kahan Theorem
+    spectral radius of the iteration matrix of the relaxation method satisfies
+
+    rho(B_SOR(sigma)) .GEQ. abs(sigma - 1)
+
+    Therefore the SOR method cannot converge if sigma is outside (0,2).
+**** Proof
+     B_SOR(sigma) = -(C_L + 1/sigma D)^-1 * [C_U + (1 - 1/sigma)*D]
+     (we assume that it is convergent, so the matrix inverse already exists in
+     the first bit)
+
+     (note that the product of the eigenvalues equals the determinant)
+
+*** Final version
+    Theorem 3.15 - based on lemmas from notes that help us along
+    Read it! Quick.
+
+*** Optimal Relaxation Parameters
+    Read it.
+
+
+* 10/10/11
+** Sparse methods
+   Ax = b - nice and linear. But we can solve it faster if we make it
+   nonlinear!
+
+   so for the next few lectures, we will reduce Ax = b to a nonlinear problem.
+
+*** Useful tool - inner products.
+    We say that (x,Ay) = (A^Tx,y) (we can move linear operators around)
+    this is useful for symmetric matricies.
+
+    (x + y, z) = (x,z) + (y,z) among other properties.
+
+    (modern mathematics is about structure! We do not care about sets anymore;
+    anything worthwhile has structure behind it, certain properties, etc)
+
+    also recall, for some standard multivariable function : q(x1,x2,x3) =
+    q(bar(x))
+
+    so 1/2 * (x, Ax) - (x, (4 5)) = 1/2(x1,x2) A (x1, x2)^T - (x1, x2) (4, 5)^T
+
+    a nonlinear version of a linear equation.
+
+    for A = [ [2,1], [1,3] ] we get
+
+    0.5 * (2x1^2 + x1x2 + x1x2 + 3x2^2) - (4x1 + 5x2)
+
+    why did we rewrite this as some awful nonlinear problem???
+
+**** Theorem 3.22
+     instead of direct solution, find a minimal solution:
+
+     x* is the solution to Ax = b iff x* is a minimizer of q(x).
+
+     (for some q(x) = 0.5(x, Ax) - (x,b))
+
+     Proof. As A is SPD, A^-1 exists and is SPD as well. Consider some function
+
+     F(x) = (b - Ax)^T A^-1 (b - Ax)
+
+     which is nice as
+
+     F(x) = (A^-1 (b - Ax), b - Ax)
+          = (A^-1 b,b) - (x,b) - (A^-1b, Ax) +  (x, Ax)
+          = ((x, Ax) - 2(x,b)) + (A^-1b, b)
+          = 2q(x) + (A^-1b, b)
+
+     so if x minimizes q, x minimizes F. Additionally the minimum should be
+     unique.
+
+     In general, GRAD q(x) = Ax - b = -r (residual)
+
+*** Following the minimization algorithm
+    say we have some initial guess x1. How can we find a better guess? (that
+    is, decrease the residual)
+
+    We can use the gradient! The gradient tells us what the steepest descent
+    is. If we follow the negative gradient the function q(x) will
+    decrease. Therefore the function is guaranteed to decrease on that line so
+    we know on what line x2 lies.
+
+    Therefore all we need is some constant, or
+
+    x2 = x1 + t_1 r1 - some scalar variable t.
+
+    Then Q(t)  = q(x1 + tr1) = mess
+         Q'(t) = -(r1,r1) + t(r1,Ar1)
+
+    so the best value for t is just (r1,r1)/(r1,Ar1)
+
+**** Does this actually converge?
+     consider the A-norm (TODO - show that this is a norm)
+
+     norm(x,A) = sqrt((Ax,x))
+
+     let e^k = x^k - x*, r^k = b - Ax^k
+
+***** Theorem 9 - important results for analysis of convergence. This is also informal HW
+
+      (r^k+1,r^k) = 0 (bad numerically - lot of traveling in parallel
+      direction)
+      e^k = -A^-1r^k
+      r^(k+1) = r^k - t_kAr^k
+
+
+
+* 10/12/11
+** Review of steepest descent
+   Find the optimal scalar for the remainder and go in that direction.
+   Purely a minimization algorithm - easy to extend to nonlinear.
+
+   Why do we like this method? Easy intuition, prompt discussion.
+
+*** Analysis of Steepest Descent
+
+    Kantorovich inequality - if A is SPD, then
+
+    1 .LEQ. norm(x,A)^2 * norm(x,A^-1) / (x,x)^2
+      .LEQ. (lambda_1 + lambda_n)^2 / (4 lambda_1 lambda_n)
+
+    where lambda_n is the greatest eigenvalue and lambda_1 is the least
+    eigenvalue.
+
+**** Proof
+
+     WLOG assume norm(x,2) = 1. Then
+
+     A is SPD, so we have some Q s.t. A = Q^T D Q, A^-1 = Q^T D^-1 Q
+     where D is a diagonal matrix of eigenvalues.
+
+     then, for y = Qx, norm(x,A) = norm(y,D) so
+
+     norm(x,A)^2 norm(x,A^-1)^2 = norm(y,D)^2 norm(y,D^-1)^2
+
+     and, as Q is unitary, norm(y,2) = 1.
+
+     TO show that norm(y,D)^2 norm(y,D^-1)^2 .GEQ. 1, we need
+
+     y_D = sqrt(diag(D)) .* y
+     y_D^-1 = transpose((1 ./ sqrt(diag(D))) .* y)
+
+     This part needs four small lemmas. Check slide 160.
+
+
+* 10/14/11
+** More on the steepest descent method
+   We have still assumed that everything is exact. We have also assumed that we
+   have rather large matricies.
+
+** Conjugate Gradient Method
+   in Steepest Descent - used each new step is in the direction of the
+   gradient. Follow the direction at each point (we have a specific formula to
+   compute this)
+
+   The search direction from SD made sense from Sophomore Calculus, but not so
+   much for matricies. Locally, each choice is the best, but globally it is not
+   that great.
+
+   Now we search in the direction of the Conjugate Gradient instead (hence the
+   name)
+
+**** Conjugate Gradient
+     If A is symmetric, we say that x and y are conjugate or A-orthogonal if
+
+     (x, Ay) = x^T A y = 0
+
+*** Algorithm Motivation
+
+    Q(t) = q(x0 + t * p0)
+         = 1/2 * (Ax0, x0) + t (Ax0, p0) + 1/2 t^2 (Ap0, p0)
+         - 1/2 (b,x0) - t(b,p0)
+
+    CG - use the previous information to generate a better vector.
+
+    So, we find the direction at x1 conjugate to p0 :
+    p1 = -r1 + mu1 * p0 s.t. (p0, Ap1) = 0.
+
+    Then (p0, -Ar1 + mu A p0) = 0 -> mu1 = (r1, Ap0) / (p0, Ap0).
+
+*** Algorithm
+
+    r0 = Ax0 - b, p0 = -r0.
+
+    for k in [0..M-1] :
+        t_k = -(rk, pk) / (Apk, pk) and x_k+1 = x_k + t_k * p_k
+
+        r_k+1 = r_k + t_k * A * p_k
+
+        mu_k = (r_k+1, Ap_k) / (p_k, Ap_k)
+
+        p_k+1 = -r_k+1 + mu_k * p_k
+
+    endfor
+
+    Uses two scalars and three vectors - more expensive than SD.
+
+*** Properties
+
+    Lots of properties. Check the book for lots of good information.
+
+    -(r1, r0) = (r1, p0) = (r0 + t0 * A * p0, p0)
+                         = (r0, p0) + t0 * (Ap0, p0)
+                         = mess
+                         = 0 woo
+
+    therefore the remainders are orthogonal to each-other. Similarly, r_k and
+    p_k-1 are also orthogonal.
+
+**** Theorem : All the rks and pks are orthogonal
+     for i /= j, (r_i, p_j) = 0 and (p_i, Ap_i) = 0. Done by induction from
+     results above.
+
+***** Important Corollary
+      (p_k, r_i) = -(r_k, r_k) (simplification for calculating t_k and mu_k)
+
+* 10/17/11
+** More CG
+   L_k  = span of p0, p1, p2, ...
+   Pi_k = {x s.t. x = x0 + z, z in L_k} (shifted space)
+
+*** Lemma
+    The sequence x0, x1, ... xk is such that
+
+    q(xk) = min q(x0 + z)
+
+    iff xk in Pi_k, rk perpendicular to L_k where rk = Axk - b.
+
+**** Proof
+
+     Condition necessary - Review slides 176-177.
+
+*** Theorem 11
+    Asume that x0, x1, ... is the sequence generated by CG. Then
+
+    q(xk) = min(q(x0 + z)) forall k .GEQ. 1.
+
+**** Proof
+     From the CG procedure we have that
+
+     xk = xk-1 + tk-1pk-1
+        = xk-2 + tk-2 * p_k-2 + tk-1 * p_k-1
+        etc...
+
+     therefore xk is in the span of the pks.
+
+     Furthermore, we need that rk is perpendicular to L_k.
+
+     for k = 1, this is valid as (r1,p0) = 0.
+     Now assume that rj is perpendicular to Lj. then by induction (for k+1)
+
+     r^k+1 = rk + t_k * A * p_k -> (rk+1, p_k) = 0.
+
+** Krylov Subspaces
+   Given some matrix A and a vector v, the mth Krylov subspace is
+
+   {v, Av, ... A^m-1 v}
+
+*** Theorem (Krylov from CG)
+
+    if r^(m-1) /= 0 then we have
+
+    Lm = span(r0,r1, ... , r^m-1) = Km (A,r0) for some m .LEQ. n.
+
+    (so our L_k is the Krylov subspace)
+
+**** Proof
+     m = 1, holds as p0 = -r0.
+
+     Assume that it is true for m = k. THen for m = k+1, we have
+
+     r_k-1, p_k-1 in K_k so A * p_k-1 in K_k+1
+
+     therefore r_k = r_k-1 + t_k A * p_k-1 in K_k+1
+
+     so the span{r0, ... rk} subset K_k+1
+
+     we know that the rs are linearly independent, so the dimension of that is
+     k+1, or
+
+     k+1 .LEQ. dim(K_k+1) .LEQ. k+1
+
+     so the span of the rs = K_k+1 .
+
+*** TODO Homework - show that the ps are linearly independent.

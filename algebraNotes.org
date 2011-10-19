@@ -2,6 +2,7 @@
   I encounter more technical terms in Algebra that are somewhat vaguely defined
   every day now. I should collect them together.
 
+
 * Fibers
   homomorphism phi :: G -> H
   fibers of phi := [[g | phi g == h , g <- G] h <- H] :: [Set G]
@@ -16,12 +17,16 @@
     this ties back in to the coset example as well. In the integers mod 4,
     bar(3) represents 3, 7, 11, etc (a fiber, because they all go to bar(3))
 
+
 * Kernel (of a homomorphism phi)
   set [phi g == 1 | g <- G]
+
 
 * Quotient Group
   Name derived from the quotient group Z / nZ (integers mod n)
   a.k.a. common quotients (equivalence classes)
+
+  G / N = {gN s.t. g in G}
 
   from wikipedia : a quotient group of G is some partition of G that is a group
   under the operation
@@ -30,14 +35,15 @@
   (associative as S, T subsets, a monoid because {e} is a subgroup)
 
 ** Normal subgroup
-   Na = aN (all elements of the normal subgroup commute)
+   ana^-1 in N (so conjugation can permute the entries of N, , a in N, etc)
    By theorem 3, if phi is a homomorphism from G to H and K = kernel(phi) then
    the left cosets of K in G form a group by
 
    uK * vK = (uv) K
+
 *** Why do we need normal subgroups?
     the operation on left cosets is well defined iff g^-1Ng = N.
-*** Large 'The Following Are Equivalent*** Theorem
+*** Large 'The Following Are Equivalent' Theorem
     1. N a normal subgroup of G
     2. N_G(N) = G
     3. gN = Ng
@@ -51,3 +57,37 @@
     every element appears in at least one list of leftCosets
 *** if u,v in G then uN = vN iff v^-1 u in N
     in particular, uN = vN if u and v represent the same coset (fibers!)
+
+* Relating Orders of Groups and Elements
+** Lagrange's Theorem
+*** Definition
+   say that | G | = | G : H | * | H |
+   where | G : H | is the number of left cosets of H in G.
+   (for the left cosets to form a group : g*H = H*g)
+
+*** Consequences
+   order of an element divides order of the group
+
+   any group of prime order is cyclic and simple (only normal subgroups are
+   identity and itself)
+
+** Cauchy's Theorem
+
+  if prime p divides | G | then G has an element of order p.
+
+** Sylow's Theorem
+
+  Weak converse of Lagrange - if | G | = p^a * m for some prime p and p does
+  not divide m, then G has a subgroup of order p^a.
+
+** Order of the intersection
+
+  if H and K are subgroups, then we
+  say that | HK | = | H |*| K | / | H `cap` K |
+
+  This is valid as HK is the union of left cosets of K. HK need not be a
+  subgroup (it is if one of the groups is normal!)
+
+*** Corollary 15
+
+   if K `normalSubgroup` G then HK `subgroup` G for any H `subgroup` G.

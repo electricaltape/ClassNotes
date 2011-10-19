@@ -954,13 +954,14 @@
     next time : show inf sup in E.
 **** TODO : Infinite case
 
+
 * 9/30/11
 ** Homework due on Wednesday
    3,4,16 78-81
 
 *** Homework hints 3.3
 
-    Monoconte convergence theorem, define {s_n} by s_1 specified, s_n+1 =
+    Monotone convergence theorem, define {s_n} by s_1 specified, s_n+1 =
     f(s_n)
 
     and s_n bounded and monotonically decreasing -> convergent.
@@ -1132,6 +1133,7 @@
      we have that x leq t leq lim sup of t_n forall x in E({s_n}) that
      lim sup s_n leq lim sup t_n
 
+
 * 10/03/11
 ** Sophomore Calculus level maths
 *** special sequences
@@ -1255,3 +1257,657 @@
 
 *** Convergence and Absolute Convergence
 
+
+* 10/05/11
+** HW #9
+   #9, for Friday, October 14
+   any two from #6 (extra credit for all)
+   #8
+   #9 any two
+   #10
+** Ways to do the previous homework
+*** First problem
+    limsup x_n = sup of some set of x_n
+
+    as sup { a_k + b_k } leq sup {a_k} + sup {b_k}
+
+** Series'
+
+   we say that sum (from n=1 to inf) a_n = s means
+
+   s = lim (from n to inf) s_n
+
+   put another way, the partial sums converge to some s. If a_n > 0 then the
+   series converges iff s_n is bounded.
+
+   Combine these: abs(a_n) .LEQ. b_n when sum b_n converges implies that SUM
+   abs(a_n) converges.
+
+*** Divergence comparison test
+    if a_n .GEQ. d_n .GEQ. - for all n > N0 and
+
+    SUM d_n diverges then SUM a_n diverges.
+
+    Why? s_n - s_(n-1) = SUM (from k = N_0 to m) a_k .GEQ. SUM (from N_0 to m)
+    d_k, which diverges. Therefore SUM a_n diverges.
+
+*** First application - geometric series.
+    for 0 .LEQ. x .LEQ. 1, SUM (n = 0 to inf) x^n = 1 + x + x^2 + ...
+    so s_n = 1 + x + ... + x^n
+       xs_n = x + x^2 + ... + x^(n+1)
+
+    therefore (1-x)s_n = 1 - x^(n+1)
+    so if x .NEQ. 1 then s_n = (1 - x^(n+1))/(1-x)
+    where if abs(x) = 1 then it diverges, as does abs(x) > 1.
+
+    when this does converge, we get
+    LIM (n from 1 to inf) = 1 / (1 - x).
+
+** Known Series'
+
+   SUM (n=0 to inf) x^n
+
+   SUM (n=1 to inf) 1/n
+
+*** Harmonic Series
+    Famous counter-example to everything.
+
+    generalization of the 'easy' proof (Cauchy)
+
+    Suppose that a_1 .GEQ. a_2 .GEQ. a_3 .GEQ. ... .GEQ. 0
+    then SUM (n=1 to inf) a_n converges iff SUM (k=0 to inf) 2^k a_(2^k)
+    converges.
+
+    Therefore the divergence of the Harmonic series is a special case of
+    Cauchy's work.
+
+**** Proof for Cauchy
+     Going backward - assume that SUM 2^k (a_(2^k)) converges.
+     s_n = nth partial sum of a_n
+     t_k = a_1 2a_2 + ... + 2^k a_(2^k)
+
+     then for n < 2^k,
+
+     s_n .LEQ. a_1 + (a_2 + a_3) + ... + (a_(2^k) + ... + a_(2^(k+1)-1))
+         .LEQ. a_1 + 2*a_2 + ... + 2^k a_(2^k) = t_k
+
+     Thus {t_k} is bounded (by assumption) so s_n is bounded.
+
+     Going forward - assume that SUM a_n converges. Then
+
+     s_n .GEQ. a_1 + a_2 + ...
+         .GEQ. 1/2*a_1 + a_2 + 2a_4 + ... + 2^(k-1)a_(2^k)
+             = t_k.
+
+*** Application to p-series
+    another sophomore calculus topic
+
+    SUM (n = 1 to inf) 1/n^p converges for p > 1, diverges p .LEQ. 1.
+    if p .LEQ. 0, nth terms 'blow up'
+
+    Assume p > 0. Then use the integral test. We don't have integrals yet, so
+    use Cauchy's thing instead.
+
+**** Proof
+     (via Cauchy)
+
+     look at SUM (k=0 to inf) 2^k 1/(2^k)^p, like geometric series.
+           = SUM (k=0 to inf) 2^((1-p)k) converted!
+
+* 10/10/11
+** Review of last time
+   various series tests
+   if a sum converges absolutely, it converges.
+   geometric series - SUM x^n converges iff abs(x) < 1.
+   p-series - SUM 1/n^p converges iff p > 1
+   we can reduce p-series to geometric series by a_n .GEQ. 0, a_n decreasing
+   iff SUM 2^k a_{2^k} converges.
+
+** Euler's number
+   e is the constant such that INTEGRAL (from 1 to e) 1/x dx = 1.
+   (we don't know calculus yet so we cannot use this definition)
+
+*** Our definition
+    e = SUM (n = 1 to inf) 1/n! (use this to prove other things)
+    convergent as each n .GEQ. 2 has 1/n! .LEQ. 1/2^{n-1}
+
+*** Limit-based definition
+    e = LIM (1 + 1/n)^n
+
+    we can also do e^x = LIM (1 + x/n)^n
+
+**** Sophomore proof
+     LN ( (1 + 1/n)^n) = n LN (1 + 1/n) = (LN(1 + 1/n))/(1/n)
+     goes to 0/0 so L'Hopital valid - can equate it to
+     LIM (x to 0) ln(1 + x)/x = 1
+
+**** Rudin Proof
+     to show - SUM (1/n!) = LIM (1 + 1/n)^n = e
+     let s_n = SUM (from k=0 to n) 1/k!
+     technique : show that LIM SUP t_n .LEQ. e .LEQ. LIM INF t_n
+     By the binomial theorem:
+
+     t_n = SUM (k from 0 to n) (n k) 1/n^k
+         = SUM (k from 0 to n) (n(n-1) ... (n - k + 1)) /
+                               (k(k-1)(k-2)...(2)(1))
+         = SUM (1 - 1/n)(1 - (k-1)/n) / (k!)
+         .LEQ. SUM (1/k!) = s_n
+
+     next, for n .GEQ. m,
+     t_n .GEQ. SUM (k from 0 to m) ( 1 (1 - 1/n) ... (1 - (k-1)/n)) / k!
+
+     fix m, and let n to inf:
+     LIM INF t_n .GEQ. SUM (from k = 0 to m) 1/k! = s_m for all m
+
+     therefore LIM INF .GEQ. LIM s_m = e. Done!
+
+**** Rationality of e
+     By contradiction - assume that e = p/q. Then
+
+     0 < q! (e - s_q)
+       = q! SUM (k = q+1 to N) 1/k!
+
+    so e - s_n = 1/(n+1)! + 1/(n+2)! + 1/(n+3)! + ...
+               = 1/(n+1)! (1 + 1/(n+1) + 1/(n+1)^2)
+               = 1/(n+1)! 1/n (geomeric series converges to ...)
+
+    so therefore 0 < q!(e - s_q) < 1/q = q! SUM (k = q+1 to N) 1/k!
+
+    and additionally q!s_q = q!(1 + 1 + 1/2! + ... + 1/q!) = some integer.
+
+    Contradiction - cannot have an integer strictly between 0 and 1. Therefore
+    e is irrational.
+
+** Refined Root Test
+   We can do better than Sophomore calculus. say that
+
+   alpha = LIM SUP (nth-root abs(a_n)) always exists in [0, +inf]
+    if alpha < 1 then converges absolutely
+    if alpha > 1 then diverges (as abs(a_n_ -> inf))
+    no conclusion for alpha = 1.
+
+*** Comparison to Geomeric Series
+    say that alpha < 1. Then for k, alpha < k < 1. Then by a property of LIM
+    SUP, exists N s.t. n .GEQ. N -> (nth-root abs(a_n)) < k.
+
+    Therefore for any value of n, we have that (nth-root abs(a_n)) < some beta.
+    Therefore abs(a_n) < beta^n so by the comparison test abs(a_n) converges,
+    so a_n converges.
+
+    Now say that alpha > 1. Choose some subsequence {a_n_k} with (nkth-root
+    abs(a_n_k)) -> alpha, where each (nkth-root abs(a_n_k)) > some beta for 1 <
+    beta < alpha. Therefore as beta^nk diverges, NOT [LIM (n to inf) a_n == 0]
+    implies that the summation diverges.
+
+*** Ratio test
+    Assume that a_n /= 0. Given some SUM a_n, then
+
+    a) LIM SUP (n to inf) abs(a_(n+1)/a_n) < 1 -> SUM a_n converges absolutely.
+
+    b) abs(a_n+1 / a_n) .GEQ. 1 -> for all n .GEQ. n0 SUM a_n diverges.
+
+    Prove by the root test!
+
+*** Example
+    Take some 1/2 + 1/3 + 1/2^2 + 1/3^2 (we secretly know this converges)
+
+    a_(2n + 1)/a_(2n) = (1/2)^n / (1/3)^n goes to infinity - fails ratio test.
+
+    a_2n / a_2n-1 = 2(2/3)^n -> 0 same problem.
+
+    Root test:
+
+    (2nth-root abs(a_{2n})) = 1/sqrt(3) < 1.
+
+    and similarly, the 1/2^n works. Therefore the root test gives the correct
+    answer when the ratio test does not.
+
+** Power Series
+   f(z) = SUM (n=0 to inf) c_n z^n
+        = c_0 + c_1 z + c_2 z^2 + ...
+
+*** Theorem (for convergence)
+    put alpha = LIM SUP (nth-root abs(c_n)) and R = 1/alpha(0, 1)
+    then SUM (c_n z^n) converges absolutely for abs(z) < R and diverges for
+    abs(z) > R. No information for abs(z) = R.
+
+    conclusion: R is the 'radius of convergence'.
+
+* 10/12/11
+** HW 11
+   98 2,3,4
+** Generalized Alternating Series Test
+   Tool - summation by parts.
+   Given some {a_n}, {b_n} in CC, set
+
+   A_n : SUM (from k = 0 to n) a_k (for n < 0, a_n = 0)
+
+   Then for 0 .LEQ. p .LEQ. q, we show that
+
+   SUM (from n = p to q) a_n b_n =
+   SUM (from n = p to q-1) A_n(b_n - b_(n+1)) + (A_q b_p - A_(p-1) b_p)
+
+**** Aside - calculus analogue
+     same as INTEGRAL u dv = - INTEGRAL v du + uv | bounds (uv at bounds)
+
+*** Proof
+    Shift the indicies in a clever fashion.
+
+    Let a_n = A_n - A_(n-1)
+
+    then SUM (from n = p to q) a_n b_n = SUM (from n=p to q)(A_n - A_(n-1))b_n
+
+    = SUM (from n=p to q) A_n*b_n - SUM (n=p-1 to q-1)A_n*b_(n+1)
+
+    = SUM (n=p to q-1) A_n (b_n - b_(n+1)) + A_qb_q - A_(p-1)b_p
+
+*** Application to Alternating Series Test
+
+    Suppose that A_n is bounded, and b_0 .GEQ. b_1 .GEQ b_2 .GEQ ... and that
+    the limit of b_n is 0. Then SUM a_nb_n converges.
+
+    Consequence: abs(c_1) .GEQ. abs(c_2) .GEQ. ...
+
+    and if c_2m-1 .GEQ. 0, while c_2m .LEQ. 0, and lim c_n = 0, then SUM c_n
+    converges.
+
+**** Example
+     SUM (-1)^k / k converges, though 1/k does not.
+
+*** Telescoping Series
+    for N .LEQ. p .LEQ. q we get
+
+    abs(SUM a_nb_n) = abs(SUM (n=p to q-1) A_N (b_n - b_n+1) + A_Q b_q - A_p
+    b_p)
+
+    APPLICATION TO #8 - shuffle the hypotheses. Show that if SUM a_n converges
+    then SUM a_n b converges. and SUM a_nb_n = SUM a_n b - SUM a_n b_n
+
+    (say that b_n bounded below by b, also say b*_n = b_n - b).
+
+
+** Addition and Multiplication of Series
+
+   Sequences - we know that LIM (a_n + b_n) = LIM a_n  + LIM b_n
+                       and  LIM (a_n * b_n) = LIM a_n  * LIM b_n
+
+   Look at some finite sum - s_n = SUM(from k=0 to n) a_k,
+   t_n = SUM(from k=0 to n) b_k
+
+   and u_n = s_n + t_n = SUM(from k=0 to n) (a_k + b_k)
+   so u_n = SUM a_k + SUM b_k (they exist.)
+
+   or u = A + B.
+
+   For products, similar nice things happen:
+
+   s_n*t_n = SUM(from k=0 to n) a_k * SUM(from k=0 to n) b_k
+   s_n*t_n = SUM(from k,k'=0 to n,n) a_k * b_k
+
+   so we can separate them the same way by introducing a dummy index.
+
+** Convolution product
+   product of two power series - what happens?
+
+   get some new summation for new constant c_r, where
+   c_r = SUM(l=0 to r) a_l b_(r-l).
+
+   This sum is a convolution! A more general idea that we will see later.
+
+** More on power series
+
+   does it follow that SUM(from n=0 to inf) (SUM(from k=0 to n) a_k a_(n-k)
+   z^k) converges?
+
+*** Example
+
+    a_n = b_n = (-1)^n / (sqrt(n+1)), set c_n = SUM(from k=0 to n) a_k b_(n-k)
+
+    so c_n = SUM(from k=0 to n) (-1)^k / sqrt(k + 1) * (-1)^(n-k) /
+    (sqrt(n-k+1))
+
+           = (-1)^n SUM(from k=0 to n) 1 / sqrt((n-k+1)(k+1))
+
+    where (n-k+1)(k+1) = (n/2 + 1)^2 - (n/2 - k)^2
+                       = n + 1 + k(n-k)
+                       .LEQ. (n/2 + 1)^2
+
+    Therefore abs(c_n) .GEQ. SUM(from k=0 to n) 2/(n+2), a divergent sum!
+
+    Therefore we had a product of convergent coefficients that does not
+    converge.
+
+    What did we do? We summed over the lattice of natural integers (1,1),
+    (1,2), etc.
+
+    More exactly, due to the SUM from k=0 to n-k + 1 we are doing repeated
+    triangles.
+
+    Let t_n = SUM(from k,k' in S_n) a_kb_k'
+    and v_n = SUM(from l=0 to n) (SUM(from k=0 to l) a_k b_l-k)
+
+
+    from the example - neither SUM a_n nor SUM b_n converge absolutely.
+
+**** Theorem (Menten's Theorem)
+     Assume that SUM a_n converges absolutely and SUM b_n converges. Then SUM
+     c_n converges correctly (that is, to AB).
+
+     Proof. Say that A = SUM a_n, B = SUM b_n, beta_n = B_n - B (error term)
+
+     Then c_n = a0b0 + (a0b1 + a1b1) + ...
+              = a0Bn + a1B_n-1 + ... + a_n B0.
+              = a0(B + beta_n) + a1(B + beta_n-1) + ... + a_n(B + beta_0)
+              = A_n B + a_0b_n a_1 beta_n-1 + ...
+
+     Now set gamma_n = a_0beta_n + ... + a_nb_0.
+     (we have not yet used the absolute convergence condition yet - here it is)
+
+     We need that gamma_n -> 0.
+
+     Set alpha = SUM(from n=0 to inf) abs(a_n) < inf
+
+     for some eps > 0 we have that beta_n -> 0.
+
+     Choose some N s.t. n .GEQ. N, so abs(beta_n) .LEQ. eps..
+
+     therefore abs(gamma_n) .LEQ. abs(beta_0 a_n + ... + beta_n * a_n-N) +
+                                  abs(beta_N+1a_n-N + ... + beta_na_0)
+
+     so lim sup abs(gamma_n) .LEQ. alpha * eps -> done.
+
+** Exercise 13
+   Cauchy product of absolutely convergent series converges absolutely.
+
+   strategy - 'crash through with absolute values'
+   Proof Show that SUM(from n=0 to N) abs(c_n)
+   = SUM(from n=0 to N) abs(SUM(k=0 to n) a_k b_(n-k))
+   .LEQ. SUM(n=0 to N) SUM(k=0 to n) abs(a_k) abs(b_n-k)
+
+   .LEQ. SUM(k,k' in Sn) abs(a_k)abs(b_k')
+   = SUM(abs(a_k)) SUM(abs(b_k'))
+   .LEQ. infinite summation products < infinity.
+
+
+* 10/14/11
+** Alternating Series'
+   Can show - SUM (n=1 to inf) = 1 - 1/2 + 1/3 + ... = ln 2 = inf - inf (bad!)
+
+   we can't really add and subtract inf, but we can do rearrangements.
+
+*** Subsequences and Rearrangements
+    Take {k_n} = sequence of positive integers, where each positive integer
+    appears exactly once.
+
+    in short - the function n -> k_n is a bijection from NN to NN. We do not
+    skip any numbers, just rearrange them.
+
+    For example, we could do a_n = (-1)^n / n
+    and a_k_n = positive terms = 1, 1/3, 1/5, etc. up until SUM a_k_n > 10,000
+    and then take a_k_N+1 = -1/2, -1/4, ... after that point. Take points until
+    the sum of sums
+
+    SUM (from n = 1 to N) a_k_n (this one is > 10,000) + SUM(from N+1 to N2)
+    a_n_k (negative terms) < -10,000
+
+    Therefore we can start where ever we want and get -10,000 as our
+    limit. This is bad.
+
+*** Theorem 3.54
+    Let SUM a_n be a series of real numbers that converges but SUM abs(a_n)
+    diverges (a_n converges conditionally).
+
+    Choose any two numbers alpha and beta in overbar(RR) s.t.
+    -inf .LEQ. alpha .LEQ. beta .LEQ. +inf.
+
+    Then there is a rearrangement {a_k_n} (where n -> k_n is a bijection) such
+    that
+
+    limsup (n to inf) SUM a_k_j = beta
+    liminf (n to inf) SUM a_k_j = alpha.
+
+**** Proof
+     Details in book - follow the sketch given above for the 10,000 case.
+
+*** However - Theorem 3.55
+    If SUM a_n converges absolutely and SUM a_n = A then we cannot change A by
+    rearrangement. (a_k_n must converge to the same thing)
+
+    Moral of the story - sums that do not converge absolutely are 'weird' and
+    sums that converge absolutely are 'nice'
+
+**** Proof
+     Say that m .GEQ. n .GEQ. N so SUM (i=n to m) abs(a_i) .LEQ. epsilon.
+
+     Choose p s.t. 1,2,...,N included in k1,k2, ..., kp. Then n > p implies
+     that
+
+     s_n = SUM (j=1 to n) a_j, s_n' = SUM (j=1 to n) a_k_j
+
+     where a_1, a_2, ... a_N cancel in forming s_n - s_n'.
+
+     Therefore abs(s_n - s_n') .LEQ. SUM (j .GEQ. N) abs(a_j) .LEQ. eps
+
+     lim s_n = A, so lim s_n' exists and equals A.
+
+** New Chapter - Continuous functions
+   Given some metric spaces X and Y, E subset X, f :: E -> Y, p in E',
+
+   then we say that lim (x -> p) f(x) = q means that
+
+   forall eps > 0, exists delta > 0 s.t. x in E and 0 < d(x,p) < delta implies
+   d(f(x), q) < epsilon (for each appropriate metric)
+
+   This definition is not vacuous - given some delta there always exists some x
+   in E as p is a limit point.
+
+*** Sequential version (equivalent):
+    forall {p_n} subset E with p_n /= p forall n, such that p_n -> p, then
+    f(p_n) -> q in Y.
+
+    Why are these equivalent?
+
+    show that one definition implies the other.
+
+    Given some {p_n} in E, p_n /= p, p_n -> p:
+    show that f(p_n) -> q.
+
+    Let epsilon > 0. Must find some N s.t. n .GEQ. N -> d(f(p_n), q) < epsilon.
+
+    we know : exists delta > 0 s.t. x in E, 0 < d(x,p) < delta -> d(f(x), q) <
+    epsilon.
+
+    We also know : p_n -> p, so exists N s.t. n .GEQ. N -> 0 < d(p_n, p) <
+    delta. All we must do now is apply the previous statement with x = p_n and
+    we are done.
+
+    Other direction is harder : show that the second implies the first.
+
+    'Contrapositive overcomes all'
+
+    Show that not 1 implies not 2.
+
+    so not(1) = exists epsilon > 0 s.t. forall delta > 0, exists x in E with 0
+    < d(x,p) < delta -> d(f(x),q) .GEQ. epsilon.
+
+    This is like the additional problem for the homework.
+
+    Therefore we can write p_n rather than x_delta_n.
+
+    d(p_n,p) < 1/n (-> p_n -> p in X) and d(f(p_n), q) .GEQ. epsilon. Done.
+
+*** Routine Facts
+
+    lim (x -> p) f(x) = A, lim (x -> p) g(x) = P
+
+    'things get foggy up in the clouds'
+
+    For f,g(x) :: E subset X -> Y
+    fact 1 : lim (f(x) + g(x)) = A + B
+
+    fact 2 : lim (f g)(x)      = AB (as long as Y is RR or CC)
+
+    fact 3 : lim (f / g)(x)    = A/B (B /= 0, Y is RR or CC)
+
+
+*** Continuous functions
+
+    given f :: E -> Y (for E subset X)
+
+    we say that f is continuous at p <-> forall epsilon > 0, exists delta > 0
+    so that x in E, 0 .LEQ. d(x,p) < delta -> d(f(x), f(p)) < delta.
+
+    examples - if f :: NN -> RR then f is continuous! (all isolated points)
+
+    if p is a limit point of E, then
+
+    f continuous at p <-> lim f(x) = f(p) (as x -> p)
+
+    Suppose that E = X. Then for f :: X -> Y, we say that f is continuous if f
+    is continuous at all p in X.
+
+    Theorem (or 'profound reformulation') Given that f :: X -> Y, then f is
+    continuous iff V open in Y -> f^-1(v) = {x in X : f(x) in V } is open in X.
+
+* 10/17/11
+
+** HW 10 - email coming.
+   page 98 2,3,4 ; 10.1 handout d((X,X)) -> RR continuous. (due Friday)
+
+** Homework From Last Time
+   6a - Can show that it telescopes.
+   6b -
+
+   (sqrt(n + 1) - sqrt(n)) / n = 1 / (n*sqrt(n+1) + sqrt(n)) (multiply by
+   conjugate)
+   which is approximately 1/n^3, convergent by p-series.
+
+*** Show that nth root of n! diverges
+
+    2nth root of (2n)! .GEQ. 2nth root of (2n) (2n - 1) (n + 1)
+                       .GEQ. 2nth root of n^n
+                          =  square root of the nth root of n^n
+                          =  square root of n
+
+    Bounded below by a divergent limit.
+
+** More continuity
+   Review : f :: (E subset X) -> Y, for metric spaces X and Y
+
+   (p in E) then f is continuous at p if
+
+   (case 1) p is an isolated point of E
+   (case 2) p in E' and lim (x -> p) f(x) = f(p)
+
+   Therefore, for f :: X -> Y
+   f is continuous on X if f is continuous at each p in X.
+
+*** Topology definition / our theorem for continuity
+
+   f continuous <-> (V open in Y -> f^-1(V) open in X)
+
+   proof in the book.
+
+*** Composition - Theorem 4.7
+
+    for metric spaces X, Y, Z, E subset X
+
+    f :: E -> Y, g :: Range f -> Z,
+
+    then for some h = g `composed` f :: E -> Z, then if both f and g are
+    continuous then their composition is continuous.
+
+**** Proof
+
+     Show that given epsilon > 0, exists delta s.t.
+
+     d(x,p) < delta -> d(g . f $ x , g . f $ p) < epsilon.
+
+     Step 1 : g continuous at f(p) implies that exists delta_g > 0.
+
+     as f is continuous at p, exists some delta_f s.t.
+
+     d(x,p) < delta_f -> d(f(x), f(p)) < delta_g
+
+     Therefore d(x,p) < delta_f . Therefore delta(g(f(x)), g(f(p))) <
+     epsilon. Done!
+
+**** Some other formulations
+
+     f :: X -> Y, g :: Y -> Z both continuous implies h = g . f continuous.
+
+     (the topology way)
+     V open in Z -> g^-1(V) open in Y.
+     therefore f^-1(g^-1(V)) open in X.
+
+*** Arithmetic of continuous functions (4.9 and 4.10)
+
+    if f and g are continuous, then
+    result 1 : f + g continuous
+    result 2 : f * g continuous
+    result 3 : if g(x) /= 0 then f / g continuous
+    result 4 : f . g continuous
+
+*** Remarks
+
+**** Remark 1 : if F :: X -> RR^k is a k-tuple of functions then F is continuous
+     iff each component function is continuous.
+
+     Proof - Use the norms, and bound them by maximums.
+
+**** Remark 2 : If P :: RR^k -> R and each P[i] continuous then P is continuous.
+
+     If f is continuous then P . f is continuous.
+
+     Then, for free, we get polynomials.
+
+     for XX = (x_1, ... , x_k) -> SUM a_(mess) x_1^k x_2^j ... = finite sum.
+
+     if the product a_i_1 * ... * a_i_k is zero for all but finitely many terms
+     then the summation is nice (the projections are continuous, the product of
+     continuous is continuous, summation continuous, finite sums continuous,
+     etc. Keep applying!)
+
+**** Remark 3 : x -> norm(x) must be continuous (backward triangle inequality)
+
+     as norm(x) - norm(y) .LEQ. norm(x - y)
+     as norm(y) - norm(x) .LEQ. norm(y - x)
+
+     so the norm that projects from the metric space to real numbers is
+     continuous! Useful.
+
+*** Tricks with a metric space
+
+    how can we make (X,X) a metric space?
+
+    many tricks - can pick d((x,y), (x',y')) = max(individual distances), sum
+    of distances, square root of sum of squares of distances, etc.
+
+** Next - insert new ingredient - compactness - and stir. (see what we get)
+
+   Lovely theorem - f :: X -> Y, f continuous, X compact -> (map f X) compact.
+
+   This is so much fun we get two proofs.
+
+*** Proof 1 - (covering arguement)
+    General topological proof. Let {V_alpha : alpha in A} be an open cover of
+    (map f X). (Now we must find a finite subcover) Look at the inverse image
+    {f^-1(V_alpha)}, which must be an open cover of X (as X is
+    compact). Therefore there must exist finitely many alphas s.t. X `subset`
+    f^-1(V_alpha1) ... which implies that (map f X) `subset` the union of the
+    V_alphas. Therefore done.
+
+*** Proof 2
+    For some metric space Z, (this is another definition), Z is compact iff it
+    has the sequential Bolzano-Weirstrass property.
+
+    Let {z_n} be any sequence in Z. Therefore there is a convergent subsequence
+    {z_n_k}.
+
+    To show that (map f X) is compact, we must show that any sequence {f(x_n)}
+    contained in (map f X) has a convergent subsequence. Then {x_n} `in` X, so
+    X is compact.
+
+    First direction - assume that there is some convergent subsequence
+    x_n_k -> x0. as f is continuous (at x0, in particular) then we have a
+    convergent subsequence f(x_n_k)

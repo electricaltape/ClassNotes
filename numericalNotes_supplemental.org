@@ -1,0 +1,23 @@
+* Goal Statement
+  Some parts of the class notes and the book do not mesh well, or are not
+  sufficiently well organized. I want to ameliorate this by starting a combined
+  note repository with bits of both integrated in.
+
+** Convergence of Iterative Methods
+   From wikipedia - spectral radius of the iteration matrix less than one.
+   Let B be some iteration matrix, and let A be the original matrix.
+   Tentative assumption 1: if rho(B) < 1 then the iterative method converges.
+   Tentative assumption 2: A strictly/irreducibly diagonally dominant then the
+                           iterative method converges.
+   Tentative assumption 3: A strictly/irreducibly diagonally dominant then the
+*** Jacobi Method
+    in particular, J = D^-1 (L + U)
+*** Gauss-Seidel Method
+    in particular, GS = (L + D)^-1 U
+    if A is SPD then the Gauss-Seidel method converges.
+
+** Properties of SPD matricies
+   Again, from wikipedia - has positive determinant
+   All eigenvalues are positive.
+
+**
