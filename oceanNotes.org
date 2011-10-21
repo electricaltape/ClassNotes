@@ -27,6 +27,16 @@
 
 ** Rossby Number
 
+*** From Introduction to Geophysical Fluid Dynamics
+
+    (Page 481) For Ro < 1 : rotational effects significant
+    Ro is the ratio of inertial to rotational forces
+    Purely geostrophic - balance between pressure gradient and coriolis
+    (steady-state)
+
+
+
+
 ** f-plane
 
 *** From ch13.pdf
