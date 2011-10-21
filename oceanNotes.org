@@ -1,3 +1,21 @@
+* General Terminology
+
+** Geostrophic
+
+*** Dr. Iliescu
+
+    Several forcing effects - wind, solar, ice.
+    wind is the major one in the middle of the ocean.
+
+    air, in rotation, organizes itself in to columns (constant in z direction)
+    this is why we study 2D equations.
+
+    Geostrophic - organized in z-independent fashion
+    Quasi-Geostrophic - integrate over z and use some average; not balanced
+    (not steady state)
+
+    Charney Jules - invented QGE
+
 * Describing Vorticity and Stream Functions
 
 ** Vorticity
@@ -8,9 +26,6 @@
     Similar to 2D incompressible flow (Navier-Stokes)
     main difference - Vorticity variable is 3D Laplacian of Stream Function
 
-
-**** TODO Assumption - wind driven ocean flow. Check this.
-
 ** Stream Function
 
 *** From ch13.pdf
@@ -19,13 +34,35 @@
     Say that geostrophic flow is parallel to constant lines Psi
     Strength proportional to 'spacing of iso-lines of Psi'
 
-*** Equation
+**** Equation
 
-    Laplacian_p of Psi = dv_g/dx - du_g/dy ~ Zeta_rel
+     Laplacian_p of Psi = dv_g/dx - du_g/dy ~ Zeta_rel
+
+*** From BSL
+
+    Easy problems - remove all but one direction.
+    More dimensions? Simplify by eliminating the pressure term.
+    'eliminate the pressure by taking the curl of the equation of motion'
+
+**** Formulation for planar (2D) flows
+
+     stream function Psi
+     express the two nonvanishing components of the velocity as Psi derivatives
+     choose these so that the equation of continuity works automatically
+
+
+
 
 * Physical Constants
 
 ** Rossby Number
+
+*** From lec16.pdf
+
+    Ro = V / (fL)
+    where V is the speed of a horizontal current
+          L is the horizontal scale
+          f is the coriolis parameter (some times a constant)
 
 ** f-plane
 
@@ -45,7 +82,6 @@
 
      typical choice - phi_0 = 45 degrees -> beta = 1.62e-11 m^-1 s^-1
 
+* Notation
 
-
-
-
+  (a;b,c) is something like a * (b x c)

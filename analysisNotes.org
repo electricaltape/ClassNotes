@@ -116,6 +116,7 @@
     If z in A, then z notin (closure B) implies (exists z_1 with z < z_1 < y) and z_1 notin B
        Then x < z_1 < y and z_1 notin B. As z_1 > x, z_1 notin A so z_1 notin E and we are done.
 
+
 * 9/14/11
 ** Hints for hw5
    G open, V1 open -> G intersect V1 /= nullset
@@ -1354,6 +1355,7 @@
      look at SUM (k=0 to inf) 2^k 1/(2^k)^p, like geometric series.
            = SUM (k=0 to inf) 2^((1-p)k) converted!
 
+
 * 10/10/11
 ** Review of last time
    various series tests
@@ -1472,6 +1474,7 @@
     abs(z) > R. No information for abs(z) = R.
 
     conclusion: R is the 'radius of convergence'.
+
 
 * 10/12/11
 ** HW 11
@@ -1769,6 +1772,7 @@
     Theorem (or 'profound reformulation') Given that f :: X -> Y, then f is
     continuous iff V open in Y -> f^-1(v) = {x in X : f(x) in V } is open in X.
 
+
 * 10/17/11
 
 ** HW 10 - email coming.
@@ -1911,3 +1915,184 @@
     First direction - assume that there is some convergent subsequence
     x_n_k -> x0. as f is continuous (at x0, in particular) then we have a
     convergent subsequence f(x_n_k)
+
+
+* 10/19/11
+
+** HW 11 - due Friday 10/28
+
+   5,6,7,11, extra credit 21, 22
+
+*** Homework Hints
+
+**** #6 - f :: E -> Y metric spaces, E is compact. Then, show that
+
+     f continuous on E <-> set {(x,f(x)) | x in E} is compact.
+
+     do this problem at the level of metric spaces.
+
+     Example : E subset RR, Y = RR. Then set {(x,f(x))} subset RR^2.
+
+     open cover characterizations - we have sequential Bolzano-Weirstrass style,
+     or just for pure metric spaces.
+
+**** #7 -
+
+     Define f, g :: RR^2 -> R by
+
+     f(0,0) = 0
+     f(x,y) = xy^2/(x^2 + y^4)
+
+     g(0,0) = 0
+     g(x,y) = xy^2 / (x^2 + y^6)
+
+     then show that neither function is continuous near zero. Can't fail it by
+     drawing lines.
+
+     Hint : look at curves f(alpha * t^m, beta * t^n) and attempt to make it
+     fail.
+
+     from maxima session - try x = t^2, y = t.
+
+
+** Jointly Continuous
+   d :: (X,X) -> RR is jointly continuous means :
+
+   given (x0, y0) in (X,X) and epsilon > 0, exists delta >  s.t.
+
+   d((x,y),(x0,y0)) < delta -> abs(d(x,y) - d(x0,y0)) < epsilon
+
+*** Theorems
+
+    If f :: X -> is continuous, then X compact -> (map f X) compact
+
+    corollary - f : X -> RR^k continuous, X compact -> (map f X) closed/bounded
+
+    corollary - f : X -> RR continuous, X compact -> f achieves a maximum and
+    minimum
+
+    (i.e. for X_max in X, X_min in X, f(X_min) .LEQ. f(X) .LEQ. f(X_max))
+
+**** Example
+     for f(x) = 1/x on [1, inf]
+
+     continuous, but has no minimum.
+
+     f(x) = 1/x on (0,1]
+
+     bounded (below) but not closed.
+
+     for E in RR, if E is not closed we say that x0 in (closure E) \ E.
+
+     f(x) = 1 / (x - x0) is continuous, not bounded on E.
+
+     g(x) = 1 / (1 + (x - x0)^2) is continuous but not a ???
+
+*** Theorem 4.17
+
+    For f : (compact X) -> Y continuous and 1-1 then g = f^-1 Y -> X is well
+    defined and continuous.
+
+**** Proof
+
+     (by soft topology)
+
+     To show g^-1(open) = open
+
+     where g = f^-1 -> g^-1 = f.
+
+     to show : f(open) = open (i.e. f is an open mapping)
+
+     f 1-1 -> f(U^c) = f(U)^c as f(closed) = closed.
+
+     But F is closed and is a subset of some copact space, so F is compact.
+
+     then f(F) is compact, subset of Y, so f(F) is closed.
+
+*** Continuous functions are not open maps (in general)
+
+    A counterexample - f(x) = x^2 on (-1,1) but (map f (-1,1)) = [0,1) no
+    longer open.
+
+*** Review of Exercises
+
+    #5 - f :: E -> RR continuous, E subset RR closed -> f has a continuous
+    extension g : RR -> RR
+
+    extension means that g restricted to E = f (some function with the same
+    results in E that applies to the whole set RR)
+
+    Use the fact E closed -> E^c = U open.
+
+    U subset RR open <-> U is a disjoint union of countably many finite
+    intervals.
+
+    (think about the Cantor set C, U = C^c, all the middle thirds, should be
+    all over the place and open.)
+
+    (this will be homework, eventually)
+
+** Uniform Continuity Again
+
+   f :: X -> Y continuous means that forall p in X and epsilon > 0, we have
+   that
+
+   exists delta = delta(p,epsilon) > 0 s.t. d(p,q) < delta(p,q) < d(p,epsilon)
+   -> d_Y(f(p),f(q)) < epsilon.
+
+*** How about not uniformly continuous?
+
+    Not uniformly continuous means that there exists some epsilon > 0
+    s.t. forall delta > 0, exist p_delta, q_delta in X where
+
+    d_X(p_delta, q_delta) < delta s.t. d_Y(f(p_delta), f(q_delta))
+    .GEQ. epsilon.
+
+**** Sequential Version
+
+     Choose some delta = 1/n. Exists epsilon0 and p_n, q_n in X with
+
+     d_X(p_n, q_n) < 1/n and d_Y(f(p_n), f(q_n)) .GEQ. epsilon0.
+
+     OR
+
+     exists epsilon0 and {p_n}, {q_n} in X with
+
+     d_X(p_n, q_n) > 0 while d_Y(f(p_n), f(q_n)) .GEQ. epsilon0.
+
+**** Example
+
+     f(x) = 1/x on (0,1]
+
+     try 1 : x_n = 1/n, y_n = 1/(2n) so d(x_n,y_n) = 1/2n. This goes to zero
+     but
+
+     abs(f(x_n) - f(y_n)) = n - 2n = -n blows up.
+
+*** Exercise 8 - not assigned.
+
+    'Looked too easy' - thanks, Dr. Ball.
+
+    function f continuously bounded on some E in RR
+
+    -> f bounded on some E1 -> second reason why some f(x) = 1/x not uniformly
+    continuous on (0,1)
+
+**** Proof
+
+     Let delta = delta(1). Therefore (x,y) in E, d(x,y) < delta(1)
+
+     so abs(f(x) - f(y)) < 1. Cover E with finitely many intervals of length
+     delta (we can do that because E is bounded).
+
+     Say that N is the number of finite subcovers needed. Then there is a chain
+     x' = x0 < x1 < ... < x_n = y with n .LEQ. N steps and x_i - x_i-1 <
+     delta(1)
+
+     then abs(f(y) - f(x') ) = SUM (from i=1 to N) abs(f(x_i) - f(x_i-1))
+
+     'crash through with absolute values'
+
+     .LEQ. N
+
+     so abs(f(y)) .LEQ. abs(f(x')) + N.
