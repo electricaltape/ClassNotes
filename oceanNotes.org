@@ -50,9 +50,6 @@
      express the two nonvanishing components of the velocity as Psi derivatives
      choose these so that the equation of continuity works automatically
 
-
-
-
 * Physical Constants
 
 ** Rossby Number
@@ -63,6 +60,13 @@
     where V is the speed of a horizontal current
           L is the horizontal scale
           f is the coriolis parameter (some times a constant)
+
+*** From Introduction to Geophysical Fluid Dynamics
+
+    (Page 481) For Ro < 1 : rotational effects significant
+    Ro is the ratio of inertial to rotational forces
+    Purely geostrophic - balance between pressure gradient and coriolis
+    (steady-state)
 
 ** f-plane
 
