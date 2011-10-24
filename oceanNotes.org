@@ -16,6 +16,7 @@
 
     Charney Jules - invented QGE
 
+
 * Describing Vorticity and Stream Functions
 
 ** Vorticity
@@ -50,6 +51,7 @@
      express the two nonvanishing components of the velocity as Psi derivatives
      choose these so that the equation of continuity works automatically
 
+
 * Physical Constants
 
 ** Rossby Number
@@ -67,6 +69,16 @@
     Ro is the ratio of inertial to rotational forces
     Purely geostrophic - balance between pressure gradient and coriolis
     (steady-state)
+
+    Ro_T = 1 / (Omega T) where Omega is the angular rotation rate of the planet
+    and T is the time scale. ('time span over which the flow field evolves
+    substantially')
+
+** Eckman Number
+
+*** From Introduction to Geophysical Fluid Dynamics
+
+    (Page 482) Ek = nu_E / (Omega H^2)
 
 ** f-plane
 
@@ -86,6 +98,15 @@
 
      typical choice - phi_0 = 45 degrees -> beta = 1.62e-11 m^-1 s^-1
 
+
 * Notation
 
   (a;b,c) is something like a * (b x c)
+
+
+* Important Books
+
+**  Joseph Pedlosky - Geophysical Fluid Dynamics
+
+    Rigorous derivation of QGE and the length scale analysis.
+

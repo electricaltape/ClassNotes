@@ -15,6 +15,9 @@
 
     More data, more trouble.
 
+    Goal of the class is to learn general classes of methods, rather than
+    particular techniques.
+
 * 9/9/11
 ** Pivoting
 s_i = max over 1 \leq j \leq n \abs{a_{ij}}
@@ -1260,5 +1263,48 @@ partial pivoting is as good (a belief, not a truth)
 
      Next time - preconditioning.
 
+* 10/21/11
 
+** Review - CG versus SD
 
+   CG performance dictated by A - number of steps bounded by condition number.
+
+** Preconditioning and CG
+
+   Given some Ax = b with large K(A), we want some preconditioner Q = E * E^T
+
+   where R = A - Q is small.
+
+*** Converting to a problem we would like to solve
+
+    Ax = b, but we would really like to say x = A^-1 b.
+    A(E^-T E^T ) x = b
+
+    so E^-1 A (E^-T) (E^T x) = E^-1 b.
+
+    We hope that K(E^-1 A E^-T) << K(A).
+
+    This won't work for sparse matricies! It converts them back to dense.
+
+    Algorithm for sparse-preserving CG given in slides -- approximately slide
+    192
+
+    This algorithm really just needs an input of some preconditioning matrix
+    Q - therefore we can write a general solver with Q as an input!
+
+*** Two examples of preconditioners
+
+**** sigma > 0
+
+     then calculate some E, where
+
+     E = D^(1/2) + sigma * C_L D^(-1/2)
+
+     then Q = EE^T
+
+**** Incomplete cholesky factorization
+
+     A = Q + R
+
+     want to use some l_ij where if a_ii = 0 then set l_ij = 0. This preserves
+     the sparsity and is almost A.

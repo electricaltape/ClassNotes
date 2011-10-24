@@ -2096,3 +2096,158 @@
      .LEQ. N
 
      so abs(f(y)) .LEQ. abs(f(x')) + N.
+
+
+* 10/21/11
+
+** HW 11 - due Friday 10/28
+
+   5,6,7,11, extra credit 21, 22
+
+
+** Uniformly Continuous Things
+
+   f :: X -> Y is continuous, X is compact implies that f is uniformly continuous.
+
+
+*** Proof 1
+
+    (sequential Bolzano-Weirstrass) Assume that X is compact, show that not
+    uniformly continuous implies f discontinuous at some x0.
+
+    f not uniformly continuous -> exists epsilon > 0, sequences {x_n}, {y_n} in
+    X s.t. d(x_n,y_n) -> 0 while d(f(x_n), f(y_n)) .GEQ. epsilon.
+
+    X is compact, so the sequential Bolzano-Weirstrass implies existence of a
+    subsequence {x_n_k} s.t. x_n_k -> x_k in X.
+
+    note - d(y_n,x0) .LEQ. d(y_n, x_n) + d(x_n_k, x0) (it is a metric)
+
+    Therefore, d(x_n_k, y_n_k) -> 0 as y_n_k -> x0.
+
+    Set some z_k = x_n_k, k even, or y_n_k, k odd. Then also z_k -> x0.
+
+    But d(f(z_k+1), f(z_k)) .GEQ. epsilon -> f(z_k) not cauchy.
+
+    Then the limit of f(z_k) -> x0, so f is not continuous at x0.
+
+*** Proof 2
+
+    (covering argument)
+
+    Let epsilon > 0 : must find some delta = delta(epsilon) s.t. x,y in X with
+    d_X(x,y) < delta(epsilon) -> d(f(x), f(y)) < epsilon.
+
+    By the hypothesis that f is continuous, f is continuous at some x, so
+
+    exists delta_x > 0 (for fixed epsilon) so that for each y in X, with
+
+    d_X(,x) < delta_x -> d_Y(f(y), f(x)) < epsilon/2
+
+    'lets do it with epsilon/2 to be safe' -- Dr. Ball
+
+    Look at { N_(delta_x / 2) (x), for x in X} (some neighborhood of radius
+    delta_x/2)
+
+    this is some open cover of X (cover all points)
+
+    however, as X is compact, there exist finitely many xs {x1, ... xn} so that
+    the whole space is contained in
+
+    X `subset` { N_(delta_x_1 / 2) (x_1), for x in X} `union` ... for n
+    .LEQ. N, a finite union.
+
+    Try delta < delta(epsilon) = 1/2 * min(delta xs) > 0.
+
+    Now we have our candidate, so check if it works.
+
+    Choose any x,y in X with d(x,y) < delta (same as above)
+    then x in some neighborhood delta_x_j / 2 `subset` neighborhood delta_x_j
+
+    therefore the distance
+
+    d_Y(f(x), f(x_j)) < epsilon / 2.
+
+    But also - d_X(y, x_j) .LEQ. d_X(y,x) + d_X(x, x_j) < delta + 1/2 delta_x_j
+
+    but we picked delta less than 1/2 delta_x_j, so
+
+
+    d_X(y, x_j) .LEQ. d_X(y,x) + d_X(x, x_j) < delta_x_j.
+
+    Therefore d_Y(f(y), f(x_j)) < epsilon/2
+
+    and d_Y(f(y), f(x)) .LEQ. d_Y(f(y), f(x_j)) + d_Y(f(x_j), f(x)) <
+    d_X(y, x_j) .LEQ. d_X(y,x) + d_X(x, x_j) < epsilon/2 + epsilon/2 = epsilon.
+
+*** Discussion of Number 11 on Homework
+
+    f uniformly continuous from X into Y, {x_n} cauchy in X -> {f(x_n)} cauchy
+    in Y.
+
+    Ten, if E is dense in X, f uniformly continuous on E -> f has a continuous
+    extension to bar(E).
+
+    We could pick some x_n in E where x0 in closure(E), where f(x0) = lim
+    f(x_n).
+
+** Connectedness
+
+   E is connected <-> E is not disconnected.
+
+   so E = A `union` B with A /= nullset, B /= nullset,
+   A intersect (closure B) = nullset,
+   (closure A) intersect B = nullset.
+
+   'a door is never open and closed at the same time, but a set can be' --
+   Dr. Ball.
+
+*** Theorem 4.22
+
+    if f is continuous on some X -> Y, E subset X connected, then f(E) is
+    connected.
+
+    by previous remarks, this is equivalent to:
+
+*** Theorem 4.22'
+
+    f :: X -> Y continuous (and onto), X and Y metric spaces, and X connected
+    implies that Y is connected.
+
+**** Proof
+
+     (show that Y = f(X) disconnected implies that X is disconnected)
+
+     Say that Y = f(X) = A `union` B, for A, B both open, A, B both nonempty.
+
+     Set U = f^-1(A), V = f^-1(B), and as f is onto and A, B nonempty, that U
+     and V are nonempty.
+
+     we also know that X = U `union` V as f is a function.
+
+     U `intersect` V is empty (f(x) in A `intersect B impossible, assumed
+     disjoint)
+
+***** Recall some old homework problem
+
+      X = some connected metric space containing at least two points p and q ->
+      X uncountable.
+
+      X connected -> there exists some p_delta with d(p,p_delta) = delta, for
+      each delta in [0, d(p,q)] so delta -> p_delta is 1-1 implies X
+      uncountable.
+
+**** More fun
+     By 10.1, f continuous, X connected by f(X) connected in RR shows that f(X)
+     contains distinct number 0, d(p,q) > 0. so the connected subsets are
+     uncountable.
+
+*** Theorem 4.23
+
+    f continuous, real-valued function on some interval [a,b] - suppose that
+    f(a) < y < f(b) implies exists some x where f(x) = y.
+
+    (since f([a,b]) is connected)
+
+    converse not always true, since f(x) = sin (1/x) x/=0, = 0 at x=0, have the
+    intermediate value property but is not continuous at x = 0.
