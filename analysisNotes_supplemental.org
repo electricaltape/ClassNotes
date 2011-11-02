@@ -1,0 +1,25 @@
+* Continuity
+
+** Mappings and Inverses (4.8)
+
+   A mapping f :: X -> Y is continuous on X iff f^-1(V) is open in X for every
+   open set V in Y.
+
+*** Immediate Corollary
+
+    A mapping f :: X -> Y is continuous iff f^-1(C) is closed in X for every
+    closed set C in Y.
+
+** Vector valued functions
+
+   f(x) := (f1(x), f2(x), ... , fn(x))
+
+   f is continuous iff each f1, f2, ... , fn is continuous.
+
+* Compactness
+
+** Boundedness
+
+   say that f :: E -> RR^k is bounded if abs(f(x)) .LEQ. M forall x in E.
+
+   (the book uses the 2-norm)

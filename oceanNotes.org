@@ -4,7 +4,7 @@
 
 *** Dr. Iliescu
 
-    Several forcing effects - wind, solar, ice.
+    several forcing effects - wind, solar, ice.
     wind is the major one in the middle of the ocean.
 
     air, in rotation, organizes itself in to columns (constant in z direction)
@@ -15,6 +15,91 @@
     (not steady state)
 
     Charney Jules - invented QGE
+
+*** From Introduction to Geophysical Fluid Dynamics (Chapter 1)
+
+
+
+
+* Motivation
+
+** From Introduction to Geophysical Fluid Dynamics (Chapter 1)
+
+*** Goals
+
+    Numerical GFD - not limited to weather prediction.
+    Gain insight in to particular phenomena, role of forces, etc
+    'Only way to experiment with the planet'
+    hindcast, nowcast, forecast - estimate previous, current, or future data
+    based on limited information.
+
+*** Difficulties
+
+    As Lorenz showed - inherently unstable.
+    Richardson tried with a room full of people with slide rules, with T = 6
+    hours; far too unstable.
+
+    Better choice than Richardson - Charney picked a more simplified model,
+    less variation in pressure. Far more successful.
+
+* Scale of Motion
+
+** From Introduction to Geophysical Fluid Dynamics (Chapter 1)
+
+   Determine if a physical process is dynamically important (does it induce a
+   large change?)
+
+   Key scales - time, length, velocity
+
+   other scales - stratification (changes in density) is measured by change in
+   density per length (Delta rho and H)
+
+*** Example for a ship
+
+    Consider waves of the same length as the ship L, velocities the same as the
+    ship U, and time scale L/U.
+
+*** Rotation and Scale
+
+    If the fluid flow evolves on a time scale of over a day we should consider
+    the earth's rotation. So consider rotation for QGE.
+
+*** Stratification and Scale
+
+    Gravity sorts fluids with dense on bottom and less dense on top, but fluid
+    flows tend to work against this
+
+    If we raise heavy fluids we gain potential energy and lose kinetic; we can
+    gain kinetic energy by lowering heavy fluids again. We can form another
+    ratio:
+
+    0.5 * rho_0 * U^2 / (Delta rho * g * H)
+
+    that is, kinetic / potential energies. If this is about one then moving the
+    fluid greatly changes velocity; very small, insufficient kinetic energy to
+    perturb the flow greatly; very large, effect does not matter (lose little
+    kinetic energy). _Therefore we can only ignore stratification if it is much
+    larger than one._
+
+    If epsilon = time of revolution / (L / U) ~ 0.5 * rho_0 * U^2 / (Delta
+    rho * g * H) ~ 1 then rotation and stratification are both important, but
+    neither dominates. This gives
+
+    L ~ 1/Omega * sqrt (Delta rho / rho0 * g * H)
+
+    as a length scale. Therefore for the ocean we should pick about 60km as the
+    length scale and 4 m/s as the velocity scale.
+
+
+* Ocean and Atmosphere Distinctions
+
+** From Introduction to Geophysical Fluid Dynamics (Chapter 1)
+
+   Flows of several kilometers to earth-scale
+
+   Oceans - islands and continents get in the way. Driven by many things (wind,
+   tides, temperature delta between air and water, etc)
+   Atmosphere - deal with moisture. Driven by solar energy.
 
 
 * Describing Vorticity and Stream Functions
@@ -28,6 +113,25 @@
     main difference - Vorticity variable is 3D Laplacian of Stream Function
 
 ** Stream Function
+
+*** From http://www.see.ed.ac.uk/~johnc/teaching/fluidmechanics4/2003-04/fluids2/node31.html
+
+    Need to solve, in 2D, for u and v in the incompressibility term
+
+    du/dx + dv/dy = 0
+
+    Alternatively, we could solve for ONE term (the so-called stream function)
+    where
+
+    u = dPsi/dy, v = -dPsi/dx
+
+    which automatically satisfies continuity.
+
+**** Source of name
+
+     Psi constant along some streamline - hence the name stream function
+
+     This is valid as by definition (on a stream line) dx/u = dy/v (so dPsi = 0)
 
 *** From ch13.pdf
 
@@ -50,6 +154,25 @@
      stream function Psi
      express the two nonvanishing components of the velocity as Psi derivatives
      choose these so that the equation of continuity works automatically
+
+* Forces
+
+  Ambient rotation introduces two additional forces
+
+** Coriolis Force
+
+*** From Introduction to Geophysical Fluid Dynamics (Chapter 1)
+
+    Major effect - vertical rigidity
+    For rapid, homogeneous fluids - motion strictly columnar.
+    Large scale flows - not perfectly columnar
+
+
+** Centrifugal Force
+
+*** From Introduction to Geophysical Fluid Dynamics
+
+    No strong effect on geophysical flows (recall that we ignore the z direction)
 
 
 * Physical Constants
@@ -98,11 +221,43 @@
 
      typical choice - phi_0 = 45 degrees -> beta = 1.62e-11 m^-1 s^-1
 
-
 * Notation
 
   (a;b,c) is something like a * (b x c)
 
+
+* Boussinesq
+
+  Starting equation for QGE
+
+** Wikipedia
+
+   eliminate vertical coordinate from flow, but retain some vertical effects.
+   (interested in wave propagation - not much in vertical direction)
+
+* QGE Soup
+
+** Ingredients
+
+   Rossby Number
+
+   Boussinesq - the starting equation.
+
+   Stream Functions
+
+   Vorticities
+
+
+** Result
+
+   partial q / partial t + J(Psi, q) = 0
+
+   where Psi is the stream function
+   q = Laplacian Psi
+     + (partial / partial z) (f_0^2 / N^2 (partial Psi / partial z))
+     + beta_0 * y
+   N^2(z) = -(g/rho_0) * d(bar(rho)) / dz (should be a constant, roughly, for
+   water)
 
 * Important Books
 
@@ -110,3 +265,17 @@
 
     Rigorous derivation of QGE and the length scale analysis.
 
+    Dr. Iliescu says -- somewhat dry. Majda better.
+
+
+** Andrew Majda - Introduction to PDEs and waves for the atmosphere and ocean
+
+   Only currently available mathematical text on these equations. I bought a copy.
+
+* Properties of the Fluid
+
+** From Introduction to Geophysical Fluid Dynamics
+
+   stratified flows - sorted by density (gravitational force important)
+   perturbations maintained over time can cause fluid flows (like temperature
+   deltas)
