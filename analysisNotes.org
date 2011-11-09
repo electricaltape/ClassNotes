@@ -1920,220 +1920,114 @@
     convergent subsequence f(x_n_k)
 
 
-* 10/19/11
+* Jointly Continuous
+  d :: (X,X) -> RR is jointly continuous means :
 
-** HW 11 - due Friday 10/28
+  given (x0, y0) in (X,X) and epsilon > 0, exists delta >  s.t.
 
-   5,6,7,11, extra credit 21, 22
+  d((x,y),(x0,y0)) < delta -> abs(d(x,y) - d(x0,y0)) < epsilon
 
-*** Homework Hints
+** Theorems
 
-**** #6 - f :: E -> Y metric spaces, E is compact. Then, show that
+   If f :: X -> is continuous, then X compact -> (map f X) compact
 
-     f continuous on E <-> set {(x,f(x)) | x in E} is compact.
+   corollary - f : X -> RR^k continuous, X compact -> (map f X) closed/bounded
 
-     do this problem at the level of metric spaces.
+   corollary - f : X -> RR continuous, X compact -> f achieves a maximum and
+   minimum
 
-     Example : E subset RR, Y = RR. Then set {(x,f(x))} subset RR^2.
+   (i.e. for X_max in X, X_min in X, f(X_min) .LEQ. f(X) .LEQ. f(X_max))
 
-     open cover characterizations - we have sequential Bolzano-Weirstrass style,
-     or just for pure metric spaces.
+*** Example
+    for f(x) = 1/x on [1, inf]
 
-**** #7 -
+    continuous, but has no minimum.
 
-     Define f, g :: RR^2 -> R by
+    f(x) = 1/x on (0,1]
 
-     f(0,0) = 0
-     f(x,y) = xy^2/(x^2 + y^4)
+    bounded (below) but not closed.
 
-     g(0,0) = 0
-     g(x,y) = xy^2 / (x^2 + y^6)
+    for E in RR, if E is not closed we say that x0 in (closure E) \ E.
 
-     then show that neither function is continuous near zero. Can't fail it by
-     drawing lines.
+    f(x) = 1 / (x - x0) is continuous, not bounded on E.
 
-     Hint : look at curves f(alpha * t^m, beta * t^n) and attempt to make it
-     fail.
+    g(x) = 1 / (1 + (x - x0)^2) is continuous but not a ???
 
-     from maxima session - try x = t^2, y = t.
+** Theorem 4.17
 
+   For f : (compact X) -> Y continuous and 1-1 then g = f^-1 Y -> X is well
+   defined and continuous.
 
-** Jointly Continuous
-   d :: (X,X) -> RR is jointly continuous means :
+*** Proof
 
-   given (x0, y0) in (X,X) and epsilon > 0, exists delta >  s.t.
+    (by soft topology)
 
-   d((x,y),(x0,y0)) < delta -> abs(d(x,y) - d(x0,y0)) < epsilon
+    To show g^-1(open) = open
 
-*** Theorems
+    where g = f^-1 -> g^-1 = f.
 
-    If f :: X -> is continuous, then X compact -> (map f X) compact
+    to show : f(open) = open (i.e. f is an open mapping)
 
-    corollary - f : X -> RR^k continuous, X compact -> (map f X) closed/bounded
+    f 1-1 -> f(U^c) = f(U)^c as f(closed) = closed.
 
-    corollary - f : X -> RR continuous, X compact -> f achieves a maximum and
-    minimum
+    But F is closed and is a subset of some copact space, so F is compact.
 
-    (i.e. for X_max in X, X_min in X, f(X_min) .LEQ. f(X) .LEQ. f(X_max))
+    then f(F) is compact, subset of Y, so f(F) is closed.
 
-**** Example
-     for f(x) = 1/x on [1, inf]
+** Continuous functions are not open maps (in general)
 
-     continuous, but has no minimum.
+   A counterexample - f(x) = x^2 on (-1,1) but (map f (-1,1)) = [0,1) no
+   longer open.
 
-     f(x) = 1/x on (0,1]
+** Review of Exercises
 
-     bounded (below) but not closed.
+   #5 - f :: E -> RR continuous, E subset RR closed -> f has a continuous
+   extension g : RR -> RR
 
-     for E in RR, if E is not closed we say that x0 in (closure E) \ E.
+   extension means that g restricted to E = f (some function with the same
+   results in E that applies to the whole set RR)
 
-     f(x) = 1 / (x - x0) is continuous, not bounded on E.
+   Use the fact E closed -> E^c = U open.
 
-     g(x) = 1 / (1 + (x - x0)^2) is continuous but not a ???
+   U subset RR open <-> U is a disjoint union of countably many finite
+   intervals.
 
-*** Theorem 4.17
+   (think about the Cantor set C, U = C^c, all the middle thirds, should be
+   all over the place and open.)
 
-    For f : (compact X) -> Y continuous and 1-1 then g = f^-1 Y -> X is well
-    defined and continuous.
+   (this will be homework, eventually)
 
-**** Proof
 
-     (by soft topology)
+* Uniformly Continuous
 
-     To show g^-1(open) = open
+  f :: X -> Y continuous means that forall p in X and epsilon > 0, we have
+  that
 
-     where g = f^-1 -> g^-1 = f.
+  exists delta = delta(p,epsilon) > 0 s.t. d(p,q) < delta(p,q) < d(p,epsilon)
+  -> d_Y(f(p),f(q)) < epsilon.
 
-     to show : f(open) = open (i.e. f is an open mapping)
+  f :: X -> Y is continuous, X is compact implies that f is uniformly continuous.
 
-     f 1-1 -> f(U^c) = f(U)^c as f(closed) = closed.
+** Proof 1
 
-     But F is closed and is a subset of some copact space, so F is compact.
+   (sequential Bolzano-Weirstrass) Assume that X is compact, show that not
+   uniformly continuous implies f discontinuous at some x0.
 
-     then f(F) is compact, subset of Y, so f(F) is closed.
+   f not uniformly continuous -> exists epsilon > 0, sequences {x_n}, {y_n} in
+   X s.t. d(x_n,y_n) -> 0 while d(f(x_n), f(y_n)) .GEQ. epsilon.
 
-*** Continuous functions are not open maps (in general)
+   X is compact, so the sequential Bolzano-Weirstrass implies existence of a
+   subsequence {x_n_k} s.t. x_n_k -> x_k in X.
 
-    A counterexample - f(x) = x^2 on (-1,1) but (map f (-1,1)) = [0,1) no
-    longer open.
+   note - d(y_n,x0) .LEQ. d(y_n, x_n) + d(x_n_k, x0) (it is a metric)
 
-*** Review of Exercises
+   Therefore, d(x_n_k, y_n_k) -> 0 as y_n_k -> x0.
 
-    #5 - f :: E -> RR continuous, E subset RR closed -> f has a continuous
-    extension g : RR -> RR
+   Set some z_k = x_n_k, k even, or y_n_k, k odd. Then also z_k -> x0.
 
-    extension means that g restricted to E = f (some function with the same
-    results in E that applies to the whole set RR)
+   But d(f(z_k+1), f(z_k)) .GEQ. epsilon -> f(z_k) not cauchy.
 
-    Use the fact E closed -> E^c = U open.
-
-    U subset RR open <-> U is a disjoint union of countably many finite
-    intervals.
-
-    (think about the Cantor set C, U = C^c, all the middle thirds, should be
-    all over the place and open.)
-
-    (this will be homework, eventually)
-
-
-** Uniform Continuity Again
-
-   f :: X -> Y continuous means that forall p in X and epsilon > 0, we have
-   that
-
-   exists delta = delta(p,epsilon) > 0 s.t. d(p,q) < delta(p,q) < d(p,epsilon)
-   -> d_Y(f(p),f(q)) < epsilon.
-
-*** How about not uniformly continuous?
-
-    Not uniformly continuous means that there exists some epsilon > 0
-    s.t. forall delta > 0, exist p_delta, q_delta in X where
-
-    d_X(p_delta, q_delta) < delta s.t. d_Y(f(p_delta), f(q_delta))
-    .GEQ. epsilon.
-
-**** Sequential Version
-
-     Choose some delta = 1/n. Exists epsilon0 and p_n, q_n in X with
-
-     d_X(p_n, q_n) < 1/n and d_Y(f(p_n), f(q_n)) .GEQ. epsilon0.
-
-     OR
-
-     exists epsilon0 and {p_n}, {q_n} in X with
-
-     d_X(p_n, q_n) > 0 while d_Y(f(p_n), f(q_n)) .GEQ. epsilon0.
-
-**** Example
-
-     f(x) = 1/x on (0,1]
-
-     try 1 : x_n = 1/n, y_n = 1/(2n) so d(x_n,y_n) = 1/2n. This goes to zero
-     but
-
-     abs(f(x_n) - f(y_n)) = n - 2n = -n blows up.
-
-*** Exercise 8 - not assigned.
-
-    'Looked too easy' - thanks, Dr. Ball.
-
-    function f continuously bounded on some E in RR
-
-    -> f bounded on some E1 -> second reason why some f(x) = 1/x not uniformly
-    continuous on (0,1)
-
-**** Proof
-
-     Let delta = delta(1). Therefore (x,y) in E, d(x,y) < delta(1)
-
-     so abs(f(x) - f(y)) < 1. Cover E with finitely many intervals of length
-     delta (we can do that because E is bounded).
-
-     Say that N is the number of finite subcovers needed. Then there is a chain
-     x' = x0 < x1 < ... < x_n = y with n .LEQ. N steps and x_i - x_i-1 <
-     delta(1)
-
-     then abs(f(y) - f(x') ) = SUM (from i=1 to N) abs(f(x_i) - f(x_i-1))
-
-     'crash through with absolute values'
-
-     .LEQ. N
-
-     so abs(f(y)) .LEQ. abs(f(x')) + N.
-
-
-* 10/21/11
-
-** HW 11 - due Friday 10/28
-
-   5,6,7,11, extra credit 21, 22
-
-
-** Uniformly Continuous Things
-
-   f :: X -> Y is continuous, X is compact implies that f is uniformly continuous.
-
-
-*** Proof 1
-
-    (sequential Bolzano-Weirstrass) Assume that X is compact, show that not
-    uniformly continuous implies f discontinuous at some x0.
-
-    f not uniformly continuous -> exists epsilon > 0, sequences {x_n}, {y_n} in
-    X s.t. d(x_n,y_n) -> 0 while d(f(x_n), f(y_n)) .GEQ. epsilon.
-
-    X is compact, so the sequential Bolzano-Weirstrass implies existence of a
-    subsequence {x_n_k} s.t. x_n_k -> x_k in X.
-
-    note - d(y_n,x0) .LEQ. d(y_n, x_n) + d(x_n_k, x0) (it is a metric)
-
-    Therefore, d(x_n_k, y_n_k) -> 0 as y_n_k -> x0.
-
-    Set some z_k = x_n_k, k even, or y_n_k, k odd. Then also z_k -> x0.
-
-    But d(f(z_k+1), f(z_k)) .GEQ. epsilon -> f(z_k) not cauchy.
-
-    Then the limit of f(z_k) -> x0, so f is not continuous at x0.
+   Then the limit of f(z_k) -> x0, so f is not continuous at x0.
 
 *** Proof 2
 
@@ -2196,16 +2090,76 @@
     f(x_n).
 
 
-** Connectedness
+** How about not uniformly continuous?
 
-   E is connected <-> E is not disconnected.
+   Not uniformly continuous means that there exists some epsilon > 0
+   s.t. forall delta > 0, exist p_delta, q_delta in X where
 
-   so E = A `union` B with A /= nullset, B /= nullset,
-   A intersect (closure B) = nullset,
-   (closure A) intersect B = nullset.
+   d_X(p_delta, q_delta) < delta s.t. d_Y(f(p_delta), f(q_delta))
+   .GEQ. epsilon.
 
-   'a door is never open and closed at the same time, but a set can be' --
-   Dr. Ball.
+**** Sequential Version
+
+     Choose some delta = 1/n. Exists epsilon0 and p_n, q_n in X with
+
+     d_X(p_n, q_n) < 1/n and d_Y(f(p_n), f(q_n)) .GEQ. epsilon0.
+
+     OR
+
+     exists epsilon0 and {p_n}, {q_n} in X with
+
+     d_X(p_n, q_n) > 0 while d_Y(f(p_n), f(q_n)) .GEQ. epsilon0.
+
+**** Example
+
+     f(x) = 1/x on (0,1]
+
+     try 1 : x_n = 1/n, y_n = 1/(2n) so d(x_n,y_n) = 1/2n. This goes to zero
+     but
+
+     abs(f(x_n) - f(y_n)) = n - 2n = -n blows up.
+
+
+** Exercise 8 - not assigned.
+
+   'Looked too easy' - thanks, Dr. Ball.
+
+   function f continuously bounded on some E in RR
+
+   -> f bounded on some E1 -> second reason why some f(x) = 1/x not uniformly
+   continuous on (0,1)
+
+**** Proof
+
+     Let delta = delta(1). Therefore (x,y) in E, d(x,y) < delta(1)
+
+     so abs(f(x) - f(y)) < 1. Cover E with finitely many intervals of length
+     delta (we can do that because E is bounded).
+
+     Say that N is the number of finite subcovers needed. Then there is a chain
+     x' = x0 < x1 < ... < x_n = y with n .LEQ. N steps and x_i - x_i-1 <
+     delta(1)
+
+     then abs(f(y) - f(x') ) = SUM (from i=1 to N) abs(f(x_i) - f(x_i-1))
+
+     'crash through with absolute values'
+
+     .LEQ. N
+
+     so abs(f(y)) .LEQ. abs(f(x')) + N.
+
+
+
+* Connectedness
+
+  E is connected <-> E is not disconnected.
+
+  so E = A `union` B with A /= nullset, B /= nullset,
+  A intersect (closure B) = nullset,
+  (closure A) intersect B = nullset.
+
+  'a door is never open and closed at the same time, but a set can be' --
+  Dr. Ball.
 
 *** Theorem 4.22
 
@@ -2242,11 +2196,13 @@
       each delta in [0, d(p,q)] so delta -> p_delta is 1-1 implies X
       uncountable.
 
+
 **** More fun
 
      By 10.1, f continuous, X connected by f(X) connected in RR shows that f(X)
      contains distinct number 0, d(p,q) > 0. so the connected subsets are
      uncountable.
+
 
 *** Theorem 4.23
 
@@ -2259,169 +2215,184 @@
     intermediate value property but is not continuous at x = 0.
 
 
-* 10/24/11
+* Homework 10
 
-** HW Review
+** Multiple Solutions to the last problem
 
-*** Multiple Solutions to the last problem
+** Multiple Solutions to the first problem
 
-*** Multiple Solutions to the first problem
+   f continuous implies f((closure E)) subset (closure f(E))
 
-    f continuous implies f((closure E)) subset (closure f(E))
+   Proof 1 :
 
-    Proof 1 :
+*** Proof 1
 
-**** Proof 1
+    x in E implies f(x) in f(E) subset of closure.
 
-     x in E implies f(x) in f(E) subset of closure.
+    x in E' implies x = lim x_n, all x_n in E implies lim f(x_n) = f(x), f(x)
+    in (closure f(E))
 
-     x in E' implies x = lim x_n, all x_n in E implies lim f(x_n) = f(x), f(x)
-     in (closure f(E))
+*** Proof 2
 
-**** Proof 2
+    f cntinuous implies f^-1((closure f(E))) closed. pretty much that.
 
-     f cntinuous implies f^-1((closure f(E))) closed. pretty much that.
+** 4.3 Show Z(f), set of x s.t. f(x) = 0, closed
 
-*** 4.3 Show Z(f), set of x s.t. f(x) = 0, closed
+*** Proof 1
 
-**** Proof 1
+    {0} closed in RR, so f^-1({0}) is closed.
 
-     {0} closed in RR, so f^-1({0}) is closed.
+*** Proof 2
 
-**** Proof 2
+    Suppose x in Z(f)'
 
-     Suppose x in Z(f)'
+    'Analysis is easier than algebra - many shots' - Dr. Ball
 
-     'Analysis is easier than algebra - many shots' - Dr. Ball
+** 4.4 E dense in X -> f(E) dense in f(X)
 
-*** 4.4 E dense in X -> f(E) dense in f(X)
+*** Part a
 
-**** Part a
+**** low brow solution - choose y = f(x) in f(X).
 
-***** low brow solution - choose y = f(x) in f(X).
+     then x in X implies x = lim x_n so x_n in E implies f(x) = lim f(x_n)
 
-      then x in X implies x = lim x_n so x_n in E implies f(x) = lim f(x_n)
+     so, as f is continuous, f(x) in (closure E).
 
-      so, as f is continuous, f(x) in (closure E).
+**** high brow solution
 
-***** high brow solution
+     f(X) = f((closure E)) subset (closure f(E))  done. Much quicker!
 
-      f(X) = f((closure E)) subset (closure f(E))  done. Much quicker!
+*** Part b
 
-**** Part b
+    g(p) = f(p) for all p in E -> g(x) = f(x) for all x in X
 
-     g(p) = f(p) for all p in E -> g(x) = f(x) for all x in X
+**** low brow solution
 
-***** low brow solution
+     x in X so x = lim x_n, so we can do it by uniqueness.
 
-      x in X so x = lim x_n, so we can do it by uniqueness.
 
+* Discontinuities
 
-** Discontinuities
+  f :: E to Y, as usual.
 
-   f :: E to Y, as usual.
+  (if (and (x not an isolated point of E)
+           (not (lim (t -> x) f(t) = f(x)))))
 
-   (if (and (x not an isolated point of E)
-            (not (lim (t -> x) f(t) = f(x)))))
+  so there exists some epsilon s.t. for all delta > 0,
+  exists t_delta with 0 < d(t_delta, x) < delta yet d(f(t),f(x))
+  .GEQ. epsilon.
 
-   so there exists some epsilon s.t. for all delta > 0,
-   exists t_delta with 0 < d(t_delta, x) < delta yet d(f(t),f(x))
-   .GEQ. epsilon.
+** Discontinuities of the First Kind
 
-*** Consider X = Y = RR
+   discontinuity of the first kind : f discontinuous at x, but the left and
+   right limits exist.
 
-**** first kind of discontinuity
+   second kind : not first.
 
-     lim (t -> x+) f(t) and lim (t -> x-) both exist, but one or both not equal
-     to f(x).
+*** Example
+    x not in QQ -> f continous at x
 
-**** second kind of discontinuity
+    x in QQ \ {0}  -> discontinuity of the first kind at x. then
+    0 < abs(t  - x) < delta
 
-     f has some discontinuity at x, but it is not of the first kind.
+    so t = m/n as n-> inf must go to zero.
 
-     favorite example : f(x) = sin(1/x) for some x /= 0 and 0 at x = 0
 
-     quick review of something that we have not done before.
+** Consider X = Y = RR
 
-     so the lim sup (t -> inf) = sup  { f(t) such that 0 < abs(t - x) < delta}
+*** first kind of discontinuity
 
+    lim (t -> x+) f(t) and lim (t -> x-) both exist, but one or both not equal
+    to f(x).
 
-*** Useful application of the boundedness of a monotone function
+*** second kind of discontinuity
 
-    define lim sup (t -> x) f(x) =
-           lim (delta -> 0+) sup (f(t) | 0 < abs(t - x) < delta)
+    f has some discontinuity at x, but it is not of the first kind.
 
-    Therefore g(delta) increases (more things, supremum goes up)
+    favorite example : f(x) = sin(1/x) for some x /= 0 and 0 at x = 0
 
-    Therefore g(0+) = lim (delta -> 0+) g(delta)
+    quick review of something that we have not done before.
 
-    Therefore this is equivalent to
-    inf (delta > 0) sup (t : 0 < abs(t - x) < delta) f(t)
+    so the lim sup (t -> inf) = sup  { f(t) such that 0 < abs(t - x) < delta}
 
-**** Even more compact notation
 
-     lim sup (t -> x+) = lim (delta -> 0+) sup (f(t) : x < t < x + delta)
+** Useful application of the boundedness of a monotone function
 
-     call the thing inside the limit g(delta) (it is an increasing function,
-     but not the same function)
+   define lim sup (t -> x) f(x) =
+          lim (delta -> 0+) sup (f(t) | 0 < abs(t - x) < delta)
 
-     (the one sided limit from the right is the infimum based on the proof
-     regarding monotonic functions)
+   Therefore g(delta) increases (more things, supremum goes up)
 
-     = inf (delta) sup(t : x < t < x + delta) f(t)
+   Therefore g(0+) = lim (delta -> 0+) g(delta)
 
-**** Then, for continuity
+   Therefore this is equivalent to
+   inf (delta > 0) sup (t : 0 < abs(t - x) < delta) f(t)
 
-     lim inf (t -> x) f(t),
-     lim (t -> x+) f(t),
-     lim sup (t -> x-) f(t),
-     lim inf(t -> x-) f(t)
+*** Even more compact notation
 
-     all need to be defined and shown equal for no discontinuities.
+    lim sup (t -> x+) = lim (delta -> 0+) sup (f(t) : x < t < x + delta)
 
-**** so, in conclusion
+    call the thing inside the limit g(delta) (it is an increasing function,
+    but not the same function)
 
-     lim (t -> x+) f(t) = L means:
-     lim sup (t -> x+) f(t) = lim inf (t -> x+) f(t) = L
+    (the one sided limit from the right is the infimum based on the proof
+    regarding monotonic functions)
 
-*** Example (discontinuity of the second kind)
+    = inf (delta) sup(t : x < t < x + delta) f(t)
 
-    f(t) = sin(1/t) for t /= 0, 0 for t = 0.
+*** Then, for continuity
 
-    then lim sup (t -> 0+) f(x) = 1 but lim inf (t -> 0+) f(t) = -1.
+    lim inf (t -> x) f(t),
+    lim (t -> x+) f(t),
+    lim sup (t -> x-) f(t),
+    lim inf(t -> x-) f(t)
 
-    Therefore the limit itself does not exist.
+    all need to be defined and shown equal for no discontinuities.
 
+*** so, in conclusion
 
-*** More fun examples
+    lim (t -> x+) f(t) = L means:
+    lim sup (t -> x+) f(t) = lim inf (t -> x+) f(t) = L
 
-    Dirichlet function
 
-    (defun dirichlet-function (x)
-      (cond
-        ((rationalp x) 1)
-        ((irrationalp x) 0)))
+** Example (discontinuity of the second kind)
 
-    We can create a lim sup and lim inf that are unequal so we get a
-    discontinuity of the second kind immediately.
+   f(t) = sin(1/t) for t /= 0, 0 for t = 0.
 
-    f(0) = 0
+   then lim sup (t -> 0+) f(x) = 1 but lim inf (t -> 0+) f(t) = -1.
 
-    f(x) = 0 if x is irrational
+   Therefore the limit itself does not exist.
 
-    f(x) = 1/n if x = m / n
 
+** More fun examples
 
+   Dirichlet function
 
-** We may as well cover this now - Monotonic Functions
+   (defun dirichlet-function (x)
+     (cond
+       ((rationalp x) 1)
+       ((irrationalp x) 0)))
 
-   f on (a,b) (real-valued; orderable sets) monotonically increasing means
+   We can create a lim sup and lim inf that are unequal so we get a
+   discontinuity of the second kind immediately.
 
-   a < x < y < b  implies that f(x) < f(y)
+   f(0) = 0
 
-   and decreasing - f(x) > f(y)
+   f(x) = 0 if x is irrational
 
-*** Theorem
+   f(x) = 1/n if x = m / n
+
+
+
+* Monotonic Functions
+
+  f on (a,b) (real-valued; orderable sets) monotonically increasing means
+
+  a < x < y < b  implies that f(x) < f(y)
+
+  and decreasing - f(x) > f(y)
+
+*** Theorem : Monotonically Increasing Functions
 
     if f is monotonically increasing on (a,b) then
 
@@ -2457,28 +2428,6 @@
      epsilon. Therefore we are done
 
 
-* 10/26/11
-
-** Discontinuities
-
-   discontinuity of the first kind : f discontinuous at x, but the left and
-   right limits exist.
-
-   second kind : not first.
-
-*** Example
-    x not in QQ -> f continous at x
-
-    x in QQ \ {0}  -> discontinuity of the first kind at x. then
-    0 < abs(t  - x) < delta
-
-    so t = m/n as n-> inf must go to zero.
-
-
-** More on monotone functions
-
-   monotonically increasing - x < y -> f(x) .LEQ. f(y)
-
 *** Theorem : limits exist on monotonic functions
 
     more specifically - lim (x -> t+) f(x) and lim (x -> x-) f(x) always exist.
@@ -2486,6 +2435,7 @@
     put another way - all discontinuities are of the first kind.
 
     'monotonic functions are tame'
+
 
 *** Theorem : Countable Discontinuities
 
@@ -2517,6 +2467,7 @@
      this forces r(x_1) < r(x_2) therefore r :: E -> QQ is 1-1.
 
      (1-1 relationship between E and QQ implies that E is countable.)
+
 
 *** Discontinuous Monotonic Functions
 
@@ -2580,147 +2531,360 @@
      Riemann-Stieltjes integral
 
 
-** Infinite Limits
+* Infinite Limits
 
-   Last topic!
+  Last topic!
 
-   RR overline = RR Union {+inf, -inf} is a metric space with
+  RR overline = RR Union {+inf, -inf} is a metric space with
 
-   d overline (x,y) = abs( arctan(x) - arctan(y) )
-   where arctan(+inf) = pi/2
-   where arctan(-inf) = -pi/2
+  d overline (x,y) = abs( arctan(x) - arctan(y) )
+  where arctan(+inf) = pi/2
+  where arctan(-inf) = -pi/2
 
-   Yes, the distance between inf and -inf is pi.
+  Yes, the distance between inf and -inf is pi.
 
-*** What are the neighborhoods?
+** What are the neighborhoods?
 
-    N_delta(x) overline = { y in RR overline : d overline(x,y) < delta}
-    for some x in RR overline.
+   N_delta(x) overline = { y in RR overline : d overline(x,y) < delta}
+   for some x in RR overline.
 
-    for x in RR, N_delta(x) = {y in RR : abs(y - x) < delta}
+   for x in RR, N_delta(x) = {y in RR : abs(y - x) < delta}
 
-**** Relationship between neighborhoods
+*** Relationship between neighborhoods
 
-     We may think of RR as the metric space in the d overline metric (as a
-     subset of RR)
+    We may think of RR as the metric space in the d overline metric (as a
+    subset of RR)
 
-**** Metric Properties
+*** Metric Properties
 
-     arctan is continuous, RR -> (-pi/2, pi/2)
-     has continuous inverses. For x in RR, we have delta > 0; there exists some
-     delta' s.t. N_delta(x) `subset` N_delta'(x)
+    arctan is continuous, RR -> (-pi/2, pi/2)
+    has continuous inverses. For x in RR, we have delta > 0; there exists some
+    delta' s.t. N_delta(x) `subset` N_delta'(x)
 
-     therefore RR has the same open sets whether we use d or d overline
-     (we say that they are equivalent metrics.)
+    therefore RR has the same open sets whether we use d or d overline
+    (we say that they are equivalent metrics.)
 
-**** Neighborhood of Infinity
+*** Neighborhood of Infinity
 
-     We have to work with d overline. Consider +inf.
+    We have to work with d overline. Consider +inf.
 
-     N_delta overline = {y in RR overline : abs(arctan(y) - pi/2) < delta}
-     well, arctan is bounded by pi/2 anyway, so
+    N_delta overline = {y in RR overline : abs(arctan(y) - pi/2) < delta}
+    well, arctan is bounded by pi/2 anyway, so
 
-     pi/2 - delta < arctan y. Take the tangent of both sides.
+    pi/2 - delta < arctan y. Take the tangent of both sides.
 
 
-* 10/28/11
+* Homework 11
 
-** Next Homework
+** Homework Hints
 
-   Due Friday, November 4 : page 100 15,17; page 114 1,2,12,13
+*** #6 - f :: E -> Y metric spaces, E is compact. Then, show that
 
-*** Number 15
+    f continuous on E <-> set {(x,f(x)) | x in E} is compact.
 
-    f :: RR -> RR continuous  open mapping
+    do this problem at the level of metric spaces.
 
-    we know that if U is open, f(U) is open, f monotonic.
+    Example : E subset RR, Y = RR. Then set {(x,f(x))} subset RR^2.
 
-    Show that f continuous, f not monotonic -> exists U open with f(U) not open.
+    open cover characterizations - we have sequential Bolzano-Weirstrass style,
+    or just for pure metric spaces.
 
-*** Number 17
+*** #7 -
 
-    Set of discontinuities of the first kind for any RR is continuous.
+    Define f, g :: RR^2 -> R by
 
-*** Number 13
+    f(0,0) = 0
+    f(x,y) = xy^2/(x^2 + y^4)
 
-    f(0) = 0
-    f(x) = x^a sin(1/x^c)
+    g(0,0) = 0
+    g(x,y) = xy^2 / (x^2 + y^6)
 
-    Examine what happens for different values of c and a. We did c = 1, a = 0,
-    1, 2.
+    then show that neither function is continuous near zero. Can't fail it by
+    drawing lines.
 
+    Hint : look at curves f(alpha * t^m, beta * t^n) and attempt to make it
+    fail.
 
-** Chapter 5 - Derivatives.
+    from maxima session - try x = t^2, y = t.
 
-   given some $f :: [a,b] -> RR$
+** Problem 5
 
-   $$f'(x) = lim (t -> x) (f(t) - f(x))/(t - x)$$
+   f :: E -> RR1 continuous, E closed implies f extends to continuous
+   g :: RR -> RR.
 
-   Not defined for $t = x$, really means:
+   Solution: E closed so E^c is some collection of open intervals.
 
-   $\lim (t -> x) phi_x(t)$, so we essentially have a fixed $x$.
+   say that E^c = Union (a_n,b_n)
 
-*** Another definition
+   g(x) = f(x) for x in E
 
-    Given some epsilon > 0 , exists delta s.t.
+   g(x) = (f(b_n)  - f(a_n))/ (b_n - a_n) * (x - a_n) (point slope form)
 
-    t in [a,b]\{x} and abs(t - x) < delta implies
+*** Show continuous
 
-    abs((f(t) - f(x))/(t - x) - f'(x)) < epsilon. This is also defined at the
-    endpoints of the domain (a and b)
+    x in E - continuous because f continuous
+    x in some (a_n, b_n) - continuous because linear.
 
+    how about at limit points?
 
-*** Theorem (Differentiation and Continuity)
+    show that lim (x -> a_n+) g(x) = lim (x -> a_n-) f(x)
+    valid by definition.
 
-    if f is defined on [a,b], f differentiable at x -> f continuous at x.
+    for something like the Cantor set - no interior! no x in E^o.
 
-**** Proof
+    how about isolated points?
 
-     t - x goes to 0, and the derivative goes to a real number. Therefore
-     f'(x) * (t - x) goes to 0, so lim (t -> x) abs(f(t) - f(x)) -> 0.
+    on either side - g is a line, so continuous.
 
-**** Converse - not true.
+    how about E \ E^o?
 
-     example - f(x) = abs(x) is not differentiable at x = 0, but it is continuous.
+    so every deleted neighborhood intersects E and E^c.
 
-**** Another fun counter-example to the converse.
+    Let {x_n} = {y_n} `union` {z_n}
 
-     f 0 = 0
-     f x = x * sin (1/x)
+    so y_n in E, z_n in E^c. Then the whole thing is these two
+    subsequences. Therefore it suffices to show that g(y_n) -> g(x) and g(z_n)
+    -> g(x). Therefore as y_n in E, z_n in E^c, we get that f(y_n) -> f(x).
 
-     f is continuous at all x /= 0. What happens at 0?
+    How about z_n? z_n -> x, z_n in E^c, and z_n -> x. In this situation,
+    a_n -> x and b_n -> x (think of the Cantor set). Therefore the end-points
+    are converge to f(x), which is g(x), so z_n is sandwiched between things
+    that converge to g(x).
 
-     Check at zero: lim (t -> 0) f(t) = lim t * sin 1/t
+** Problem 6
 
-     t goes to zero and sin 1/t is bounded -> f(t) goes to zero.
+   E is a compact metric space and E is the graph. Then f continuous iff the
+   graph is compact.
 
-     Check the derivative at zero - we secretly already know the chain rule and
-     may compute
+*** Solution 1 : Topologist's Proof
 
-     f'(x) = sin 1/x - 1/x cos 1/x , where 1/x cos 1/x is very badly behaved
-     near zero.
+    (->) f continuous implies that g : x -> (x, f(x)) is continuous.
 
-     Check by definition:
+    E compact implies (by theorem) that g(E) is compact. Done.
 
-     lim (t -> 0) (f(t) - f(0))/ (t - 0) = lim (t -> 0) t*sin(1/t) / t = sin(1/t)
+    (<-) Assume that the graph and E are compact. Then h :: (x, f(x)) -> x is
+    continuous. Therefore h :: graph -> E, and the graph is continuous (as is
+    E). Therefore h^-1 is continuous (by 4.19). Therefore f = PI_2 . h^-1 is
+    continuous (where PI_2 :: (x,y) -> y is continuous). Composition of
+    continuous functions is continuous, so f is continuous.
 
-     this has a lim sup of 1 and lim inf of -1 -> limit does not exist.
+*** Solution 2 : Sequences.
 
-     Therefore this is continuous but not differentiable at x = 0.
+    (->) Choose some {x_n, f(x_n)} subset G - we must find a convergent
+    sequence in E, so that as E is compact -> exists subsequence converging to
+    x_0 in E.
 
-**** One more counter-example.
+    f is continuous, so the subsequential limits are equal. Therefore (x_n_k,
+    f(x_n_k)) converges to some (x_0, f(x_0)) -> done.
 
-     f(x) = x^2 sin(1/x)
+    (<-) Assume that the graph is compact (show that f is continuous). We are
+    stuck working with subsequences in this world, so by HW 7.1
 
-     f is continuous for all x. However we get
+    f(x_n) -> f(x) is the same as {f(x_n_k)} in {f(x_n)} has another
+    subsequence inside where {f(x_n_k_j)} -> f(x).
 
-     f'(x) = 2*x*sin(1/x) - cos(1/x)
+    Therefore as the subsequence converges to f(x), the whole thing
+    does. Perhaps this is shorter than contrapositive.
 
-     cos(1/x) oscillates wildly, so the limit does not exist.
+    Given some n1 < n2 < ... then the sequence {x_n_k, f(x_n_k)} in the graph
+    (assumed compact) implies that there exists a subsequence (x_n_k_j,
+    f(x_n_k_j)) which converges to x_0, y_0 in the graph. However, the
+    original sequence is convergint to x_0, so by uniqueness of limits all
+    subsequences converge to x_0 so x = x_0 and in addition as G is compact,
+    the limit point must be in the graph so y_0 = f(x).
 
-**** Weirstaruss' Monster
+    Thus, actually f(x_n_k_j) -> f(x) -> done.
 
-     function continuous but 'nowhere differentiable'
+** Problem 7
+
+   I got this one right! Yaaaay
+
+** Problem 11
+
+   Show that f uniformly continuous implies that {f(x_n)} is cauchy.
+
+   Let epsilon > 0. Show that there exists N s.t. n,m .GEQ. N implies that
+   d(f(x_n),f(x_m)) < epsilon.
+
+   as f is uniformly continuous we know that exists delta > 0 s.t.
+
+   d(x,y) < delta -> d(f(x), f(y)) < epsilon for all epsilon.
+
+   we also know that {x_n} cauchy -> exists N s.t. n,m .GEQ. N implies
+   d(x_n,x_m) < delta. Turn the crank.
+
+
+* Homework 12
+
+  Due Friday, November 4 : page 100 15,17; page 114 1,2,12,13
+
+** Number 15
+
+   f :: RR -> RR continuous  open mapping
+
+   we know that if U is open, f(U) is open, f monotonic.
+
+   Show that f continuous, f not monotonic -> exists U open with f(U) not open.
+
+*** Solution
+
+    Show that f continuous and not monotonic implies that f not open.
+
+    case 1 - f continuous on [x,z] -> f has a max on [x,z]
+
+    Therefore there exists some x0 in [x,z] with f(x0) .GEQ. f(x) for all x in
+    [x,z]. Therefore f(x0) is not an interior point, so the codomain is not open.
+
+    case 3 - f has a minimum on [x,z]. Easy way out - replace f by -f.
+
+** Number 17
+
+   Set of discontinuities of the first kind for any RR is continuous.
+
+*** Solution
+
+    f :: (a,b) -> RR, E is the set of simple discontinuities for f.
+
+    E = union of E1 , E2, E3, E4 where
+
+    E1 is the set {x in E : f(x-) < f(x+)}
+    E2 is the set {x in E : f(x-) > f(x+)}
+    E3 is the set {x in E : f(x-) = f(x+) < f(x)}
+    E4 is the set {x in E : f(x-) = f(x+) > f(x)}
+
+    Lazy reduction - replace f by -f to reduce E2 to E1, E4 to E3. Therefore we
+    only need to do two cases.
+
+    x in E1 -> (p,q,r) in QQ^3, so we get the three properties:
+
+    1. f(x-) < p < f(x+)
+    2. a < p < t < x -> f(t) < p
+    3. x < t < q < b -> f(t) > p.
+
+    For E1 : pick x < y but they have the same rational triple. Then f(t) > p
+    and f(t) < p, which doesn't work -> one tripple per number.
+
+    For E3 :
+
+    1. f(x+) < p < f(x)
+    2. a < q < t < x -> f(t) < p
+    3. x < t < r < b -> f(t) < p
+
+    use a similar trick - fx) > p, f(y) > p, but we can show that f(x) < p,
+    f(y) < p
+
+** Number 13
+
+   f(0) = 0
+   f(x) = x^a sin(1/x^c)
+
+   Examine what happens for different values of c and a. We did c = 1, a = 0,
+   1, 2.
+
+** Number 1 (114)
+
+   We want to do this one in a polished way. We can use the sandwich theorem.
+
+   abs((f(x) - f(y))/(x - y)) .LEQ. abs(x - y) -> f'(y) exists, equals 0 for
+   all x -> f constant.
+
+   Therefore, by the hypothesis : - abs(x - y) .LEQ. (f(x) - f(y))/(x - y)
+   .LEQ. abs(x - y)
+
+   so we can force lim sup and lim inf to equal zero. Then we are done.
+
+** Number 2 (114)
+
+   f'(x) > 0 on (a,b) -> (by MVT) (f(y) - f(x)) = f'(c)(y - x)
+
+   By assumption, the derivative is strictly positive, so for y > x f(y) >
+   f(x). Done.
+
+   To find g = f^-1 and its derivative, we must show that g is differentiable.
+
+   How do we know that g is continuous?
+
+*** High-Brow Proof
+
+    Suppose that x0 in (a,b). Choose a < alpha < beta < b so [alpha,beta]
+    compact implies that f continuous on [alpha, beta] -> f([alpha, beta])
+    continuous and g = f^-1 is continuous.
+
+*** Low-Brow Proof
+
+    Use deltas and epsilons. It is ugly.
+
+* Derivatives.
+
+  given some $f :: [a,b] -> RR$
+
+  $$f'(x) = lim (t -> x) (f(t) - f(x))/(t - x)$$
+
+  Not defined for $t = x$, really means:
+
+  $\lim (t -> x) phi_x(t)$, so we essentially have a fixed $x$.
+
+** Another definition
+
+   Given some epsilon > 0 , exists delta s.t.
+
+   t in [a,b]\{x} and abs(t - x) < delta implies
+
+   abs((f(t) - f(x))/(t - x) - f'(x)) < epsilon. This is also defined at the
+   endpoints of the domain (a and b)
+
+
+** Theorem (Differentiation and Continuity)
+
+   if f is defined on [a,b], f differentiable at x -> f continuous at x.
+
+*** Proof
+
+    t - x goes to 0, and the derivative goes to a real number. Therefore
+    f'(x) * (t - x) goes to 0, so lim (t -> x) abs(f(t) - f(x)) -> 0.
+
+*** Converse - not true.
+
+    example - f(x) = abs(x) is not differentiable at x = 0, but it is continuous.
+
+*** Another fun counter-example to the converse.
+
+    f 0 = 0
+    f x = x * sin (1/x)
+
+    f is continuous at all x /= 0. What happens at 0?
+
+    Check at zero: lim (t -> 0) f(t) = lim t * sin 1/t
+
+    t goes to zero and sin 1/t is bounded -> f(t) goes to zero.
+
+    Check the derivative at zero - we secretly already know the chain rule and
+    may compute
+
+    f'(x) = sin 1/x - 1/x cos 1/x , where 1/x cos 1/x is very badly behaved
+    near zero.
+
+    Check by definition:
+
+    lim (t -> 0) (f(t) - f(0))/ (t - 0) = lim (t -> 0) t*sin(1/t) / t = sin(1/t)
+
+    this has a lim sup of 1 and lim inf of -1 -> limit does not exist.
+
+    Therefore this is continuous but not differentiable at x = 0.
+
+*** One more counter-example.
+
+    f(x) = x^2 sin(1/x)
+
+    f is continuous for all x. However we get
+
+    f'(x) = 2*x*sin(1/x) - cos(1/x)
+
+    cos(1/x) oscillates wildly, so the limit does not exist.
+
+*** Weirstaruss' Monster
+
+    function continuous but 'nowhere differentiable'
 
 
 ** Calculus Rules
@@ -2776,113 +2940,245 @@
      (f'(x) + u(t))(g'(f(x)) + u(f(t))) -> f'(x)g'(f(x)) woohoo
 
 
-* 10/31/11
+** Mean Value Theorem
 
-** Homework Recapitulation
+   We can get this from Rolle's Theorem.
 
-*** Problem 5
+   Recall : f :: [a,b] -> RR, , x in [a,b]
+   f differentiable at x -> lim (t -> x) phi(t) = L = f'(x) exists. The limit
+   itself is defined on [a,b]\{x}.
 
-    f :: E -> RR1 continuous, E closed implies f extends to continuous
-    g :: RR -> RR.
+*** Local Maximum
 
-    Solution: E closed so E^c is some collection of open intervals.
+    f : X -> RR has a local minimum at a point p in X if exists delta > 0 s.t.
 
-    say that E^c = Union (a_n,b_n)
+    q in X with d(q,p) < delta -> f(q) .LEQ. f(p)
 
-    g(x) = f(x) for x in E
+*** Fermat's Theorem
 
-    g(x) = (f(b_n)  - f(a_n))/ (b_n - a_n) * (x - a_n) (point slope form)
+    f defined on [a,b], f has a local maximum at some point x in (a,b), f'(x)
+    exists -> f'(x) = 0
 
-**** Show continuous
+**** Proof by difference quotient
 
-     x in E - continuous because f continuous
-     x in some (a_n, b_n) - continuous because linear.
+     t in N_delta(x) where approach from left, derivative .GEQ. 0, approach
+     from right, derivative .LEQ. 0. Therefore by uniqueness of the limit we
+     get that it is zero, or f'(x) = 0.
 
-     how about at limit points?
+     Note that this arguement fails at end points - only applies to open
+     intervals.
 
-     show that lim (x -> a_n+) g(x) = lim (x -> a_n-) f(x)
-     valid by definition.
+*** Traditional Approach
 
-     for something like the Cantor set - no interior! no x in E^o.
+    We know that f is continuous and differentiable on [a,b], so there exists
+    some c in (a,b) where f(b) - f(a) = f'(c) (b - a).
 
-     how about isolated points?
+    Remark - in case f(a) = f(b) = 0 we get Rolle's Theorem.
 
-     on either side - g is a line, so continuous.
+**** Proof
 
-     how about E \ E^o?
+     Reduce to Rolle's Theorem by introducing some auxillary function g, where
+     g(x) = f(x) - value on the secant line
+          = f(x) - point-slope formula between (a,f(a)) and (b,f(b)).
 
-     so every deleted neighborhood intersects E and E^c.
+     Then we can almost keep Rolle's Theorem. g continuous on [a,b],
+     differentiable on (a,b), g(a) = g(b) = 0 (Rolle's!). Therefore there is
+     some c in (a,b) where g'(c) = 0
 
-     Let {x_n} = {y_n} `union` {z_n}
+     however, g'(x) = f'(x) - (f(b) - f(a))/(b - a)
+                  0 = f'(c) - (f(a) - f(b))/(b - a) Done.
 
-     so y_n in E, z_n in E^c. Then the whole thing is these two
-     subsequences. Therefore it suffices to show that g(y_n) -> g(x) and g(z_n)
-     -> g(x). Therefore as y_n in E, z_n in E^c, we get that f(y_n) -> f(x).
+***** Corollary - increasing stuff.
 
-     How about z_n? z_n -> x, z_n in E^c, and z_n -> x. In this situation,
-     a_n -> x and b_n -> x (think of the Cantor set). Therefore the end-points
-     are converge to f(x), which is g(x), so z_n is sandwiched between things
-     that converge to g(x).
+      f'(x) .GEQ. 0 implies that f is increasing.
+      f'(x) > 0 implies that f is strictly increasing.
+
+      f'(x) .LEQ. 0 implies that f is decreasing.
+      f'(x) < 0 implies that f is strictly decreasing.
+
+      f'(x) = 0 -> f is a constant.
+
+      These are intuitive, but now we may rigorously show that they are true.
+
+*** General Case
+
+    f,g continuous on [a,b] and differentiable on [a,b] implies that
+
+    (f(b) - f(a))g'(c) = (g(b) - g(a))f'(c)
+
+    if g(b) /= g(a) and g'(c) /= 0 we can rewrite this as
+
+    f'(c) / g'(c) = (f(b) - f(a)) / (b - a)
+
+    where a special case (g(x) = x) is the usual mean value theorem.
+
+**** Proof
+
+     Recall that h~(x) = f(x) - (f(a) + (f(b) - f(a)) / (b - a) * (x - a))
+
+     h(x) = h~(x) (b - a)
+          = (b - a) f(x) - (b - a)*f(a) + (f(b) - f(a))*(f(b) - f(a))(x - a)
+
+          = (g(b) - g(a))*(f(x) - f(a)) - (f(b) - f(a))(g(x) - g(a))
+
+     Therefore h(x) is continuous on [a,b] (composition of continuous
+     functions)
+
+     h(a) = 0 by substitution, and there exists some c s.t. h'(c) = 0, so we
+     get what we wanted.
 
 
-*** Problem 6
+** L'Hopital's Rule
 
-    E is a compact metric space and E is the graph. Then f continuous iff the
-    graph is compact.
+   consequence of the general case of the Mean Value Theorem. We can now
+   manipulate limits as they go to infinity.
 
-**** Solution 1 : Topologist's Proof
+*** Definition
 
-     (->) f continuous implies that g : x -> (x, f(x)) is continuous.
+    f, g real and differentiable on (a,b), g'(x) /= 0. Suppose that
 
-     E compact implies (by theorem) that g(E) is compact. Done.
+    limit (x -> a+) f'(x)/g'(x) = A.
 
-     (<-) Assume that the graph and E are compact. Then h :: (x, f(x)) -> x is
-     continuous. Therefore h :: graph -> E, and the graph is continuous (as is
-     E). Therefore h^-1 is continuous (by 4.19). Therefore f = PI_2 . h^-1 is
-     continuous (where PI_2 :: (x,y) -> y is continuous). Composition of
-     continuous functions is continuous, so f is continuous.
+    Then if f(x) -> 0, g(x) -> 0 (or inf, or -inf) as x -> a+, then
 
-**** Solution 2 : Sequences.
+    limit (x -> a+) f(x)/g(x) = A.
 
-     (->) Choose some {x_n, f(x_n)} subset G - we must find a convergent
-     sequence in E, so that as E is compact -> exists subsequence converging to
-     x_0 in E.
+*** Proof
 
-     f is continuous, so the subsequential limits are equal. Therefore (x_n_k,
-     f(x_n_k)) converges to some (x_0, f(x_0)) -> done.
+    Given A in closure RR, and A- < A < A+ (if A = -inf then A- does not
+    exist) (if A = +inf then A+ does not exist)
 
-     (<-) Assume that the graph is compact (show that f is continuous). We are
-     stuck working with subsequences in this world, so by HW 7.1
+    Then there should eist some a-, a+ in the closure with a- < a < a+ (same
+    rules; if a = +/- inf then forget about the appropriate things) so that x
+    in domain(h) with a- < x < a+ -> A- < h(x) < A+.
 
-     f(x_n) -> f(x) is the same as {f(x_n_k)} in {f(x_n)} has another
-     subsequence inside where {f(x_n_k_j)} -> f(x).
+    Therefore, if A is finite, then take some A- = A - epsilon, A+ = A +
+    epsilon.
+    If A = +inf then pick A- = M in RR, ignore A+.
+    If A = -inf then pick A+ = M in RR, ignore A-.
 
-     Therefore as the subsequence converges to f(x), the whole thing
-     does. Perhaps this is shorter than contrapositive.
+    and, if a in RR, pick a- = a - delta, a+ = a + delta. Do similar ignoring
+    for a = +/- inf.
 
-     Given some n1 < n2 < ... then the sequence {x_n_k, f(x_n_k)} in the graph
-     (assumed compact) implies that there exists a subsequence (x_n_k_j,
-     f(x_n_k_j)) which converges to x_0, y_0 in the graph. However, the
-     original sequence is convergint to x_0, so by uniqueness of limits all
-     subsequences converge to x_0 so x = x_0 and in addition as G is compact,
-     the limit point must be in the graph so y_0 = f(x).
+    This should be all the set up that we need.Assume that lim (x -> a+)
+    f'(x)/g'(x) = A. Show that lim (x -> a+) f(x)/g(x) = A.
 
-     Thus, actually f(x_n_k_j) -> f(x) -> done.
+    How we have A- < A < A+, choose real p, r where A- < p < A < r < A+.
 
-*** Problem 7
+    Assume that there is some c in (a,b) with a < x < c. Then
 
-    I got this one right! Yaaaay
+    p < f'(x) / g'(x) < r.
 
-*** Problem 11
+    For any x,y with a < x < y < c, the generalized mean value theorem gives
+    that
 
-    Show that f uniformly continuous implies that {f(x_n)} is cauchy.
+    (f(x) - f(y)) g'(t_x,y) = (g(x) - g(y))f'(x)
 
-    Let epsilon > 0. Show that there exists N s.t. n,m .GEQ. N implies that
-    d(f(x_n),f(x_m)) < epsilon.
+    (recall - we assumed that g'(x) /= 0)
 
-    as f is uniformly continuous we know that exists delta > 0 s.t.
+    Therefore (g(y) - g(x)) /= 0, so
 
-    d(x,y) < delta -> d(f(x), f(y)) < epsilon for all epsilon.
+    p < (f(x) - f(y))/(g(x) - g(y)) = f'(t)/g'(t) < r
 
-    we also know that {x_n} cauchy -> exists N s.t. n,m .GEQ. N implies
-    d(x_n,x_m) < delta. Turn the crank.
+    FInally, let x -> a+, so
+
+    A- < p .LEQ. f(y)/f(x) .LEQ. r < A+
+
+    Therefore, given some A- and A+, we found some c > a where if y in (a,c)
+    then A < f(y) / g(y) < A+ -> definition of lim (y -> a) f(y)/g(y) = A.
+
+**** case b : lim (x -> a+) f'(x)/g'(x) = A and g(x) -> +inf.
+
+     Proof - Choose some A-, A+ in RR (if possible) with
+
+     A- < A < A+ . Choose some p,r in R, where (again)
+
+     A- < p < A < r < A+
+
+     Same work as before holds. We can form some t between x and y such that
+
+     p < (f(x) - f(y))/(g(x) - g(y)) = f'(t)/g'(t) < r (due to the
+     hypothesis/generalized mean value theorem).
+
+     Keep y fixed - choose some c1 in (a, y) s.t. g(x) > g(y) and g(x) > 0 (as
+     we assume g(x) -> inf) such that if a < x < c1 then g(x) > 0.
+
+     Multiply the inequality by (g(x) - g(y)) / x > 0, so we get
+
+     (f(x) - f(y)) / (g(x) - g(y)) (g(x) - g(y))/g(x) = f(x) / g(x) - f(y) /
+     g(x)
+
+     hmm, what do we do with that?
+
+     p - p(g(y)/ g(x)) = p (g(x) - g(y))/ g(x) < f(x) / g(x) - f(y) / g(x)
+
+     < r (g(x) - g(y))/g(x) = r - r(g(y) / g(x))
+
+     Therefore p - p g(y) / g(x) + f(y) / g(x) < f(x) / g(x) < r = r g(y) /
+     g(x) + f(y) / g(x).
+
+     Let x -> a+. Then there exists some c2 in (a,c1) such that
+
+     a < x < c2 -> A- < f(x)/g(x) < A+ Done.
+
+
+** Rolle's Theorem
+
+   f continuous on [a,b], f differentiable on (a,b), f(a) = f(b) = 0, then
+   exists c in (a,b) where f'(c) = 0.
+
+*** Proof
+
+    Case 1 : if f is a constant then f'(c) = 0 for all c. Done.
+
+    Case 2 : exists x in (a,b) with f(x) > 0. We know that f(compact) is a
+    compact set, so f achieves a maximum value on some [a,b]. Therefore, as
+    there exists some x in (a,b), f(x) > f(a), f(b) = 0, implies that the
+    maximum is at an interior point.
+
+    Then by Fermat's theorem we get that the max at the interior has f'(c) = 0.
+
+    case 3 : exists x in (a,b) where f(x) < 0 -> f has some interior minimum at
+    c. The same story as above applies, and we get f'(c) = 0.
+
+*** Applications
+
+    Use it to derive the Mean Value theorem.
+
+
+* Something.
+
+  Let x in (bar E) \ E `subset` E'
+
+  Choose any {x_n} in E with x_n -> x.
+
+  Define g(x) = if x in E then lim(f(x_n)) else f(x).
+
+** Check sequence well-defined
+
+   if {y_n} in E and y_n -> x:
+
+   then some z_n = if n odd then x_n else y_n -> x then {z_n} cauchy -> f({z_n})
+   cauchy -> f(z_n) -> L so f(x_n) and f(y_n) go to the same L. Therefore we can
+   make conclusions for any arbitrary sequence.
+
+
+** Is g continuous?
+
+   Suppose that x_n -> x in X = closure E.
+
+   Pick some e_n in E, where d(e_n, x_n) < 1/n (assumed density)
+
+   Estimate - d(g(x_n), g(x)) .LEQ. d(g(x_n), g(e_n)) + d(g(e_n), g(x))
+
+   therefore d(g(e_n), g(x)) goes to zero by construction of the g formula.
+
+   The first part d(g(x_n), g(e_n)) goes to 1/n by construction. Therefore
+   d(g(x_n),g(x)) -> 0 and we are done.
+
+
+* Homework 13
+
+  Due 11/11/11
+
+  114 - 3,4,5,6,8,11 (on the mean value theorem)

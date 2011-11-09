@@ -91,3 +91,32 @@
 *** Corollary 15
 
    if K `normalSubgroup` G then HK `subgroup` G for any H `subgroup` G.
+
+* Sylow's Theorem
+
+** Definitions
+
+   Let a be a natural number.
+
+   1. A group of order p^a is called a p-group.
+
+   2. A subgroup of order p^a is called a p-subgroup.
+
+   3. |G| = p^a * m, p does not divide m, the the subgroup of order p^a is
+      called a _Sylow p-subgroup._
+
+   4. Denote the set of Sylow p-subgroups by Syl_p(G).
+
+   5. Denote the number of Sylow p-subgroups by n_p(G).
+
+** Theorems
+
+   Assume that |G| = p^a m, p does not divide m.
+
+   1. Syl_p(G) /= nullset.
+
+   2. P in Syl_p(G) , Q subgroup G, |Q| divides p^a -> exists g in G s.t. Q
+      subset gPg^-1. In particular Sylow p-subgroups are conjugate.
+
+   3. n_p(G) congruent to 1 mod p (that is, n_p(G) = 1 + kp). n_p(G) = 1 is
+      equivalent to saying that the Sylow p-subgroup of G is normal.

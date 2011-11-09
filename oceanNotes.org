@@ -18,7 +18,11 @@
 
 *** From Introduction to Geophysical Fluid Dynamics (Chapter 1)
 
+    Quasi-Geostrophic models - Phillips (1956) developed a 2-layer model that
+    predicted realistic cyclones in the wrong places and times
 
+    QG models fail near the equator (only remedy - use full equations. Bad!)
+    full equations - more sensitive to initial data, need smaller time steps.
 
 
 * Motivation
@@ -41,6 +45,7 @@
 
     Better choice than Richardson - Charney picked a more simplified model,
     less variation in pressure. Far more successful.
+
 
 * Scale of Motion
 
@@ -90,6 +95,24 @@
     as a length scale. Therefore for the ocean we should pick about 60km as the
     length scale and 4 m/s as the velocity scale.
 
+*** Scale analysis and Finite Differences
+
+    Strong relationship between scale analysis and numerical requirements.
+
+    Since we have a discrete time scale, we approximate derivatives by
+
+    du/dt ~ U/T d^2u / dt^2 ~ U/T^2
+
+    First-order finite differences are pretty bad - better approximations given
+    in later chapters.
+
+    Atlantic Ocean - to resolve eddies and stratified water masses we need
+    about 10 million grid points for step size of 10^4 meters.
+
+**** Aliasing
+
+     Finite Difference methods fail when the time step is not low
+     enough. Lowest sampling frequency is the Nyquist frequency.
 
 * Ocean and Atmosphere Distinctions
 
@@ -167,6 +190,12 @@
     For rapid, homogeneous fluids - motion strictly columnar.
     Large scale flows - not perfectly columnar
 
+*** From Introduction to Geophysical Fluid Dynamics (Chapter 2)
+
+    We observe fluid mechanics in relation to the rotating system. Boundaries
+    are not moving with respect to the earth.
+
+    We may do a long derivation
 
 ** Centrifugal Force
 
@@ -279,3 +308,5 @@
    stratified flows - sorted by density (gravitational force important)
    perturbations maintained over time can cause fluid flows (like temperature
    deltas)
+
+* Implementation
