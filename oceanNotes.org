@@ -27,6 +27,7 @@
     Similar to 2D incompressible flow (Navier-Stokes)
     main difference - Vorticity variable is 3D Laplacian of Stream Function
 
+
 ** Stream Function
 
 *** From ch13.pdf
@@ -74,11 +75,13 @@
     and T is the time scale. ('time span over which the flow field evolves
     substantially')
 
+
 ** Eckman Number
 
 *** From Introduction to Geophysical Fluid Dynamics
 
     (Page 482) Ek = nu_E / (Omega H^2)
+
 
 ** f-plane
 
