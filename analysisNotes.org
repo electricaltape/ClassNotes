@@ -2453,7 +2453,7 @@
 
      Say that f is increasing. Let E = { x : f(x) discontinuous}
 
-     genereal facts - for all x, f(x-) .LEQ. f(x) .LEQ. (fx+) = inf f(t)
+     general facts - for all x, f(x-) .LEQ. f(x) .LEQ. (fx+) = inf f(t)
 
      discontinuity implies that f(x-) < f(x+) .
 
@@ -2814,6 +2814,7 @@
 
     Use deltas and epsilons. It is ugly.
 
+
 * Derivatives.
 
   given some $f :: [a,b] -> RR$
@@ -2823,6 +2824,37 @@
   Not defined for $t = x$, really means:
 
   $\lim (t -> x) phi_x(t)$, so we essentially have a fixed $x$.
+
+** Continuity Properties
+
+   f'(a) < L < f'(b) -> exists c s.t. f'(c) = L.
+
+   Compare this to the intermediate value theorem -
+   (take any connected topological space, continuous image of connected set is
+   connected.)
+
+   (image of an interval is an interval - any two points in the image, whatever
+   inbetween is also in the image.)
+
+   If f' exists everywhere, then discontinuities of f' are necessarily of the
+   second kind (if not, then we would violate the mean value theorem)
+
+*** Proof
+
+    Given f (as in intermediate value theorem for derivatives) then set
+
+    h(t) = f(t) - L*t.
+
+    Then h'(a) = f'(a) - L < 0 where h'(a) = lim (t -> a) (h(t) - h(a))/(t - a)
+    implies that there exists some t1 where h(t1) < h(a). (numerator negative
+    once we are close enough). Similarly, h'(b) = f'(b) - L > 0.
+
+    Therefore there exists some t2 in (a,b) with h(t2) < h(b). h is continuous
+    on [a,b] -> h achieves a minimum on [a,b] (continuous image of compact is
+    compact) and the point at which h is minimum cannot be a or b.
+
+    Therefore h has some interior minimum, and h is differentiable on [a,b] ->
+    (Fermat's Theorem) then h'(c) is zero, c in (a,b), so f'(c) = L.
 
 ** Another definition
 
@@ -3002,7 +3034,8 @@
 
 *** General Case
 
-    f,g continuous on [a,b] and differentiable on [a,b] implies that
+    f,g continuous on [a,b] and differentiable on (a,b) implies that there
+    exists some c in (a,b) such that
 
     (f(b) - f(a))g'(c) = (g(b) - g(a))f'(c)
 
@@ -3028,12 +3061,126 @@
      get what we wanted.
 
 
+*** Standard MVT
+
+    g(x) := x. We can say that the slope of the tangent line matches the slope
+    of the secant line in at least one place.
+
+    Consider t -> (g(t), f(t)) as a parameterized curve, mapping [a,b] -> RR^2.
+    Assume that this parameterization has no singularities. This means that the
+    tangent vector (g'(t), f'(t)) exists and is not the zero vector
+    everywhere. Then the slope of the tangent line is (back to calculus of
+    several variables) at (f(x), g(x)) is
+
+    (g(x), f(x)) + t(g'(x), f'(x))
+
+    then the slope of the tangent line at (g(x), f(x)) is f'(x) / g'(x) and we
+    assume that both are not zero at the same time. Therefore we can create
+    some well defined slope.
+
+    Assume taht the secant line is well-defined. This means that
+
+    (g(b),f(b)) /= (g(a),f(a))
+
+    and the geometric interpretation is just the general MVT, that is
+
+    slope of tangent line at c = (f(b) - f(a))/(g(b) - g(a)) = f'(c)/g'(c)
+
+*** What makes the Generalized MVT more general?
+
+    We have two functions (f and g) satisfying the hypotheses.
+
+    f(b) - f(a) = f'(c_f) (b - a)
+    g(b) - g(a) = g'(c_g) (b - a)
+
+
+    If it is possible to take c_f = c_g then we recover the other versions of
+    the Mean Value Theorem.
+
+*** Speculation : Vector MVT
+
+    This is not true! We will shoot down this conjecture shortly.
+
+    So that f :: [a,b] -> RR^k is continuous and differentiable on (a,b).
+
+    Then we can say f'(x) = [f1'(x), f2'(x), ...]
+
+    and that this equals lim (y -> x) 1/(y - x) (f(y) - f(x))
+
+    Therefore there should exist some point in (a,b) where
+
+    f(b) - f(a) = f'(c) (b - a)
+
+    What happens when we take this appart component-wise?
+
+    f1(b) - f1(a) = f1'(c) (b - a)
+    f2(b) - f2(a) = f2'(c) (b - a)
+    ...
+
+    This is the same as the system of scalar equations
+
+    f_j(b) - f_j(a) = f_j'(c) (b - a)
+
+    where c is independent of j. We can certainly do this individually.
+
+    Counter-Example: f(t) = [cos t, sin t] :: [0,2Pi] -> RR
+
+    Then f(0) = (1,0), yet norm(f'(t)) = 1
+
+    but f(2pi) - f(0) = f'(c)(2pi)
+
+    f(2pi) - f(0) is zero, but f'(c) is not. Therefore the conjecture fails.
+
+    New conjecture - MVT fails for complex because it fails for RR^2.
+
+**** Theorem 5.19
+
+     f is a continuous mapping of [a,b] into RR^k and f is differentiable on
+     (a,b) implies that there exists some point (a single point!) in (a,b)
+     where the estimate
+
+     norm(f(b) - f(a)) .LEQ. (b - a) norm(f'(c))
+
+***** Proof - By 4226
+
+      We secretly already know how to integrate.
+
+      norm(f(h) - f(a)) = norm(integral (0 to 1) d/dt f((1 - t)*a + th) dt)
+      crash through the integral:
+
+
+      .LEQ. integral norm(f'((1-t)a + th)) dt (b - a)
+      we can take the norm and bound and get
+
+      .LEQ. sup(norm(f'(t))) (b - a)
+
+
 ** L'Hopital's Rule
 
    consequence of the general case of the Mean Value Theorem. We can now
    manipulate limits as they go to infinity.
 
-*** Definition
+*** Fixing L'Hospital for complex numbers
+
+    Apply the good L'Hospital to the real and imaginary parts separately. To
+    finish we need a clever identity:
+
+    f(x)/g(x) = (f(x)/ x - A) * x/g(x) + A*x/g(x)
+
+*** Fixing L'Hospital for vector functions
+
+    We fixed for complex, how about vector?
+
+    By MVT - f(b) - f(a) = f'(c) (b - a)
+
+    Useful corollary - abs(f(b) - f(a)) = abs(f'(c)) abs(b - a)
+
+    Therefore, if we bound the derivative above:
+
+    abs(f(b) - f(a)) sup (t in (a,b)) abs(f'(t)) (b - a)
+
+
+** Definition
 
     f, g real and differentiable on (a,b), g'(x) /= 0. Suppose that
 
@@ -3122,6 +3269,8 @@
      a < x < c2 -> A- < f(x)/g(x) < A+ Done.
 
 
+
+
 ** Rolle's Theorem
 
    f continuous on [a,b], f differentiable on (a,b), f(a) = f(b) = 0, then
@@ -3144,6 +3293,37 @@
 *** Applications
 
     Use it to derive the Mean Value theorem.
+
+
+** Vector Functions
+
+*** Theorem 5.19
+
+    f : [a,b] -> RR^k
+    norm(f(a) - f(b)) .LEQ. (sup norm(f'(t)))(b - a)
+
+    Proof - 'crash through with integrals'
+
+    Refinement - Actually exists some c between a and b such that
+    norm(f'(b) - f'(a)) .LEQ. norm(f'(c)) (b - a)
+
+
+**** Proof
+
+     z in RR^k. Then Phi(x) = z cdot f(x) is a scalar function.
+
+     Therefore, by the mean value theorem, exists some c (dependent on z) in
+     (a,b) s.t.
+
+     Phi(b) - Phi(a) = Phi'(c) (b - a)
+     z cdot f(b) - z cdot f(a) = z cdot f'(c) (b - a)
+     z cdot (f(b) - f(a)) = z cdot f'(c) (b - a)
+
+     Choose z = 1/(norm (f(b) - f(a))) (f(b) - f(a))
+
+     then norm(f(b) - f(a)) = z0 cdot f'(c) (f(b) - f(a))
+
+     so by C-S we get norm(f(b) - f(a)) = norm(z_0) norm(f'(c)) (b - a). Done.
 
 
 * Something.
@@ -3182,3 +3362,36 @@
   Due 11/11/11
 
   114 - 3,4,5,6,8,11 (on the mean value theorem)
+
+* Extra Credit
+
+  114 20,22
+
+** 20 - Q /= E `subset` metric space X, define P_E(x) by inf (p in E) d(x,z)
+
+   and p_E(x) = 0 <-> x in E closure.
+
+   b. x -> P_E(x) is uniformly continuous (Lipschitz with L = 1)
+
+   so abs(P_E(x) - P_E(y)) .LEQ. d(x,y)
+
+   and P_E(x) .LEQ. d(x,z) .LEQ. d(x,y) + d(y,z) -> P_E(x) .LEQ. d(x,y) + P_E(y)
+
+   which implies that p_E(x) - p_E(y) .LEQ. d(x,y)
+
+   similarly, p_E(y) - p_E(x) .LEQ. d(y,x) = d(x,y)
+
+   so abs(P_E(x) - P_E(y)) .LEQ. d(x,y) which implies uniform continuity.
+
+** 22 - A, Bdisjoint and closed in X
+
+   define f(p) = P_A(P) / (P_A(p) + P_B(p)) -> f is continuous on X with range
+   f in [0,1)
+
+   p -> f(p) continuous, it follows from the calculus theorems
+
+   P_A(p) + P_B(p) /= 0 for all p.
+
+   p in (closure A) Union (closure B) <-> A intersect B = nullset.
+
+   f^{-1}({0}) = A, f^(-1)({1}) = B. Done.

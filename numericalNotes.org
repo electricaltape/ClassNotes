@@ -1588,6 +1588,7 @@ partial pivoting is as good (a belief, not a truth)
 
 **** Proof
 
+
 * Fixed Point Iteration
 
 ** Easy 2D example
@@ -1598,12 +1599,12 @@ partial pivoting is as good (a belief, not a truth)
    Since g'(2) = 4/5 (the fixed point) it will converge rather slowly. Why?
 
 
-
 ** Another Example
 
    say that g(x) = x/2 + 2/x
 
    Then g(x) = x - f(x) / f'(x) - f''(x)/2f'(x) (f(x)/f'(x))^2 - cubic convergence!
+
 
 * Newton's Method
 
@@ -1709,3 +1710,158 @@ partial pivoting is as good (a belief, not a truth)
     previous values).
 
     Instead, we can use Lagrangian interpolation to do it.
+
+*** Broyden Methods
+
+    x^k+1 = x^k - (inverse A)f(x^k) or
+    x^k+1 = x^k - H_k * f(x^k)
+
+    Assume that the change in x is small, so
+
+    f(x^k+1) - f(x^k) approx f'(x^k+1) delta x (quasi newton condition)
+
+    The quasi-newton equation only provides n equations, but we need n^2
+    conditions for building the matrix.
+
+    Therefore we can form the matrix A^k+1 by 'correcting' the previous matrix
+    in n entries.
+
+**** Broyden 1 (1965)
+
+     Let E_k be a matrix of rank 1. We can represent this as a product of two
+     vectors v and u
+
+     E^k = v^ku^k
+
+     Let v^k = Delta x^k. Then the quasi-newton method is
+
+     (A^k + u^k (v^k)^T) (Delta x)^k = f(x^k+1) - f(x^k)
+
+     We can multiply it out, moving around A^k
+
+     u^k (v^k)^T (Delta x)^k = f(x^k+1) - f(x^k) - A^k (Delta x)^k
+
+     Therefore
+
+     u^k = 1/( (v^k)^T(Delta x)^k ) (f(x^k+1) - f(x^k) - A^k Delta x^k)
+
+     which gives us a way to solve for some u^k.
+
+* Eigenvalue Calculations
+
+** Definition of the Problem
+
+   If
+
+   (A - lambda I)x = 0
+
+   has a nontrivial solution then lambda is an eigenvalue of A. A nontrivial
+   solution x is an eigenvector of A corresponding to the eigenvalue lambda.
+
+   clearly x = 0 vector is a solution, but no one cares about that.
+
+   difficulty - two unknowns, one equation.
+
+   geometric interpretation : A rescales eigenvectors, they still point in the
+   same direction.
+
+** Characteristic/eigen polynomial
+
+   Delta_A(lambda) = determinant(A - lambda I) is called the _characteristic
+   polynomial_ or _eigenpolynomial_ of A.
+
+   Let lambda1, lambda2, ... be the distinct eigenvalues of A. Then
+
+   the characteristic polynomial:
+   Delta_A(lambda) = (-1)^n (lambda - lambda1)^a1 (lambda - lambda2)^a2 ...
+
+   where each a1,a2,... is the multiplicity of lambda1, lambda2, ...
+
+*** Subspace Properties
+
+    we may form a subspace from each eigenvalue.
+
+    The subspace {x s.t. (A - lambda_i I) x = 0}
+
+    is a subspace of RR^n. It has dimension dim(L(lambda_i)).
+
+*** Relating m_g(lambda_i) and m_a
+
+    m_g is the geometric multiplicity of the eigenvalues - given some lambda,
+    how many eigenvectors can we find that are not multiples of each-other?
+    (that is, how many free variables are there when we solve (A - lambda I) x
+    = 0 beyond the first)
+
+    1 .LEQ. m_g(lambda_i) .LEQ. m_a(lambda_i)
+
+    the geometric multiplicity must be less than or equal to the algebraic
+    multiplicity. We generally want equality.
+
+    We say that A is _defective_ if if has an eigenvalue such that
+
+    m_g(lambda_i) < m_a(lambda_i)
+
+    this is because the dimension of the subspaces will not sum to the dimension
+    of the matrix.
+
+** Switching eigenvector/eigenvalue pairs between matricies via Polynomials
+
+   (lambda, x) eigenpair of A -> for polynomial p, (p(lambda),x) is an
+   eigenpair of p(A).
+
+   Proof - Kincaid-Cheney.
+
+** Similar Matricies
+
+   B = P^-1 A P has the same eigenpairs as A. (invariant under conjugation)
+
+** Gershgorin's Disk Theorem
+
+   Shows us where the eigenvalues are, or at least a neighborhood of each
+   eigenvalue.
+
+   Statement - all eigenvalues are contained in the following n Gershgorin
+   disks in the complex plane:
+
+*** Proof
+
+    Let lambda be an eigenvalue of A and let x be the corresponding
+    eigenvector. Assume that the kth entry of x is such that
+
+    abs(x_k) = norm(x,inf) /= 0
+
+    (one of the entries must be the largest). This suggests a way to index.
+
+    From the kth equation of Ax = lambda x we get
+
+    (lambda - a_kk)x_k = SUM (j = 1, j /= k to n) a_kj x_j
+    (due to the matrix-vector product)
+
+    this leads to
+
+    abs(lambda - a_kk) abs(x_k) .LEQ. SUM (j = 1, j /= k to n) abs(a_kj)
+    abs(x_j)
+    abs(lambda - a_kk) abs(x_k) .LEQ. abs(x_k) SUM (j = 1, j /= k to n)
+    abs(a_kj)
+
+    which allows us to cancel out the x_ks and we get
+
+    abs(lambda - a_kk) .LEQ. SUM (j = 1, j /= k to n) abs(a_kj)
+
+    which allows us to bound the radii.
+
+*** Counting intersections
+
+    Let S be the union of m connected Gershgorin disks of A that has no
+    intersection with the remaining disks. Then S contains m eigenvalues of A.
+
+** Schur Decomposition
+
+   For an square matrix A, exists unitary matrix U and upper triangular matrix
+   R such that
+
+                                A = URU^H
+
+   This means that every square matrix is _unitarily similar_ to some upper
+   triangular matrix.
+

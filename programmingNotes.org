@@ -1,0 +1,9 @@
+* Elements of Programming Style
+
+** Chapter 2
+
+*** Apparent Complexity
+
+    A computer program may only appear to be complex, when in fact it is not
+    (hence the name). Therefore use library functions to reduce apparent
+    complexity.
