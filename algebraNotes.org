@@ -49,6 +49,8 @@
 
 ** Large 'The Following Are Equivalent' Theorem (3.6)
 
+   the operation on left cosets is well defined iff g^-1Ng = N.
+
    1. N a normal subgroup of G
    2. N_G(N) = G
    3. gN = Ng
@@ -101,6 +103,7 @@
 
 * Sylow's Theorem
 
+<<<<<<< HEAD
   Weak converse of Lagrange - if | G | = p^a * m for some prime p and p does
   not divide m, then G has a subgroup of order p^a.
 
@@ -207,6 +210,7 @@
 
      orbit(x) = {gx | g in G}
 
+<<<<<<< HEAD
 **** Stabilizers
 
      unmoved (stable) under the action.
@@ -301,6 +305,24 @@
 
 **** Alternating Group
 
+    Stabilizers
+
+    Kernels
+
+    Cyclic Subgroups
+
+*** Parts of 3
+
+    Quotient Groups
+
+    Cosets, Lagrange's Theorem
+
+    Isomorphism Theorems
+
+    Transpositions
+
+    Alternating Group
+
 *** Parts of 4
 
     Permutation Representations of Group Actions
@@ -313,6 +335,7 @@
 
     Simple Groups
 
+<<<<<<< HEAD
 * What Dr. Brown says is on the test
 
   Pretty much chapters 3 and 4.
