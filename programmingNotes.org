@@ -7,3 +7,57 @@
     A computer program may only appear to be complex, when in fact it is not
     (hence the name). Therefore use library functions to reduce apparent
     complexity.
+
+*** Temporary Variables
+
+    Avoid them. Harder to read, and compilers can do a better job optimizing
+    than I can.
+
+    Do not use the same variables for unrelated calculations!
+
+    "The harder it is for _people_ to graph the intent of any given section,
+    the lonegr it will be before the program becomes operational. Trying to
+    outsmart a compiler defeats much of the purpose of using one."
+
+    "Write clearly - don't sacrifice clarity for 'efficiency'"
+
+*** Repeated Code
+
+    Don't do it. Create a common function, or use a built-in library where
+    possible.
+
+*** Variable Names
+
+    Favor pronounceable ones.
+
+*** Branches
+
+    Avoid unnecessary branching. Empty else statements are just confusing. Do
+    not substitute in branches for logic.
+
+    As for logic - D'Morganize code to make it more readable.
+
+** Chapter 3
+
+*** Structure
+
+    Programs determined by data representation and flow of control - now we
+    look at the second one.
+
+    Follow tests with actions immediately.
+
+*** Top-Down Design
+
+    Typically useful to write out a program in high-level pseudocode first,
+    then translate it in to a lower-level language.
+
+    This kinda anticipates the whole 'use the API then build it' or 'use the
+    class interface then build it' paradigm of more modern programming.
+
+*** Data Structures
+
+    'Try to find a data representation that leads to a simpler program'
+
+    Kernighan weights data structures equally with control flow; proper data
+    structures can therefore clean up code as easily as better abstracted
+    procedures.

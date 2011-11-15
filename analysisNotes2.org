@@ -13,7 +13,7 @@
 
 *** Proof 2
 
-    f cntinuous implies f^-1((closure f(E))) closed. pretty much that.
+    f continuous implies f^-1((closure f(E))) closed. pretty much that.
 
 ** 4.3 Show Z(f), set of x s.t. f(x) = 0, closed
 
@@ -69,13 +69,13 @@
    second kind : not first.
 
 *** Example
+
     x not in QQ -> f continous at x
 
     x in QQ \ {0}  -> discontinuity of the first kind at x. then
     0 < abs(t  - x) < delta
 
     so t = m/n as n-> inf must go to zero.
-
 
 ** Consider X = Y = RR
 
@@ -93,7 +93,6 @@
     quick review of something that we have not done before.
 
     so the lim sup (t -> inf) = sup  { f(t) such that 0 < abs(t - x) < delta}
-
 
 ** Useful application of the boundedness of a monotone function
 
@@ -751,188 +750,186 @@
      (f'(x) + u(t))(g'(f(x)) + u(f(t))) -> f'(x)g'(f(x)) woohoo
 
 
-** Mean Value Theorem
+* Mean Value Theorem
 
-   We can get this from Rolle's Theorem.
+  We can get this from Rolle's Theorem.
 
-   Recall : f :: [a,b] -> RR, , x in [a,b]
-   f differentiable at x -> lim (t -> x) phi(t) = L = f'(x) exists. The limit
-   itself is defined on [a,b]\{x}.
+  Recall : f :: [a,b] -> RR, , x in [a,b]
+  f differentiable at x -> lim (t -> x) phi(t) = L = f'(x) exists. The limit
+  itself is defined on [a,b]\{x}.
 
-*** Local Maximum
+** Local Maximum
 
-    f : X -> RR has a local minimum at a point p in X if exists delta > 0 s.t.
+   f : X -> RR has a local minimum at a point p in X if exists delta > 0 s.t.
 
-    q in X with d(q,p) < delta -> f(q) .LEQ. f(p)
+   q in X with d(q,p) < delta -> f(q) .LEQ. f(p)
 
-*** Fermat's Theorem
+** Fermat's Theorem
 
-    f defined on [a,b], f has a local maximum at some point x in (a,b), f'(x)
-    exists -> f'(x) = 0
+   f defined on [a,b], f has a local maximum at some point x in (a,b), f'(x)
+   exists -> f'(x) = 0
 
-**** Proof by difference quotient
+*** Proof by difference quotient
 
-     t in N_delta(x) where approach from left, derivative .GEQ. 0, approach
-     from right, derivative .LEQ. 0. Therefore by uniqueness of the limit we
-     get that it is zero, or f'(x) = 0.
+    t in N_delta(x) where approach from left, derivative .GEQ. 0, approach
+    from right, derivative .LEQ. 0. Therefore by uniqueness of the limit we
+    get that it is zero, or f'(x) = 0.
 
-     Note that this arguement fails at end points - only applies to open
-     intervals.
+    Note that this arguement fails at end points - only applies to open
+    intervals.
 
-*** Traditional Approach
+** Traditional Approach
 
-    We know that f is continuous and differentiable on [a,b], so there exists
-    some c in (a,b) where f(b) - f(a) = f'(c) (b - a).
+   We know that f is continuous and differentiable on [a,b], so there exists
+   some c in (a,b) where f(b) - f(a) = f'(c) (b - a).
 
-    Remark - in case f(a) = f(b) = 0 we get Rolle's Theorem.
+   Remark - in case f(a) = f(b) = 0 we get Rolle's Theorem.
 
-**** Proof
+*** Proof
 
-     Reduce to Rolle's Theorem by introducing some auxillary function g, where
-     g(x) = f(x) - value on the secant line
-          = f(x) - point-slope formula between (a,f(a)) and (b,f(b)).
+    Reduce to Rolle's Theorem by introducing some auxillary function g, where
+    g(x) = f(x) - value on the secant line
+         = f(x) - point-slope formula between (a,f(a)) and (b,f(b)).
 
-     Then we can almost keep Rolle's Theorem. g continuous on [a,b],
-     differentiable on (a,b), g(a) = g(b) = 0 (Rolle's!). Therefore there is
-     some c in (a,b) where g'(c) = 0
+    Then we can almost keep Rolle's Theorem. g continuous on [a,b],
+    differentiable on (a,b), g(a) = g(b) = 0 (Rolle's!). Therefore there is
+    some c in (a,b) where g'(c) = 0
 
-     however, g'(x) = f'(x) - (f(b) - f(a))/(b - a)
-                  0 = f'(c) - (f(a) - f(b))/(b - a) Done.
+    however, g'(x) = f'(x) - (f(b) - f(a))/(b - a)
+                 0 = f'(c) - (f(a) - f(b))/(b - a) Done.
 
-***** Corollary - increasing stuff.
+**** Corollary - increasing stuff.
 
-      f'(x) .GEQ. 0 implies that f is increasing.
-      f'(x) > 0 implies that f is strictly increasing.
+     f'(x) .GEQ. 0 implies that f is increasing.
+     f'(x) > 0 implies that f is strictly increasing.
 
-      f'(x) .LEQ. 0 implies that f is decreasing.
-      f'(x) < 0 implies that f is strictly decreasing.
+     f'(x) .LEQ. 0 implies that f is decreasing.
+     f'(x) < 0 implies that f is strictly decreasing.
 
-      f'(x) = 0 -> f is a constant.
+     f'(x) = 0 -> f is a constant.
 
-      These are intuitive, but now we may rigorously show that they are true.
+     These are intuitive, but now we may rigorously show that they are true.
 
-*** General Case
+** General Case
 
-    f,g continuous on [a,b] and differentiable on (a,b) implies that there
-    exists some c in (a,b) such that
+   f,g continuous on [a,b] and differentiable on (a,b) implies that there
+   exists some c in (a,b) such that
 
-    (f(b) - f(a))g'(c) = (g(b) - g(a))f'(c)
+   (f(b) - f(a))g'(c) = (g(b) - g(a))f'(c)
 
-    if g(b) /= g(a) and g'(c) /= 0 we can rewrite this as
+   if g(b) /= g(a) and g'(c) /= 0 we can rewrite this as
 
-    f'(c) / g'(c) = (f(b) - f(a)) / (b - a)
+   f'(c) / g'(c) = (f(b) - f(a)) / (b - a)
 
-    where a special case (g(x) = x) is the usual mean value theorem.
+   where a special case (g(x) = x) is the usual mean value theorem.
 
-**** Proof
+*** Proof
 
-     Recall that h~(x) = f(x) - (f(a) + (f(b) - f(a)) / (b - a) * (x - a))
+    Recall that h~(x) = f(x) - (f(a) + (f(b) - f(a)) / (b - a) * (x - a))
 
-     h(x) = h~(x) (b - a)
-          = (b - a) f(x) - (b - a)*f(a) + (f(b) - f(a))*(f(b) - f(a))(x - a)
+    h(x) = h~(x) (b - a)
+         = (b - a) f(x) - (b - a)*f(a) + (f(b) - f(a))*(f(b) - f(a))(x - a)
 
-          = (g(b) - g(a))*(f(x) - f(a)) - (f(b) - f(a))(g(x) - g(a))
+         = (g(b) - g(a))*(f(x) - f(a)) - (f(b) - f(a))(g(x) - g(a))
 
-     Therefore h(x) is continuous on [a,b] (composition of continuous
-     functions)
+    Therefore h(x) is continuous on [a,b] (composition of continuous
+    functions)
 
-     h(a) = 0 by substitution, and there exists some c s.t. h'(c) = 0, so we
-     get what we wanted.
+    h(a) = 0 by substitution, and there exists some c s.t. h'(c) = 0, so we
+    get what we wanted.
 
+** Standard MVT
 
-*** Standard MVT
+   g(x) := x. We can say that the slope of the tangent line matches the slope
+   of the secant line in at least one place.
 
-    g(x) := x. We can say that the slope of the tangent line matches the slope
-    of the secant line in at least one place.
+   Consider t -> (g(t), f(t)) as a parameterized curve, mapping [a,b] -> RR^2.
+   Assume that this parameterization has no singularities. This means that the
+   tangent vector (g'(t), f'(t)) exists and is not the zero vector
+   everywhere. Then the slope of the tangent line is (back to calculus of
+   several variables) at (f(x), g(x)) is
 
-    Consider t -> (g(t), f(t)) as a parameterized curve, mapping [a,b] -> RR^2.
-    Assume that this parameterization has no singularities. This means that the
-    tangent vector (g'(t), f'(t)) exists and is not the zero vector
-    everywhere. Then the slope of the tangent line is (back to calculus of
-    several variables) at (f(x), g(x)) is
+   (g(x), f(x)) + t(g'(x), f'(x))
 
-    (g(x), f(x)) + t(g'(x), f'(x))
+   then the slope of the tangent line at (g(x), f(x)) is f'(x) / g'(x) and we
+   assume that both are not zero at the same time. Therefore we can create
+   some well defined slope.
 
-    then the slope of the tangent line at (g(x), f(x)) is f'(x) / g'(x) and we
-    assume that both are not zero at the same time. Therefore we can create
-    some well defined slope.
+   Assume taht the secant line is well-defined. This means that
 
-    Assume taht the secant line is well-defined. This means that
+   (g(b),f(b)) /= (g(a),f(a))
 
-    (g(b),f(b)) /= (g(a),f(a))
+   and the geometric interpretation is just the general MVT, that is
 
-    and the geometric interpretation is just the general MVT, that is
+   slope of tangent line at c = (f(b) - f(a))/(g(b) - g(a)) = f'(c)/g'(c)
 
-    slope of tangent line at c = (f(b) - f(a))/(g(b) - g(a)) = f'(c)/g'(c)
+** What makes the Generalized MVT more general?
 
-*** What makes the Generalized MVT more general?
+   We have two functions (f and g) satisfying the hypotheses.
 
-    We have two functions (f and g) satisfying the hypotheses.
+   f(b) - f(a) = f'(c_f) (b - a)
+   g(b) - g(a) = g'(c_g) (b - a)
 
-    f(b) - f(a) = f'(c_f) (b - a)
-    g(b) - g(a) = g'(c_g) (b - a)
 
+   If it is possible to take c_f = c_g then we recover the other versions of
+   the Mean Value Theorem.
 
-    If it is possible to take c_f = c_g then we recover the other versions of
-    the Mean Value Theorem.
+** Speculation : Vector MVT
 
-*** Speculation : Vector MVT
+   This is not true! We will shoot down this conjecture shortly.
 
-    This is not true! We will shoot down this conjecture shortly.
+   So that f :: [a,b] -> RR^k is continuous and differentiable on (a,b).
 
-    So that f :: [a,b] -> RR^k is continuous and differentiable on (a,b).
+   Then we can say f'(x) = [f1'(x), f2'(x), ...]
 
-    Then we can say f'(x) = [f1'(x), f2'(x), ...]
+   and that this equals lim (y -> x) 1/(y - x) (f(y) - f(x))
 
-    and that this equals lim (y -> x) 1/(y - x) (f(y) - f(x))
+   Therefore there should exist some point in (a,b) where
 
-    Therefore there should exist some point in (a,b) where
+   f(b) - f(a) = f'(c) (b - a)
 
-    f(b) - f(a) = f'(c) (b - a)
+   What happens when we take this appart component-wise?
 
-    What happens when we take this appart component-wise?
+   f1(b) - f1(a) = f1'(c) (b - a)
+   f2(b) - f2(a) = f2'(c) (b - a)
+   ...
 
-    f1(b) - f1(a) = f1'(c) (b - a)
-    f2(b) - f2(a) = f2'(c) (b - a)
-    ...
+   This is the same as the system of scalar equations
 
-    This is the same as the system of scalar equations
+   f_j(b) - f_j(a) = f_j'(c) (b - a)
 
-    f_j(b) - f_j(a) = f_j'(c) (b - a)
+   where c is independent of j. We can certainly do this individually.
 
-    where c is independent of j. We can certainly do this individually.
+   Counter-Example: f(t) = [cos t, sin t] :: [0,2Pi] -> RR
 
-    Counter-Example: f(t) = [cos t, sin t] :: [0,2Pi] -> RR
+   Then f(0) = (1,0), yet norm(f'(t)) = 1
 
-    Then f(0) = (1,0), yet norm(f'(t)) = 1
+   but f(2pi) - f(0) = f'(c)(2pi)
 
-    but f(2pi) - f(0) = f'(c)(2pi)
+   f(2pi) - f(0) is zero, but f'(c) is not. Therefore the conjecture fails.
 
-    f(2pi) - f(0) is zero, but f'(c) is not. Therefore the conjecture fails.
+   New conjecture - MVT fails for complex because it fails for RR^2.
 
-    New conjecture - MVT fails for complex because it fails for RR^2.
+*** Theorem 5.19
 
-**** Theorem 5.19
+    f is a continuous mapping of [a,b] into RR^k and f is differentiable on
+    (a,b) implies that there exists some point (a single point!) in (a,b)
+    where the estimate
 
-     f is a continuous mapping of [a,b] into RR^k and f is differentiable on
-     (a,b) implies that there exists some point (a single point!) in (a,b)
-     where the estimate
+    norm(f(b) - f(a)) .LEQ. (b - a) norm(f'(c))
 
-     norm(f(b) - f(a)) .LEQ. (b - a) norm(f'(c))
+**** Proof - By 4226
 
-***** Proof - By 4226
+     We secretly already know how to integrate.
 
-      We secretly already know how to integrate.
+     norm(f(h) - f(a)) = norm(integral (0 to 1) d/dt f((1 - t)*a + th) dt)
+     crash through the integral:
 
-      norm(f(h) - f(a)) = norm(integral (0 to 1) d/dt f((1 - t)*a + th) dt)
-      crash through the integral:
 
+     .LEQ. integral norm(f'((1-t)a + th)) dt (b - a)
+     we can take the norm and bound and get
 
-      .LEQ. integral norm(f'((1-t)a + th)) dt (b - a)
-      we can take the norm and bound and get
-
-      .LEQ. sup(norm(f'(t))) (b - a)
-
+     .LEQ. sup(norm(f'(t))) (b - a)
 
 ** L'Hopital's Rule
 
@@ -957,7 +954,6 @@
     Therefore, if we bound the derivative above:
 
     abs(f(b) - f(a)) sup (t in (a,b)) abs(f'(t)) (b - a)
-
 
 ** Definition
 
@@ -1047,7 +1043,6 @@
 
      a < x < c2 -> A- < f(x)/g(x) < A+ Done.
 
-
 ** Rolle's Theorem
 
    f continuous on [a,b], f differentiable on (a,b), f(a) = f(b) = 0, then
@@ -1070,7 +1065,6 @@
 *** Applications
 
     Use it to derive the Mean Value theorem.
-
 
 ** Vector Functions
 
