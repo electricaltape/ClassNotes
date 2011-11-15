@@ -648,16 +648,14 @@
    Do all the homework, get experience, know the 'lay of the land' of analysis.
 
 
-* 9/26/11
-** Test news
-   reverse bell curve: 5 below 80, 5 above 90, 2 inbetween.
+* Test 1 news reverse bell curve: 5 below 80, 5 above 90, 2 inbetween.
 
-** Review of connectedness HW
 
-*** Problem 20
-    pick the 'eyeglasses' in RR^2 - circle at -1, circle at 1:
-    connected, but E^' disconnected.
-    the definition of connected is too hard to work with - use disconnected.
+* Review of connectedness HW
+** Problem 20
+   pick the 'eyeglasses' in RR^2 - circle at -1, circle at 1:
+   connected, but E^' disconnected.
+   the definition of connected is too hard to work with - use disconnected.
 **** Show that (closure E) disconnected -> E disconnected.
      Say that closure E has a separation, or
      (closure E) = A disjoint union B
@@ -669,7 +667,7 @@
      disconnection of E.
 
      The nontrivial part is to show A intersect E /= nullset.
-*** Problem 19
+** Problem 19
 **** Show A, B closed , A intersect B = nullset -> (closure A) intersect B = nullset
      (and that (closure B) intersect A = nullset)
 
@@ -693,76 +691,225 @@
      we can do a similar trick to show that q_alpha works for
      alpha in some [0, d(p,q)] - an uncountable interval.
 
-** Chapter 3 - more sequences.
-*** Limits
-    lim (n -> inf) p_n = p implies :
+* Limits
 
-    forall epsilon > 0, exists N(epsilon) in NN s.t.
-    if n geq N then d(p_n,p) < epsilon.
-    lim s_n = s means : | s_n - s | < epsilon
+** Definition
 
-*** Subsequences
-    Function k in NN, n_k in NN
-    with n_1 < n_2 < ... < n_k_1 < ...
-    subsequences still converge to the original limit.
+   lim (n -> inf) p_n = p implies :
 
-*** Characterizations of compact metric spaces
-    if X is a metric space, then the following are equivalent:
-    1. X is compact.
-    2. F_n closed then {F_n} has the finite intersection property (intersection
-       of all nonempty)
-    3. Every countably infinite subset of X has a limit point in X.
-    4. Every sequence P_n contained in X has a convergent subsequence.
+   forall epsilon > 0, exists N(epsilon) in NN s.t.
+   if n .GEQ. N then d(p_n, p) < epsilon.
+   lim s_n = s means : ABS(s_n - s) < epsilon
 
-**** Proving it
-     1 -> 2 : extra credit problem: an open cover may be 'collapsed' to a
-     countable open cover. Then "De'Morganize" the contrapositive.
-     (compact and countably compact are the same for metric spaces)
-     2 -> 3 : straightforward.
-     3 -> 1 : extra credit problem from Ch2.
+   Limits do not always exist! Take X = RR. We have seen that cauchy ->
+   bounded, but the converse fails in general (remember (-1)^n, nice and
+   bounded). However, bounded and 'something else' -> cauchy -> convergence (as
+   RR is complete).
 
-***** 3 <-> 4
-      Create the list E = {p_1, p_2, ...} = countably infinite subset of
-      X. View this as a sequence. Identify a limit point of E = limit point of
-      the subsequence of {p_n}
+   This something else is 'monotonic'.
 
-      then showing 3 -> 4 is trivial by boundedness.
+** Monotone Convergence Theorem
 
-*** Corollaries to the Laundry List
-    Infinite subsets E of RR^k have limit points (since E subset closed k-cell,
-    which is compact)
+   Let {x_n} subset RR. Then if x_n leq x_(n+1) for all n in NN, we say it is
+   monotonically increasing. If {x_n} is bounded as well then it is
+   convergent.
 
-    Bounded sequences have convergent subsequences.
+*** Proof, for RR
+    Our candidate for the limit is the sup. Now we just show that this is the
+    case.
+    Given epsilon > 0, there is N such that n geq N implies | s_n - s | <
+    epsilon, so
 
-    (these imply completeness)
+    -epsilon < s_n - s < epsilon
 
-*** Theorem 3.7 - Given a sequence {p_n} in some metric space X
+    by definition of the sup, sup - epsilon is not an upper bound, so
 
-    Let E = subsequential limit set, or
-    E = { q | exists {n_k} s.t. q = lim (k -> inf) p_(n_k) }
-    then E is closed (limit points of subsequential limits themselves
-    subsequential limits)
-**** Proof
-     Two-step tango - use triangle inequality. In other news, Cameron's parents
-     are professional ballroom dancers.
+    for some N in NN, s - epsilon < s_NN.
 
-*** Cauchy Sequences
-    A sequence {p_n} in a metric space X is cauchy <-> given epsilon > 0,
-    exists N(epsilon) in NN s.t. m,n geq N -> d(p_n,p_m) < epsilon
-    (the terms get close to each other)
+    For n geq N, s - epsilon < s_N leq s_n leq s < s + epsilon Done!
 
-    Result: Theorem 3.11
+    (this is valid by completeness of RR)
+
+
+* Lim Sup and Lim Inf
+
+** Why do we need it?
+
+   Given {s_n}, lim s_n may not exist. That would be a problem.
+
+   Fix it by: lim sup s_n and over{RR} = RR U {inf, -inf}
+   Don't subtract inf and -inf, or multiply them by zero. Instead 'throw up
+   your hands' (this isn't really a field)
+
+   Expand the definition of lim (n -> inf) s_n to include inf and -inf.
+
+   lim (n -> inf) = inf means that given M < inf there exists N in NN such
+   that n geq N -> M < s_n.
+
+   lim (n -> inf) = -inf means that given M in RR then N in NN exists such
+
+** Proof of b
+
+   We don't really need to prove this. There is a subsequence that goes to
+   s*.
+
+   Uniqueness : two distinct such numbers p and q satisfying (a,b) then say x
+   (say that p < x < q) then all s_n with n geq N have s_n < x and infinitely
+   many s_ns including some bigger than N have s_n > x -> contradiction. This
+   determines s* uniquely.
+
+   that n .GEQ. N implies s_n < -M.
+
+** Another Theorem
+   Lim inf {s_n} = inf E({s_n}) = lim (n -> inf) infimum (k geq n) {s_k}
+                                          sup over n inf (k geq n) {s_k}
+
+*** Proof by 'erasure' - same as before.
+
+    exists some N(epsilon) such that for all n past a certain point,
+    s_n > s* - epsilon for n geq N.
+
+*** Examples
+
+    s_n = (-1)^n n -> the subsequential limit set is inf, -inf
+    therefore lim sup is inf, lim inf is -inf
+
+    s_n = r_n where r_1,r_2 is an enumeration of QQ
+    so E({s_n}) = bar(RR) (we can get anything we please out of it.)
+
+    s_n = (-1)^n / (1 + 1/n)
+
+    therefore E({s_n}) = {1, -1} (we can approach both.)
+
+    How about something more interesting - recursive formula
+
+    #4 on page 78 - good luck.
+
+** Relation with lim s_n = s
+
+   means that forall epsilon > 0, exists N(epsilon) s.t. n geq N(epsilon)
+   implies s - epsilon < s_n < s + epsilon.
+
+** Advanced Calculus Theorem, 4225 equivalent
+
+   LIM t_n exists, equals t, s_n .LEQ. t_n -> LIM s_n .LEQ. t.
+
+   better formulation - for s_n .LEQ. t_n forall n geq N (some N) then
+
+   a. LIM inf s_n .LEQ. LIM inf t_n
+
+   b. LIM sup s_n .LEQ. LIM sup t_n.
+
+*** Proof
+    (b) via lim sup of s_n = sup ({s_n})
+    let x in E({s_n}) so x = lim s_n_k
+
+    by the limit theorem : x leq lim t_n_k exists.
+    pick some {t_n_j_k} subset {t_n_k} with
+    t_n_j_k exists and the limit is t. So this is a subsequence of t_n, and
+    therefore t in E({s_n}), t leq lim sup of t_n.
+
+    but also : lim s_n_j_k = s.
+
+    also know that s_n_k_j leq t_n_k_j, so by the advanced calculus theorem,
+    we have that x leq t leq lim sup of t_n forall x in E({s_n}) that
+    lim sup s_n leq lim sup t_n
+
+
+* Sequences
+
+** Convergence
+
+   forall epsilon > 0, if n .GEQ. N then d(p_n, p) < epsilon
+   (means {p_n} converges to p)
+
+** Convergence Theorem (3.2)
+
+   Let {p_n} be a sequence in a metric space X.
+
+   1. {p_n} converges to p iff every neighborhood of p contains all but
+      finitely many p_n.
+
+   2. p in X, p' in X, {p_n} -> p, {p_n} -> p' then p = p'.
+
+   3. {p_n} convergent then {p_n} bounded.
+
+   4. E `subSet` X and p in E' then there is a sequence {p_n} in E s.t. p = LIM
+      {p_n}.
+
+** Subsequences
+
+   Function k in NN, n_k in NN
+   with n_1 < n_2 < ... < n_k_1 < ...
+   subsequences still converge to the original limit.
+
+*** Theorem 3.6
+
+    1. if {p_n} is a sequence in a compact metric space X then some subsequence
+       of {p_n} converges to a point of X.
+
+    2. Every bounded sequence in RR^k contains a convergent subsequence.
+
+** Theorem 3.7 - sequence {p_n} in metric space X
+
+   Let E = subsequential limit set, or
+   E = { q | exists {n_k} s.t. q = lim (k -> inf) p_(n_k) }
+   then E is closed (limit points of subsequential limits themselves
+   subsequential limits)
+
+*** Proof
+
+    Two-step tango - use triangle inequality. In other news, Cameron's parents
+    are professional ballroom dancers.
+
+** Cauchy Sequences
+
+   A sequence {p_n} in a metric space X is _cauchy_ <-> given epsilon > 0,
+   exists N(epsilon) in NN s.t.
+
+   m,n .GEQ. N -> d(p_n, p_m) < epsilon
+
+   (the terms get close to each other)
 
 *** Theorem 3.11 : {p_n} convergent -> {p_n} cauchy
+
     for some compact metric space the converse is also true.
     X subset RR^k also implies the converse.
 
-    suggests a definition : X is complete if its cauchy sequences converge.
+    suggests a definition : X is _complete_ if its cauchy sequences converge.
+
+**** Proof 2
+
+     Lemma required - show that if {p_n_k} -> p then {p_n} -> p (#20)
+
+     Variation on #20:
+     Suppose that {p_n} is a sequence and contained in the metric space. Every
+     subsequence {p_n_k} has, in turn, a subsequence {p_n_k_j} with limit as (j
+     -> inf) p_n_k_j = p (limit independent of choice of subsequence). Then as a
+     subsequence converges the whole sequence converges.
+
+     This is used in the presence of compactness (we know that any sequence has
+     a convergent subsequence). If we can show that two subsequences converge to
+     the same thing we are okay.
+
+     Therefore, for reformulation, use the contrapositive:
+
+     not (lim p_n = p) implies exists {p_n_k} such that no subsequence {p_n_k_j}
+     can converge to p.
+
+     (therefore cook up a subsequence such that all subsequences cannot converge
+     to p)
+
+     a.k.a find p_n_k s.t. d(p_n_k,p) geq epsilon (all terms stay away from p,
+     so subsequences cannot converge to p)
 
 *** Corollary to 3.11
+
     X is compact, or X = RR^k -> X complete.
     (however the reverse is not true. Complete does not imply compact.)
+
 **** Proof
+
      part one - easy - use a delta epsilon arguement.
      Say lim (n -> inf) p_n = p, so we know the usual things about epsilon and
      N(epsilon).
@@ -799,352 +946,16 @@
      then d(p_n, p) leq d(p_n, p_k0) + d(p_nk0, p)
                     =   epsilon/2 + epsilon/2
 
-
-* 9/28/11
-** New homework due on Monday (check email for PDF)
-   page 78, #5 and handout, page 7.1
-
-** Review
-   for some metric space X, the following are equivalent:
-   1. X compact
-   2. {F_n} bounded with the finite intersection property
-   2. Countably infinite subsets have a limit point.
-   2. Any sequence has a convergent subsequence.
-
-** Theorem 3.1
-   X compact metric space and
-   {p_n} cauchy -> {p_n} convergent.
-
-   A more efficient proof - start with 4 and show that Cauchy sequences
-   converge.
-
-*** Proof
-    Lemma required - show that if {p_n_k} -> p then {p_n} -> p (#20)
-
-    Variation on #20:
-    Suppose that {p_n} is a sequence and contained in the metric space. Every
-    subsequence {p_n_k} has, in turn, a subsequence {p_n_k_j} with limit as (j
-    -> inf) p_n_k_j = p (limit independent of choice of subsequence). Then as a
-    subsequence converges the whole sequence converges.
-
-    This is used in the presence of compactness (we know that any sequence has
-    a convergent subsequence). If we can show that two subsequences converge to
-    the same thing we are okay.
-
-    Therefore, for reformulation, use the contrapositive:
-
-    not (lim p_n = p) implies exists {p_n_k} such that no subsequence {p_n_k_j}
-    can converge to p.
-
-    (therefore cook up a subsequence such that all subsequences cannot converge
-    to p)
-
-    a.k.a find p_n_k s.t. d(p_n_k,p) geq epsilon (all terms stay away from p,
-    so subsequences cannot converge to p)
-**** Example
-     (-1)^n is a good example of lim (n -> inf) (-1)^n = 1. We can pick the
-     subsequence (-1)^odd, which is never one, so all of its subsequences are
-     never 1 as well.
-
-** Limits
-   Limits do not always exist! Take X = RR. We have seen that cauchy ->
-   bounded, but the converse fails in general (remember (-1)^n, nice and
-   bounded). However, bounded and 'something else' -> cauchy -> convergence (as
-   RR is complete).
-
-   This something else is 'monotonic'.
-
-*** Monotone Convergence Theorem
-    Let {x_n} subset RR. Then if x_n leq x_(n+1) for all n in NN, we say it is
-    monotonically increasing. If {x_n} is bounded as well then it is
-    convergent.
-**** Proof, for RR
-     Our candidate for the limit is the sup. Now we just show that this is the
-     case.
-     Given epsilon > 0, there is N such that n geq N implies | s_n - s | <
-     epsilon, so
-
-     -epsilon < s_n - s < epsilon
-
-     by definition of the sup, sup - epsilon is not an upper bound, so
-
-     for some N in NN, s - epsilon < s_NN.
-
-     For n geq N, s - epsilon < s_N leq s_n leq s < s + epsilon Done!
-
-     (this is valid by completeness of RR)
-
-**** Inconvenience and lim sup
-     Given {s_n}, lim s_n may not exist. That would be a problem.
-
-     Fix it by: lim sup s_n and over{RR} = RR U {inf, -inf}
-     Don't subtract inf and -inf, or multiply them by zero. Instead 'throw up
-     your hands' (this isn't really a field)
-
-     Expand the definition of lim (n -> inf) s_n to include inf and -inf.
-
-     lim (n -> inf) = inf means that given M < inf there exists N in NN such
-     that n geq N -> M < s_n.
-
-     lim (n -> inf) = -inf means that given M in RR then N in NN exists such
-     that n geq N implies s_n < -M.
-
-*** Refined Bolzano-Weirstrass
-    Any sequence {s_n} contained in bar{RR} has a convergent subsequence.
-    (we no longer need boundedness, if we are in bar{RR})
-    (most of our sequences are real valued, but can converge to +/- inf)
-
-    bar{RR} is a metric space by d(s,t) = | artcan s - arctan t |
-    where arctan inf  = pi / 2
-          arctan -inf = -pi / 2
-
-**** Consequences
-     So let {s_n} be a subsequence in RR (recall that we are allowed now to
-     converge to things in bar{RR}). Then
-
-     E = subsequential limits of {s_n} in bar{RR}
-
-     is nonempty by the refined Bolzano-Weirstrass.
-
-     Refine the least upper bound property for some S subset bar{RR}. in
-     particular, S subset RR has a least upper bound in bar{RR}
-
-     (the upper bound on the empty set is -inf. Weird.)
-
-** Lim Sup
-   {s_n} in RR, define bar{lim} (also known as lim sup) as
-
-   sup E({s_n}), where E is the set of subsequential limits of its
-   arguements.
-
-   nice - this always exists.
-
-   Homework problem - show that lim sup s_n + t_n leq lim sup s_n + lim sup
-   t_n (provided that the sum is not inf - inf; assume one is finite).
-
-   add part b : give an example where it is a strict inequality.
-
-   Where does this notation come from? 'Supremum of the subsequential limit
-   set' of this sequence.
-
-   equivalency theorem : lim sup s_n = lim (n -> inf) (sup (k geq n) {s_k})
-
-   also called the sequence of the tail. As n increases, the number of elements
-   in {s_k} decreases, so we expect the sup to not 'blow up'.
-
-*** Proof
-    Suppose x in E = (subsequential limit set of {s_n}), so
-
-    x = limit (j -> inf) s_n_j for some s_n_j in {s_n}.
-
-    We will do the finite case (do the infinite case for practice).
-
-    choose some epsilon > 0, so x - epsilon < s_n_k (n_k strictly increasing)
-    for k geq K(epsilon).
-
-    Therefore x - epsilon < sup (k geq n) s_k for all n.
-
-    therefore this implies that for x = any element of E, x - epsilon leq inf
-    (n -> inf) (sup (k geq n) s_k) which implies that
-
-    x leq inf sup s_k
-
-    which implies that x leq upper bound for E, so the sup of E leq inf sup
-    s_k.
-
-    next time : show inf sup in E.
-**** TODO : Infinite case
-
-
-* 9/30/11
-** Homework due on Wednesday
-   3,4,16 78-81
-
-*** Homework hints 3.3
-
-    Monotone convergence theorem, define {s_n} by s_1 specified, s_n+1 =
-    f(s_n)
-
-    and s_n bounded and monotonically decreasing -> convergent.
-
-*** 3.4
-    Recursively defined lim sup condition
-
-    or rather, s_n defined recursively. Find the lim sup
-
-    strategy : show that the limit of s_2m = s_even (exists)
-    and limit of s_(2m-1) = s_odd (exists)
-    therefore the limit of the infimum, we get to subsequential limits (s_even
-    and s_odd)
-
-    so lim s_n overbar = max (s_e, s_o)
-    so lim s_n underbar = min (s_e, s_o)
-
-*** Homework hints 3.16 - Newton's method for x^2 = alpha.
-
-    Everyone loves Newton's method!
-    instead of the picture we use monotone convergence theorem. Show that the
-    subsequence converges, or something.
-
-*** More hints
-
-    not sure what problem these go with. Oh well.
-
-    for f :: RR -> RR
-    if f is increasing then x < y -> x(x) < f(y)
-    so s_2 < s_1 -> s_n+1 < s_n for all n
-
-** More Lim Sup and Lim Inf
-*** Lim Sup
-
-    overbar lim (m -> inf) s_n := (subsequential limit set for s_n)
-                                = sup E({s_n})
-                                = lim (n -> inf) (sup, k geq n) of {s_k}
-    We can split them apart! Compose it with two more 'fundamental' operations
-    (lim and sup)
-
-    last time - showed that x in s_n -> x leq infimum (sup {s_k}, k geq n)
-    call this the Rudin definition. Then
-
-    overbar lim s_n leq lim (sup {s_k})
-
-    how about the reverse? Suffices to show that
-
-    lim (n -> inf) sup (k geq n) s_k is in E({s_n}) (so of course it is less
-    than or equal to the sup)
-
-    Say that L := lim (n -> inf) sup (k geq n) s_k
-
-    Then this guy (sup k geq n s_k) is a sequence; call it t_n
-    Choose some n_1 with L leq t_n_1 leq  L + 1, so choose k_1 > n_1 with
-
-    L - 1 < s_k+1 leq t_n1 < L + 1
-
-    as t_n1 was a supremum larger than L, so find something less than L.
-
-    Then:
-    L - 1/i < s_k_i < L + 1/i
-
-    so choose some n_j+1 > k_1 with L leq t_j < L + 1/(i+1)
-
-    we get layers of subscripts!
-
-    L - 1/(j+1) < s_k_(j+1) leq t_j
-
-    In this way we can get some {s_k_j} such that
-
-    L - 1/j < S_k_j < L + 1/j implies s_k_j -> L.
-
-    Another way to look at the problem - 3.17 - real valued sequences
-
-    {s_n} subset RR (could also use bar(RR))
-
-    Let s* = lim sup of s_n. Then
-
-    s* is a subsequential limit and we can skip to the last few steps.
-
-    If x > s* then exists N s.t. n geq n implies s_n < x. Therefore we have a
-    subsequential limit.
-
-    Therefore s* = lim sup s_n, which means :
-
-    a. forall epsilon, exists infinitely many ns with s* - epsilon < s_n, so
-    there is a subsequence whose limit is greater than s* - epsilon, so there
-    are subsequences with limits greater than s*,
-
-
-    b. Exists N(epsilon) so that s_n < s* + epsilon for all n geq N(epsilon).
-    No matter how far you go, you could still go farther. This tears apart
-    sequences.
-
-**** Proof of b
-     We don't really need to prove this. There is a subsequence that goes to
-     s*.
-
-     Uniqueness : two distinct such numbers p and q satisfying (a,b) then say x
-     (say that p < x < q) then all s_n with n geq N have s_n < x and infinitely
-     many s_ns including some bigger than N have s_n > x -> contradiction. This
-     determines s* uniquely.
-
-** similarly:
-   lim inf {s_n} = inf E({s_n}) = lim (n -> inf) infimum (k geq n) {s_k}
-                                          sup over n inf (k geq n) {s_k}
-
-**** Proof by 'erasure' - same as before.
-     exists sme N(epsilon) such that for all n past a certain point,
-     s_n > s* - epsilon for n geq N.
-
-*** Examples
-
-    s_n = (-1)^n n -> the subsequential limit set is inf, -inf
-    therefore lim sup is inf, lim inf is -inf
-
-    s_n = r_n where r_1,r_2 is an enumeration of QQ
-    so E({s_n}) = bar(RR) (we can get anything we please out of it.)
-
-    s_n = (-1)^n / (1 + 1/n)
-
-    therefore E({s_n}) = {1, -1} (we can approach both.)
-
-    How about something more interesting - recursive formula
-
-    #4 on page 78 - good luck.
-
-** Relation with lim s_n = s
-
-   means that forall epsilon > 0, exists N(epsilon) s.t. n geq N(epsilon)
-   implies s - epsilon < s_n < s + epsilon.
-
-   (if this is satisfied, then lim sup = lim inf (it is iff))
-
-   always true : lim inf s_n = inf E ({s_n}) leq sup E({s_n}) leq lim sup.
-
-*** sneaky proofs - showing that certain limits exist.
-
-    to show s_n convergent (to something) it suffices to show that
-
-    lim sup of s_n leq lim inf s_n.
-
-    (as lim sup geq lim inf, so we have sandwiching, so the limit exists)
-
-    this is a useful trick! We will need it.
-
-** Advanced Calculus Theorem, 4225 equivalent
-
-   lim t_n exists, equals t, s_n leq t_n -> lim s_n leq t.
-
-   better formulation - for s_n leq t_n forall n geq N (some N) then
-
-   a. lim inf s_n leq lim inf t_n
-
-   b. lim sup s_n leq lim sup t_n.
-
-**** Proof
-     (b) via lim sup of s_n = sup ({s_n})
-     let x in E({s_n}) so x = lim s_n_k
-
-     by the limit theorem : x leq lim t_n_k exists.
-     pick some {t_n_j_k} subset {t_n_k} with
-     t_n_j_k exists and the limit is t. So this is a subsequence of t_n, and
-     therefore t in E({s_n}), t leq lim sup of t_n.
-
-     but also : lim s_n_j_k = s.
-
-     also know that s_n_k_j leq t_n_k_j, so by the advanced calculus theorem,
-     we have that x leq t leq lim sup of t_n forall x in E({s_n}) that
-     lim sup s_n leq lim sup t_n
-
-
-* 10/03/11
-** Sophomore Calculus level maths
-*** special sequences
-    p > 0 -> lim 1/n^p = 0
-    p > 0 -> lim nth root of p = 1
-    lim nth root of n = 1
-    p > 0, alpha real -> lim n^alpha / (1 + p)^n = 0
-    abs(x) < 1 -> lim x^n = 0
+** special sequences
+
+   p > 0 -> lim 1/n^p = 0
+   p > 0 -> lim nth root of p = 1
+   lim nth root of n = 1
+   p > 0, alpha real -> lim n^alpha / (1 + p)^n = 0
+   abs(x) < 1 -> lim x^n = 0
 
 *** Proofs
+
     1. take the logarithm:
        ln n^(-p) = -p ln n -> - inf
        which implies the limit is exp(-inf) = 0
@@ -1205,106 +1016,231 @@
 
     5. Also binomial theorem!
 
-** Series - sequence with recursion.
-   Some summation that forms a sequence of partial sums.
-   s_n = sum (from k = 1 to n) a_k
-   so form s_n+1 = s_n + a_n+1
+* Compact Metric Spaces
 
-   challenge - knowing a_n, understand s_n.
+** Useful TFAE Theorem
+   if X is a metric space, then the following are equivalent:
+   1. X is compact.
+   2. F_n closed then {F_n} has the finite intersection property (intersection
+      of all nonempty)
+   3. Every countably infinite subset of X has a limit point in X.
+   4. Every sequence P_n contained in X has a convergent subsequence.
 
-   we say that the sum converges if lim (n -> inf) s_n in RR
+** Corollaries
 
-*** Cauchy Criterion
-    The summation sum (n from 1 to inf) a_n converges if the series of partial
-    sums {s_n} is convergent, namely given epsilon > 0, exists N s.t.
+   Infinite subsets E of RR^k have limit points (since E subset closed k-cell,
+   which is compact)
 
-    m > n geq N -> abs(s_m - s_n) < epsilon.
+   Bounded sequences have convergent subsequences.
 
-    put another way, abs(sum (k = n+1 to m) a_k) < epsilon.
-    in particular, pick some m = n + 1; then abs(a_{n+1}) < epsilon.
-    or lim (n to infinity) a_n = 0. (recall that the converse is not true.)
+   (these imply completeness)
 
-*** Monotone convergence theorem
-    Assume that s_n is monotonically increasing. so s_n+1 geq s_n for a_n geq 0.
+** Example
+   (-1)^n is a good example of lim (n -> inf) (-1)^n = 1. We can pick the
+   subsequence (-1)^odd, which is never one, so all of its subsequences are
+   never 1 as well.
 
-    Then sum (from k = 1 to infinity) a_k convergent iff the partial sums are
-    bounded.
+  Any sequence {s_n} contained in bar{RR} has a convergent subsequence.
+  (we no longer need boundedness, if we are in bar{RR})
+  (most of our sequences are real valued, but can converge to +/- inf)
 
-*** Alternating Series Test
-    if the terms alternate in sign and the a_n goes to zero, and abs(a_n)
-    monotone, then the summation converges.
+  bar{RR} is a metric space by d(s,t) = | artcan s - arctan t |
+  where arctan inf  = pi / 2
+        arctan -inf = -pi / 2
 
-*** Comparison Test
-    If abs(a_n) leq b_n and sum (from n = 1 to inf) b_n converges then sum
-    (from n = 1 to inf) a_n converges.
+** Consequences
+   So let {s_n} be a subsequence in RR (recall that we are allowed now to
+   converge to things in bar{RR}). Then
 
-**** Proof - two-step tango
-     step 1 : show that the summation of abs(a_n) converges by showing some t_n
-     = partial sums of a_k is bounded.
+   E = subsequential limits of {s_n} in bar{RR}
 
-     Note that by definition sum abs(a_k) leq sum b_k < inf (termwise, finite)
-     Therefore by the monotone convergence theorem -> the summation abs(a_k)
-     converges (the sequence of partial sums is monotone, each non-negative)
+   is nonempty by the refined Bolzano-Weirstrass.
 
-     step 2 : show that the summation of abs(a_k) convergent -> summation of
-     a_k converges. (absolute converge -> convergence)
+   Refine the least upper bound property for some S subset bar{RR}. in
+   particular, S subset RR has a least upper bound in bar{RR}
 
-     Trick - use Cauchy. abs(s_n - s_m) = abs(sum (from k=n+1 to m) a_k) <
-     epsilon. THen
+   (the upper bound on the empty set is -inf. Weird.)
 
-     abs(sum (from n+1 to m) a_k) leq sum (from k=n+1 to m) abs(a_k) < epsilon
-     for m > n geq N(epsilon)
-     as {t_n} is Cauchy -> done.
+** Lim Sup
+   {s_n} in RR, define bar{lim} (also known as lim sup) as
 
-*** Convergence and Absolute Convergence
+   sup E({s_n}), where E is the set of subsequential limits of its
+   arguements.
+
+   nice - this always exists.
+
+   Homework problem - show that lim sup s_n + t_n leq lim sup s_n + lim sup
+   t_n (provided that the sum is not inf - inf; assume one is finite).
+
+   add part b : give an example where it is a strict inequality.
+
+   Where does this notation come from? 'Supremum of the subsequential limit
+   set' of this sequence.
+
+   equivalency theorem : lim sup s_n = lim (n -> inf) (sup (k geq n) {s_k})
+
+   also called the sequence of the tail. As n increases, the number of elements
+   in {s_k} decreases, so we expect the sup to not 'blow up'.
+
+*** Proof
+    Suppose x in E = (subsequential limit set of {s_n}), so
+
+    x = limit (j -> inf) s_n_j for some s_n_j in {s_n}.
+
+    We will do the finite case (do the infinite case for practice).
+
+    choose some epsilon > 0, so x - epsilon < s_n_k (n_k strictly increasing)
+    for k geq K(epsilon).
+
+    Therefore x - epsilon < sup (k geq n) s_k for all n.
+
+    therefore this implies that for x = any element of E, x - epsilon leq inf
+    (n -> inf) (sup (k geq n) s_k) which implies that
+
+    x leq inf sup s_k
+
+    which implies that x leq upper bound for E, so the sup of E leq inf sup
+    s_k.
+
+    next time : show inf sup in E.
+
+*** A set of definitions
+    overbar lim (m -> inf) s_n := (subsequential limit set for s_n)
+                                = sup E({s_n})
+                                = lim (n -> inf) (sup, k geq n) of {s_k}
+
+   We can split them apart! Compose it with two more 'fundamental' operations
+   (lim and sup)
+
+   last time - showed that x in s_n -> x leq infimum (sup {s_k}, k geq n)
+   call this the Rudin definition. Then
+
+   overbar lim s_n leq lim (sup {s_k})
+
+   how about the reverse? Suffices to show that
+
+   lim (n -> inf) sup (k geq n) s_k is in E({s_n})
+   (so of course it is less than or equal to the sup)
+
+**** Supremum Side
+
+     Say that L := lim (n -> inf) sup (k geq n) s_k
+
+     Then this guy (sup k geq n s_k) is a sequence; call it t_n
+     Choose some n_1 with L leq t_n_1 leq  L + 1, so choose k_1 > n_1 with
+
+     L - 1 < s_k+1 leq t_n1 < L + 1
+
+     as t_n1 was a supremum larger than L, so find something less than L.
+
+     Then:
+     L - 1/i < s_k_i < L + 1/i
+
+     so choose some n_j+1 > k_1 with L leq t_j < L + 1/(i+1)
+
+     we get layers of subscripts!
+
+     L - 1/(j+1) < s_k_(j+1) leq t_j
+
+     In this way we can get some {s_k_j} such that
+
+     L - 1/j < S_k_j < L + 1/j implies s_k_j -> L.
+
+**** Another way to look at the problem - 3.17 - real valued sequences
+
+     {s_n} subset RR (could also use bar(RR))
+
+     Let s* = lim sup of s_n. Then
+
+     s* is a subsequential limit and we can skip to the last few steps.
+
+     If x > s* then exists N s.t. n geq n implies s_n < x. Therefore we have a
+     subsequential limit.
+
+     Therefore s* = lim sup s_n, which means :
+
+     a. forall epsilon, exists infinitely many ns with s* - epsilon < s_n, so
+     there is a subsequence whose limit is greater than s* - epsilon, so there
+     are subsequences with limits greater than s*,
+
+     b. Exists N(epsilon) so that s_n < s* + epsilon for all n geq N(epsilon).
+     No matter how far you go, you could still go farther. This tears apart
+     sequences.
 
 
-* 10/05/11
-** HW #9
-   #9, for Friday, October 14
-   any two from #6 (extra credit for all)
-   #8
-   #9 any two
-   #10
-** Ways to do the previous homework
-*** First problem
-    limsup x_n = sup of some set of x_n
+* Some Old Homework for Chapter 3
+** Homework hints 3.3
 
-    as sup { a_k + b_k } leq sup {a_k} + sup {b_k}
+   Monotone convergence theorem, define {s_n} by s_1 specified, s_n+1 =
+   f(s_n)
 
-** Series'
+   and s_n bounded and monotonically decreasing -> convergent.
 
-   we say that sum (from n=1 to inf) a_n = s means
+** 3.4
 
-   s = lim (from n to inf) s_n
+   Recursively defined lim sup condition
 
-   put another way, the partial sums converge to some s. If a_n > 0 then the
-   series converges iff s_n is bounded.
+   or rather, s_n defined recursively. Find the lim sup
 
-   Combine these: abs(a_n) .LEQ. b_n when sum b_n converges implies that SUM
-   abs(a_n) converges.
+   strategy : show that the limit of s_2m = s_even (exists)
+   and limit of s_(2m-1) = s_odd (exists)
+   therefore the limit of the infimum, we get to subsequential limits (s_even
+   and s_odd)
 
-*** Divergence comparison test
-    if a_n .GEQ. d_n .GEQ. - for all n > N0 and
+   so lim s_n overbar = max (s_e, s_o)
+   so lim s_n underbar = min (s_e, s_o)
 
-    SUM d_n diverges then SUM a_n diverges.
+** Homework hints 3.16 - Newton's method for x^2 = alpha.
 
-    Why? s_n - s_(n-1) = SUM (from k = N_0 to m) a_k .GEQ. SUM (from N_0 to m)
-    d_k, which diverges. Therefore SUM a_n diverges.
+   Everyone loves Newton's method!
+   instead of the picture we use monotone convergence theorem. Show that the
+   subsequence converges, or something.
 
-*** First application - geometric series.
-    for 0 .LEQ. x .LEQ. 1, SUM (n = 0 to inf) x^n = 1 + x + x^2 + ...
-    so s_n = 1 + x + ... + x^n
-       xs_n = x + x^2 + ... + x^(n+1)
 
-    therefore (1-x)s_n = 1 - x^(n+1)
-    so if x .NEQ. 1 then s_n = (1 - x^(n+1))/(1-x)
-    where if abs(x) = 1 then it diverges, as does abs(x) > 1.
+   (if this is satisfied, then lim sup = lim inf (it is iff))
 
-    when this does converge, we get
-    LIM (n from 1 to inf) = 1 / (1 - x).
+   always true : lim inf s_n = inf E ({s_n}) leq sup E({s_n}) leq lim sup.
 
-** Known Series'
+*** sneaky proofs - showing that certain limits exist.
+
+    to show s_n convergent (to something) it suffices to show that
+
+    lim sup of s_n leq lim inf s_n.
+
+    (as lim sup geq lim inf, so we have sandwiching, so the limit exists)
+
+    this is a useful trick! We will need it.
+
+
+* Series - sequence with recursion.
+  Some summation that forms a sequence of partial sums.
+  s_n = sum (from k = 1 to n) a_k
+  so form s_n+1 = s_n + a_n+1
+
+  challenge - knowing a_n, understand s_n.
+
+  we say that the sum converges if lim (n -> inf) s_n in RR
+
+** Cauchy Criterion
+
+   The summation SUM (n from 1 to inf) a_n converges if the series of partial
+   sums {s_n} is convergent, namely given epsilon > 0, exists N s.t.
+
+               m > n .GEQ. N -> ABS(s_m - s_n) < epsilon.
+
+   put another way, ABS(SUM (k = n+1 to m) a_k) < epsilon.
+
+   in particular, pick some m = n + 1; then ABS(a_{n+1}) < epsilon.
+   or lim (n to infinity) a_n = 0. (recall that the converse is not true.)
+
+** Monotone convergence theorem
+
+   Assume that s_n is monotonically increasing. so s_n+1 geq s_n for a_n geq 0.
+
+   Then sum (from k = 1 to infinity) a_k convergent iff the partial sums are
+   bounded.
+
+** Famous Series'
 
    SUM (n=0 to inf) x^n
 
@@ -1356,14 +1292,164 @@
            = SUM (k=0 to inf) 2^((1-p)k) converted!
 
 
-* 10/10/11
-** Review of last time
-   various series tests
-   if a sum converges absolutely, it converges.
-   geometric series - SUM x^n converges iff abs(x) < 1.
-   p-series - SUM 1/n^p converges iff p > 1
-   we can reduce p-series to geometric series by a_n .GEQ. 0, a_n decreasing
-   iff SUM 2^k a_{2^k} converges.
+*** First application - geometric series.
+    for 0 .LEQ. x .LEQ. 1, SUM (n = 0 to inf) x^n = 1 + x + x^2 + ...
+    so s_n = 1 + x + ... + x^n
+       xs_n = x + x^2 + ... + x^(n+1)
+
+    therefore (1-x)s_n = 1 - x^(n+1)
+    so if x .NEQ. 1 then s_n = (1 - x^(n+1))/(1-x)
+    where if abs(x) = 1 then it diverges, as does abs(x) > 1.
+
+    when this does converge, we get
+    LIM (n from 1 to inf) = 1 / (1 - x).
+
+** Tests
+
+*** Divergence comparison test
+
+    if a_n .GEQ. d_n .GEQ. - for all n > N0 and
+
+    SUM d_n diverges then SUM a_n diverges.
+
+    Why? s_n - s_(n-1) = SUM (from k = N_0 to m) a_k .GEQ. SUM (from N_0 to m)
+    d_k, which diverges. Therefore SUM a_n diverges.
+
+*** Alternating Series Test
+    if the terms alternate in sign and the a_n goes to zero, and abs(a_n)
+    monotone, then the summation converges.
+
+*** Generalized Alternating Series Test
+    Tool - summation by parts.
+    Given some {a_n}, {b_n} in CC, set
+
+    A_n : SUM (from k = 0 to n) a_k (for n < 0, a_n = 0)
+
+    Then for 0 .LEQ. p .LEQ. q, we show that
+
+    SUM (from n = p to q) a_n b_n =
+    SUM (from n = p to q-1) A_n(b_n - b_(n+1)) + (A_q b_p - A_(p-1) b_p)
+
+**** Aside - calculus analogue
+     same as INTEGRAL u dv = - INTEGRAL v du + uv | bounds (uv at bounds)
+
+**** Proof
+     Shift the indicies in a clever fashion.
+
+     Let a_n = A_n - A_(n-1)
+
+     then SUM (from n = p to q) a_n b_n = SUM (from n=p to q)(A_n - A_(n-1))b_n
+
+     = SUM (from n=p to q) A_n*b_n - SUM (n=p-1 to q-1)A_n*b_(n+1)
+
+     = SUM (n=p to q-1) A_n (b_n - b_(n+1)) + A_qb_q - A_(p-1)b_p
+
+**** Application to Alternating Series Test
+
+     Suppose that A_n is bounded, and b_0 .GEQ. b_1 .GEQ b_2 .GEQ ... and that
+     the limit of b_n is 0. Then SUM a_nb_n converges.
+
+     Consequence: abs(c_1) .GEQ. abs(c_2) .GEQ. ...
+
+     and if c_2m-1 .GEQ. 0, while c_2m .LEQ. 0, and lim c_n = 0, then SUM c_n
+     converges.
+
+***** Example
+      SUM (-1)^k / k converges, though 1/k does not.
+
+**** Telescoping Series
+     for N .LEQ. p .LEQ. q we get
+
+     abs(SUM a_nb_n) = abs(SUM (n=p to q-1) A_N (b_n - b_n+1) + A_Q b_q - A_p
+     b_p)
+
+     APPLICATION TO #8 - shuffle the hypotheses. Show that if SUM a_n converges
+     then SUM a_n b converges. and SUM a_nb_n = SUM a_n b - SUM a_n b_n
+
+     (say that b_n bounded below by b, also say b*_n = b_n - b).
+
+*** Comparison Test
+    If abs(a_n) leq b_n and sum (from n = 1 to inf) b_n converges then sum
+    (from n = 1 to inf) a_n converges.
+
+**** Proof - two-step tango
+     step 1 : show that the summation of abs(a_n) converges by showing some t_n
+     = partial sums of a_k is bounded.
+
+     Note that by definition sum abs(a_k) leq sum b_k < inf (termwise, finite)
+     Therefore by the monotone convergence theorem -> the summation abs(a_k)
+     converges (the sequence of partial sums is monotone, each non-negative)
+
+     step 2 : show that the summation of abs(a_k) convergent -> summation of
+     a_k converges. (absolute converge -> convergence)
+
+     Trick - use Cauchy. abs(s_n - s_m) = abs(sum (from k=n+1 to m) a_k) <
+     epsilon. THen
+
+     abs(sum (from n+1 to m) a_k) leq sum (from k=n+1 to m) abs(a_k) < epsilon
+     for m > n geq N(epsilon)
+     as {t_n} is Cauchy -> done.
+
+*** Refined Root Test
+    We can do better than Sophomore calculus. say that
+
+    alpha = LIM SUP (nth-root abs(a_n)) always exists in [0, +inf]
+     if alpha < 1 then converges absolutely
+     if alpha > 1 then diverges (as abs(a_n_ -> inf))
+     no conclusion for alpha = 1.
+
+**** Comparison to Geomeric Series
+     say that alpha < 1. Then for k, alpha < k < 1. Then by a property of LIM
+     SUP, exists N s.t. n .GEQ. N -> (nth-root abs(a_n)) < k.
+
+     Therefore for any value of n, we have that (nth-root abs(a_n)) < some beta.
+     Therefore abs(a_n) < beta^n so by the comparison test abs(a_n) converges,
+     so a_n converges.
+
+     Now say that alpha > 1. Choose some subsequence {a_n_k} with (nkth-root
+     abs(a_n_k)) -> alpha, where each (nkth-root abs(a_n_k)) > some beta for 1 <
+     beta < alpha. Therefore as beta^nk diverges, NOT [LIM (n to inf) a_n == 0]
+     implies that the summation diverges.
+
+*** Ratio test
+
+    Assume that a_n /= 0. Given some SUM a_n, then
+
+    a) LIM SUP (n to inf) abs(a_(n+1)/a_n) < 1 -> SUM a_n converges absolutely.
+
+    b) abs(a_n+1 / a_n) .GEQ. 1 -> for all n .GEQ. n0 SUM a_n diverges.
+
+    Prove by the root test!
+
+**** Example
+     Take some 1/2 + 1/3 + 1/2^2 + 1/3^2 (we secretly know this converges)
+
+     a_(2n + 1)/a_(2n) = (1/2)^n / (1/3)^n goes to infinity - fails ratio test.
+
+     a_2n / a_2n-1 = 2(2/3)^n -> 0 same problem.
+
+     Root test:
+
+     (2nth-root abs(a_{2n})) = 1/sqrt(3) < 1.
+
+     and similarly, the 1/2^n works. Therefore the root test gives the correct
+     answer when the ratio test does not.
+
+
+
+** Convergence
+
+   We can also use the Cauchy Criterion!
+
+   we say that SUM (n=1 to inf) a_n = s means
+
+   s = LIM (n to inf) s_n (partial sums converge)
+
+   put another way, the partial sums converge to some s. If a_n > 0 then the
+   series converges iff s_n is bounded.
+
+   Combine:
+   abs(a_n) .LEQ. b_n, sum b_n converges -> SUM abs(a_n) converges.
 
 ** Euler's number
    e is the constant such that INTEGRAL (from 1 to e) 1/x dx = 1.
@@ -1420,51 +1506,6 @@
     Contradiction - cannot have an integer strictly between 0 and 1. Therefore
     e is irrational.
 
-** Refined Root Test
-   We can do better than Sophomore calculus. say that
-
-   alpha = LIM SUP (nth-root abs(a_n)) always exists in [0, +inf]
-    if alpha < 1 then converges absolutely
-    if alpha > 1 then diverges (as abs(a_n_ -> inf))
-    no conclusion for alpha = 1.
-
-*** Comparison to Geomeric Series
-    say that alpha < 1. Then for k, alpha < k < 1. Then by a property of LIM
-    SUP, exists N s.t. n .GEQ. N -> (nth-root abs(a_n)) < k.
-
-    Therefore for any value of n, we have that (nth-root abs(a_n)) < some beta.
-    Therefore abs(a_n) < beta^n so by the comparison test abs(a_n) converges,
-    so a_n converges.
-
-    Now say that alpha > 1. Choose some subsequence {a_n_k} with (nkth-root
-    abs(a_n_k)) -> alpha, where each (nkth-root abs(a_n_k)) > some beta for 1 <
-    beta < alpha. Therefore as beta^nk diverges, NOT [LIM (n to inf) a_n == 0]
-    implies that the summation diverges.
-
-*** Ratio test
-    Assume that a_n /= 0. Given some SUM a_n, then
-
-    a) LIM SUP (n to inf) abs(a_(n+1)/a_n) < 1 -> SUM a_n converges absolutely.
-
-    b) abs(a_n+1 / a_n) .GEQ. 1 -> for all n .GEQ. n0 SUM a_n diverges.
-
-    Prove by the root test!
-
-*** Example
-    Take some 1/2 + 1/3 + 1/2^2 + 1/3^2 (we secretly know this converges)
-
-    a_(2n + 1)/a_(2n) = (1/2)^n / (1/3)^n goes to infinity - fails ratio test.
-
-    a_2n / a_2n-1 = 2(2/3)^n -> 0 same problem.
-
-    Root test:
-
-    (2nth-root abs(a_{2n})) = 1/sqrt(3) < 1.
-
-    and similarly, the 1/2^n works. Therefore the root test gives the correct
-    answer when the ratio test does not.
-
-** Power Series
    f(z) = SUM (n=0 to inf) c_n z^n
         = c_0 + c_1 z + c_2 z^2 + ...
 
@@ -1475,59 +1516,14 @@
 
     conclusion: R is the 'radius of convergence'.
 
+** Review
 
-* 10/12/11
-** HW 11
-   98 2,3,4
-** Generalized Alternating Series Test
-   Tool - summation by parts.
-   Given some {a_n}, {b_n} in CC, set
-
-   A_n : SUM (from k = 0 to n) a_k (for n < 0, a_n = 0)
-
-   Then for 0 .LEQ. p .LEQ. q, we show that
-
-   SUM (from n = p to q) a_n b_n =
-   SUM (from n = p to q-1) A_n(b_n - b_(n+1)) + (A_q b_p - A_(p-1) b_p)
-
-**** Aside - calculus analogue
-     same as INTEGRAL u dv = - INTEGRAL v du + uv | bounds (uv at bounds)
-
-*** Proof
-    Shift the indicies in a clever fashion.
-
-    Let a_n = A_n - A_(n-1)
-
-    then SUM (from n = p to q) a_n b_n = SUM (from n=p to q)(A_n - A_(n-1))b_n
-
-    = SUM (from n=p to q) A_n*b_n - SUM (n=p-1 to q-1)A_n*b_(n+1)
-
-    = SUM (n=p to q-1) A_n (b_n - b_(n+1)) + A_qb_q - A_(p-1)b_p
-
-*** Application to Alternating Series Test
-
-    Suppose that A_n is bounded, and b_0 .GEQ. b_1 .GEQ b_2 .GEQ ... and that
-    the limit of b_n is 0. Then SUM a_nb_n converges.
-
-    Consequence: abs(c_1) .GEQ. abs(c_2) .GEQ. ...
-
-    and if c_2m-1 .GEQ. 0, while c_2m .LEQ. 0, and lim c_n = 0, then SUM c_n
-    converges.
-
-**** Example
-     SUM (-1)^k / k converges, though 1/k does not.
-
-*** Telescoping Series
-    for N .LEQ. p .LEQ. q we get
-
-    abs(SUM a_nb_n) = abs(SUM (n=p to q-1) A_N (b_n - b_n+1) + A_Q b_q - A_p
-    b_p)
-
-    APPLICATION TO #8 - shuffle the hypotheses. Show that if SUM a_n converges
-    then SUM a_n b converges. and SUM a_nb_n = SUM a_n b - SUM a_n b_n
-
-    (say that b_n bounded below by b, also say b*_n = b_n - b).
-
+   various series tests
+   if a sum converges absolutely, it converges.
+   geometric series - SUM x^n converges iff abs(x) < 1.
+   p-series - SUM 1/n^p converges iff p > 1
+   we can reduce p-series to geometric series by a_n .GEQ. 0, a_n decreasing
+   iff SUM 2^k a_{2^k} converges.
 
 ** Addition and Multiplication of Series
 
@@ -1549,75 +1545,75 @@
 
    so we can separate them the same way by introducing a dummy index.
 
-** Convolution product
-   product of two power series - what happens?
+*** Convolution product
+    product of two power series - what happens?
 
-   get some new summation for new constant c_r, where
-   c_r = SUM(l=0 to r) a_l b_(r-l).
+    get some new summation for new constant c_r, where
+    c_r = SUM(l=0 to r) a_l b_(r-l).
 
-   This sum is a convolution! A more general idea that we will see later.
+    This sum is a convolution! A more general idea that we will see later.
 
-** More on power series
+** power series
 
    does it follow that SUM(from n=0 to inf) (SUM(from k=0 to n) a_k a_(n-k)
    z^k) converges?
 
-*** Example
+***** Example
 
-    a_n = b_n = (-1)^n / (sqrt(n+1)), set c_n = SUM(from k=0 to n) a_k b_(n-k)
+      a_n = b_n = (-1)^n / (sqrt(n+1)), set c_n = SUM(from k=0 to n) a_k b_(n-k)
 
-    so c_n = SUM(from k=0 to n) (-1)^k / sqrt(k + 1) * (-1)^(n-k) /
-    (sqrt(n-k+1))
+      so c_n = SUM(from k=0 to n) (-1)^k / sqrt(k + 1) * (-1)^(n-k) /
+      (sqrt(n-k+1))
 
-           = (-1)^n SUM(from k=0 to n) 1 / sqrt((n-k+1)(k+1))
+             = (-1)^n SUM(from k=0 to n) 1 / sqrt((n-k+1)(k+1))
 
-    where (n-k+1)(k+1) = (n/2 + 1)^2 - (n/2 - k)^2
-                       = n + 1 + k(n-k)
-                       .LEQ. (n/2 + 1)^2
+      where (n-k+1)(k+1) = (n/2 + 1)^2 - (n/2 - k)^2
+                         = n + 1 + k(n-k)
+                         .LEQ. (n/2 + 1)^2
 
-    Therefore abs(c_n) .GEQ. SUM(from k=0 to n) 2/(n+2), a divergent sum!
+      Therefore abs(c_n) .GEQ. SUM(from k=0 to n) 2/(n+2), a divergent sum!
 
-    Therefore we had a product of convergent coefficients that does not
-    converge.
+      Therefore we had a product of convergent coefficients that does not
+      converge.
 
-    What did we do? We summed over the lattice of natural integers (1,1),
-    (1,2), etc.
+      What did we do? We summed over the lattice of natural integers (1,1),
+      (1,2), etc.
 
-    More exactly, due to the SUM from k=0 to n-k + 1 we are doing repeated
-    triangles.
+      More exactly, due to the SUM from k=0 to n-k + 1 we are doing repeated
+      triangles.
 
-    Let t_n = SUM(from k,k' in S_n) a_kb_k'
-    and v_n = SUM(from l=0 to n) (SUM(from k=0 to l) a_k b_l-k)
+      Let t_n = SUM(from k,k' in S_n) a_kb_k'
+      and v_n = SUM(from l=0 to n) (SUM(from k=0 to l) a_k b_l-k)
 
 
-    from the example - neither SUM a_n nor SUM b_n converge absolutely.
+      from the example - neither SUM a_n nor SUM b_n converge absolutely.
 
-**** Theorem (Menten's Theorem)
-     Assume that SUM a_n converges absolutely and SUM b_n converges. Then SUM
-     c_n converges correctly (that is, to AB).
+****** Theorem (Menten's Theorem)
+       Assume that SUM a_n converges absolutely and SUM b_n converges. Then SUM
+       c_n converges correctly (that is, to AB).
 
-     Proof. Say that A = SUM a_n, B = SUM b_n, beta_n = B_n - B (error term)
+       Proof. Say that A = SUM a_n, B = SUM b_n, beta_n = B_n - B (error term)
 
-     Then c_n = a0b0 + (a0b1 + a1b1) + ...
-              = a0Bn + a1B_n-1 + ... + a_n B0.
-              = a0(B + beta_n) + a1(B + beta_n-1) + ... + a_n(B + beta_0)
-              = A_n B + a_0b_n a_1 beta_n-1 + ...
+       Then c_n = a0b0 + (a0b1 + a1b1) + ...
+                = a0Bn + a1B_n-1 + ... + a_n B0.
+                = a0(B + beta_n) + a1(B + beta_n-1) + ... + a_n(B + beta_0)
+                = A_n B + a_0b_n a_1 beta_n-1 + ...
 
-     Now set gamma_n = a_0beta_n + ... + a_nb_0.
-     (we have not yet used the absolute convergence condition yet - here it is)
+       Now set gamma_n = a_0beta_n + ... + a_nb_0.
+       (we have not yet used the absolute convergence condition yet - here it is)
 
-     We need that gamma_n -> 0.
+       We need that gamma_n -> 0.
 
-     Set alpha = SUM(from n=0 to inf) abs(a_n) < inf
+       Set alpha = SUM(from n=0 to inf) abs(a_n) < inf
 
-     for some eps > 0 we have that beta_n -> 0.
+       for some eps > 0 we have that beta_n -> 0.
 
-     Choose some N s.t. n .GEQ. N, so abs(beta_n) .LEQ. eps..
+       Choose some N s.t. n .GEQ. N, so abs(beta_n) .LEQ. eps..
 
-     therefore abs(gamma_n) .LEQ. abs(beta_0 a_n + ... + beta_n * a_n-N) +
-                                  abs(beta_N+1a_n-N + ... + beta_na_0)
+       therefore abs(gamma_n) .LEQ. abs(beta_0 a_n + ... + beta_n * a_n-N) +
+                                    abs(beta_N+1a_n-N + ... + beta_na_0)
 
-     so lim sup abs(gamma_n) .LEQ. alpha * eps -> done.
+       so lim sup abs(gamma_n) .LEQ. alpha * eps -> done.
 
 ** Exercise 13
    Cauchy product of absolutely convergent series converges absolutely.
@@ -1631,8 +1627,6 @@
    = SUM(abs(a_k)) SUM(abs(b_k'))
    .LEQ. infinite summation products < infinity.
 
-
-* 10/14/11
 ** Alternating Series'
    Can show - SUM (n=1 to inf) = 1 - 1/2 + 1/3 + ... = ln 2 = inf - inf (bad!)
 
@@ -1693,84 +1687,87 @@
 
      lim s_n = A, so lim s_n' exists and equals A.
 
-** New Chapter - Continuous functions
-   Given some metric spaces X and Y, E subset X, f :: E -> Y, p in E',
 
-   then we say that lim (x -> p) f(x) = q means that
+* Continuity
 
-   forall eps > 0, exists delta > 0 s.t. x in E and 0 < d(x,p) < delta implies
-   d(f(x), q) < epsilon (for each appropriate metric)
+  Given some metric spaces X and Y, E subset X, f :: E -> Y, p in E',
 
-   This definition is not vacuous - given some delta there always exists some x
-   in E as p is a limit point.
+  then we say that lim (x -> p) f(x) = q means that
 
-*** Sequential version (equivalent):
-    forall {p_n} subset E with p_n /= p forall n, such that p_n -> p, then
-    f(p_n) -> q in Y.
+  forall eps > 0, exists delta > 0 s.t. x in E and 0 < d(x,p) < delta implies
+  d(f(x), q) < epsilon (for each appropriate metric)
 
-    Why are these equivalent?
+  This definition is not vacuous - given some delta there always exists some x
+  in E as p is a limit point.
 
-    show that one definition implies the other.
+** Sequential version (equivalent):
+   forall {p_n} subset E with p_n /= p forall n, such that p_n -> p, then
+   f(p_n) -> q in Y.
 
-    Given some {p_n} in E, p_n /= p, p_n -> p:
-    show that f(p_n) -> q.
+   Why are these equivalent?
 
-    Let epsilon > 0. Must find some N s.t. n .GEQ. N -> d(f(p_n), q) < epsilon.
+   show that one definition implies the other.
 
-    we know : exists delta > 0 s.t. x in E, 0 < d(x,p) < delta -> d(f(x), q) <
-    epsilon.
+   Given some {p_n} in E, p_n /= p, p_n -> p:
+   show that f(p_n) -> q.
 
-    We also know : p_n -> p, so exists N s.t. n .GEQ. N -> 0 < d(p_n, p) <
-    delta. All we must do now is apply the previous statement with x = p_n and
-    we are done.
+   Let epsilon > 0. Must find some N s.t. n .GEQ. N -> d(f(p_n), q) < epsilon.
 
-    Other direction is harder : show that the second implies the first.
+   we know : exists delta > 0 s.t. x in E, 0 < d(x,p) < delta -> d(f(x), q) <
+   epsilon.
 
-    'Contrapositive overcomes all'
+   We also know : p_n -> p, so exists N s.t. n .GEQ. N -> 0 < d(p_n, p) <
+   delta. All we must do now is apply the previous statement with x = p_n and
+   we are done.
 
-    Show that not 1 implies not 2.
+   Other direction is harder : show that the second implies the first.
 
-    so not(1) = exists epsilon > 0 s.t. forall delta > 0, exists x in E with 0
-    < d(x,p) < delta -> d(f(x),q) .GEQ. epsilon.
+   'Contrapositive overcomes all'
 
-    This is like the additional problem for the homework.
+   Show that not 1 implies not 2.
 
-    Therefore we can write p_n rather than x_delta_n.
+   so not(1) = exists epsilon > 0 s.t. forall delta > 0, exists x in E with 0
+   < d(x,p) < delta -> d(f(x),q) .GEQ. epsilon.
 
-    d(p_n,p) < 1/n (-> p_n -> p in X) and d(f(p_n), q) .GEQ. epsilon. Done.
+   This is like the additional problem for the homework.
 
-*** Routine Facts
+   Therefore we can write p_n rather than x_delta_n.
 
-    lim (x -> p) f(x) = A, lim (x -> p) g(x) = P
-
-    'things get foggy up in the clouds'
-
-    For f,g(x) :: E subset X -> Y
-    fact 1 : lim (f(x) + g(x)) = A + B
-
-    fact 2 : lim (f g)(x)      = AB (as long as Y is RR or CC)
-
-    fact 3 : lim (f / g)(x)    = A/B (B /= 0, Y is RR or CC)
+   d(p_n,p) < 1/n (-> p_n -> p in X) and d(f(p_n), q) .GEQ. epsilon. Done.
 
 
-*** Continuous functions
+** Routine Facts
 
-    given f :: E -> Y (for E subset X)
+   lim (x -> p) f(x) = A, lim (x -> p) g(x) = P
 
-    we say that f is continuous at p <-> forall epsilon > 0, exists delta > 0
-    so that x in E, 0 .LEQ. d(x,p) < delta -> d(f(x), f(p)) < delta.
+   'things get foggy up in the clouds'
 
-    examples - if f :: NN -> RR then f is continuous! (all isolated points)
+   For f,g(x) :: E subset X -> Y
+   fact 1 : lim (f(x) + g(x)) = A + B
 
-    if p is a limit point of E, then
+   fact 2 : lim (f g)(x)      = AB (as long as Y is RR or CC)
 
-    f continuous at p <-> lim f(x) = f(p) (as x -> p)
+   fact 3 : lim (f / g)(x)    = A/B (B /= 0, Y is RR or CC)
 
-    Suppose that E = X. Then for f :: X -> Y, we say that f is continuous if f
-    is continuous at all p in X.
 
-    Theorem (or 'profound reformulation') Given that f :: X -> Y, then f is
-    continuous iff V open in Y -> f^-1(v) = {x in X : f(x) in V } is open in X.
+** Continuous functions
+
+   given f :: E -> Y (for E subset X)
+
+   we say that f is continuous at p <-> forall epsilon > 0, exists delta > 0
+   so that x in E, 0 .LEQ. d(x,p) < delta -> d(f(x), f(p)) < delta.
+
+   examples - if f :: NN -> RR then f is continuous! (all isolated points)
+
+   if p is a limit point of E, then
+
+   f continuous at p <-> lim f(x) = f(p) (as x -> p)
+
+   Suppose that E = X. Then for f :: X -> Y, we say that f is continuous if f
+   is continuous at all p in X.
+
+   Theorem (or 'profound reformulation') Given that f :: X -> Y, then f is
+   continuous iff V open in Y -> f^-1(v) = {x in X : f(x) in V } is open in X.
 
 
 * 10/17/11
@@ -2213,1185 +2210,3 @@
 
     converse not always true, since f(x) = sin (1/x) x/=0, = 0 at x=0, have the
     intermediate value property but is not continuous at x = 0.
-
-
-* Homework 10
-
-** Multiple Solutions to the last problem
-
-** Multiple Solutions to the first problem
-
-   f continuous implies f((closure E)) subset (closure f(E))
-
-   Proof 1 :
-
-*** Proof 1
-
-    x in E implies f(x) in f(E) subset of closure.
-
-    x in E' implies x = lim x_n, all x_n in E implies lim f(x_n) = f(x), f(x)
-    in (closure f(E))
-
-*** Proof 2
-
-    f cntinuous implies f^-1((closure f(E))) closed. pretty much that.
-
-** 4.3 Show Z(f), set of x s.t. f(x) = 0, closed
-
-*** Proof 1
-
-    {0} closed in RR, so f^-1({0}) is closed.
-
-*** Proof 2
-
-    Suppose x in Z(f)'
-
-    'Analysis is easier than algebra - many shots' - Dr. Ball
-
-** 4.4 E dense in X -> f(E) dense in f(X)
-
-*** Part a
-
-**** low brow solution - choose y = f(x) in f(X).
-
-     then x in X implies x = lim x_n so x_n in E implies f(x) = lim f(x_n)
-
-     so, as f is continuous, f(x) in (closure E).
-
-**** high brow solution
-
-     f(X) = f((closure E)) subset (closure f(E))  done. Much quicker!
-
-*** Part b
-
-    g(p) = f(p) for all p in E -> g(x) = f(x) for all x in X
-
-**** low brow solution
-
-     x in X so x = lim x_n, so we can do it by uniqueness.
-
-
-* Discontinuities
-
-  f :: E to Y, as usual.
-
-  (if (and (x not an isolated point of E)
-           (not (lim (t -> x) f(t) = f(x)))))
-
-  so there exists some epsilon s.t. for all delta > 0,
-  exists t_delta with 0 < d(t_delta, x) < delta yet d(f(t),f(x))
-  .GEQ. epsilon.
-
-** Discontinuities of the First Kind
-
-   discontinuity of the first kind : f discontinuous at x, but the left and
-   right limits exist.
-
-   second kind : not first.
-
-*** Example
-    x not in QQ -> f continous at x
-
-    x in QQ \ {0}  -> discontinuity of the first kind at x. then
-    0 < abs(t  - x) < delta
-
-    so t = m/n as n-> inf must go to zero.
-
-
-** Consider X = Y = RR
-
-*** first kind of discontinuity
-
-    lim (t -> x+) f(t) and lim (t -> x-) both exist, but one or both not equal
-    to f(x).
-
-*** second kind of discontinuity
-
-    f has some discontinuity at x, but it is not of the first kind.
-
-    favorite example : f(x) = sin(1/x) for some x /= 0 and 0 at x = 0
-
-    quick review of something that we have not done before.
-
-    so the lim sup (t -> inf) = sup  { f(t) such that 0 < abs(t - x) < delta}
-
-
-** Useful application of the boundedness of a monotone function
-
-   define lim sup (t -> x) f(x) =
-          lim (delta -> 0+) sup (f(t) | 0 < abs(t - x) < delta)
-
-   Therefore g(delta) increases (more things, supremum goes up)
-
-   Therefore g(0+) = lim (delta -> 0+) g(delta)
-
-   Therefore this is equivalent to
-   inf (delta > 0) sup (t : 0 < abs(t - x) < delta) f(t)
-
-*** Even more compact notation
-
-    lim sup (t -> x+) = lim (delta -> 0+) sup (f(t) : x < t < x + delta)
-
-    call the thing inside the limit g(delta) (it is an increasing function,
-    but not the same function)
-
-    (the one sided limit from the right is the infimum based on the proof
-    regarding monotonic functions)
-
-    = inf (delta) sup(t : x < t < x + delta) f(t)
-
-*** Then, for continuity
-
-    lim inf (t -> x) f(t),
-    lim (t -> x+) f(t),
-    lim sup (t -> x-) f(t),
-    lim inf(t -> x-) f(t)
-
-    all need to be defined and shown equal for no discontinuities.
-
-*** so, in conclusion
-
-    lim (t -> x+) f(t) = L means:
-    lim sup (t -> x+) f(t) = lim inf (t -> x+) f(t) = L
-
-
-** Example (discontinuity of the second kind)
-
-   f(t) = sin(1/t) for t /= 0, 0 for t = 0.
-
-   then lim sup (t -> 0+) f(x) = 1 but lim inf (t -> 0+) f(t) = -1.
-
-   Therefore the limit itself does not exist.
-
-
-** More fun examples
-
-   Dirichlet function
-
-   (defun dirichlet-function (x)
-     (cond
-       ((rationalp x) 1)
-       ((irrationalp x) 0)))
-
-   We can create a lim sup and lim inf that are unequal so we get a
-   discontinuity of the second kind immediately.
-
-   f(0) = 0
-
-   f(x) = 0 if x is irrational
-
-   f(x) = 1/n if x = m / n
-
-
-
-* Monotonic Functions
-
-  f on (a,b) (real-valued; orderable sets) monotonically increasing means
-
-  a < x < y < b  implies that f(x) < f(y)
-
-  and decreasing - f(x) > f(y)
-
-*** Theorem : Monotonically Increasing Functions
-
-    if f is monotonically increasing on (a,b) then
-
-    f(x+) = lim f(t) for (t -> x+) and f(x-) = lim (t -> x-) f(t) exist.
-
-    so the only possibilities for discontinuities for f are discontinuities of
-    the first kind (that is, whole function jumps up or jumps down).
-
-**** Proof
-
-     We need a candidate for some L = lim (t -> x+) f(t). Pick some
-
-     L = inf (f(t) s.t. t > x). We can do this directly (no need for
-     sequences).
-
-     Let epsilon > 0. Then we must find some delta > 0 so that
-
-     x < t < x + delta implies abs(f(t) - L) < epsilon
-
-     since we are in the real numbers, we know that L - epsilon < f(t).
-
-     (recall that L is the greatest lower bound of the set by definition)
-
-     then L + epsilon cannot be a lower bound. This implies that there exists
-     some t0 where t0 > x and f(t0) < L + epsilon.
-
-     However, since t < t0 implies that f(t) .LEQ. f(t0) < L + epsilon
-
-     Therefore we should take delta = t0 - x > 0. Then x < t < t0 + delta
-
-     so x + delta (which is our t0) implies that f(t) .LEQ. f(t0) < L +
-
-     epsilon. Therefore we are done
-
-
-*** Theorem : limits exist on monotonic functions
-
-    more specifically - lim (x -> t+) f(x) and lim (x -> x-) f(x) always exist.
-
-    put another way - all discontinuities are of the first kind.
-
-    'monotonic functions are tame'
-
-
-*** Theorem : Countable Discontinuities
-
-    f :: (a,b) -> RR monotonically increasing or decreasing: then the number of
-    discontinuities is at most countable.
-
-    (this is a corollary of a more general result)
-
-**** Sets of discontinuities
-
-     the set of discontinuities of the first kind is at most countable. (this
-     is an exercise, #17, next homework)
-
-**** Direct proof for monotonic
-
-     Say that f is increasing. Let E = { x : f(x) discontinuous}
-
-     general facts - for all x, f(x-) .LEQ. f(x) .LEQ. (fx+) = inf f(t)
-
-     discontinuity implies that f(x-) < f(x+) .
-
-     Furthermore - a < x < y < b so f(x+) .LEQ. f(y-). (may not be
-     discontinuous).
-
-     Therefore, given some discontinuity x, choose some rational r(x) with
-     f(x-) < r(x) < f(x+) (open interval contains a rational)
-
-     If x1 /= x2 (say x1 < x2) then f(x1+) .LEQ. f(x2-) (monotonic.)
-     this forces r(x_1) < r(x_2) therefore r :: E -> QQ is 1-1.
-
-     (1-1 relationship between E and QQ implies that E is countable.)
-
-
-*** Discontinuous Monotonic Functions
-
-    something with jumps. Discontinuities of the first kind do not need bo be
-    isolated! we can say something like
-
-    E = {x1, x2, ...}
-
-    that there is a f (monotonically increasing) with a set of discontinuities
-    exactly equal to E. Therefore if E = QQ then we have a jump discontinuity
-    at every rational.
-
-    construction : given numbers c_m > 0 with SUM c_n < inf (e.g. c_n = 1/2^n)
-    define f(x) = SUM (n : x_n < x) c_n
-
-    Then : f is monotonically increasing (it is a sum) so
-    for x < y we get {n : x_n < x} subset {n : x_n < y}
-
-    implies f(x) = SUM (n : x_n < x) c_n .LEQ. SUM (n : x_n < y) c_n = f(y)
-
-    then the set of discontinuities of f is E.
-
-    Computation : f(x-) = sup (y < x) f(y) = sup (y < x) SUM (n : x_n < y) c_n
-
-    may be we should prove this?
-
-**** Proof
-     Clearly : SUM (n : x_n < x) c_n = upper bound for any sum constrained by
-     x_n < y.
-
-     Suppose epsilon > 0. Then
-
-     L = SUM (n : x_n < x) c_n - epsilon
-
-     then there exists finitely subsets F of E of ns with each x_n < x
-
-     with SUM (n in F) c_n > L - epsilon.
-
-     Take  = max { x_n : n in F} < x
-
-     then SUM (n : x_n < y) c_n .GEQ. SUM (n in F) c_n > L - epsilon.
-
-     L - epsilon is not an upper bound so L = sup (f(y) : y < x)
-
-     Similarly : f(x+) = inf (y > x) f(y)
-     = inf (y > x) SUM (n : x_n < y) c_n = SUM (n : x_n) c_n = f(x)
-     (if x /= any x_n)
-
-     or it equals f(x) + c_n_0  if x = x_n_0 (not part of the definition, so we
-     need one more term : this is the jump.)
-
-     Therefore f is left continuous (meaning f(x-) = f(x)) but there are jumps
-     c_n at each x_n for each n.
-
-**** Alternate Notation
-
-     I(y) = 0 if x < 0, 1 if x .GEQ. 0
-
-     then f(x) = SM c_n I(x - x_n) (integrals!)
-
-     Riemann-Stieltjes integral
-
-
-* Infinite Limits
-
-  Last topic!
-
-  RR overline = RR Union {+inf, -inf} is a metric space with
-
-  d overline (x,y) = abs( arctan(x) - arctan(y) )
-  where arctan(+inf) = pi/2
-  where arctan(-inf) = -pi/2
-
-  Yes, the distance between inf and -inf is pi.
-
-** What are the neighborhoods?
-
-   N_delta(x) overline = { y in RR overline : d overline(x,y) < delta}
-   for some x in RR overline.
-
-   for x in RR, N_delta(x) = {y in RR : abs(y - x) < delta}
-
-*** Relationship between neighborhoods
-
-    We may think of RR as the metric space in the d overline metric (as a
-    subset of RR)
-
-*** Metric Properties
-
-    arctan is continuous, RR -> (-pi/2, pi/2)
-    has continuous inverses. For x in RR, we have delta > 0; there exists some
-    delta' s.t. N_delta(x) `subset` N_delta'(x)
-
-    therefore RR has the same open sets whether we use d or d overline
-    (we say that they are equivalent metrics.)
-
-*** Neighborhood of Infinity
-
-    We have to work with d overline. Consider +inf.
-
-    N_delta overline = {y in RR overline : abs(arctan(y) - pi/2) < delta}
-    well, arctan is bounded by pi/2 anyway, so
-
-    pi/2 - delta < arctan y. Take the tangent of both sides.
-
-
-* Homework 11
-
-** Homework Hints
-
-*** #6 - f :: E -> Y metric spaces, E is compact. Then, show that
-
-    f continuous on E <-> set {(x,f(x)) | x in E} is compact.
-
-    do this problem at the level of metric spaces.
-
-    Example : E subset RR, Y = RR. Then set {(x,f(x))} subset RR^2.
-
-    open cover characterizations - we have sequential Bolzano-Weirstrass style,
-    or just for pure metric spaces.
-
-*** #7 -
-
-    Define f, g :: RR^2 -> R by
-
-    f(0,0) = 0
-    f(x,y) = xy^2/(x^2 + y^4)
-
-    g(0,0) = 0
-    g(x,y) = xy^2 / (x^2 + y^6)
-
-    then show that neither function is continuous near zero. Can't fail it by
-    drawing lines.
-
-    Hint : look at curves f(alpha * t^m, beta * t^n) and attempt to make it
-    fail.
-
-    from maxima session - try x = t^2, y = t.
-
-** Problem 5
-
-   f :: E -> RR1 continuous, E closed implies f extends to continuous
-   g :: RR -> RR.
-
-   Solution: E closed so E^c is some collection of open intervals.
-
-   say that E^c = Union (a_n,b_n)
-
-   g(x) = f(x) for x in E
-
-   g(x) = (f(b_n)  - f(a_n))/ (b_n - a_n) * (x - a_n) (point slope form)
-
-*** Show continuous
-
-    x in E - continuous because f continuous
-    x in some (a_n, b_n) - continuous because linear.
-
-    how about at limit points?
-
-    show that lim (x -> a_n+) g(x) = lim (x -> a_n-) f(x)
-    valid by definition.
-
-    for something like the Cantor set - no interior! no x in E^o.
-
-    how about isolated points?
-
-    on either side - g is a line, so continuous.
-
-    how about E \ E^o?
-
-    so every deleted neighborhood intersects E and E^c.
-
-    Let {x_n} = {y_n} `union` {z_n}
-
-    so y_n in E, z_n in E^c. Then the whole thing is these two
-    subsequences. Therefore it suffices to show that g(y_n) -> g(x) and g(z_n)
-    -> g(x). Therefore as y_n in E, z_n in E^c, we get that f(y_n) -> f(x).
-
-    How about z_n? z_n -> x, z_n in E^c, and z_n -> x. In this situation,
-    a_n -> x and b_n -> x (think of the Cantor set). Therefore the end-points
-    are converge to f(x), which is g(x), so z_n is sandwiched between things
-    that converge to g(x).
-
-** Problem 6
-
-   E is a compact metric space and E is the graph. Then f continuous iff the
-   graph is compact.
-
-*** Solution 1 : Topologist's Proof
-
-    (->) f continuous implies that g : x -> (x, f(x)) is continuous.
-
-    E compact implies (by theorem) that g(E) is compact. Done.
-
-    (<-) Assume that the graph and E are compact. Then h :: (x, f(x)) -> x is
-    continuous. Therefore h :: graph -> E, and the graph is continuous (as is
-    E). Therefore h^-1 is continuous (by 4.19). Therefore f = PI_2 . h^-1 is
-    continuous (where PI_2 :: (x,y) -> y is continuous). Composition of
-    continuous functions is continuous, so f is continuous.
-
-*** Solution 2 : Sequences.
-
-    (->) Choose some {x_n, f(x_n)} subset G - we must find a convergent
-    sequence in E, so that as E is compact -> exists subsequence converging to
-    x_0 in E.
-
-    f is continuous, so the subsequential limits are equal. Therefore (x_n_k,
-    f(x_n_k)) converges to some (x_0, f(x_0)) -> done.
-
-    (<-) Assume that the graph is compact (show that f is continuous). We are
-    stuck working with subsequences in this world, so by HW 7.1
-
-    f(x_n) -> f(x) is the same as {f(x_n_k)} in {f(x_n)} has another
-    subsequence inside where {f(x_n_k_j)} -> f(x).
-
-    Therefore as the subsequence converges to f(x), the whole thing
-    does. Perhaps this is shorter than contrapositive.
-
-    Given some n1 < n2 < ... then the sequence {x_n_k, f(x_n_k)} in the graph
-    (assumed compact) implies that there exists a subsequence (x_n_k_j,
-    f(x_n_k_j)) which converges to x_0, y_0 in the graph. However, the
-    original sequence is convergint to x_0, so by uniqueness of limits all
-    subsequences converge to x_0 so x = x_0 and in addition as G is compact,
-    the limit point must be in the graph so y_0 = f(x).
-
-    Thus, actually f(x_n_k_j) -> f(x) -> done.
-
-** Problem 7
-
-   I got this one right! Yaaaay
-
-** Problem 11
-
-   Show that f uniformly continuous implies that {f(x_n)} is cauchy.
-
-   Let epsilon > 0. Show that there exists N s.t. n,m .GEQ. N implies that
-   d(f(x_n),f(x_m)) < epsilon.
-
-   as f is uniformly continuous we know that exists delta > 0 s.t.
-
-   d(x,y) < delta -> d(f(x), f(y)) < epsilon for all epsilon.
-
-   we also know that {x_n} cauchy -> exists N s.t. n,m .GEQ. N implies
-   d(x_n,x_m) < delta. Turn the crank.
-
-
-* Homework 12
-
-  Due Friday, November 4 : page 100 15,17; page 114 1,2,12,13
-
-** Number 15
-
-   f :: RR -> RR continuous  open mapping
-
-   we know that if U is open, f(U) is open, f monotonic.
-
-   Show that f continuous, f not monotonic -> exists U open with f(U) not open.
-
-*** Solution
-
-    Show that f continuous and not monotonic implies that f not open.
-
-    case 1 - f continuous on [x,z] -> f has a max on [x,z]
-
-    Therefore there exists some x0 in [x,z] with f(x0) .GEQ. f(x) for all x in
-    [x,z]. Therefore f(x0) is not an interior point, so the codomain is not open.
-
-    case 3 - f has a minimum on [x,z]. Easy way out - replace f by -f.
-
-** Number 17
-
-   Set of discontinuities of the first kind for any RR is continuous.
-
-*** Solution
-
-    f :: (a,b) -> RR, E is the set of simple discontinuities for f.
-
-    E = union of E1 , E2, E3, E4 where
-
-    E1 is the set {x in E : f(x-) < f(x+)}
-    E2 is the set {x in E : f(x-) > f(x+)}
-    E3 is the set {x in E : f(x-) = f(x+) < f(x)}
-    E4 is the set {x in E : f(x-) = f(x+) > f(x)}
-
-    Lazy reduction - replace f by -f to reduce E2 to E1, E4 to E3. Therefore we
-    only need to do two cases.
-
-    x in E1 -> (p,q,r) in QQ^3, so we get the three properties:
-
-    1. f(x-) < p < f(x+)
-    2. a < p < t < x -> f(t) < p
-    3. x < t < q < b -> f(t) > p.
-
-    For E1 : pick x < y but they have the same rational triple. Then f(t) > p
-    and f(t) < p, which doesn't work -> one tripple per number.
-
-    For E3 :
-
-    1. f(x+) < p < f(x)
-    2. a < q < t < x -> f(t) < p
-    3. x < t < r < b -> f(t) < p
-
-    use a similar trick - fx) > p, f(y) > p, but we can show that f(x) < p,
-    f(y) < p
-
-** Number 13
-
-   f(0) = 0
-   f(x) = x^a sin(1/x^c)
-
-   Examine what happens for different values of c and a. We did c = 1, a = 0,
-   1, 2.
-
-** Number 1 (114)
-
-   We want to do this one in a polished way. We can use the sandwich theorem.
-
-   abs((f(x) - f(y))/(x - y)) .LEQ. abs(x - y) -> f'(y) exists, equals 0 for
-   all x -> f constant.
-
-   Therefore, by the hypothesis : - abs(x - y) .LEQ. (f(x) - f(y))/(x - y)
-   .LEQ. abs(x - y)
-
-   so we can force lim sup and lim inf to equal zero. Then we are done.
-
-** Number 2 (114)
-
-   f'(x) > 0 on (a,b) -> (by MVT) (f(y) - f(x)) = f'(c)(y - x)
-
-   By assumption, the derivative is strictly positive, so for y > x f(y) >
-   f(x). Done.
-
-   To find g = f^-1 and its derivative, we must show that g is differentiable.
-
-   How do we know that g is continuous?
-
-*** High-Brow Proof
-
-    Suppose that x0 in (a,b). Choose a < alpha < beta < b so [alpha,beta]
-    compact implies that f continuous on [alpha, beta] -> f([alpha, beta])
-    continuous and g = f^-1 is continuous.
-
-*** Low-Brow Proof
-
-    Use deltas and epsilons. It is ugly.
-
-
-* Derivatives.
-
-  given some $f :: [a,b] -> RR$
-
-  $$f'(x) = lim (t -> x) (f(t) - f(x))/(t - x)$$
-
-  Not defined for $t = x$, really means:
-
-  $\lim (t -> x) phi_x(t)$, so we essentially have a fixed $x$.
-
-** Continuity Properties
-
-   f'(a) < L < f'(b) -> exists c s.t. f'(c) = L.
-
-   Compare this to the intermediate value theorem -
-   (take any connected topological space, continuous image of connected set is
-   connected.)
-
-   (image of an interval is an interval - any two points in the image, whatever
-   inbetween is also in the image.)
-
-   If f' exists everywhere, then discontinuities of f' are necessarily of the
-   second kind (if not, then we would violate the mean value theorem)
-
-*** Proof
-
-    Given f (as in intermediate value theorem for derivatives) then set
-
-    h(t) = f(t) - L*t.
-
-    Then h'(a) = f'(a) - L < 0 where h'(a) = lim (t -> a) (h(t) - h(a))/(t - a)
-    implies that there exists some t1 where h(t1) < h(a). (numerator negative
-    once we are close enough). Similarly, h'(b) = f'(b) - L > 0.
-
-    Therefore there exists some t2 in (a,b) with h(t2) < h(b). h is continuous
-    on [a,b] -> h achieves a minimum on [a,b] (continuous image of compact is
-    compact) and the point at which h is minimum cannot be a or b.
-
-    Therefore h has some interior minimum, and h is differentiable on [a,b] ->
-    (Fermat's Theorem) then h'(c) is zero, c in (a,b), so f'(c) = L.
-
-** Another definition
-
-   Given some epsilon > 0 , exists delta s.t.
-
-   t in [a,b]\{x} and abs(t - x) < delta implies
-
-   abs((f(t) - f(x))/(t - x) - f'(x)) < epsilon. This is also defined at the
-   endpoints of the domain (a and b)
-
-
-** Theorem (Differentiation and Continuity)
-
-   if f is defined on [a,b], f differentiable at x -> f continuous at x.
-
-*** Proof
-
-    t - x goes to 0, and the derivative goes to a real number. Therefore
-    f'(x) * (t - x) goes to 0, so lim (t -> x) abs(f(t) - f(x)) -> 0.
-
-*** Converse - not true.
-
-    example - f(x) = abs(x) is not differentiable at x = 0, but it is continuous.
-
-*** Another fun counter-example to the converse.
-
-    f 0 = 0
-    f x = x * sin (1/x)
-
-    f is continuous at all x /= 0. What happens at 0?
-
-    Check at zero: lim (t -> 0) f(t) = lim t * sin 1/t
-
-    t goes to zero and sin 1/t is bounded -> f(t) goes to zero.
-
-    Check the derivative at zero - we secretly already know the chain rule and
-    may compute
-
-    f'(x) = sin 1/x - 1/x cos 1/x , where 1/x cos 1/x is very badly behaved
-    near zero.
-
-    Check by definition:
-
-    lim (t -> 0) (f(t) - f(0))/ (t - 0) = lim (t -> 0) t*sin(1/t) / t = sin(1/t)
-
-    this has a lim sup of 1 and lim inf of -1 -> limit does not exist.
-
-    Therefore this is continuous but not differentiable at x = 0.
-
-*** One more counter-example.
-
-    f(x) = x^2 sin(1/x)
-
-    f is continuous for all x. However we get
-
-    f'(x) = 2*x*sin(1/x) - cos(1/x)
-
-    cos(1/x) oscillates wildly, so the limit does not exist.
-
-*** Weirstaruss' Monster
-
-    function continuous but 'nowhere differentiable'
-
-
-** Calculus Rules
-
-   (f + g)'(x) = f'(x) + g'(x)
-
-   (fg)'(x) = f'(x)g(x) + f(x)g'(x)
-
-   (f/g)'(x) = ...
-
-   Direct calculus - d/dx x*x = 2x. We can use this inductively to get d/dx
-   x^n = n x^(n-1).
-
-*** Chain rule
-
-    f continuous on [a,b], f'(x) exists at some x in [a,b], g defined on some
-    interval that is a subset of the range of f (so g . h is defined)
-
-    g differentiable at f(x) -> h'(x) = g'(f(x)) f'(x)
-
-
-**** Proof
-
-     'careless proof'
-
-     (g . f t - g . f x) / (t - x)
-     = (g(f(t)) - g(f(x)))/(f(t) - f(x)) * (f(t) - f(x)) / (t - x)
-
-     -> g'(f(x)) f'(x)
-
-     This is bad because if f is a constant function we divide by zero. This
-     proof is bogus.
-
-     The fix: keep track of error functions.
-
-     write out f(t) - f(x) = (t - x) (f'(x) + u(t)) where u(t) -> 0 as t -> x
-     (error term)
-
-     For y = f(x) : in general,
-
-     g(s) - g(y) = (s - y) (g'(y) + u(s)) where u(s) -> 0 as s -> y.
-
-     Let s = f(t). Then h(t) - h(v) = g(f(t)) - g(f(x))
-
-     = (f(t) - f(x)) ( g'(f(x)) + u(f(t)))
-
-     = (t - x) (f'(x) + u(t)) (g'(f(x)) + u(f(t)))
-
-     which implies that
-
-     (g(f(t)) - g(f(x))) / (t - x) =
-
-     (f'(x) + u(t))(g'(f(x)) + u(f(t))) -> f'(x)g'(f(x)) woohoo
-
-
-** Mean Value Theorem
-
-   We can get this from Rolle's Theorem.
-
-   Recall : f :: [a,b] -> RR, , x in [a,b]
-   f differentiable at x -> lim (t -> x) phi(t) = L = f'(x) exists. The limit
-   itself is defined on [a,b]\{x}.
-
-*** Local Maximum
-
-    f : X -> RR has a local minimum at a point p in X if exists delta > 0 s.t.
-
-    q in X with d(q,p) < delta -> f(q) .LEQ. f(p)
-
-*** Fermat's Theorem
-
-    f defined on [a,b], f has a local maximum at some point x in (a,b), f'(x)
-    exists -> f'(x) = 0
-
-**** Proof by difference quotient
-
-     t in N_delta(x) where approach from left, derivative .GEQ. 0, approach
-     from right, derivative .LEQ. 0. Therefore by uniqueness of the limit we
-     get that it is zero, or f'(x) = 0.
-
-     Note that this arguement fails at end points - only applies to open
-     intervals.
-
-*** Traditional Approach
-
-    We know that f is continuous and differentiable on [a,b], so there exists
-    some c in (a,b) where f(b) - f(a) = f'(c) (b - a).
-
-    Remark - in case f(a) = f(b) = 0 we get Rolle's Theorem.
-
-**** Proof
-
-     Reduce to Rolle's Theorem by introducing some auxillary function g, where
-     g(x) = f(x) - value on the secant line
-          = f(x) - point-slope formula between (a,f(a)) and (b,f(b)).
-
-     Then we can almost keep Rolle's Theorem. g continuous on [a,b],
-     differentiable on (a,b), g(a) = g(b) = 0 (Rolle's!). Therefore there is
-     some c in (a,b) where g'(c) = 0
-
-     however, g'(x) = f'(x) - (f(b) - f(a))/(b - a)
-                  0 = f'(c) - (f(a) - f(b))/(b - a) Done.
-
-***** Corollary - increasing stuff.
-
-      f'(x) .GEQ. 0 implies that f is increasing.
-      f'(x) > 0 implies that f is strictly increasing.
-
-      f'(x) .LEQ. 0 implies that f is decreasing.
-      f'(x) < 0 implies that f is strictly decreasing.
-
-      f'(x) = 0 -> f is a constant.
-
-      These are intuitive, but now we may rigorously show that they are true.
-
-*** General Case
-
-    f,g continuous on [a,b] and differentiable on (a,b) implies that there
-    exists some c in (a,b) such that
-
-    (f(b) - f(a))g'(c) = (g(b) - g(a))f'(c)
-
-    if g(b) /= g(a) and g'(c) /= 0 we can rewrite this as
-
-    f'(c) / g'(c) = (f(b) - f(a)) / (b - a)
-
-    where a special case (g(x) = x) is the usual mean value theorem.
-
-**** Proof
-
-     Recall that h~(x) = f(x) - (f(a) + (f(b) - f(a)) / (b - a) * (x - a))
-
-     h(x) = h~(x) (b - a)
-          = (b - a) f(x) - (b - a)*f(a) + (f(b) - f(a))*(f(b) - f(a))(x - a)
-
-          = (g(b) - g(a))*(f(x) - f(a)) - (f(b) - f(a))(g(x) - g(a))
-
-     Therefore h(x) is continuous on [a,b] (composition of continuous
-     functions)
-
-     h(a) = 0 by substitution, and there exists some c s.t. h'(c) = 0, so we
-     get what we wanted.
-
-
-*** Standard MVT
-
-    g(x) := x. We can say that the slope of the tangent line matches the slope
-    of the secant line in at least one place.
-
-    Consider t -> (g(t), f(t)) as a parameterized curve, mapping [a,b] -> RR^2.
-    Assume that this parameterization has no singularities. This means that the
-    tangent vector (g'(t), f'(t)) exists and is not the zero vector
-    everywhere. Then the slope of the tangent line is (back to calculus of
-    several variables) at (f(x), g(x)) is
-
-    (g(x), f(x)) + t(g'(x), f'(x))
-
-    then the slope of the tangent line at (g(x), f(x)) is f'(x) / g'(x) and we
-    assume that both are not zero at the same time. Therefore we can create
-    some well defined slope.
-
-    Assume taht the secant line is well-defined. This means that
-
-    (g(b),f(b)) /= (g(a),f(a))
-
-    and the geometric interpretation is just the general MVT, that is
-
-    slope of tangent line at c = (f(b) - f(a))/(g(b) - g(a)) = f'(c)/g'(c)
-
-*** What makes the Generalized MVT more general?
-
-    We have two functions (f and g) satisfying the hypotheses.
-
-    f(b) - f(a) = f'(c_f) (b - a)
-    g(b) - g(a) = g'(c_g) (b - a)
-
-
-    If it is possible to take c_f = c_g then we recover the other versions of
-    the Mean Value Theorem.
-
-*** Speculation : Vector MVT
-
-    This is not true! We will shoot down this conjecture shortly.
-
-    So that f :: [a,b] -> RR^k is continuous and differentiable on (a,b).
-
-    Then we can say f'(x) = [f1'(x), f2'(x), ...]
-
-    and that this equals lim (y -> x) 1/(y - x) (f(y) - f(x))
-
-    Therefore there should exist some point in (a,b) where
-
-    f(b) - f(a) = f'(c) (b - a)
-
-    What happens when we take this appart component-wise?
-
-    f1(b) - f1(a) = f1'(c) (b - a)
-    f2(b) - f2(a) = f2'(c) (b - a)
-    ...
-
-    This is the same as the system of scalar equations
-
-    f_j(b) - f_j(a) = f_j'(c) (b - a)
-
-    where c is independent of j. We can certainly do this individually.
-
-    Counter-Example: f(t) = [cos t, sin t] :: [0,2Pi] -> RR
-
-    Then f(0) = (1,0), yet norm(f'(t)) = 1
-
-    but f(2pi) - f(0) = f'(c)(2pi)
-
-    f(2pi) - f(0) is zero, but f'(c) is not. Therefore the conjecture fails.
-
-    New conjecture - MVT fails for complex because it fails for RR^2.
-
-**** Theorem 5.19
-
-     f is a continuous mapping of [a,b] into RR^k and f is differentiable on
-     (a,b) implies that there exists some point (a single point!) in (a,b)
-     where the estimate
-
-     norm(f(b) - f(a)) .LEQ. (b - a) norm(f'(c))
-
-***** Proof - By 4226
-
-      We secretly already know how to integrate.
-
-      norm(f(h) - f(a)) = norm(integral (0 to 1) d/dt f((1 - t)*a + th) dt)
-      crash through the integral:
-
-
-      .LEQ. integral norm(f'((1-t)a + th)) dt (b - a)
-      we can take the norm and bound and get
-
-      .LEQ. sup(norm(f'(t))) (b - a)
-
-
-** L'Hopital's Rule
-
-   consequence of the general case of the Mean Value Theorem. We can now
-   manipulate limits as they go to infinity.
-
-*** Fixing L'Hospital for complex numbers
-
-    Apply the good L'Hospital to the real and imaginary parts separately. To
-    finish we need a clever identity:
-
-    f(x)/g(x) = (f(x)/ x - A) * x/g(x) + A*x/g(x)
-
-*** Fixing L'Hospital for vector functions
-
-    We fixed for complex, how about vector?
-
-    By MVT - f(b) - f(a) = f'(c) (b - a)
-
-    Useful corollary - abs(f(b) - f(a)) = abs(f'(c)) abs(b - a)
-
-    Therefore, if we bound the derivative above:
-
-    abs(f(b) - f(a)) sup (t in (a,b)) abs(f'(t)) (b - a)
-
-
-** Definition
-
-    f, g real and differentiable on (a,b), g'(x) /= 0. Suppose that
-
-    limit (x -> a+) f'(x)/g'(x) = A.
-
-    Then if f(x) -> 0, g(x) -> 0 (or inf, or -inf) as x -> a+, then
-
-    limit (x -> a+) f(x)/g(x) = A.
-
-*** Proof
-
-    Given A in closure RR, and A- < A < A+ (if A = -inf then A- does not
-    exist) (if A = +inf then A+ does not exist)
-
-    Then there should eist some a-, a+ in the closure with a- < a < a+ (same
-    rules; if a = +/- inf then forget about the appropriate things) so that x
-    in domain(h) with a- < x < a+ -> A- < h(x) < A+.
-
-    Therefore, if A is finite, then take some A- = A - epsilon, A+ = A +
-    epsilon.
-    If A = +inf then pick A- = M in RR, ignore A+.
-    If A = -inf then pick A+ = M in RR, ignore A-.
-
-    and, if a in RR, pick a- = a - delta, a+ = a + delta. Do similar ignoring
-    for a = +/- inf.
-
-    This should be all the set up that we need.Assume that lim (x -> a+)
-    f'(x)/g'(x) = A. Show that lim (x -> a+) f(x)/g(x) = A.
-
-    How we have A- < A < A+, choose real p, r where A- < p < A < r < A+.
-
-    Assume that there is some c in (a,b) with a < x < c. Then
-
-    p < f'(x) / g'(x) < r.
-
-    For any x,y with a < x < y < c, the generalized mean value theorem gives
-    that
-
-    (f(x) - f(y)) g'(t_x,y) = (g(x) - g(y))f'(x)
-
-    (recall - we assumed that g'(x) /= 0)
-
-    Therefore (g(y) - g(x)) /= 0, so
-
-    p < (f(x) - f(y))/(g(x) - g(y)) = f'(t)/g'(t) < r
-
-    FInally, let x -> a+, so
-
-    A- < p .LEQ. f(y)/f(x) .LEQ. r < A+
-
-    Therefore, given some A- and A+, we found some c > a where if y in (a,c)
-    then A < f(y) / g(y) < A+ -> definition of lim (y -> a) f(y)/g(y) = A.
-
-**** case b : lim (x -> a+) f'(x)/g'(x) = A and g(x) -> +inf.
-
-     Proof - Choose some A-, A+ in RR (if possible) with
-
-     A- < A < A+ . Choose some p,r in R, where (again)
-
-     A- < p < A < r < A+
-
-     Same work as before holds. We can form some t between x and y such that
-
-     p < (f(x) - f(y))/(g(x) - g(y)) = f'(t)/g'(t) < r (due to the
-     hypothesis/generalized mean value theorem).
-
-     Keep y fixed - choose some c1 in (a, y) s.t. g(x) > g(y) and g(x) > 0 (as
-     we assume g(x) -> inf) such that if a < x < c1 then g(x) > 0.
-
-     Multiply the inequality by (g(x) - g(y)) / x > 0, so we get
-
-     (f(x) - f(y)) / (g(x) - g(y)) (g(x) - g(y))/g(x) = f(x) / g(x) - f(y) /
-     g(x)
-
-     hmm, what do we do with that?
-
-     p - p(g(y)/ g(x)) = p (g(x) - g(y))/ g(x) < f(x) / g(x) - f(y) / g(x)
-
-     < r (g(x) - g(y))/g(x) = r - r(g(y) / g(x))
-
-     Therefore p - p g(y) / g(x) + f(y) / g(x) < f(x) / g(x) < r = r g(y) /
-     g(x) + f(y) / g(x).
-
-     Let x -> a+. Then there exists some c2 in (a,c1) such that
-
-     a < x < c2 -> A- < f(x)/g(x) < A+ Done.
-
-
-
-
-** Rolle's Theorem
-
-   f continuous on [a,b], f differentiable on (a,b), f(a) = f(b) = 0, then
-   exists c in (a,b) where f'(c) = 0.
-
-*** Proof
-
-    Case 1 : if f is a constant then f'(c) = 0 for all c. Done.
-
-    Case 2 : exists x in (a,b) with f(x) > 0. We know that f(compact) is a
-    compact set, so f achieves a maximum value on some [a,b]. Therefore, as
-    there exists some x in (a,b), f(x) > f(a), f(b) = 0, implies that the
-    maximum is at an interior point.
-
-    Then by Fermat's theorem we get that the max at the interior has f'(c) = 0.
-
-    case 3 : exists x in (a,b) where f(x) < 0 -> f has some interior minimum at
-    c. The same story as above applies, and we get f'(c) = 0.
-
-*** Applications
-
-    Use it to derive the Mean Value theorem.
-
-
-** Vector Functions
-
-*** Theorem 5.19
-
-    f : [a,b] -> RR^k
-    norm(f(a) - f(b)) .LEQ. (sup norm(f'(t)))(b - a)
-
-    Proof - 'crash through with integrals'
-
-    Refinement - Actually exists some c between a and b such that
-    norm(f'(b) - f'(a)) .LEQ. norm(f'(c)) (b - a)
-
-
-**** Proof
-
-     z in RR^k. Then Phi(x) = z cdot f(x) is a scalar function.
-
-     Therefore, by the mean value theorem, exists some c (dependent on z) in
-     (a,b) s.t.
-
-     Phi(b) - Phi(a) = Phi'(c) (b - a)
-     z cdot f(b) - z cdot f(a) = z cdot f'(c) (b - a)
-     z cdot (f(b) - f(a)) = z cdot f'(c) (b - a)
-
-     Choose z = 1/(norm (f(b) - f(a))) (f(b) - f(a))
-
-     then norm(f(b) - f(a)) = z0 cdot f'(c) (f(b) - f(a))
-
-     so by C-S we get norm(f(b) - f(a)) = norm(z_0) norm(f'(c)) (b - a). Done.
-
-
-* Something.
-
-  Let x in (bar E) \ E `subset` E'
-
-  Choose any {x_n} in E with x_n -> x.
-
-  Define g(x) = if x in E then lim(f(x_n)) else f(x).
-
-** Check sequence well-defined
-
-   if {y_n} in E and y_n -> x:
-
-   then some z_n = if n odd then x_n else y_n -> x then {z_n} cauchy -> f({z_n})
-   cauchy -> f(z_n) -> L so f(x_n) and f(y_n) go to the same L. Therefore we can
-   make conclusions for any arbitrary sequence.
-
-
-** Is g continuous?
-
-   Suppose that x_n -> x in X = closure E.
-
-   Pick some e_n in E, where d(e_n, x_n) < 1/n (assumed density)
-
-   Estimate - d(g(x_n), g(x)) .LEQ. d(g(x_n), g(e_n)) + d(g(e_n), g(x))
-
-   therefore d(g(e_n), g(x)) goes to zero by construction of the g formula.
-
-   The first part d(g(x_n), g(e_n)) goes to 1/n by construction. Therefore
-   d(g(x_n),g(x)) -> 0 and we are done.
-
-
-* Homework 13
-
-  Due 11/11/11
-
-  114 - 3,4,5,6,8,11 (on the mean value theorem)
-
-* Extra Credit
-
-  114 20,22
-
-** 20 - Q /= E `subset` metric space X, define P_E(x) by inf (p in E) d(x,z)
-
-   and p_E(x) = 0 <-> x in E closure.
-
-   b. x -> P_E(x) is uniformly continuous (Lipschitz with L = 1)
-
-   so abs(P_E(x) - P_E(y)) .LEQ. d(x,y)
-
-   and P_E(x) .LEQ. d(x,z) .LEQ. d(x,y) + d(y,z) -> P_E(x) .LEQ. d(x,y) + P_E(y)
-
-   which implies that p_E(x) - p_E(y) .LEQ. d(x,y)
-
-   similarly, p_E(y) - p_E(x) .LEQ. d(y,x) = d(x,y)
-
-   so abs(P_E(x) - P_E(y)) .LEQ. d(x,y) which implies uniform continuity.
-
-** 22 - A, Bdisjoint and closed in X
-
-   define f(p) = P_A(P) / (P_A(p) + P_B(p)) -> f is continuous on X with range
-   f in [0,1)
-
-   p -> f(p) continuous, it follows from the calculus theorems
-
-   P_A(p) + P_B(p) /= 0 for all p.
-
-   p in (closure A) Union (closure B) <-> A intersect B = nullset.
-
-   f^{-1}({0}) = A, f^(-1)({1}) = B. Done.
