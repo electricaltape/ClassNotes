@@ -1186,6 +1186,7 @@
    which is the average of the left and right first derivatives (which we know
    are equal by assumption). Done.
 
+
 * Extra Credit
 
   114 20,22
@@ -1218,6 +1219,7 @@
    p in (closure A) Union (closure B) <-> A intersect B = nullset.
 
    f^{-1}({0}) = A, f^(-1)({1}) = B. Done.
+
 
 * What is on Test 2?
 
@@ -1262,3 +1264,716 @@
     Fermat's, Rolles', MV, Generalized MV, L'Hospital's, vector theorems.
 
     be able to prove Fermat and Rolles'
+
+
+* Test 2 Overview
+
+** Overview
+
+   How do we know that things exist? Completeness of reals, LUB, monotone
+   convergence.
+
+** Problem 1
+
+   a - monotone convergence theorem
+   b - Cauchy criterion
+   c - apply a and b.
+   d - apply c with b_n = r^m where a_m+1/a_m < r < 1.
+
+** Problem 2
+
+   a - f uniformly continuous = f continuous at all p.
+   b - negate the definition -
+       exists epsilon s.t. forall delta, exist p,q where d(p,q) < delta but
+       d(f(p),f(q)) > epsilon
+       (apply with delta = 1/n for any n, so the distance goes to zero while
+       f(p) - f(q) > epsilon)
+   c - f(x) = x^2 - see part one - apply b with something that goes to
+       infinity. part two - f(x) = x is uniformly continuous on [-M,M] forall
+       M. Quote the theorem, continuous on compact -> uniformly continuous.
+
+   b - f'(x) = 2x .LEQ. 2M -> f(y) - f(x) < 2M (y - x) for x, y in [-M,M] so we
+       get a Lipschitz contant of 2M.
+   c - Elementary proof : f(x) - f(y) = x^2 - y^2 = (x+y)(x-y)
+
+** Problem 3
+
+   a - Use the definition of a limit. Alternatively - use the sequential
+       characterization.
+
+   b - left out - y_n -> x (need to assume this). for 1 -> 2
+       straightforward. for 2-> use contrapositive.
+
+   c - Parallel at the lim sup level - we can connect the functional and
+       sequential with inf sup.
+
+       notation : A = lim (y -> x) sup f(y)
+       and B = sup {lim sup f(y_n), y_n -> x}
+
+       step 1 - argue that B .LEQ. A.
+
+       forall epsilon > 0, exists delta s.t. 0 < d(x,y) < delta so f(y) < A +
+       epsilon, or for n > some N, d(y_n, x) < delta so f(y_n) < A + epsilon so
+       lim sup of the sequence is .LEQ. A.
+
+       step 2 - exists a subsequence , {y_n} -> x and f(y_n) -> A. Then A
+       .LEQ. B and sup = max. Then 'the delta takes you on in'
+
+
+* Homework 14
+
+  One more homework - number 14.
+
+  For Friday, December 2, Page 115 15,17.
+
+
+* More Series Stuff
+
+  Indexing over multiple indicies.
+
+
+* Taylor Series
+
+** Motivation
+
+   P(x) is a polynomial:
+
+   SUM (k=0 to n) a_k x^k polynomial of degree n.
+
+   We may recover the coefficients by calculating the derivative of zero
+   divided by the factorial of the power. Therefore, we can rewrite the
+   original:
+
+   P(x) = SUM (k=0 to n) P^k(0)/k! x^k
+   More generally - if P~(x) = SUM (k=0 to n) P^k(x0)/k! (x - x0)^k
+
+   then P~(x) = P(x).
+
+** Expansion to arbitrary functions
+
+   Suppose f :: [a,b] -> RR has n continuous derivatives on [a,b] and x0 in
+   [a,b]. Then
+
+   P_n, f, x0(x) = SUM (k = 0 to n) f^(k)(x0)/k! (x - x0)^k
+
+   therefore we recover each derivative of f(x0).
+
+** When is this exact?
+
+   Say that f(x) = SUM a_n (x - x_n)^n on (x0 - r, x0 + r) (for r > 0)
+
+   and differentiable term-by-term is 'cool' (we will prove this next semester)
+   then a_n = f^n(x0)/n!
+
+*** Other direction
+
+    When is f(x) = SUM f^n(x0)/n! (x - x_n)^n true everywhere?
+
+    We can cook up examples, like f(x =< 0) = 0, f(x > 0) = e^(-1/x) is
+    infinitely differentiable but the taylor series breaks down.
+
+** Residuals
+
+   Define R_n(x) = f(x) - SUM (k=0 to n) f^k(x0)/k! (x - x0)^k z (remainder)
+
+   Then : f(x) = (infinite taylor series) is the same as R_n(x) -> 0.
+
+*** Corollary
+
+    Suppose f^n(x) =< M for all n and x in some neighborhood of x0. Then the
+    function is equal to the infinite taylor series.
+
+**** Proof
+
+     Squash the f^n(x) terms by bounding them and using n!. One may use the
+     ratio test to show convergence.
+
+**** Example 1
+
+     f(x) = e^x. For any interval we can bound the derivatives. The ratio test
+     shows that the series converges; we must also show that it converges to
+     the correct thing.
+
+**** Example 2
+
+     f(x) = cos(x); we may certainly bound the derivatives by 1. This Taylor
+     series is nice because all the odd terms disappear (they are sines
+     evaluated at zero).
+
+*** Moral of the Story
+
+    The neighborhood of convergence predicted by looking at the remainder is
+    not always sharp.
+
+**** Proof 1
+
+     R_n(x) / x^(n+1) =
+     (R_n(x) - R_n(0)) / (x^(n+1) - 0) = (R'_n(x1) - R_n'(0)) / ((n+1)x1^n - 0)
+     = ... = R_n^(n+1)(c) / (n+1)!
+     which implies that R_n(x) = f^(n+1) (c) / (n+1)! x^(n+1) (Lagrange form of
+     the remainder)
+
+**** Proof 2
+
+     Define phi(t) =
+     f(x) - SUM (k = 0 to n) f^k(t)/k! (x-t)^k - R_n(x) (x-t)^(n+1) /(x -
+     x_c)^(n+1)
+
+     Then phi is continuous on [a,b] and phi' exists. However, by design
+     pho(x0) = phi(x1) = 0 so phi'(some c) = 0. Then we get the formula by
+     magic.
+
+** How good an approximation is this?
+
+   Assume that f is n times continuously differentiable on the closed interval
+   [a,b]. Assume that the n+1 derivative exists on (a,b). Let x0, x be distinct
+   points in [a,b]. Then there exists some c in (x0,x) so we can use the
+   Lagrange form of the remainder:
+
+   f(x) = SUM (k = 0 to n) f^(k)(x0)/k! (x - x0)^k + f^(n+1)(c) / (n+1)! (x -
+   x0)^(n+1)
+
+   (note that n = 0 is the MVT)
+
+*** Proof
+
+    (Abbott) Consider R(x) := f(x) - P_n,f,0(x). THen R is a continuously
+    differentiable function on [a,b] and R_n^k(0) = 0 for 0 .LEQ. k .LEQ. n. We
+    may then apply the generalized mean value theorem and get
+
+    R_n(x) / x^(n+1) = R'(x1)/((n+1)x1^n). We can do this again for x2 between
+    x1 and 0, and keep going until the denominator is a constant.
+
+
+* Convex functions
+
+** Definition
+
+   f :: (a,b) -> RR *convex* means that for all x,y in (a,b),
+   and 0 < lambda < 1,
+
+   f(lambda x + (1 - lambda) y) .LEQ. lambda f(x) + (1 - lambda) f(y)
+
+   esentially: the secant line is above the graph.
+
+** Properties
+
+*** f convex -> f continuous.
+
+    This is only valid at interior points.
+
+**** Proof
+
+     Say a < s < u < v < t < b. Then
+
+     1. f(u) .LEQ. f(s) + (f(v) - f(s))/(v - s) * (u - s) (solve for f(v))
+
+     2. f(v) .LEQ. f(u) (f(t) - f(u))/(t - u)
+
+***** Squeeze from Left
+
+      Therefore, solving for f(v) we can get
+
+      (v - s)/(u - s) f(u) - (v - s)/(u - s) f(s)       .LEQ. f(v) - f(s)
+      and
+      (v - s)/(u - s) f(u) + (1 - (v - s)/(u - s))f(s)  .LEQ. f(v)
+      and
+      f(s) + (f(u) - f(s))/(u - s) * (v - s)            .LEQ. f(v)
+      therefore
+      f(s) + (f(u) - f(s))/(u - s) * (v - s)            .LEQ. f(v)
+      .LEQ. f(u) + (f(t) - f(u))/(t - u) (v - u)
+
+      so we can squeeze f(u) .LEQ. lim inf f(v_n) .LEQ. lim sup f(v_n)
+      .LEQ. f(u)
+
+      so the liminf and limsup are equal, so we get continuity.
+
+***** Remaining parts
+
+      Squeeze from right - a similar process.
+
+      By picture - we can see that f(u) is less than the value at u on the
+      secant line connecting s and v. We can check via algebra.
+
+      Similarly:
+
+      f(v) .LEQ. f(u) + (f(t) - f(u))/(t - u) (v - u)
+
+*** g increasing, g convex, f convex -> g . f convex
+
+**** Proof
+
+     To show : g . f (lambda x + (1 - lambda )y) .LEQ.
+     lambda g . f (x) + (1 - lambda) g . f (y)
+
+     Therefore, as g is increasing and f has the convexity property with
+     lambdas, we are done by substituting in.
+
+*** Slopes of Secant Lines increase.
+
+    f convex on (a,b), a < s < t < u < b
+    Then (f(t) - f(s))/(t - s) .LEQ. (f(u) - f(s))/(u - s)
+    .LEQ. (f(u) - f(t))/(u-t)
+
+    (the slopes are increasing.)
+
+**** Proof
+
+     Use the point-slope formula.
+
+     (value less than or equal to value of secant line)
+     f(t) .LEQ. f(s) + (f(u) - f(s)).(u - s) * (t - s)
+
+     there is the first one! We just need to rearrange.
+
+     Similarly,
+     f(t) .LEQ. f(u) + (f(u) - f(s))/(u - s) * (t - u)
+     therefore, by rearrangement,
+     (f(u) - f(s))/(u - s) .LEQ. (f(u) - f(t))/(u - t)
+
+*** The secant line is above, but the tangent line is below.
+
+    More exactly: the secant line connecting two points is always above the
+    graph, while the tangent line on one point is always lower than the graph.
+
+**** Proof
+
+     Assume that x0 < x < x1 and f is convex. We want to show that
+
+     f(x0) .GEQ. f() + f'(y) * (x0 - y)
+     f(x) .GEQ. f() + f'(y) * (x - y)
+
+     Choose lambda where
+
+     x = (1 - lambda) * x0 + lambda * x1
+
+     then 0 = (1 - lambda) * x0 - (1 - lambda) * y + lambda * x - lambda * y
+
+     therefore (1 - lambda) * f(x0) + lambda * f(x) .GEQ. f(y) +
+     f'(y) ((1 - lambda) * (x0 - y) + lambda * (x - y)) (last term goes to
+     zero)
+
+     so (1 - lambda) * f(x0) + lambda * f(x) .GEQ. f(y) done!
+
+*** Choices for lambda
+
+    for continuous f, f((x + y)/2) .LEQ. (f(x) + f(y))/2, (ie lambda = 1/2)
+    then we may choose any 0 < lambda < 1 and f is convex.
+
+**** Proof (by continuity)
+
+     it suffices to verify that
+     f(lambda x + (1 - lambda) y) .LEQ. the usual only for
+
+     lambda = m / 2^n (for 0 < m < 2^n) (the diadic rationals)
+
+     Take n = 2 - the algebra works out well for
+
+     f(1/4 x + 3/4 y) .LEQ. 1/4 f(x) + 3/4 f(y). (this is the base case; n = 1
+     and n = 2 both hold so far).
+
+** Rudin Problems
+
+   101 23,24 and 115 14.
+
+** What may we do when we know derivatives?
+
+*** f differentiable, convex -> f' increasing
+
+**** Proof
+
+     (f(t) - f(s))/(t - s) .LEQ. what we did before.
+
+     what we need to show is that the derivatives go to the secant lines when
+     we smash the values (s,t,u) together.
+
+     Let t decrease down to s. Then we get the derivative from the left side:
+
+     f'(s) .LEQ. (f(u) - f(s))/(u - s).
+
+     Let t go up to u in 2. Then
+
+     (f(u) - f(s))/(u - s) .LEQ. f'(u)
+
+     therefore f'(s) .LEQ. f'(u) (there is something in the way)
+
+     Therefore, for f' increasing locally, by the mean value theorem
+
+     (f(x) - f(x1))/(x - x1) = f'(xi1), and (f(x2) - f(x))/(x2 - x) = f'(xi2)
+     for x1 < xi1 < x and x2 < xi2 < x. Therefore we have that
+
+     (f(x) - f(x1))/(x - x1) .LEQ. (f(x2) - f(x))/(x2 - x)
+
+     so convexity does imply that the derivative is monotonically increasing
+     across the domain.
+
+***** Other way : f' increasing implies convexity
+
+      x := lambda x1 + (1 - lambda) x2 for x1 < x2, lambda in (0,1)
+
+      then for some x in (x1, x2),
+
+      x - x1 = (1 - lambda) (x2 - x1) , x2 - x = lambda (x2 - x1)
+
+      Therefore, with some more rearrangement and collecting lambdas,
+
+      f(x) .LEQ. lambda f(x1) + (1 - lambda) f(x2) so done.
+
+*** Second Derivatives and Convexity
+
+    Assume that f'' exists for all x in [a,b].
+    Then f convex iff f''(x) .GEQ. 0.
+
+**** Proof
+
+     By a corollary to the MVT, f' increasing implies f'' .GEQ. 0. This is the
+     end of the chain.
+
+
+* Rudin's Lost Notebook - Even More Convex Fun (Derivatives)
+
+** Derivatives
+
+   f'^+(x) = LIM (h decrease to 0) (f(x+h) - f(x))/h
+
+   not to be confused with
+   f'(x+) = LIM (h decrease to 0) f'(x + h)
+
+   From the previous work with secant lines - the derivative is monotonically
+   increasing.
+
+*** Proof
+
+                           (1)                         (2)
+    (f(t) - f(s))/(t - s) .LEQ. (f(u) - f(s))/(u - s) .LEQ. (f(u) - f(t))/(u-t)
+
+
+    Let s go up to t in (1) and let u go down to t in (2). Then
+
+    f'^(-)(t) .LEQ. f'^(+)(t)
+
+    the same applies for s and u, so the derivative does indeed increase
+    monotonically.
+
+** Convexity and 1-sided derivatives
+
+   f : (a,b) -> RR convex implies that one-sided derivatives of f exist on
+   (a,b) and are monotone - f'^(+/-) exists for every x (but the + and - need
+   not be equal everywhere) and
+
+   x < y -> f'^(-)(x) .LEQ. f'^(+)(x) .LEQ. f'^(-)(y) .LEQ. f'^(+)(y)
+
+*** Proof
+
+    For our friend a < s < t < u < b, we have that
+
+    (f(t) - f(s))/(t - s) .LEQ. (f(u) - f(s))/(u - s) .LEQ. (f(u) - f(t))/(u-t)
+
+    Therefore LIM (x down to s) (f(x) - f(s))/(x - s) = f'^(+)(x) exists.
+
+    Similarly: (f(u) - f(x))/(u - x) is increasing for x < u. Same technique :
+    LIM (x up to u) (f(x) - f(u))(x - u) = sup (x < u) same deal = f'^(-)(u)
+    exists.
+
+    Then by the same arguement as before,
+    f'^(+)(s) .LEQ. (f(u) - f(s))/(u - s) .LEQ. f'^(-)(u)
+    Useful picture:  \_/ the tangent line may jump, but if u > s then the
+    limits behave as we expect.
+
+*** Corollary
+
+    We can break f'^(+)(x) = f'^(-)(x) at countably many points at most.
+
+*** Conjecture - building convex functions from monotone functions
+
+    If g is a monotonically increasing function, then there is some convex
+    function f with f' = g except at discontinuities of g.
+
+** Convex : Sense 2
+
+   Assume f has a continuous derivative on (a,b). Define : f is _convex in
+   sense 2_ means
+
+   f(x) .GEQ. f(x0) + f'(x0)(x - x0) for all x, x0 in f(0,h)
+
+   Why? Think Taylor's Theorem - the second derivative is positive, so we get
+   this by Taylor series and a bounded second derivative. Can we do it with-out
+   the second derivative?
+
+*** Proof with-out second derivative assumption
+
+    f(x + h) = (f(x) + f'(x)h) = f(x + h) - f(x) - f'(x)h
+                               = f'(c)h - f'(x)h
+                               = (f'(c) - f'(x))h .GEQ. 0
+
+    By a previous result, f' exists so f' must be increasing.
+
+*** Third proof - direct.
+
+    f(x + h) = f(x) + f'(x) h + z_x(h) * abs(h). By definition of the
+    derivative, z_x(h) must go to zero as h -> 0. Therefore
+
+    f(lambda y + (1 - lambda) y) = f(x + lambda(y - x))
+    = f(x) + lambda f'(x) (y - x) + lambda*(y - x) * z(lambda (y - x))
+
+    More work follows - we may cancel the lambdas and the the result.
+
+*** Consequences of Convex 2
+
+    Suppose f is convex and f' exists on some (a,b), f'(x0) = 0. Then, from
+    calculus (we expect to see a minimum)
+
+    f(x) .GEQ. f(x0) (so x0 is a *global* minimum)
+
+    Proof : f(x) .GEQ. f(x0) + f'(x0) (x - x0). Done.
+
+** Double Sequences and Series
+
+   A *double sequence* is a function (N,N) -> RR^k, where
+   (m,n) -> r, r in RR. We notate this by x_{m,n} and sometimes drop the comma.
+
+*** Double Limit
+
+    Define LIM (m,n -> (INF,INF)) x_{m,n} = L means
+
+    for all epsilon > 0, exists N s.t. m, n .GEQ. N -> abs(x_mn - L) < epsilon.
+
+**** Cauchy Criterion
+
+     There exists L such that LIM (m,n -> (INF,INF)) x_{m,n} = L means the
+     normal thing; but now we must use two variables.
+
+**** Example
+
+     f(x) = (x^2 sin(x) f(0) = 0) - exists everywhere but x = 0.
+
+     If we let h go to zero and then x go to zero, it does not exist. However,
+     if we fix h, evaluate the x limit, and then we can solve it (get f'(0),
+     exists).
+
+* Double Sums & Series'
+
+** Theorems
+
+*** Theorem 1 (for limits)
+
+    LIM (m and n to inf) x_{mn} exists and LIM (n to inf) y_m exists for all m
+    then x = LIM (m to inf) $ LIM (n to inf) x_{mn}
+
+**** Proof
+
+     Given epsilon > , exists N(epsilon) s.t.
+
+     m, n .GEQ. N(epsilon) -> abs(x_mn - x) < epsilon.
+
+     By hypothesis, y_m = LIM (over n) x_mn exists for all m. Then
+
+     abs(y_m - x) .GEQ. epsilon for m .GEQ. N(epsilon) so x = LIM (m)
+     y_m. Done.
+
+**** Corollary
+
+     LIM (m and n to inf) x_{mn} exists and LIM (n to inf) x_mn = y_m, LIM (m to
+     inf) x_mn = z_n exists then x = any combination of two limits from before.
+
+*** Theorem 2
+
+    y_m = LIM (n to inf) x_mn, z_n = LIM (m to inf) x_mn exist and at least one
+    is uniform then the double limit exists and is uniform.
+
+**** Proof
+
+     Assume that for all epsilon > 0, exists N(epsilon) where n
+     .GEQ. N(epsilon) implies that abs(x_mn - y_m) < epsilon for all m.
+
+     Then, by tripple-epsilon arguement:
+     abs(y_r - y_s) .LEQ. abs(y_r - x_rq) + abs(x_q - x_sq) + abs(x_sq - y_s)
+
+                    < epsilon + ? + epsilon.
+
+     how do we get the last one? Use that {x_.q} is cauchy if we freeze
+     q. Therefore there exists some R(q) (depends on q, but whatever) such that
+
+     r, s > R(q) -> abs(x_nq - x_sq) < epsilon. Therefore we can bound all of
+     the items in the tripple-epsilon arguement.
+
+*** Theorem 3
+
+    if SUM (i, j) x_ij is absolutely convergent then any double sum is also
+    absolutely convergent.
+
+** Examples
+
+*** First example - derivative of our favorite function
+
+    g(0) = 0, g(x) = x^2 sin(1/x)
+
+    let x_mn = f(x_m, h_n) where f(x,h) = (g(x + h) - g(x)) / h
+
+    Then the double limit LIM (m to inf) LIM (n to inf) x_mn does not
+    exist. However,
+
+*** Second example - attempt to modify Theorem 1
+
+    x_mn = 1 for m /= n, 0 otherwise. This does not converge to anything, so
+    the limit of the indicies does not exist. However, the single limits are
+    okay (fix m, let n go on and vice versa)
+
+*** Third example - double limit okay, single limits not
+
+    x_mn = (-1)^(m + n) (1/m + 1/n)
+
+    fix m. Then
+
+    LIM (n to inf) x_mn = (-1)^m LIM (n to inf) ((-1)^n/m + (-1)^n/n )
+
+    as m is fixed, this oscillates forever, so the single limits cannot converge.
+
+*** Fourth example - lower triangular matricies
+
+    x_mn = 1 for m .GEQ. n, 0 otherwise.
+
+    then LIM (n to inf) for any m  = 1, but the other one goes to zero. Uh oh.
+
+** Definitions
+
+*** Double Sums
+
+    Given some doubly-indexed sequence x_ij then we define the m,nth partial
+    sum the normal way. We say that this converges to x in RR^k if
+
+    forall epsilon > 0, exists M(epsilon) such that m, n .GEQ. M(epsilon)
+    implies that abs(x - S_mn) < epsilon.
+
+    put another way : LIM (m,n to inf) S_mn = x exists.
+
+**** Absolute convergence
+
+     Same as the 1D case; sum of absolute values converges.
+
+**** Monotone Convergence Theorem
+
+     Given some x_ij .GEQ. 0, then SUM x_ij converges implies there exists some
+     M < inf such that S_mn .LEQ. M for all m, n (and then SUM x_ij = supremum
+     of the partial sums)
+
+*** Uniform convergence
+
+    y_m = {x_mn}_n=1 to inf is a sequence in RR^k converging to y_m for each m.
+
+    we say that {y_m} limits *exist uniformly* if for each epsilon > 0, exists
+    N(epsilon) (independent of m) such that (n .GEQ. N(epsilon)) implies that
+    abs(x_mn - y_m) < epsilon for all m.
+
+* Final Exam, Part A
+
+  Use completeness of the reals.
+
+  m, n, r, s .GEQ. N implies abs(x_mn - x_rs) < epsilon
+
+  Issue - iterated limit. Do we always get the same answer? May we flip the
+  limits and do them in another order?
+
+* Final Exam, In class
+
+** What sort of functions are on the final exam?
+
+   continuous, uniformly continuous, monotonic, convex, differentiable
+
+   Given some equation, show that it is (one of those) and supply a
+   theorem. Otherwise show that it is not (counter-example). Show plausible
+   reasoning, not necessarily a proof
+
+   *Techniques* weaken conclusion, less general assumptions.
+
+** TODO What are the four important theorems? (know these!)
+
+*** TODO we are missing one.
+
+    There are only three! Find the last one.
+
+*** Double limits: existence
+
+    LIM x_mn = L and LIM (over n) x_mn = y_m and LIM (over m) x_mn = z_n
+    all exist -> LIM (over n) LIM (over m) = LIM (over m) LIM (over n) = L
+
+*** Double Limits: uniform continuity
+
+    y_m = LIM (over n) x_mn, z_n = LIM (over m) x_mn exist (and at least one is
+    uniformly continuous) then the double limit is uniformly continuous.
+
+*** Double Sums and Absolute Convergence
+
+    if SUM x_ij converges absolutely then SUM (over i) SUM (over j) = SUM (over
+    j) SUM (over i)
+
+**** Proof
+
+     The double sum convergent means that there exists some N(epsilon) such
+     that for all epsilon, m, n .GEQ. N(epsilon) implies
+
+     abs(SUM (i=1 to m) SUM (j = 1 to n) x_ij - s) < epsilon
+
+     We have absolute convergence, so we have convergence.
+
+     Let t = sum (m,n) SUM (i=1 to m) SUM (j=1 to n) abs(x_ij) works as
+
+     t = SUM (i,j = 1 to INF) abs(x_ij) exists by assumption.
+
+     *Proof of the 3rd one* By hypothesis, exists A = upper bound over the
+     double summation of absolute values.
+
+     {SUM (i=1 to m) SUM (j=1 to n) x_ij}
+
+     Therefore for some fixed n, the summation is less than or equal to A.
+
+     as SUM abs(x_in) .LEQ. SUM SUM abs(x_ij) .LEQ. A (monotonically increasing
+     and bounded implies convergence)
+
+     Therefore the sum for fixed n converges to y_n absolutely.
+
+     If epsilon > 0 then let some M(epsilon) be such that
+
+     m, n .GEQ. M(epsilon) -> abs(s_mm - x) < epsilon
+
+     whese s_mn = SUM (i = 1 to m) x_i1 + SUM (i = 1 to m) x_i2 + ...
+
+     Therefore LIM (m to inf) = SUM x_i1 + SUM x_i2 + ...
+     = y_1 + y_2 + ...
+
+     Then pass to the limit in abs(s_mn - x) < epsilon:
+
+     abs( SUM y_j - x) < epsilon when n .GEQ. M(epsilon) so x works as a limit
+     for SUM over second index (SUM over first index).
+
+*** Cauchy Sums
+
+    Given some x_ij, look at
+
+    SUM (over n) (SUM (over k) x_k,n-k) (diagonals)
+
+    we can look at a double summation, were we just add up all the indicies we
+    can think of.
+
+    Iterated : sum each row. What happens when we get a lot of rows?
+
+    Reverse order : sum the columns.
+
+    Cauchy : travel along antidiagonals (from top to left)
+
+*** If SUM x_ij converges absolutely to S then the cauchy sum converges to the same S.
+
+    *Remark* we did this pre-thanksgiving ("before turkey") for the special
+    case x_ij = a_i b_j.
+
+    SUM (over i) (SUM (over j) a_ib_j) = SUM (over i) a_i (SUM (over j) b_j) =
+    AB
+
+    and by symmetry this works in the other order for *seperable*,
+    doubly-indexed sequences. We can still play funny games with separation,
+    but here it works.
+
+*** Fun Theorem (appetizer)
+
+    SUM x_ij converges absolutely implies that LIM (n to inf) S_mn = y_m exists
+    uniformly on m and LIM (m to inf) s_mn = z_n exists uniformly in n.

@@ -1770,28 +1770,22 @@
    continuous iff V open in Y -> f^-1(v) = {x in X : f(x) in V } is open in X.
 
 
-* 10/17/11
+* Homework 9
+  6a - Can show that it telescopes.
+  6b -
 
-** HW 10 - email coming.
-   page 98 2,3,4 ; 10.1 handout d((X,X)) -> RR continuous. (due Friday)
+  (sqrt(n + 1) - sqrt(n)) / n = 1 / (n*sqrt(n+1) + sqrt(n)) (multiply by
+  conjugate)
+  which is approximately 1/n^3, convergent by p-series.
 
+** Show that nth root of n! diverges
 
-** Homework From Last Time
-   6a - Can show that it telescopes.
-   6b -
+   2nth root of (2n)! .GEQ. 2nth root of (2n) (2n - 1) (n + 1)
+                      .GEQ. 2nth root of n^n
+                         =  square root of the nth root of n^n
+                         =  square root of n
 
-   (sqrt(n + 1) - sqrt(n)) / n = 1 / (n*sqrt(n+1) + sqrt(n)) (multiply by
-   conjugate)
-   which is approximately 1/n^3, convergent by p-series.
-
-*** Show that nth root of n! diverges
-
-    2nth root of (2n)! .GEQ. 2nth root of (2n) (2n - 1) (n + 1)
-                       .GEQ. 2nth root of n^n
-                          =  square root of the nth root of n^n
-                          =  square root of n
-
-    Bounded below by a divergent limit.
+   Bounded below by a divergent limit.
 
 
 ** More continuity
@@ -2209,4 +2203,4 @@
     (since f([a,b]) is connected)
 
     converse not always true, since f(x) = sin (1/x) x/=0, = 0 at x=0, have the
-    intermediate value property but is not continuous at x = 0.
+    intermediate value property but is not continuous at x = 0

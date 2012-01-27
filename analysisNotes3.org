@@ -1,0 +1,533 @@
+* Final Exam from last semester
+** Convexity Problem
+*** Reals as a vector space over the rationals
+    we can pick countable reals and try to form a basis, but that won't span
+    RR. However, we can pick a better basis (uncountable) and have that work.
+
+    /*AA - generic uncountable set*/
+
+    Therefore pick some {qy : y in AA}, take alphar to be coefficients and
+    define f(x) = f(SUM (over y) ry qy) = SUM (over y) alphay ry qy.
+
+* Course Goal
+  Chapters 6-10
+  Riemann-Stieltjes integral: finish single-variable calculus
+  sequences and series' of functions
+  spaces of functions having a topology
+  concrete functions, calculus of several variables (differential calculus,
+  inverse function theorem, implicit function theorem, stokes)
+  *integration by parts in several variables* Gauss/Green/Stokes, special cases
+  subsumed by abstract stokes theorem and differential forms.
+  *Measure theory?* We will discuss a few other kinds of integrals that are
+  equivalent to Lebesgue.
+* Homework 1
+  138 1-4, due January 27
+
+  tack-on : INTEGRAL (0,1) f(x) dx = 0, where
+  f(q) = 1/n for x = m/n rational
+  f(0) = 0
+  f(x) = 0 for x irrational.
+
+  #5: Converse of 6.11, special case - show that if f^2 in R(alpha) then f in R(alpha).
+* Integrals
+** Partition
+   finite set of points x_i where
+
+   a = x0 .LEQ. x1 .LEQ. x2 .LEQ. ... .LEQ. xn = b
+
+   and
+
+   Delta xi = xi - x{i-1}
+*** Partition Refinement
+    We say P* is a *Refinement* of P if P* SUPERSET P.
+    We say P* is the *Common Refinement* of P1 and P2 if P* = P1 UNION P2.
+** Upper and Lower Riemann Integrals
+*** Definition (Darboux)
+    given some f : [a,b] -> RR bounded:
+    for each *interval* in each partition:
+    Mi = SUP f(x) on [x{i-1}, xi]
+    mi = INF f(x) on [x{i-1}, xi]
+
+    for *each partition*:
+    U(P,f) = SUM (i=1 to n) Mi Delta xi (sum of supremums)
+    L(P,f) = SUM (i=1 to n) mi Delta xi (sum of infimums)
+*** Upper and Lower Integrals
+    for all partitions:
+
+    *Upper*: overbar INTEGRAL f dx = INF U(P,f)
+    *Lower*: underbar INTEGRAL f dx = SUP L(P,f)
+
+    Note that due to completeness of the reals these exist.
+
+    when the upper and lower integrals are equal we say that f is *Riemann Integrable*
+    on [a,b].
+
+    Put another way - the Us correspond to upper bounds on the integral and the
+    Ls correspond to lower bounds.
+*** Consequences of boundedness
+    m .LEQ. f(x) .LEQ. M, so for every P
+
+    m(b - a) .LEQ. L(P,f) .LEQ. U(P,f) .LEQ. M(b - a)
+
+    by definition of U and L. Therefore the Ls and Us form a bounded
+    set. Therefore /*The upper and lower integrals are defined for every
+    bounded function f*/.
+*** Overview of Riemann Integrals
+    Subsumes integrals of the form INTEGRAL (a,b) f(x) G'(x) dx and series like
+    SUM (n=1 to inf) mun vn.
+
+    *normal interpretation* G(x) = x is the usual form
+
+    *probability density function* Call G'(x) the probability density
+    function - the probability that some event is between a and b is the
+    integral for f(x) = 1.
+
+    *conditional probility* quotient of integrals, where we keep F(x) in the
+    numerator and drop G'(x) in the denominator.
+
+    *discrete probability* vn = P(n) .GEQ. 0 (probability of some event is
+    greater than or equal to zero). We can do a similar trick to the
+    conditional probability:
+
+    SUM(un vn) / SUM vn = conditional probability. Both the discrete and
+    continuous case come up in probability theory; this abstract approach (RS
+    Integral) lets us handle both.
+** Playing Games with a Monotonic Function: the Riemann-Stieltjes Integral
+*** Definition of Riemann-Stieltjes Integral
+    Let alpha be a monotonically increasing function on [a,b].
+
+    *For each partition*: Delta alphai = alpha(xi) - alpha(x{i-1}) .GEQ. 0
+    Therefore we can use telescoping to sum the Delta alphais and we get
+    alpha(xn) - alpha(x0).
+
+    we can think of alpha as a weighting function, where the Delta alphas are
+    the weights on each interval.
+
+    similar to before :
+
+    U(P,f, alpha) = SUM (i=1 to n) Mi Delta alphai
+    L(P,f, alpha) = SUM (i=1 to n) mi Delta alphai
+
+    and the integrals, over all partitions:
+
+    *Upper*: overbar INTEGRAL f dx = INF U(P,f, alpha)
+    *Lower*: underbar INTEGRAL f dx = SUP L(P,f, alpha)
+
+    if they are equal we call this the *Riemann-Stieltjes Integral* of f with
+    respect to alpha over [a,b], and notate it by
+
+    INTEGRAL (a,b) f dalpha
+**** Probability interpretation
+     Riemann integrals are a special case - alpha = id (this is related to
+     uniform probability distributions)
+
+     *when does the Riemann integral exist?*
+*** Effect of Refinement on Value - Theorem 6.4
+    if P* is a refinement of P then
+
+    L(P, f, alpha) .LEQ. L(P*, f, alpha)
+    and
+    U(P*, f, alpha) .LEQ. U(P, f, alpha)
+**** Proof
+     Assume that P* contains one more point than P. Let this extra point be
+     x*, and x{i-1} < x* < xi. Let
+
+     w1 = INF f(x) over [x{i-1}, x*]
+     w2 = INF f(x) over [x*, xi]
+
+     Let mi be INF f(x) over [x{i-1}, xi] (the original infimum).
+     By definition of the infimum, w1 .GEQ. mi and w2 .GEQ. mi. Therefore
+
+     L(P*, f, alpha) - L(P, f, alpha)
+     /*everything cancels outside of this considered interval [x{i-1}, xi]*/
+         = w1 (alpha(x*) - alpha(x{i-1})) + w2 * (alpha(xi) - alpha(x*))
+         - mi(alpha(xi) - alpha(x{i-1})) /*new two minus old one*/
+         = (w1 - mi)(alpha(x*) - alpha(x{i-1}))
+         + (w2 - mi)(alpha(xi) - alpha(x*)) /*break up on two subintervals*/
+         .GEQ. 0.
+
+     We can repeat this for every point in P* that is not in P. The other
+     statement is analogous.
+*** Existence Theorems
+**** Existence (Theorem 1)
+     f continuous, alpha monotonically increasing implies that the
+     Riemann-Stieltjes integral exists.
+**** Existence (Theorem 2)
+     If f is monotonic and alpha is is continuous, monotonically increasing then
+     the Riemann-Stieltjes integral exists
+**** Existence (Theorem 3)
+**** 'The theorems in the book are rinky-dink' THEOREM (in caps)
+     Given that f is bounded, alpha is monotonically increasing, then
+
+     INTEGRAL f dalpha exists <-> f is continuous 'almost everywhere', or [mu]
+     /*[mu] stands for almost everywhere, or set of measure zero.*/
+
+     Let D = the set of points of f, epsilon > 0 where there exists intervals
+     (an, bn) with D `subset` UNION (an, bn) and
+     SUM (n=1 to inf) abs(alpha(bn-) - alpha(an+)) < epsilon
+
+     and (f and alpha are not simultaneously discontinuous from the same side
+     (left or right) at any point)
+***** Special case : alpha(x) = x : Lebesgue's Theorem
+      (the only thing we need from this in this course - what is a set of
+      measure zero?)
+      INTEGRAL (a,b) f(x) dx exists <-> D, the set of discontinuities of f, has
+      Lebesgue measure 0
+
+      (that is, D is a subset of the unions (ai, bi) and the same sum condition
+      holds as above)
+****** Proof (from Abbott)
+       /*Also in Rudin - Theorem 11.33b - but he uses more Lebesgue stuff than
+       we have*/
+       *Problem definition, from Abbott*
+       Given some f on [a,b] , alpha > 0, we say that f is *alpha-continuous*
+       at x if exists delta > 0 where y,z in (x - delta, x + delta) and in
+       [a,b] implies that abs(f(y) - f(z)) < alpha.
+
+       *Part 1 : Dalpha is closed*
+       Let Dalpha be the set of all x where f is not continuous at x. Then
+       Dalpha is closed (no neighborhoods).
+
+       Say that x is in Dalpha. Then there exists delta > 0 such that there
+       exist y, z in (x - delta, x + delta) INTERSECT [a,b] where abs(f(y) -
+       f(x)) .GEQ. alpha.
+
+       Therefore for smaller alpha (alpha1 < alpha2) we have that Dalpha2
+       .SUBSET. Dalpha1. Then D = UNION D_{1/n}. Then D is a Fsigma set
+       (countable union of closed sets).
+
+       *Example* f is alpha-continuous on compact K implies that f is uniformly
+       alpha-continuous. (the delta, in the definition of f alphacontinuous at
+       x, can be chosen to be independent of x)
+
+       *Actual Proof Part*
+
+       (->) Assume that D has measure zero. Set alpha = epsilon / (2*(b-a)). Let
+       D = UNION D{1/n}, which implies that each D_alpha has measure zero.
+
+       Dalpha compact (choose n s.t. 1/n < alpha) implies that we can cover it
+       by a finite collection of disjoint open intervals G1 .. GN where the sum
+       of their lengths is less than epsilon/4M.
+       /*we may make the sum of the lengths as small as we like because they
+       are all measure zero.*/
+
+       Let K = [a,b] \ UNION Gn, which is compact. Then f is alpha-continuous
+       on K and K is compact, so f is uniformly alpha-continuous on K.
+
+       Therefore there exists some delta > 0 where abs(s - t) < delta, for s, t
+       in K -> abs(f(s) - f(t)) .LEQ. alpha = epsilon/(2(b-a))
+
+       /*Build a partition*/
+       Construct a tartition Pepsilon of [a,b] as follows:
+       Pepsilon includes the endpoints of us, vj of Gj = (uj, vj)
+       if x{i-1} /= any uj then Delta xi < delta.
+       Then U(P,f) - L(P,f) = SUM (i, x{i-1} /= any /*TODO look at this
+       again*/) ... + SUM (Mi - mi) Delta xi
+
+       first term  : less than epsilon/2(b-a)(b-a)
+       second term : less than 2M * epsilon/4M.
+
+       Therefore their sum is just epsilon, so we satisfy the Cauchy criterion.
+
+       (<-) Suppose that the integral exists. Now we must show that Dalpha has
+       measure zero (or that D = some union of sets of measure zero)
+       /*countable union of sets of measure zero has measure zero*/
+       usual trick - put them in intervals of size epsilon/2^n. Sum them up
+       from n=1 to infinity - sum is epsilon.
+
+       Fix alpha > 0. Let epsilon > 0. Choose some partition Pepsilon such that
+
+       U(Pepsilon, f) - L(Pepsilon, f) < alpha epsilon.
+
+       x in Dalpha implies that forall delta > 0, exists s and t with the usual
+       pair of properties (and we may get arbitrarily close to alpha):
+
+       abs(s - t) < delta and abs(f(s) - f(t)) .GEQ. alpha
+
+       Then x is in Dalpha, x in [x{i-1}, xi] implies that Mi - mi .GEQ. alpha.
+
+       Let G1 .. GN be the intervals of Pepsilon  containing any points of
+       Dalpha. Then
+
+       alpha epsilon > U(f, Pepsilon) - L(f, Pepsilon) .GEQ. alpha SUM (l(Gj))
+       cancel the alphas:
+       epsilon > SUM (l(Gj))
+
+       which proves what we wanted.
+****** Example 1 : Rationals, Irrationals
+       Let f(x) = 0 when x is irrational, and 1 at rational points. This is
+       discontinuous everywhere. This is not of measure 1 or 0, really.
+****** Example 2 : More fun with rationals and irrationals.
+       f(x) = {1/n for x = m/n, a rational}
+       f(x) = {0 for x irrational}
+
+       the set of discontinuities is Q and 0 - a countable set - measure zero
+**** Measure Zero and Existence
+     if f is bounded on [a.b], f Riemann integrable iff the set of
+     discontinuities of f has measure zero.
+***** Proof
+      (->) Suppose f is Riemann integrable. We want to show that the set of
+      discontinuities Dalpha has measure zero for any alpha.
+
+      Let alpha > 0. Let epsilon > 0. For some Pepsilon,
+      U(f, Pepsilon) - L(f, Pepsilon) < alpha * epsilon.
+
+      x in Dalpha means that for every delta > 0 there exists some s and t such
+      that
+
+      abs(s - t) < delta and (f(s) - f(t)) .GEQ. alpha /*the discontinuity*/
+
+      Therefore if x in Dalpha and x in some interval (x{i-1},xi) then Mi - mi
+      .GEQ. alpha /*the difference between the two is bounded below by a
+      nonzero number */
+
+      There are finitely many partition points. Therefore, when we remove them
+      from Dalpha and cover what remains with open intervals.
+
+      Therefore Dalpha / { partition points} has measure less than epsilon. We
+      may cover Dalpha with open intervals with a sum of lengths less than
+      epsilon. Therefore as epsilon is arbitrary we can shrink it and get
+      Dalpha has measure zero.
+*** Relationship between Upper and Lower Riemann-Stieltjes Integrals - Theorem 6.5
+    underbar INTEGRAL (a,b) f dalpha .LEQ. overbar INTEGRAL (a,b) f dalpha
+    put another way - the supremum of the lowers must be less than or equal to
+    the infimum of the uppers.
+**** Proof
+     Let P* be the common refinement of P1 and P2. By Theorem 6.4
+
+     L(P1, f, alpha) .LEQ. U(P2, f, alpha)
+     note that for *any* P2 this holds. Therefore this holds for whatever P1
+     and P2 we want.
+
+     For the common refinement, we have that:
+     L(P1,f,alpha) .LEQ. L(P*, f, alpha) .LEQ. U(P*,f,alpha)
+     .LEQ. U(P2,f,alpha)
+
+     Fix P2. Take the supremum over P1. Then
+
+     underbar INTEGRAL (a,b) f dalpha .LEQ. U(P2, f, alpha).
+
+     Then take the infimum over all P2 to obtain the theorem.
+*** Relationship to Riemann Integrable Functions (Cauchy Criterion)- Theorem 6.6
+    f is in R(alpha) /* Riemann-integrable */ on [a,b] if and only for for all
+    epsilon > 0 there exists some partition P such that
+
+    U(P, f, alpha) - L(P, f, alpha) < epsilon.
+**** Proof
+     (<-) By the previous theorem, for every P we have that
+
+     L(P,f,alpha) .LEQ. underbar INTEGRAL (a,b) f dalpha
+     .LEQ. overbar INTEGRAL (a,b) f dalpha .LEQ. U(P2, f, alpha).
+
+     also assume that U(P, f, alpha) - L(P, f, alpha) < epsilon, so the
+     difference between the upper and lower integrals must go to
+     zero (it is bounded by all epsilon). Therefore f is Riemann integrable.
+
+     (->) Let epsilon > 0 and let f be Riemann integrable. Then there exist
+     partitions P1 and P2 where
+
+     U(P2, f, alpha) - INTEGRAL f dalpha < epsilon / 2
+     INTEGRAL f dalpha - L(P1, f, alpha) < epsilon / 2
+
+     Let P be the common refinement of P1 and P2; Theorem 6.4
+     /*mesh-refinement*/ then says that /*the inequalities above also hold for
+     P - the partition version is closer, but still bounded, by the integral */
+
+     U(P,f,alpha) .LEQ. U(P2, f, alpha) < INTEGRAL f dalpha + epsilon /2
+     < L(P1, f, alpha) + epsilon .LEQ. L(P,f,alpha) + epsilon
+
+     so the statement holds for some partition P.
+*** Results of Partition Refinement - Theorem 6.7
+    Assume U(P,f,alpha) - L(P,f,alpha) < epsilon (Cauchy Criterion)
+    a. If the assumption holds for P, then it holds for every refinement of P.
+    b. Let [x{i-1}, xi] be some interval in the partition. If si and ti are
+       arbitrary points in each interval then
+
+       SUM abs(f(si) - f(ti)) Delta alphai < epsilon.
+
+    c. If f is Riemann integrable and (b) holds then
+
+       abs(SUM f(ti) Delta alphai - INTEGRAL (a,b) f dalpha) < epsilon.
+**** Proof
+     6.4 implies (a).
+
+     (b) : f(si) and f(ti) are both in the interval [mi, Mi], so abs(f(si) -
+     f(ti)) < Mi - mi. Therefore
+
+# should the step with U and L have an = before it instead of an .LEQ.?
+     SUM abs(f(si) - f(ti)) Delta alphai .LEQ. U(P,f,alpha) - L(P,f,alpha) < epsilon
+
+     (c) : the inequalities
+
+     L(P,f,alpha) .LEQ. SUM f(ti) Delta alphai .LEQ. U(P,f,alpha)
+
+     and
+
+     L(P,f,alpha) .LEQ. INTEGRAL f dalpha .LEQ. U(P,f,alpha)
+
+     prove (c).
+
+*** Existence - Theorem 6.8
+    Let f be continuous on [a,b] and let alpha be monotonically
+    increasing. Therefore f is Riemann integrable on [a,b].
+**** Proof
+     Let epsilon > 0. Choose nu > 0 such that
+     (alpha(a) - alpha(b)) nu < epsilon /*nu exists by archimedean property*/
+
+     As f is continuous on [a,b], f is *uniformly continuous* on [a,b] so
+     exists delta > 0 such that (s,t in [a,b] and abs(s - t) < delta) implies
+     abs(f(s) - f(t)) < nu. (for all nu > 0)
+
+     Let P be a partition of [a,b] where Delta xi < delta for all i. Therefore
+     Mi - mi < nu. Then
+
+     U(P,f,alpha) - L(P,f,alpha) = SUM (Mi - mi) Delta alphai < SUM nu Delta
+     alphai
+     /*Use the telescoping property of sums of alphai*/
+     = nu (alpha(b) - alpha(a)) < epsilon /*by the original assumption
+     regarding nu*/
+
+     therefore we satisfy the Cauchy criterion.
+*** For monotonic f : Theorem 6.9
+    Assume that f is monotonic and alpha is continuous on [a,b]. /*we could
+    assume that alpha has no discontinuities where f does, but we won't yet.*/
+    Also assume that alpha is increasing on [a,b]. Then f is Riemann-integrable.
+**** Proof
+     Let epsilon > 0. Let n be a natural number. Choose a partition P such that
+
+     Delta alphai = (alpha(b) - alpha(a))/n /*we can do this because we assumed
+     that alpha is continuous and we use the intermediate value theorem*/
+
+     Assume that f is increasing (other wise do the same thing for -f). Then,
+     since f is increasing:
+
+     mi = f(x{i-1}), Mi = f(xi)
+
+     Then U(P,f,alpha) - L(P,f,alpha) = SUM (f(xi) - f(x{i-i})) Delta alphai
+     = (alpha(b) - alpha(a))/n (SUM f(xi) - f(x{i-i})) /* use telescoping */
+     =
+*** For finitely discontinuous f : Theorem 6.10
+    Suppose f is bounded on [a,b], f has finitely many points of discontinuity,
+    and alpha is continuous where alpha is not. Then f is Riemann integrable.
+**** Proof
+     Let epsilon > 0.
+     Let M = SUP abs(f(x)).
+     Let E = set of points where f is discontinuous.
+
+     /*Step 1 - construct intervals around discontinuities*/
+     As E is finite and alpha is continuous at each point of E, we can cover E
+     with finitely many disjoint intervals [uj, vj] such that the sum of the
+
+     alpha(vj) - alpha(uj)
+
+     is less than epsilon. Similarly, we can clearly build these intervals so
+     that every point in E is some interior point of some interval.
+
+     /*Step 2 - Construct a compact set.*/
+     Let K be the set [a,b] - all segments (uj, vj). Then K is compact /*it is
+     a union of compact (closed and bounded) real intervals*/. Therefore:
+
+     1. f is uniformly continuous on f
+
+     2. exists some delta > 0 where abs(f(s) - f(t)) < epsilon when abs(s - t)
+        < delta for s and t in K.
+
+     /*Step 3 - form a partition.*/
+     Let P = {x0, x1, ... , xn} of [a,b] be a partition with the following
+     properties:
+
+     1. Each uj and each vj is in P.
+     2. No point in each segment (uj, vj) is in P.
+     3. If x{i-1} is not one of the uj then Delta xi < delta. /*why?*/
+     4.
+
+     Note that
+
+     Mi - mi .LEQ. 2M /*as the LHS is maximized for Mi = M, mi = -M, and M is
+     the supremum of abs(f(x))*/
+
+     also, Mi - mi .LEQ. epsilon unless x{i-1} is one of the uj. /*why?*/
+
+     Therefore a la 6.8,
+
+     U(P, f, alpha) - L(P, f, alpha) .LEQ. [alpha(b) - alpha(a)] * epsilon + 2M
+     epsilon.
+
+     so for epsilon -> 0 the difference between U and L goes to zero, so f is
+     in R(alpha).
+*** Chain rule and Riemann integrability : Theorem 6.11
+    Suppose that f is Riemann integrable on [a,b], m .LEQ. f .LEQ. M, *phi
+    is continuous* on [m, M] and h(x) = phi(f(x)). THen h is Riemann integrable.
+**** Proof
+     Let epsilon > 0. Since phi is uniformly continuous on [m, M] there exists
+     some delta > 0 where delta < epsilon and abs(s - t) < delta ->
+     abs(phi(s) - phi(t)) < epsilon.
+
+     Since f is Riemann integrable there is some partition P where
+
+     (+) U(P, f, alpha) - L(P, f, alpha) < delta^2.
+
+     Let Mi and mi have their usual meanings (for f). Let M*i and m*i be
+     analogous for h. Divide the numbers [1..n] into two classes:
+
+     1. i in A if Mi - mi < delta
+     2. otherwise i in B.
+
+     by (+) we have that
+
+     (delta SUM Delta alphai) .LEQ. SUM (Mi - mi) Delta alphai < delta^2
+     where the sums are over B. Therefore the SUM (over B) Delta alphai <
+     delta. Thus
+
+     U(P,h, alpha) - L(P,h,alpha) = SUM (i in A) (M*i - m*i) Delta alphai + SUM
+     (i in B) (M*i - m*i) Delta alphai
+     /*telescope*/
+     .LEQ. epsilon (alpha(b) - alpha(a)) + 2k epsilon - therefore we have
+     constants time epsilon
+**** Corollaries
+     How about f^2 and f^3? By this theorem, we have that they are Riemann
+     integrable. The converse is homework #5.
+** Boring properties of the integral
+*** 6.12 - Closure
+    1. if f1 and f2 are both Riemann integrable then f1 + f2 is Riemann
+       integrable.
+    2. INTEGRAL (f1 + f2) dalpha = INTEGRAL (f1) dalpha + INTEGRAL (f2) dalpha
+    3. c INTEGRAL f dalpha = INTEGRAL c*f dalpha (for constant c)
+*** More 6.12 - Supremum
+    sup (f1(x) + f2(x); [x{i-1}, xi]) .LEQ. sup ( f1(x) + f2(y); x,y in
+    [x{i-1}, xi])
+    = sup (f1(x)) + sup (f2(x)), each over same interval
+*** More 6.12 - Splitting Integrals
+    f1 .LEQ. f2 on [a,b] -> INTEGRAL f1 dalpha .LEQ. INTEGRAL f2 dalpha
+
+    INTEGRAL (a,b) f dalpha = INTEGRAL (a,c) f dalpha + INTEGRAL (c,b) f
+    dalpha. Prove it by partition around C.
+*** Assorted Properties
+    abs(UPPER INTEGRAL f dalpha) .LEQ. M (alpha(b) - alpha(a))
+*** Theorem 6.13
+    f Riemann integrable, g Riemann integrable on [a,b], then
+
+    1. fg Riemann integrable on [a,b]
+    2. abs(f) is Riemann integrable;
+       abs(INTEGRAL f dalpha) .LEQ. INTEGRAL abs(f) dalpha
+**** Proof
+     Use the chain rule - take phi(t) = t^2, so f^2 is Riemann integrable. Use
+     4fg = (f + g)^2 - (f - g)^2.
+**** More proof
+     Take phi(t) = abs(t). /*another significant technique*/
+     Choose c = +/- 1 so that c INTEGRAL f dalpha .GEQ. 0.
+
+     Then abs(INTEGRAL f dalpha) = c INTEGRAL f dalpha = INTEGRAL c f dalpha
+     .LEQ. abs(c f) dalpha as cf .LEQ. f everywhere.
+** Heaviside Function and Theorem 6.15
+   Define the Heaviside step function such that it is zero at x = 0. If a < s <
+   b, f is bounded on [a,b], f is continuous at s, and alpha(x) = I(x - s) then
+
+   INTEGRAL (a,b) f dalpha = f(s)
+*** Proof
+    Consider P = {a = x0, x1, x2, x3 = b}. Then
+    U(P, f, alpha) = M2 = sup (f(x), x in [s,x2])
+    L(P, f, alpha) = m2
+
+    f continuous at s -> M2 and m2 -> f(s) x2 -> s; done
+

@@ -1,0 +1,168 @@
+* In-class homework
+  1. compare the proof of theorem 4.1 in the notes to the version in the book.
+  2. Slide 16 - go over the auxillary function F(alphai) and demonstrate
+     equivalence.
+  3. Confirm the quadratic minimization result (page 17)
+  4. Go over the abstract formulation of Galerkin's method. (page 17)
+  5. W = SPAN[x, 1 - x] : figure out the best approximation in this space to e^x.
+* Overview of Class
+  + office hours - 8:30 - 9:20 Monday/Wednesday
+  + Computing project available soon (though this course is not about
+    computation)
+  + Mathematics *not suitable for humans* - suitable for computers to use
+* Approximation Theory (for approximating functions)
+** Overview
+   given a complicated function f(x), find a simpler one p(x) where *in some
+   sense* p(x) = f(x) (where we may represent p(x) as a combination of computer
+   primitives)
+** Best Approximation Problem
+   linear space V, F(x) :: V -> RR
+   where
+   + F(x) .GEQ. 0,
+   + F(lambda x) = abs(lambda) F(x)
+   + F(x + y) .LEQ. F(x) + F(y)
+
+   so we have that *F is a norm*.
+*** Example
+    V = all continuous functions on the interval [a,b]
+
+    *Chebyshev or uniform norm*:
+    norm(v,inf) = max (x in [a,b]) (abs(v(x)) rho(x))
+    /* where rho is the weight function, rho(x) > 0 on the interval */
+
+    *L2 norm*
+    norm(v,2) = sqrt (INTEGRAL (a,b) abs(v(x)) rho(x))
+    /* same restriction on rho */
+** Generic Best Approximation Problem
+   Say we have a linear space V and a subset W. How can we find *something in W*
+   that is the *best approximation* of some v in V?
+
+   formal statement:
+   find w* in W such that
+   norm(v - w*) .LEQ. norm(v - w), forall w in W (best approximation)
+*** Solution and Finite-ness : Theorem 4.1
+    + Assume that dim(W) = n. Let w1,w2,...,wn be the basis of W.
+
+    + Assume norm(v) = M and norm(w*) .LEQ. 2M. (if norm(v) = 0, 0 in W, we are
+      done)
+
+      Where does the 2M come from? Assume that w* exists. Then norm(v - w*)
+      .LEQ. norm(v - w) by definition. Therefore, as 0 in W, we can say that
+      the distance cannot be more than M as
+
+      norm(v - w*) .LEQ. norm(v - 0) = M
+
+      do the old trick with plus and minus:
+
+      norm(w*) = norm(w* - v + v) .LEQ. norm(w* - v) + norm(w* + v) .LEQ. 2M by
+      the previous result. Therefore we only have to minimize over this ball -
+      the norm of the difference *must* fall in this ball.
+
+    + Assume that g(l1, l2, ..., ln) = norm(l1w1 + l2w2 + ... + lnwn) is a
+      continuous function for li in RR (or l-vector in RRn). This gives us some
+      function of scalars instead of elements in some vector space (W)
+
+    + Let S = {l-vectors in RRn where SUM abs(li) = 1}. This is a compact set.
+
+    + Generating a linear combination: Let w = SUM li wi. Then w~ = 1/SUM li wi
+      is normalized.
+
+      let m = g(l*1, l*2, ... , l*n) for (l*1, l*2, ...) in S. Also let (l1,
+      l2, ... , ln) be in S. By magic, norm(w) .LEQ. 2M implies abs(li)
+      .LEQ. 2M/m.
+
+    As a consequence of this : min(norm(v - w)) = min(norm(v - SUM li wi))
+    where the lis are bounded by 2M/m in absolute value.
+** Uniqueness of Best Approximation
+   Let W* = {w in W, w is a solution to the GBA problem}
+*** Lemma 1 - Properties of W*
+    W* has the following properties:
+    + W* is bounded
+    + if W is closed, W* is closed.
+    + W* is convex.
+**** Proof of Part 3
+     Property 3 must be true if W* is empty or W* consts of one
+     point. Consider two points p1 and p2 in W*. Then
+
+     norm(v - p1) = norm(v - p2) /*both minimize the distance, must be equal*/
+     for two scalars l1 and l2 where l1 + l2 = 1 and both are nonnegative, we
+     have that
+
+     norm(v - (l1p1 + l2p2)) = norm(l1(v - p1) + l2(v - p2))
+                         .LEQ. l1 norm(v - p1) + l2 norm(v - p2)
+                             = norm(v - w)
+
+     therefore we have 0, 1, or infinitely many solutions.
+*** How can we fix this problem of infinite solutions?
+    We say that a norm on V is *strictly convex* if
+
+    norm(l1v1 + l2v2) < 1 for any v1,v2 in V and l1,l2 in RR such that
+
+    v1 /= v2, norm(v1) = norm(v2) = 1
+    l1, l2 > 0, l1 + l2 = 1.
+
+    L1 and Linfinity are not convex, but any p in (1, inf) is!
+*** Convexity and Uniqueness - Theorem 1
+    If the norm in the GBA problem is strictly convex then the GBA problem has
+    at most one solution.
+**** Proof
+     Let w*1 and w*2 be two points of W* for approximating v. By the convexity
+     of W* we have that
+
+     1/2w*1 + 1/2w*2 in W*
+*** Existence of solution  - Theorem 4.1
+** Examples
+*** Example 4.2(a)
+    Let V = C[0,1] W = Pi0 (constants) then a BA in W for v = e^x in the
+    infinity norm is
+
+    w* = 1/2 (1 + e)
+
+    with
+
+    min (p in Pi0) max (0 .LEQ. x .LEQ. 1) abs(e^x - p) = norm(v - w*) =
+    1/2(e-1).
+*** Example 4.2(b) - different norm
+    we get w* = e - 1
+** Best Approximations in Inner Product Spaces
+*** Inner product - two-variable function
+    Function (*,*) maps (V,V) to RR - this is an *inner product* if
+
+    1. (u,u) .GEQ. 0 /*Positive Definite*/
+    2. (u,v) = (v,u)  /*symmetric*/
+    3. (alpha u + beta v, w) = alpha (u,w) + beta (v,w) /*linear*/
+
+    we can build a normed space from an inner product space by the *induced
+    norm*:
+
+    norm(v) = (v,v)^(1/2) /*a very nice norm to use*/
+*** What happens when we recast the old problem with this newer terminology?
+    Given an inner product space V and a subspace W (finite dimensional), and
+    some v in V, we can find some w* in W where
+
+    norm(v - w*) .LEQ. norm(v - w), forall w in W.
+
+    Assume that w1, w2, ... are a linearly independent basis for W. We can then
+    just look for the *coefficients on the basis elements*.
+*** Auxillary function F(alpha1, alpha2, ...)
+    F(alpha1, alpha2, ...) = SUM (over j) SUM (over k) alphaj alphak (wj, wk)
+    - SUM alphaj (v, wj) - SUM alphak (v, wk) + (v,v)
+    = norm(w - v)^2
+
+    This is a quadratic (order 2) polynomial. We must look for critical points
+    to find the minimum on our domain.
+
+    Therefore, at the critical point, the partial derivatives should be zero.
+*** Galerkin's Method
+    Use the weak formulation. For each *test vector* (wi) we can use a *trial
+    vector* (challenge it with some function) by
+
+    SUM (j=1 to n) (alpha*j wj - v, wi) = 0
+
+    Therefore we get a system of equations as we may rewrite this (use
+    bilinearity) as
+
+    SUM alpha*j (wi, wj) = (wi, v) for i = 1 .. n.
+
+    this matrix of inner products is called the *Gram Matrix*. It is SPD as the
+    wjs are linearly independent.

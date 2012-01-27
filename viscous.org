@@ -1,0 +1,131 @@
+* Homework 1
+  if g is real, then hat(g)(K) = hat(g*)(-K)
+* Turbulence
+** What is turbulence?
+   Does it even make sense to define it? Some say that we should only approach
+   the subject from statistical models
+** Example - Airflow in a room
+   Say we have a square room with an inlet on the bottom and an outlet on the
+   right.
+*** What would happen with NS?
+    Start with the PDEs and then use some technique - get velocity and
+    pressure. How about temperature?
+*** Boundedness of Solution and Initial Data
+    Say that we have a huge inflow. in this case we have more *scales of
+    motion* - this makes the flow harder to solve computationally.
+*** Determining the velocity
+    By definition, the velocity changes through out the medium.
+** Kolmogorov's Theory of Turbulence
+   'only mathematical framework for turbulence'
+*** Conjecture : there is a relationship between Re and the number of scales.
+    Yes! N scales like Re^(9/4). This is from Kolmogorov's length scale.
+    More specifically: the Kolmogorov length scale is nu = Re^(3/4), and we are
+    working in 3D (so we need nu^3 = Re^(9/4) steps)
+*** Deriving the length scale
+**** Assumptions - the flow is homogenous and isotropic.
+     Say that we start with the Navier Stokes equations - if our sampling is
+     limited we only have the ability to calculate an average of u, not the
+     actual u.
+
+     Say we rewrite the navier stokes in terms of average u and average p -
+     apply averaging to initial/boundary data and then use finite elements or
+     finite volumes to find the answer.
+
+     Put another way - we want to calculate an *approximation to u average*,
+     rather than try to fully describe the flow.
+**** Simple example - ODE
+     ut + u + uu = f
+
+     If we average the terms, we still have some average(uu), which is not the
+     same as the product of the averages. We can mitigate this partially by
+     something like
+
+     1/2 d/dt u^2 + uu + uuu = 0
+
+     we may be able to boot strap our way out eventually, with some known
+     statement about uuuu or uuuuu or whatever power it is. Put another way, we
+     need *to close the system*.
+*** Decreasing the Reynold's number (at least, effectively)
+    People have tried this - quick and dirty way to improve results.
+*** Energy Cascade (for isotropic, homogenous flows)
+**** Overview
+     Requirements: homogenous, isotropic flow.
+     This is interesting because it takes place in the Fourier space.
+
+     log(E(k)) against log(k) - looks like a slope of -5/3 with hooks at either
+     end. *This is the boot strap for all closure models*; 99% of cases use it.
+
+     E(k) : energy associated with a wave number
+     k    : wave number
+
+     This allows us to determine, based on step size - what is the largest wave
+     number I can capture?
+**** Wave Number
+     Where did this picture even come from? NS gives us velocity and pressure.
+
+     cos(2pi/L n x1) : 2pi/L is the wave number.
+     *wave length* - length from crest to crest.
+**** Fourier Modes
+     So far we have a solution in the real setting. We may examine the complex
+     version as well:
+
+     exp(I K0 n1 x1) = cos(k0 n1 x1) + I * sin(k0 * n1 * x1) (same thing)
+     so our Fourier mode is exp(I * k * x), where x is the position vector and
+     k is the vector of wave numbers.
+***** Example
+      Say we want < exp(I k dot x), exp(-I k' dot x) >. This equals the
+      kronecker delta of k and k'.
+***** Decomposition
+      Let g(x) = SUM (over k) c_k exp(I k dot x), where k is a vector and x is
+      the position vector. We may calculate the coefficients c_k by
+
+      < g(x) exp(-I k dot x) > = ck
+
+      if g is real -
+**** Direction of energy transfer
+     Energy enters at the lowest wave numbers. The energy is transfered to
+     larger wave numbers - at the Kolmogorov length scale the energy is
+     dissipated to heat.
+**** Viscous dissipation
+     This is why we picked viscous dissipation - we cannot get a lot of energy
+     to high wave numbers. We can only recover information at lower wave
+     numbers.
+**** Mathematics of the energy cascade
+     Not much is known rigorously about this picture.
+
+* Making due with less - given an equation for u, how can we calculate average(u)?
+** Starting with NS
+   + We may say that the average left side is equal to the average right
+     side. Decent averaging is linear, so we can average term-wise.
+   + Similarly, assume that the average of the gradient is the gradient of the
+     average. Also assume this for time derivatives and Laplacians.
+   + Now we can turn it into a PDE of the average variables (average velocity
+     and average pressure)
+   + Note that we cannot know in advance what areas of the flow will be badly
+     behaved - we need some strategy for mesh adaptation.
+*** Dealing with the convective term
+    we have the average of 'u dot Grad u', but we want this as a function of
+    our average variables.
+
+    We also want the equation to look like it has a lower Reynolds
+    number. Therefore we want some positive constant C where
+
+    u average dot Grad u average = C Laplacian u average.
+
+    this will lower the *effective* Reynolds number.
+** Closure Models
+*** Closure Model 1
+    Try a variant of NS:
+
+    /*for u representing averaged velocity*/
+    ut - 1/Re LAPLACIAN u + u dot GRAD u - GRAD dot (c GRAD u) + GRAD P = f
+
+    This decreases the effective Reynolds number as c is a positive constant.
+**** Is this equivalent to just changing the Reynolds number?
+     Not exactly, since we are dealing with average velocity.
+*** Closure Model 2
+    ut - 1/Re LAPLACIAN u u dot GRAD u - {GRAD dot [C abs(GRAD u) GRAD u]} + Grad
+    p = f
+
+    This is nice - the higher u gets, the larger the effect of scaling the
+    Reynolds number.

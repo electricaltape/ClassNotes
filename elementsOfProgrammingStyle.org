@@ -1,0 +1,311 @@
+* Chapter 2 : Expression
+
+** Apparent Complexity
+
+   A computer program may only appear to be complex, when in fact it is not
+   (hence the name). Therefore use library functions to reduce apparent
+   complexity.
+
+*** Temporary Variables
+
+    Avoid them - make it harder for humans AND the compiler.
+
+    Acceptable use - instead of magical numbers, use clearly labeled
+    constants. This will also make it easier to modify things later.
+
+*** The Speaking Test
+
+    Try testing logical parts of code by reading them allowed. De Morganize it
+    for simplification.
+
+** Evolution of Code
+
+   'Programs are not used once and discarded' - need to make clearly written
+   and modifiable code for future usage.
+
+   Look for greater chances of avoiding inducing bugs in the future.
+
+* Chapter 3 : Control Structure
+
+** Introduction
+
+   'A computer program is shaped by its data representation and the statements
+   that determine its flow of control' -- how Kernighan defines structure.
+
+** Control Structures
+
+   Try to pair ifs and elses. In particular, the control flow structure should
+   show the reader what the program does as easily as it can.
+
+   Programs should read from top to bottom; avoid jumping out partway through.
+
+** Structured Programming
+
+   Use combinations of IF/ELSE, loops, and switch statements to build a
+   program instead of GOTOs.
+
+   Not a catch all solution (at last at the time this was written) but a
+   significant step forward from GOTOs and labels.
+
+*** Strategy for building structured programs
+
+    Try to write the whole thing in very high level pseudo code - worry about
+    implementation once the logic is correct.
+
+* Chapter 4 : Program Structure
+
+** Introduction
+
+   Programs are too large to be single chunks. The best strategy is to divide
+   and conquer large problems.
+
+   Subroutines, functions, procedures, modules: these are the building blocks.
+
+   Well-designed blocks can be reused! This is always nice.
+
+** Subroutines
+
+   Break up repeated tasks in to functions or subroutines. A subroutine shows
+   the _regularity_ in a chunk of code (many things done the same way).
+
+   Do not optimize too early! This makes it hard to change things later.
+
+*** Problems with modularity
+
+    Cannot break problems in to arbitrary pieces. This is not a way to reduce
+    lines of code, just to combine common logic.
+
+    Need to be able to succinctly describe what a module _does_, and if the
+    overlap is insufficient this is no longer possible.
+
+    Goal - minimum coupling between modules. If they are coupled at all, why
+    are they separate? In summary - each module should do one thing well.
+
+** Design of Modules
+
+   Make sure each module does one thing well. In order for this to be true,
+   typically modules must hide things from the outside world.
+
+   Data should structure the program, and it should also structure the
+   modules. Modules are what deal with the data!
+
+*** Redesign of Modules
+
+    Bad code is bad by definition. Rewrite it rather than patch it.
+
+    Programs should generally be designed from the top down and implemented
+    from the bottom up. Put another way, we need a general idea of the problem
+    and then we may begin to write it out.
+
+    Once we write a function it is a black box - we no longer need to worry HOW
+    it works, because we tested it. By this method we can build a larger
+    program out of easy to understand pieces.
+
+** Summary
+
+   'The only way to write and maintain a big program is as a set of small
+   functions, subroutines, or procedures'
+
+   Modules should not know anything about the big picture, or other modules
+   unless necessary. Do not couple them. It should be possible to modify one
+   module with-out worrying about effecting others.
+
+   Modules should hide implementation details (abstraction) and should not be
+   too complex (otherwise they should be split).
+* Chapter 5 : Input and Output
+
+** Introduction
+
+   The golden rule : 'NEVER TRUST ANY DATA'.
+   Input data by people or other programs will certrainly have errors. Always
+   'launder' the input, and test it for plausibility.
+
+** Classic Errors
+
+   Buffer overflow attacks. Check array lengths to avoid attacking
+   yourself. Use compiler tools to help build better code.
+
+   Ensure that, more generally, input is localized and cannot effect other
+   parts of the program.
+
+*** Possible Remedy : C-Style Strings
+
+    terminate input by a EOF character or some other marker, not a constant or
+    user-specified data. In the language of the book, one should not ask
+    programmers to count the number of cards; instead, they should have an END
+    card.
+
+** Separation
+
+   IO is messy. Keeping it separate is vital to modularity. Input functions,
+   in particular, tend to be nasty.
+
+   'the hard part of programming is controlling complexity - keeping the
+   pieces decoupled so they can be dealt with separately instead of all at
+   once'
+
+** Summary
+
+   NEVER TRUST ANY DATA and REMEMBER THE USER
+
+   The program should be as fullproof around IO as possible - guard against
+   stupidity, including your own.
+
+* Chapter 6 : Common Blunders
+
+** Introduction
+
+   Correct data is a start, but we need a correct program as well. Use a
+   debugger!
+
+** Some Common Errors
+
+   Most of these are well-known: off-by-one errors in arrays, pairing of < and
+   > with no test for equality.
+
+   Avoid multiple loop exists!
+
+*** Floating Point
+
+    A whole slew of errors (the field of numerical analysis). '10.0 times 0.1
+    is hardly ever 1.0'
+
+    Do not use them for counting, only data. Try to avoid using them for
+    comparisons. Do not compare equality!
+
+** Debugging
+
+   'where one bug is found, there may be an infestation'
+   bugs come in groups. If one problem is located there will likely be more
+   nearby.
+
+** Defensive Programming
+
+   Despite best practices, mistakes happen. Take steps to catch errors before
+   they get too far.
+
+*** Failing in Style
+
+    Ensure that code 'does nothing' properly: put another way, make sure loops
+    are not entered unless necessary, etc.
+
+* Chapter 7 : Efficiency and Instrumentation
+
+** Introduction
+
+   Machines are cheaper than people, and becoming cheaper. Efficiency involves
+   reducing overall cost: time spent by users and developers over the life of
+   the program.
+
+*** Design Advantages
+
+    Clean design is easier to rewrite, rework as requirements change. Salvaging
+    'clever' designs is hard. Therefore the best way to write efficient
+    programs (remember the better definition above) is to write maintainable
+    and modifiable code.
+
+    State the obvious : It does not matter how fast a program runs _if it
+    doesn't work_. Disorganized code leads more frequently to errors.
+
+** 'Make it right before you make it faster'
+
+   Again, disorganized code is more likely to have bugs (and they are harder
+   to find). There is a cost with making a program faster - it takes time and
+   tends to make it harder to read.
+
+*** Data Structures and Efficiency
+
+    Choosing better data representation effects control and speed more than
+    any amount of tweaking. Mathematically: algorithms and datastructures are
+    traversed in O(log(n)), O(n) or whatever steps but implementation details
+    tend to be a constant factor or offset.
+
+    This is captured in a rule - 'Don't diddle code to make it faster - find a
+    better algorithm'
+
+*** Trivial matters rarely effect efficiency
+
+    So don't worry about them at all! Do not sacrifice them for small gains in
+    'efficiency'. Even better - a compiler can do simple optimizations
+    easily. Let the compiler handle it.
+
+    As Knuth said, 'premature optimization is the root of all evil'. Fun
+    fact - Knuth coined the term 'profiling' in the context of computer programs.
+
+** Code Reuse
+
+   Often leads to 'tightly knotted programs, difficult to get right, to
+   understand, and to modify later'. Instead of reusing code, reorganize it so
+   that the overlapping parts are clear.
+
+* Chapter 8 : Documentation
+
+** Introduction
+
+   'The best documentation for a computer program is a clean structure'
+
+   Use good formatting, memorable identifiers and comments. Flowcharts and
+   descriptions are secondary; _the only reliable documentation of a computer
+   program is the code itself_. The only wayt to find mistakes is by reading
+   code; clearly if there are mistakes the documentation does not help.
+
+** Purpose of Documentation
+
+   Not to mirror the code; instead, it should provide readable descriptions
+   about what does what, what interacts with what, and what principles it uses
+   (what it does, what it interacts with, what principles).
+
+** Over-use of Comments
+
+   Should not be used to say nothing, or say exactly what happens. For
+   example:
+
+   K13 = K13 : 1; /* INCREMENT COUNTER */
+
+   is not very useful. 'Don't just echo the code with comments - make every
+   comment count' is what Kernighan recommends.
+
+*** Main Purpose
+
+    Help reader with harder spots in the program. If the comments are too
+    involved, then the code is too hard to understand and should be rewritten.
+
+    'a bad practice well commented remains bad'
+    'Don't comment bad code - rewrite it'
+
+** Variable Names
+
+   Do not use EL, EM, EN, ELL, etc - 'use variable names that mean
+   something'. This can greatly increase readability.
+
+** Formatting
+
+   'Format a program to help the reader understand it'
+
+   Spacing and indentation go a long way to increasing readability. Chained
+   'else-ifs' and switch statements may be equivalent, but switch statements
+   have better indentation and are more readable.
+
+** Some Final Notes
+
+   Comments are nice, but modularity is better. Divide the code appropriately
+   (input, output, tests, logic, etc)
+
+   There are many places we can go wrong - if the program has bugs all the
+   documentation in the world is not going to help find them. Similarly, if
+   the documentation does not deal with the code it is useless.
+
+   Comments should not echo the code - they should provide NEW information.
+
+* Epilogue
+
+  Programmers underestimate the value of correct style. It makes code far more
+  readable, and we spend most of our time reading.
+
+  Code ends up living much longer than we anticipate. Temporary, quick
+  programs are pressed into service for years. We spend most of our time
+  _changing_ old code.
+
+  How readable will it be in a year? How simple to figure out once time has
+  gone by? Need good style (hence the name of the book).
+
