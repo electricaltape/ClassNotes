@@ -1,0 +1,47 @@
+* Lexicon
+** Bubnov-Galerkin Methods
+   weighted residual - the test functions are the shape functions.
+** Petrov-Galerkin Methods
+   the test functions are *not* the shape functions: in the case of SUPG they
+   are weighted towards the 'upwind' direction.
+* Lagrange Multiplier Notes
+** From website
+*** Dirichlet, or Homogeneous, Boundary Conditions
+    [http://www.softeng.rl.ac.uk/st/projects/felib4/Docs/html/Intro/intro-node68.html]
+    Note that the enforced boundary constraints are on *u itself*, not on test
+    functions. Therefore, in order to enforce that an Argyris (5th-order
+    polynomials) approximation is homogeneous we must add four extra points to
+    the boundary (so that we are interpolating u = 0 at 6 points, forcing all
+    component polynomials to be zero along that edge)
+** From Zhu Wang
+*** Stabilization Trick: Penalty Method on the Main Diagonal
+    The matrix
+    [A  B]
+    [BT 0]
+
+    is not very stable. If we perturb the main diagonal in the bottom right
+    (that is, add a penalty) by setting it equal to 10e-8 then convergence is
+    much aided.
+** General Procedure (Argyris)
+   Consider some edge. The basis functions on the relevant element must satisfy
+   two requirements on the edge:
+
+   1. the function values are zero
+   2. the normal derivatives are zero
+
+   these are the boundary conditions for QGE and have nothing to do with
+   Argyris. To implement this with Argyris, however, we must force the
+   polynomials to obey both conditions: put another way,
+
+   1. All basis functions on the boundary element must have a function value of
+      zero on the edge.
+   2. All basis functions on the boundary element must have a normal derivative
+      of zero on the edge.
+
+   These are each enforced by picking six points on the edge and forcing either
+   the right linear combination of x and y derivatives (i.e. the normal
+   derivative) or the function values themselves to add up to zeros.
+
+** Zhu's code
+   BD - dirichlet boundary
+   BN - neumann boundary

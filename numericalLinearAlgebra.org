@@ -1,0 +1,343 @@
+* Important Matrix Types
+** Tridiagonal
+   See the discussion under LU matricies.
+** Orthogonal
+   An orthogonal matrix has orthonormal columns (so Q*Q.T = I). Also
+
+       NORM(Q*v, 2) = NORM(v,2)
+
+   (multiplication by orthogonal vectors does not change length, only basis from
+   e_is to the row space of Q)
+
+   Based on this property all eigenvalues must have modulus one.
+* Important Matrix Decompositions
+** SVD
+*** (Demmel) Definition
+    For any m x n matrix (m .GEQ. n),
+
+        A = U Sigma V.T
+
+    where
+    1. U is m x n and *unitary* (U.T * U = I)
+    2. V is n x n and also unitary
+    3. Sigma is a diagonal matrix {sigma1, sigma2, ...} where
+
+           sigma1 .GEQ. sigma2 .GEQ. ... .GEQ. 0
+
+    The columns of U are called _left singular vectors_ (similarly, the columns
+    of V are called _right singular vectors_). The entries of Sigma are called
+    _singular values_.
+*** (Demmel) Geometric Interpretation
+    Consider some linear operator A :: RR^n -> RR^m. One orthogonal basis for
+    RR^n is the column space of U. An orthogonal basis for the columns of RR^m
+    is the column space of V. Then
+
+        A (SUM bi vi) = SUM sigmai bi ui
+
+    Another way to think about it: any linear operator between two
+    finite-dimensional vector spaces is diagonal if we pick proper orthogonal
+    bases for the domain and range.
+** LU
+*** (AAKS) definition
+    Consider the matrix M where
+
+        | 1    | 0   |   0 | ... |   0 |
+        | -m21 | ... | ... | ... | ... |
+        | -m31 | ... | ... | ... | ... |
+        | ...  | ... | ... |  I  | ... |
+        | -mn1 | ... | ... | ... | ... |
+
+    where I is the (n-1) x (n-1) identity matrix and
+
+        mj1 = A(j,1)/A(1,1).
+
+    Therefore M is nonsingular and MA has all zeros in the first column below
+    the main diagonal. By induction we can keep using these guys (each has a
+    nonzero determinant, so the resulting matrix is nonsingular) so obtain some
+    upper triangular matrix.
+
+    Therefore
+
+        A = (M(n-1)M(n-2) ... M1)^-1 U
+
+    and each M is lower triangular -> product lower triangular and inverse lower
+    triangular. This is the _LU factorization_ of A.
+*** (AAKS) Existence (Theorem 3.6 and 3.7)
+    This proof is done by induction: assume that all the principal leading
+    submatricies are nonsingular; show that the LU factorization exists.
+
+    AAKS argues that if we can show that each a(k)kk (that is, the botton right
+    entry of the kth principal leading submatrix of the factorization process)
+    is nonzero that we are done. By assumption a11 is nonzero.
+
+    By induction: assume that k-1 submatricies are valid. Then the top left
+    block of the kth submatrix equals the product of lots upper blocks from
+    previous M matricies with the top left block of A; this is invertible.
+    Therefore the theorem holds.
+
+    Block structure also proves the reverse. If we write A = LU as a product of
+    4 block matricies then the top L and top U are nonsingular no matter what
+    (triangular matrix with nonzero diagonal is always invertible). Therefore
+    any particular leading submatrix of A may be written as the product of two
+    invertible matricies -> all principal leading submatricies are nonsingular.
+
+    Theorem 3.7 states that we can always form PA = LU for some nonsingular
+    matrix A. Since A is nonsingular, each column has a nonzero entry.
+*** (AAKS) How may we calculate it?
+    L is simply the superposition of all the M matricies scaled by -1 (with unit
+    diagonal) and U is the result of the row reduction.
+*** (Stewart) Existence
+    This proof is nearly the same as AAKS. Stewart calls it the LDU
+    decomposition (where L and U have unit diagonals). This makes showing some
+    aspects a little easier.
+
+    Assume that the leading principal submatricies of A are nonsingular. By a
+    previous theorem we can perform Gaussian elimination and we get
+
+        A = L An
+
+    Let D be the diagonal matrix formed from the diagonal of An (the
+    pivots). Then
+
+        U := D^-1 An
+
+    so A = LDU is an LDU decomposition (and then it is unique by previous work).
+*** (Stewart) Crout and Doolittle
+    Stewart distinguishes between two different forms of LU decomposition:
+    1. Crout: A = L'U = (LD)U
+    2. Doolittle: A = LU' = L(DU)
+
+    Doolittle: L has a unit diagonal (the typical way)
+    Crout: U has a unit diagonal.
+*** (AAKS) Tridiagonal Matricies
+    The factorization methods are easy to derive by hand. We require that the
+    matrix is diagonally dominant and that all the entries in the three
+    diagonals are nonzero to guarantee an LU factorization.
+
+    If a row (besides the top or bottom) only had two entries then we would no
+    longer have a full rank matrix.
+** Cholesky
+*** (AAKS) definition
+    A is positive definite <-> A has a factorization L L.T where L is unit lower
+    triangular.
+
+    Showing that the Cholesky factorization implies positive definiteness is
+    just plug-and-chug. Showing that A = L L.T from the LU factorization takes
+    more work. Start with
+
+        A = LU = L Lambda Lambda^-1 U
+
+    where Lambda is diagonal with entries Lambda(i,i) = sqrt(A(i,i)) (recall
+    that the diagonal entries of an SPD matrix are positive). Then
+
+        A = A.T = (Lambda^-1 U).T (L Lambda).T
+
+    and since everything is invertible
+
+        (Lambda^-1 U) (L Lambda).T^-1 = (L Lambda)^-1 (Lambda^-1 U).T
+
+    where the matrix on the left is upper triangular and the matrix on the right
+    is lower triangular.
+*** Stewart
+    These methods are part of a more general class of techniques for
+    introducing zeros to matricies by left (pre) multiplication. Householder
+    famously showed that most operations in linear algebra may be done by
+    multiplication by _elementary_ matricies.
+
+    Stewart counts Cholesky as just a variant of LDU:
+
+        A = LDL.T
+          = L'L'.T
+          = (LD^1/2)(D^1/2 L.T)
+*** (Stewart) Existence for Positive Definite
+    *Theorem 3.8* If A is positive definite, there is a unique lower triangular
+    matrix L with positive diagonal elements such that A = LL.T .
+
+    Stewart proves this by induction. For a 1x1 matrix A,
+
+        L[1,1] = sqrt(A[1,1]).
+
+    For order n-1, let A' = [[A, a],[a.T, alpha]]. Then A is positive definite
+    by a previous lemma. Then
+
+        L' = [[L, 0], [l.T, lambda]]
+
+    so
+
+        A                = L L.T
+        Ll               = a
+        l.T L.T          = a.T
+        l.T l + lambda^2 = alpha
+
+    as L is nonsingular, l is unique. Therefore we just require that
+
+        alpha - l.T l  > 0
+
+    This may be done by using the positive definite nature of A to compute
+
+        0 < ((b.T, -1)) ((A, a), (a.T, alpha)) ((b), (-1))
+          = ...
+          = alpha - l.T l
+** Schur
+*** (Wikipedia) Overview
+    if A is square then it may be written as
+
+        A = Q U Q^-1
+
+    where Q is _unitary_ (Q^-1 = Q.H) and U is upper triangular. The diagonal
+    entries of U are the eigenvalues of A.
+
+    Note that if A is _normal_ (see below) we may use this to arrive at
+
+        A.H A = A A.H -> U U.H = U.H U = D
+
+    a diagonal matrix with values equal to the squares of the magnitudes of the
+    eigenvalues of A.
+** I +/- Something
+*** (AAKS) Valuable Theorems
+    It is frequently easier to write a matrix as I +/- A.
+
+    _Proposition 3.9_ let NORM be any vector norm/induced matrix norm. if
+    NORM(A) < 1 then I +/- A is nonsingular and
+
+        1/(1 + NORM(A)) .LEQ. NORM((I - A)^-1) .LEQ. 1/(1 - NORM(A))
+
+    in particular, if we started with some B = I - A, we now know the norm of
+    the inverse. This approach works well for diagonally dominant systems.
+
+    _The Jacobi Split_ A related decomposition is D + (L + U): the matrix is
+    split into upper, lower, and diagonal pieces. This is a good way to prove
+    that a diagonally dominant matrix is nonsingular (let A := D - B).
+** QR
+*** Calculation by Givens Rotations (Wikipedia)
+    We may put a zero in A by means of a Givens rotation. Say we have some
+    subdiagonal value b and the value above it is A. Then we may 'rotate' that
+    part of A by means of
+
+        r := sqrt(a^2 + b^2)
+        c := a/r
+        s := -b/r
+
+    then we may create the Givens rotation by
+
+        G[k,k] = 1 for k /= i,j (otherwise we have the identity matrix)
+        G[i,i] = c
+        G[j,j] = c
+        G[j,i] = s
+        G[i,j] = -s
+
+    so we have a diagonal matrix except for two entries. G is unitary (also
+    known as G*G.T = I). Therefore the matrix
+
+        G1.T*G2.T*G2*G1*A
+
+    creates a QR factorization of A (that is, G2*G1*A is presumably upper
+    triangular and G1.T*G2.T is unitary).
+*** Calculation by Gram-Schmidt
+*** DONE Calculation by Householder Transformations
+    CLOSED: [2012-08-10 Fri 15:00]
+    See the entry under eigenvalues.
+* Error in solving matrix equations
+** Backward Error
+*** (Stewart) Ax = b -> (A + H) x~ = b
+    If H is 'small' then the algorithm is stable. However, even if H is small,
+    if the system is badly conditioned then the answer may not be accurate.
+
+    Terminology:
+        t := t-digit floating point arithmetic
+        n := A is an nxn matrix
+        nu := entry of x
+
+    Then we achieve theorem 5.1: for equation Tx = b, we solve (T + E)x~ = b,
+    where
+
+        abs(E[i,j]) .LEQ. (n+1)pi(T[i,j]) 10^-t
+
+    where pi is a constant of order unity (related to rounding/chopping?)
+
+    For a triangular matrix
+
+        abs(E[i,j]) .LEQ. (j - i + 2) pi abs(T[i,j]) 10^-t
+
+    so in general (though counterexamples exist) we can accurately solve
+    triangular systems.
+
+    Stewart defines a growth factor gamma for measuring changes in E as
+    well. Let A1, A2, ... be the matricies formed during row reduction. Let
+
+        betak = max(abs(Ak[i,j]))
+
+    and
+
+        gamma = max(betak)/beta1
+
+    so gamma is a measurement of the growth of the submatricies.
+
+    By Theorem 5.2:
+
+       M1^-1 M2^-1 ... An = A + E
+
+    where abs(E[i,j]) .LEQ. n pi beta1 gamma 10^-t
+
+    for full pivoting Wilkinson showed that gamma is typically bounded by
+    n. The bound for partial pivoting is 2^(n-1); in practice, however, partial
+    pivoting is fine.
+* Symmetric Matricies
+  Real eigenvalues
+
+  In particular, due to the SVD, A.T A has positive or zero eigenvalues.
+* Normal Matricies
+  The spectral theorem applies: if
+
+      A.H A = A A.H
+
+  then the matrix A is _normal_. Use the Schur decomposition to get really nice
+  results (namely A.H A - A A.H -> U.H U has entries equal to magnitudes of
+  eigenvectors of A squared)
+* Iterative Methods
+** Jacobi and Friends (Gauss, Seidel, and relaxation)
+*** Overview
+    In general, one splits
+
+        A = M - N
+
+    with nonsingular M. Then Mx = Nx + b. Iterate
+
+        Mx_k+1 = Nx_k + b, for theoretical use: B := M^-1 N and c = M^-1b.
+
+*** Jacobi method
+    The Jacobi method involves splitting A in to three parts:
+
+        A = L + D + U
+
+    where in the general terminology M = D and N = -(L + U).
+*** Gauss-Seidel method
+    The Gauss-Seidel method iterates as
+
+        x_k+1 = -(L+D)^-1*U*x_k + (L + D)^-1^1*b
+    better known as
+        (L + D)*x_k+1 = -U*x_k + b
+
+    that is, B = M^-1*N = -(L + D)^-1*U
+*** Successive Over Relaxation
+    We weight D in the G-S method by an extra parameter s. s = 1 restores G-S.
+
+        (L + 1/s*D)*x_k+1 = -(U + (1 - 1/s)*D)*x_k + b
+
+    Guaranteed to converge if A is HPD.
+*** Convergence
+    Convergence criteria:
+    + diagonally (strictly or irreducibly) dominant -> convergence.
+    + spectral radius of the multiplier matrix on x_k < 1 -> convergence.
+    These three are convergent if diagonally (strictly or irreducibly)
+    dominant.
+
+    Irreducible <-> the directed graph of the matrix is strongly connected. The
+    definiton to this is somewhat unclear in the text, but there should be a
+    permutation matrix P such that
+
+        P*A*P^-1 = [A11 A12]
+                   [0   A22]
+
+    SOR is convergent when A is Hermitian positive definite and 0 < sigma < 2.
+

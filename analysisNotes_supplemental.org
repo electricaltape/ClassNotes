@@ -23,3 +23,27 @@
    say that f :: E -> RR^k is bounded if abs(f(x)) .LEQ. M forall x in E.
 
    (the book uses the 2-norm)
+* Wedge Product
+** Definition
+   The wedge product is anticommutative:
+
+   x ^ y = -y ^ x.
+   More generally, if we want to sort a list of xs indexed by ks,
+   x_k1 ^ x_k2 ... = sign(sigma) x_1 ^ x_2 ^ ... ^ x_k
+   for the sign of the permutation of the original ordering sigma.
+
+   another way to examine commutativity: if a is a k-form and b is an l-form,
+   then
+   a ^ b = (-1)^(k l) b ^ a.
+** Properties
+* Exterior Derivative
+** Overview
+   Extension of the derivative to higher degrees.
+   d^2 = 0.
+   The exterior derivative of a differential form of degree k is a differential
+   form of order k + 1.
+* Zero-form
+  A smooth function on our open set RR^n.
+* One-form
+  Linear functional on a vector space - something that gives us elements in the
+  underlying field and is linear.

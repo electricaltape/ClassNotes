@@ -1,0 +1,35 @@
+* Overview
+  This document is a collection of notes taken from Finite Elements: An
+  Introduction to the Method and Error Estimation by Babuska, Whiteman,
+  and Strouboulis. I have included a lot of stuff from functional analysis that
+  I 'learned on the street', as Dr. Rogers says (thanks, Wikipedia).
+* Glossary
+** Functional
+*** Definition
+    From wikipedia : x -> f(x) is a function, but
+    f -> x is a *functional* (function to number)
+
+    in pseudo-haskell :
+    functional :: Function -> Number
+    function   :: Number   -> Number
+*** Examples
+    Definite integrals : convert a function to a real number. In particular,
+    norms and arc length are functionals.
+*** Linear Functional
+    let L be a linear functional. Let f and g be elements in the domain of L.
+    Then
+
+    L(f + g) = L(f) + L(g)
+
+    and, if f :: K -> G, then for any g in G
+
+    L(g*f) = g*L(f) /* factor out scalars */
+** Seminorm
+*** Definition
+    Also from wikipedia: a norm that may assign zero length to nonzero functions/vectors.
+** Operator
+*** Definition
+    A mapping from one vector space to another.
+*** Adjoint Operator
+**** TODO include self-adjoint as well
+** -1 Norm

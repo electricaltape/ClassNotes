@@ -1,0 +1,242 @@
+* Introduction
+** Existence
+   + We wish to find a solution of Navier's equations given some initial velocity
+   field
+   + Oseen proved this for a small time interval
+   + 'I have indicated a reason which makes me believe there are motions which
+     become irregular in finite time'
+   + Important result: weak form has at least one solution corresponding to initial
+     conditions that is defined for all time - however, may not have bounded second
+     derivatives
+** Turbulent Solutions
+   + Satisfies NS stokes except at certain time indicies. These time indicies form
+     a set of measure zero. Therefore a turbulent solution is composed of 'a
+     succession of regular solutions'
+   + No uniqueness criteria
+   + A system sufficiently near rest never becomes 'irregular'
+* Chapter 1
+** Notation
+   Pi' : arbitrary domain of points in space (whole domain : Pi)
+   omega-bar : bounded domain in Pi, has surface sigma
+
+   x and y : arbitrary points in Pi, distance r
+
+   Upper case functions : measurable functions
+   lower case functions : functions in C1
+
+   A : constants of unspecified value
+** Some Inequalities
+** Strong and Weak Convergence in mean
+*** Overview
+    The convergence is strong for a sequence of functions U_n
+    LIM INTEGRAL (3) (Pi') (U_n(x) - U(x))^2 dx = 0
+
+    and weakly (for U_n in LL2):
+    LIM INTEGRAL (3) (Pi') U_n(x) A(x) dx = INTEGRAL (3) (Pi') U(x) A(x) dx
+
+    examples :
+    + sin(n x) converges weakly to zero on any domain.
+    + if a set of functions has a strong limit and is bounded, they also have a
+      weak limit.
+*** Criteria for Strong Convergence
+    U_n(x) converges strongly in mean on Pi' to U(x) when they converge weakly
+    in mean to U(x) and
+
+    lim sup INTEGRAL (3) (Pi') U_n(x)^2 dx .LEQ. INTEGRAL (3) (Pi') U(x)^2 dx
+
+    which is equivalent to
+
+    lim sup INTEGRAL (3) (Pi') U_n_i(x)^2 dx .LEQ. INTEGRAL (3) (Pi') U_i(x)^2 dx
+    /* sum of the components of U */
+*** Resulting Lemma
+    convergence almost everywhere satisfies strong convergence in mean.
+*** Theorem of Riesz
+    U_n(x) has a weak limit in mean on Pi' if:
+    + the set of integrals of (U_n, U_n) s is bounded
+    + for each square summable function A (U_n, A) has a single limiting value.
+
+    This guy requires Lebesgue theory to work.
+*** Fundamental Theorem of Riesz
+    if (U_n, U_n) bounded infinite set of functions then we may extract a
+    sequence with a weak limit in mean.
+
+    We may construct this sequence by Cantor diagonalization.
+** Strong and Uniform Continuity (with respect to 1 parameter)
+*** Uniform Continuity
+    Let U(x,t) depend on t. We say that U is _uniformly continuous_ if it is
+    + continuous with respect to all parameters
+    + for any t0, U(x,t0) is finite
+    + for epsilon > 0, exists delta such that
+
+      abs(U(x,t) - U(x,t0)) < epsilon
+
+      for abs(t - t0) < delta.
+*** Strong Continuity
+    U is _strongly continuous_ in t when, for some t0, (U(x,t0),U(x,t0)) is
+    finite and for all epsilon > 0, exists delta such that
+
+    NORM(U(x,t) - U(x,t0), U(x,t)) < epsilon
+
+    whenever abs(t - t0) < delta. Therefore the integral over the spatial
+    dimensions is a continuous function of t.
+
+    If the proceding integral is a continuous function of t then U(x,t) is
+    strongly continuous with respect to t (and continuous with respect to x).
+** A Function and its Derivative
+*** Sphere
+    + Let u(x) and a(x) have continuous first derivatives in LL2(Pi).
+    + Let s be the surface of a sphere S with radius r0 centered at the origin.
+
+    For phi(r0) = INTEGRAL (2) u(x) a(x) dx_i
+
+    we have that
+    /* divergence theorem and product rule for gradients */
+    phi(r0) = INTEGRAL (3) u(y) da/dy_i + a(y) du/dy_i dy
+
+    Therefore as all the terms are square summable on Pi, we can expand r0
+    indefinitely and still have a meaningful integral.
+
+    The first expression yields (why?)
+    abs(phi(r0)) .LEQ. INTEGRAL (2) (s) abs(u(x) a(x)) x_i dx_i / r0
+
+    so
+    INTEGRAL (0,inf) abs(phi(r0)) dr0 .LEQ. INTEGRAL (3) (Pi) abs(u(x) a(x)) dx
+    so phi(inf) = 0, so back to the divergence theorem part:
+    /* we will use this to define quasi divergence and quasi derivatives */
+    INTEGRAL (3) (Pi) u(y) da/dy_i + a(y) du/dy_i dy = 0
+
+    and more generally,
+    INTEGRAL (3) (Pi - omega) u(y) da/dy_i + a(y) du/dy_i dy
+    = - INTEGRAL (2) (sigma) u(y) a(y) dy_i
+    /* integral over everything but a piece gives us the negative value of that
+    chunk */
+
+    for omega = small sphere at x, let
+    a(y) = 1/(4 pi) d(1/r)/dy_i
+
+    so we get
+    u(x) = 1/(4 pi) INTEGRAL (3) d(1/r)/dy_i du/dy_i dy
+
+    and for a(y) = (y_i - x_i)/r^2 u(y) for i in [1..3] we get
+
+    2 INTEGRAL (3) (Pi) (y_i - x_i)/r^2 du/dy_i dy =
+    - INTEGRAL (3) (Pi) 1/r^2 u^2(y) dy.
+
+    applying CS to LHS we get 1.14.
+*** Lemma 2
+    Let u*(x) be a set of C1 functions. Suppose the integrals over Pi are
+    bounded and each first derivative has a weak limit in mean U,i on Pi. Then
+    u*(x) converge in mean to a function U(x); this convergence is strong on
+    subdomains omega.
+*** Approximation of a Measurable Function by a Sequence of Regular Functions
+    epsilon > 0
+    positive continuous function lambda(s) defined for 0 .LEQ. s where
+    lambda(1 .LEQ. s) = 0
+    and lambda has derivatives of all orders. Finally enforce that
+    4 pi INTEGRAL (0,1) lambda(c^2) c^2 dc = 1.
+    (existence: take lambda(s) = A exp(1/(s-1)) for constant A and 0 < s < 1)
+
+    Define
+    Ubar(x) = 1/epsilon^3 INTEGRAL (3) (Pi) lambda(r^2/epsilon^2) U(y) dy
+
+    where r is the distance between x and y.
+
+    Ubar(x) has derivatives of all orders (keep transfering them over to
+    lambda by integration by parts)
+
+    punch line - Ubar(x) converges strongly in mean to U(x) as epsilon -> 0.
+*** Lemmas on Quasi Derivatives
+    The quasi derivatives and quasi divergence are unique if they exist.
+* Chapter 2 - Infinitely Slow Motion (Stokes Flow)
+** Terminology
+   We wish to construct a solution to time-dependent Stokes flow problems
+   given some initial condition.
+
+   W(t) = INTEGRAL (Pi) u_i u_i dx
+   J^2_m(t) = INTEGRAL (mth mixed derivatives of u_i) ^2 dx
+   V(t) = maximum of sqrt(u_i u_i) at time t.
+   Dm(t) = maximum of abs(d^m u_i/(dx1^h dx2^k dx3^l))
+** Case 1 : 0 forcing term
+*** Needed Inequalities
+    1.3
+    1.14
+    1.1 (CS)
+*** Solution Details
+    this gives us just a solution to the heat equation, and
+    V(t) < V(0) < A J1(0) / (nu t)^(1/4)
+    by CS applied to the solution.
+** Case 2 : u'_i(x,0) = 0
+*** Needed Inequalities
+    1.2
+    1.3
+*** Solution Details
+    By Oseen's fundamental solution we have a solution to the system. There is
+    a lot of leg work at this point.
+** Case 3 : General
+   We can superimpose the two preceding particular solutions:
+   u_i = u_i' + u_i'', p = p''
+
+   We may show that u_i is strongly continuous in t and is 'majorised'
+   (bounded above) by W(t).
+* Chapter 3 - Regular Motions (NS)
+** Terminology
+   + W(t) = INTEGRAL (3) (Pi) u_i(x,t) u_i(x,t) dx /* total kinetic energy */
+
+   + V(t) = max(sqrt(u_i(x,t) u_i(x,t))) /* maximum speed */
+
+   + _Regular Solution_ : regular in some interval Theta < t < T if u_i, p,
+     first derivatives of u_i, second derivatives of u_i (space), time
+     derivative of u_i, space derivatives of p are continuous; V(t) and W(t)
+     also bounded above by continuous functions.
+
+   + D_m(t) defined in neighborhood of t where mth derivatives (mixed) of u_i
+     exist and are uniformly continuous; D_m(t) is upper bound of absolute
+     values.
+
+   + C0(t) or C_m(t) defined for values of t in a neighborhood where u_i(x,t)
+     or mixed mth derivatives satisfy condition H /* TODO what is H? */
+
+   + J_m(t) is defined for each vale of t in a neighborhood where mth mixed
+     partial derivatives exist and are strongly continuous in t. Let
+
+     J^2_m(t) = INTEGRAL (3) (Pi) (d_xk d_xl ... u_i)^2 dx
+** Application of Lemma 8
+   This applies to regular solutions of 3.1; we may treat the nonlinear term as
+   a forcing term and apply the previously developed theory from Stoke's
+   equation.
+
+* Terminology
+** Navier's Equations
+   Old name for NS
+** Turbulent Solution
+   No need for bounded second derivatives
+   Old name for weak solution to NS
+** Irregular
+   time when second derivatives are unbounded, Navier's equations not satisfied
+** Quasi-Derivatives
+   Let U and U_,i be square-summable functions on Pi. We say that U,i(y) is the
+   _quasi-derivative_ of U(x) when 1.16 holds /* weak version of product rule */
+** Quasi-Divergence
+   Notated by Theta(x)
+   when it exists we have a
+   INTEGRAL (3) (Pi) (U_i(y) da/dy_i + Theta(y) a(y)) dy = 0.
+* What subjects should I cover?
+** Overview of Paper
+   + What does the paper cover?
+     1. Review of important results from analysis
+     2. Some inequalities derived from Oseen's work
+     3. Applications of some inequalities to NS
+     4. Properties of 'regular solutions'
+     5. Existence of a 'turbulent' solution for unlimited time.
+        (trick: Find a nearby problem with a regular solution, construct limit
+         to original)
+     6. Structure of 'turbulent' solutions
+
+     Recall that turbulent solutions are not sufficiently regular; they do not
+     necessarily have bounded second derivatives. They still satisfy NS except
+     on a set of time indicies at most of measure zero (why?)
+** My Topics
+   Cover the approach to Stokes; include necessary parts from Chapter 1.
+** Chapter 1
+   + State results; only bits necessary for interesting parts later
+   + quasi derivatives and quasi divergence

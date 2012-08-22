@@ -1,6 +1,5 @@
 * 9/12/11
   Can I type faster than I write by hand? We will find out.
-
 ** Review of the last homework problem from last time
 *** Prove E' = ( E U E')'
     easy version:
@@ -41,7 +40,6 @@
     so y in E' so there exists z in Nr'(y) with z in E, z /= y.
 
     Therefore z in Nr(x) \ {x}, which is true for r > 0 -> x in E'.
-
 
 *** Number 8
     E subset R^2, E open -> E subset E'
@@ -116,7 +114,6 @@
     If z in A, then z notin (closure B) implies (exists z_1 with z < z_1 < y) and z_1 notin B
        Then x < z_1 < y and z_1 notin B. As z_1 > x, z_1 notin A so z_1 notin E and we are done.
 
-
 * 9/14/11
 ** Hints for hw5
    G open, V1 open -> G intersect V1 /= nullset
@@ -149,19 +146,14 @@
 
    create an interval around each and remove them, but leave some space between
    each (irrationals between rationals)
-
-
 ** Upcoming Dates
    HW5 due on Monday (extra credit as well)
    HW6 due on Friday (connectedness)
-
 ** Definition : K in X is compact means:
    given any open cover {G_alpha : alpha in A} of K (so K is in the union of
    all G_alpha) there is a finite subcover consisting of a finite collection of
    alphas such that K subset union over alpha of G_alpha
-
 *** Examples:
-
    K = (0,1) is covered by {(0,3/4),(1/2,1)} (finite cover)
 
    another cover: (1/n, 1) for n in NN, has no finite subcover.
@@ -171,23 +163,16 @@
 
    For the homework problem {0} U {1/n}, we can use Heine-Borel, but it is more
    instructive to use the definition.
-
 *** TODO Archimedes Corollary
     all but finitely many something something. Fill this out.
-
 *** Nested interval theorem
-
     for nullset /= In = [a_n, b_n] superset Im
 *** Heine-Borel
-
     Not closed implies not compact.
     Alternatively, we can say that if K is closed and bounded in R then it is
     compact.
-
 *** Compactness of [0,1]
-
 **** Classic version
-
      Take [0,1] - it is compact (proof : by contradiction : suppose that there
      exists an open cover of [0,1] {G_alpha} with no finite subcover. Note that
      then {G_alpha} covers [0,1/2] and [1/2,1].
@@ -209,9 +194,7 @@
 
      Therefore for n large enough, we have a finite subcover of In after all; a
      contradiction.)
-
 **** Other version - not in our book.
-
      How do we distinguish between [0,1] intersect Q and [0,1] ? completeness.
 
      Suppose {G_alpha} is an open cover of [0,1]. Our goal is to find some
@@ -248,10 +231,6 @@
      there exists some union of Gs s.t. their union covers [0,x0] then that
      union with G_alpha0prime is a superset of [0, x + delta] -> 1 in E and 1
      is least upper bound -> {G_alpha} has a finite subcover of [0,1].
-
-
-
-
 * 9/16/11
 ** 2.16, last problem on HW4
    p in QQ s.t. 2 < p^2 < 3
@@ -365,8 +344,6 @@
                                 leq | (xn - x) dot yn | + | x dot (yn - y) |
                                 leq | (xn - x) | | yn | + ...
                                 all bounded!
-
-
 
 * 9/19/11
 ** Limits
@@ -485,7 +462,6 @@
     choose p_n_(k + 1) in {p^(n + 1)_k}, n_(k + 1) > n_k.
 
     so d(p_n_(k+1), p*_(n+1)) < 1/(n+1) - d(p^*_(n+1), q) ->
-
 
 * 9/21/11
 ** Review of homework 5
@@ -647,9 +623,7 @@
 
    Do all the homework, get experience, know the 'lay of the land' of analysis.
 
-
 * Test 1 news reverse bell curve: 5 below 80, 5 above 90, 2 inbetween.
-
 
 * Review of connectedness HW
 ** Problem 20
@@ -729,7 +703,6 @@
     For n geq N, s - epsilon < s_N leq s_n leq s < s + epsilon Done!
 
     (this is valid by completeness of RR)
-
 
 * Lim Sup and Lim Inf
 
@@ -814,7 +787,6 @@
     also know that s_n_k_j leq t_n_k_j, so by the advanced calculus theorem,
     we have that x leq t leq lim sup of t_n forall x in E({s_n}) that
     lim sup s_n leq lim sup t_n
-
 
 * Sequences
 
@@ -1017,7 +989,6 @@
     5. Also binomial theorem!
 
 * Compact Metric Spaces
-
 ** Useful TFAE Theorem
    if X is a metric space, then the following are equivalent:
    1. X is compact.
@@ -1167,7 +1138,6 @@
      No matter how far you go, you could still go farther. This tears apart
      sequences.
 
-
 * Some Old Homework for Chapter 3
 ** Homework hints 3.3
 
@@ -1210,7 +1180,6 @@
     (as lim sup geq lim inf, so we have sandwiching, so the limit exists)
 
     this is a useful trick! We will need it.
-
 
 * Series - sequence with recursion.
   Some summation that forms a sequence of partial sums.
@@ -1687,7 +1656,6 @@
 
      lim s_n = A, so lim s_n' exists and equals A.
 
-
 * Continuity
 
   Given some metric spaces X and Y, E subset X, f :: E -> Y, p in E',
@@ -1768,7 +1736,6 @@
 
    Theorem (or 'profound reformulation') Given that f :: X -> Y, then f is
    continuous iff V open in Y -> f^-1(v) = {x in X : f(x) in V } is open in X.
-
 
 * Homework 9
   6a - Can show that it telescopes.
@@ -1910,7 +1877,6 @@
     x_n_k -> x0. as f is continuous (at x0, in particular) then we have a
     convergent subsequence f(x_n_k)
 
-
 * Jointly Continuous
   d :: (X,X) -> RR is jointly continuous means :
 
@@ -1987,7 +1953,6 @@
    all over the place and open.)
 
    (this will be homework, eventually)
-
 
 * Uniformly Continuous
 
@@ -2138,7 +2103,6 @@
      .LEQ. N
 
      so abs(f(y)) .LEQ. abs(f(x')) + N.
-
 
 
 * Connectedness

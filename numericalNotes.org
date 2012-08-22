@@ -1,78 +1,62 @@
 * General Tips
-
-    Never compute the inverse!
-
-    Use properties of special matricies.
-
-    Proofs on homework - don't be afraid to go back.
-
-    modern mathematics is about structure! We do not care about sets anymore;
+    + Never compute the inverse!
+    + Use properties of special matricies.
+    + Proofs on homework - don't be afraid to go back.
+    + modern mathematics is about structure! We do not care about sets anymore;
     anything worthwhile has structure behind it, certain properties, etc
-
-    In modern math, the disjoint-ness from earlier decades is becoming
+    + In modern math, the disjoint-ness from earlier decades is becoming
     blurred. People work more on modeling than just 'Ax = b'. Once we model it,
     how do we solve it?
-
-    More data, more trouble.
-
-    Goal of the class is to learn general classes of methods, rather than
+    + More data, more trouble.
+    + Goal of the class is to learn general classes of methods, rather than
     particular techniques.
-
-    Cameron Says : we take as much of the definition of the derivative that we
-    need (Frechet, Gateaux, etc) so we are unburdened by the remaining
+    + Cameron Says : we take as much of the definition of the derivative that
+    we need (Frechet, Gateaux, etc) so we are unburdened by the remaining
     constraints
-
-    Chinese Philosophy and Numerical Methods : If we have a linear problem, we
-    should consider nonlinear techniques (e.g. Conjugate Gradient). If we have
-    a nonlinear problem we should consider linear techniques (e.g. Newton's
-    Method)
-
-
+    + Chinese Philosophy and Numerical Methods : If we have a linear problem,
+    we should consider nonlinear techniques (e.g. Conjugate Gradient). If we
+    have a nonlinear problem we should consider linear techniques
+    (e.g. Newton's Method)
 * 9/9/11
 ** Pivoting
 s_i = max over 1 \leq j \leq n \abs{a_{ij}}
 scale of the ith row - use for another pivoting policy
-
 ** LU by GESRP
+   Set A1 = A
+   scan the first column of A1 : set a_{r1,1} / s_r1 := (max A[:,0])
+   exchange that row r1 and row 1 of A1 to form A~1, or
+   A~1 = I_r1,1 A1 .
+   for true numerical analysis, need to know/do:
+   understand troublesome parts
+   understand algorithm by hand
+   use examples to check code.
+   we like test-first coding practices - each part valid.
+   for
+       A = 0 1 1
+           1 2 3
+           1 0 2
 
-Set A1 = A
-    scan the first column of A1 : set a_{r1,1} / s_r1 := (max A[:,0])
-    exchange that row r1 and row 1 of A1 to form A~1, or
-    A~1 = I_r1,1 A1 .
+   s1 = 1, s2 = 3, s3 = 2 (largest element in each row)
+   max [a_31 / s_3 , a_11 / s_1, a_21 / s2] = a_31/ s_3 so use r_1 = 3.
 
-for true numerical analysis, need to know/do:
-    understand troublesome parts
-    understand algorithm by hand
-    use examples to check code.
-    we like test-first coding practices - each part valid.
+   Therefore R1 -> R3 so carry out elimination.
 
-for A = 0 1 1
-        1 2 3
-        1 0 2
-
-s1 = 1, s2 = 3, s3 = 2 (largest element in each row)
-max [a_31 / s_3 , a_11 / s_1, a_21 / s2] = a_31/ s_3 so use r_1 = 3.
-
-Therefore R1 -> R3 so carry out elimination.
-
-Most stable is full pivoting, but that is generally difficult. generally
-partial pivoting is as good (a belief, not a truth)
-
+   Most stable is full pivoting, but that is generally difficult. generally
+   partial pivoting is as good (a belief, not a truth)
 ** Applications of LU factorization
-    solve Ax = b - O(n^3/3) long operations (optional hw - find exact number)
-    (should be less, as there is less division)
-    Much worse strategy - compute determinants and solve by
-        Cramer's rule - (n + 1)(n - 1)n! operations (far worse.)
-    quickly compute the determinant of a matrix
-        works because det(AB) = det(A)det(B)
-        and the determinant of a triangular matrix is the trace
-        so det(P)det(A) = det(L)det(U), det(L) = 1, det(U) = trace(U)
-    find rank(A)
-    solve Ax = b1, Ax = b2, Ax = b3, ... good for gaming calculations
-        (moving polygons/vectors)
-        compute inverse(A) - requires O(4n^3/3) long operations
-        repeatedly solve for [1 0 0], [0 1 0], [0 0 1] etc to form columns
-
+   solve Ax = b - O(n^3/3) long operations (optional hw - find exact number)
+   (should be less, as there is less division)
+   Much worse strategy - compute determinants and solve by
+   Cramer's rule - (n + 1)(n - 1)n! operations (far worse.)
+   quickly compute the determinant of a matrix
+   works because det(AB) = det(A)det(B)
+   and the determinant of a triangular matrix is the trace
+   so det(P)det(A) = det(L)det(U), det(L) = 1, det(U) = trace(U)
+   find rank(A)
+   solve Ax = b1, Ax = b2, Ax = b3, ... good for gaming calculations
+   (moving polygons/vectors)
+   compute inverse(A) - requires O(4n^3/3) long operations
+   repeatedly solve for [1 0 0], [0 1 0], [0 0 1] etc to form columns
 ** solving LU factorization systems
     Ax    = b
     PAx   = Pb
@@ -84,8 +68,6 @@ partial pivoting is as good (a belief, not a truth)
              y = L \ (P * b)
              x = U \ y
     Google netlib
-
-
 * 9/12/11
 ** LU factorization of RDD matricies
    Pay attention! important for scientific computing.
@@ -142,7 +124,6 @@ partial pivoting is as good (a belief, not a truth)
    Now assume A is SPD so A = LU. L is unit lower triangular. Note
 
    P_k(A) = P_k(L) P_k(U) (slide 64)
-
 
 
 
@@ -233,7 +214,6 @@ partial pivoting is as good (a belief, not a truth)
 
      operation counts: 2n - 2 (nice!)
 
-
 * 9/16/11
 ** Announcement
    Test in a week! May be take-home.
@@ -267,7 +247,6 @@ partial pivoting is as good (a belief, not a truth)
     norm : ||x||_p = ( Sum |x_i|^p)^(1/p)
 
     so p is arbitrary, p can be a real. We use p=1, p=2, p=inf most often.
-
 
 
 
@@ -340,12 +319,10 @@ partial pivoting is as good (a belief, not a truth)
      lambda_i = (Av_i, Av_i) geq 0.
 
 
-
 * 9/21/11
 ** Spectral Radius and Norms
    For any matrix norm we have that rho(A) leq norm(A)
    (spectral radius is always leq norm)
-
 *** Proof
     Assume norm is induced and lambda is an eigenvalue. Then exists x /= 0
     s.t. Ax = lambda x.
@@ -355,24 +332,19 @@ partial pivoting is as good (a belief, not a truth)
     which implies that |lambda| leq || A ||
 
     note that the spectral radius is the largest eigenvalue so we are done.
-
 *** Can we bound the matrix norm by the spectral radius? No.
     A = [0 2; 0 0] so || A || = 2, but rho(A) = 0.
-
 *** Schur Decomposition - necessary details
-
     forall A, exists nonsingular matrix P and an upper triangular matrix T s.t.
 
     PAP^-1 = T
 
     additionally, given nonsingular B, ||x|| = ||Bx||2 is a norm.
     (useful only theoretically)
-
 *** Proposition 3.6 - from above facts. (implicit homework)
     Given an nxn matrix A and epsilon > 0 :
 
     exists norm s.t. || A || leq rho(A) + epsilon
-
 **** Proof
      Let P, T be the matricies of the Schur decomposition of A and let
 
@@ -402,7 +374,6 @@ partial pivoting is as good (a belief, not a truth)
 
      that ||Ay||^2 = = ||DPAy||2^2 = || mess ||2^2 = ||Cz||2^2 = gets
      worse. See slide 93.
-
 ** Matrix Norms and Sequences
 *** Proposition 3.7 - equivalency of matrix norms
     We can bound any two norms with constants c1 and c2 by something like
@@ -468,7 +439,6 @@ partial pivoting is as good (a belief, not a truth)
 
      rho(A) < 1 by Theorem 3.5 .
      then sigma(I - A) = stuff. See slide 97.
-
 
 * Numerical Test
 ** Backward error
@@ -566,7 +536,6 @@ partial pivoting is as good (a belief, not a truth)
     L = L_1(l_j) L_2(l_2) .. (product of Gaussian transformation matricies)
 
 
-
 ** Things to put on cheat sheet
 *** Chapter 1
     Lagrange form of interpolation error
@@ -582,8 +551,6 @@ partial pivoting is as good (a belief, not a truth)
     Sparse matrix storage.
     Thomas algorithm
     Spectral radius and norms
-
-
 * 9/26/11
 ** Powers of a matrix
 
@@ -665,7 +632,6 @@ partial pivoting is as good (a belief, not a truth)
     condition number (again, it is very long. See slide 103).
 
     condition number = K_beta(A) = norm(A,beta) * norm(A^-1,beta)
-
 
 * 9/28/11
 
@@ -749,7 +715,6 @@ partial pivoting is as good (a belief, not a truth)
    Let A = M - N. Then Ax = b -> Mx = Nx + b
 
    Choose a guess x^(0) and update by Mx^(k+1) = Nx^(k) + b.
-
 
 * 9/30/11
  cm** Basic ideas for classical iterative methods
@@ -848,13 +813,11 @@ partial pivoting is as good (a belief, not a truth)
     From a lot of matrix math, we get that
     epsilonk = - (I - B)^-1 B^k(x(1) - x(0))
 
-
 * 10/03/11
 ** More iterative methods
    Review : norm(e^(k+1)) leq norm(B^k+1) * norm(e^0)
    There are two ways to lower the error - better initial guess, get
    norm(B^k+1) closer to zero.
-
 *** How can we get a more concrete bound?
     say that norm(B^k) * norm(epsilon^1) leq TOL * norm(epsilon^1)
 
@@ -918,7 +881,6 @@ partial pivoting is as good (a belief, not a truth)
     we say that M .GEQ. N iff M[i][j] > N[i][j]
 
     then | AB | .LEQ. |A| |B|.
-
 **** Theorem 5
      if A is strictly diagonally dominant, then
      norm(B_GS) .LEQ. norm(B_J) < 1.
@@ -931,8 +893,6 @@ partial pivoting is as good (a belief, not a truth)
       = n) abs( A[i][j] / A[i][i])) < 1.
 
       There are several steps for the first inequality. Know this for prelim.
-
-
 * 10/05/11
 ** Recommendation - reread slide 131 onward
 ** Convergence of the SOR method
@@ -956,7 +916,6 @@ partial pivoting is as good (a belief, not a truth)
 
 *** Optimal Relaxation Parameters
     Read it.
-
 
 * 10/10/11
 ** Sparse methods
@@ -1043,7 +1002,6 @@ partial pivoting is as good (a belief, not a truth)
       r^(k+1) = r^k - t_kAr^k
 
 
-
 * 10/12/11
 ** Review of steepest descent
    Find the optimal scalar for the remainder and go in that direction.
@@ -1080,7 +1038,6 @@ partial pivoting is as good (a belief, not a truth)
      y_D^-1 = transpose((1 ./ sqrt(diag(D))) .* y)
 
      This part needs four small lemmas. Check slide 160.
-
 
 * 10/14/11
 ** More on the steepest descent method
@@ -1153,7 +1110,6 @@ partial pivoting is as good (a belief, not a truth)
 ***** Important Corollary
       (p_k, r_i) = -(r_k, r_k) (simplification for calculating t_k and mu_k)
 
-
 * 10/17/11
 ** More CG
    L_k  = span of p0, p1, p2, ...
@@ -1224,7 +1180,6 @@ partial pivoting is as good (a belief, not a truth)
 
 *** TODO Homework - show that the ps are linearly independent.
 
-
 * 10/19/11
 
 ** Krylov Methods
@@ -1273,7 +1228,6 @@ partial pivoting is as good (a belief, not a truth)
 
      Next time - preconditioning.
 
-
 * 10/21/11
 
 ** Review - CG versus SD
@@ -1320,7 +1274,6 @@ partial pivoting is as good (a belief, not a truth)
      want to use some l_ij where if a_ii = 0 then set l_ij = 0. This preserves
      the sparsity and is almost A.
 
-
 * 10/24/11
 
 ** New Unit - solving nonlinear equations.
@@ -1363,7 +1316,6 @@ partial pivoting is as good (a belief, not a truth)
     signs)
 
     therefore as f(x*) .GEQ. 0, f(x*) = 0. Done.
-
 
 * 10/26/11
 
@@ -1410,7 +1362,6 @@ partial pivoting is as good (a belief, not a truth)
 
     reduce f(x) = 0 to some G(x) = x : now we have an algorithm for solving
     these problems.
-
 
 * 10/28/11
 
@@ -1471,18 +1422,15 @@ partial pivoting is as good (a belief, not a truth)
 ** Review of Multivariable Calculus
 
 *** Gateaux Differentiability
-
     if
 
-    lim (t -> 0) (f(x + tz) - f(x))/t
+        lim (t -> 0) (f(x + tz) - f(x))/t
 
     exists, we say that f is _Gateaux differentiable_ at x along the direction
     of z.
 
     we call Df(x)(z) that Gateaux derivative of f at x along z.
-
 *** Frechet Differentiability
-
     If there is a linear mapping f'(x) :: RR^n -> RR^m where
 
     lim (norm(Delta x) -> 0)
@@ -1495,8 +1443,6 @@ partial pivoting is as good (a belief, not a truth)
     for f(x) we have
 
     f'(x) = Df(x) = (Gradient f(x))^T
-
-
 * 10/31/11
 
 ** Review of Fancy Derivatives
@@ -1589,7 +1535,6 @@ partial pivoting is as good (a belief, not a truth)
 
 **** Proof
 
-
 * Fixed Point Iteration
 
 ** Easy 2D example
@@ -1605,7 +1550,6 @@ partial pivoting is as good (a belief, not a truth)
    say that g(x) = x/2 + 2/x
 
    Then g(x) = x - f(x) / f'(x) - f''(x)/2f'(x) (f(x)/f'(x))^2 - cubic convergence!
-
 
 * Newton's Method
 
@@ -1748,11 +1692,8 @@ partial pivoting is as good (a belief, not a truth)
 
      which gives us a way to solve for some u^k.
 
-
 * Eigenvalue Calculations
-
 ** Definition of the Problem
-
    If
 
    (A - lambda I)x = 0
@@ -1766,9 +1707,7 @@ partial pivoting is as good (a belief, not a truth)
 
    geometric interpretation : A rescales eigenvectors, they still point in the
    same direction.
-
 ** Characteristic/eigen polynomial
-
    Delta_A(lambda) = determinant(A - lambda I) is called the _characteristic
    polynomial_ or _eigenpolynomial_ of A.
 
@@ -1778,17 +1717,13 @@ partial pivoting is as good (a belief, not a truth)
    Delta_A(lambda) = (-1)^n (lambda - lambda1)^a1 (lambda - lambda2)^a2 ...
 
    where each a1,a2,... is the multiplicity of lambda1, lambda2, ...
-
 *** Subspace Properties
-
     we may form a subspace from each eigenvalue.
 
     The subspace {x s.t. (A - lambda_i I) x = 0}
 
     is a subspace of RR^n. It has dimension dim(L(lambda_i)).
-
 *** Relating m_g(lambda_i) and m_a
-
     m_g is the geometric multiplicity of the eigenvalues - given some lambda,
     how many eigenvectors can we find that are not multiples of each-other?
     (that is, how many free variables are there when we solve (A - lambda I) x
@@ -1805,22 +1740,15 @@ partial pivoting is as good (a belief, not a truth)
 
     this is because the dimension of the subspaces will not sum to the dimension
     of the matrix.
-
-
-   Proof - Kincaid-Cheney.
-
+    Proof - Kincaid-Cheney.
 ** Similar Matricies
-
    B = P^-1 A P has the same eigenpairs as A. (invariant under conjugation)
-
 ** Gershgorin's Disk Theorem
-
    Shows us where the eigenvalues are, or at least a neighborhood of each
    eigenvalue.
 
    Statement - all eigenvalues are contained in the following n Gershgorin
    disks in the complex plane:
-
 *** Proof
 
     Let lambda be an eigenvalue of A and let x be the corresponding
@@ -1854,23 +1782,19 @@ partial pivoting is as good (a belief, not a truth)
     intersection with the remaining disks. Then S contains m eigenvalues of A.
 
 ** Schur Decomposition
-
    For an square matrix A, exists unitary matrix U and upper triangular matrix
    R such that
 
-                                A = URU^H
+       A = URU^H
 
    This means that every square matrix is _unitarily similar_ to some upper
    triangular matrix. If we desire, we can do this for some L instead
    (construct U differently).
-
 *** Important Result - Get All Eigenvalues
-
     We know that similar matricies have the same eigenvalues, so if we have R
     (eigenvalues are diagonal entries) then we have all the eigenvalues!
 
     This is not a very good way to compute eigenvalues.
-
 ** Power Method
 *** Overview
     'Business of Computation'
@@ -2172,34 +2096,23 @@ partial pivoting is as good (a belief, not a truth)
 
     Therefore we can keep going and form some upper right triangular matrix
     A^(r) = Hr Hr-1 Hr-2 ... H2 H1 A0. This generates two cases.
-
 **** Case 1 : all entries below some row r~ .LEQ. m - 1 are zero
-
      Then A^r~ = some upper right matrix above some matrix of zeros. Chop off
      the bit on the botton and call it R. Call the product
 
      H1 H2 ... Hr~ = Q~
 
      so A = Q~ A^(r~) = [Q, P] * [R; 0] = QR woohoo
-
 **** Case 2 : r~ = m - 1 and mth row nonzero
-
      Then we have rank(A^r~) .GEQ. m. Therefore rank(A) = m (see slide 50).
-
 *** Upper Hessenberg or tridiagonal form
-
 **** Definition
-
      A is *upper hessenberg* provided a[i][j] = 0 for i > j + 1.
-
 **** Existence
-
      _Theorem 7_: for any matrix A, there exists a unitary matrix U and an
      upper Hessenberg matrix H such that H = UAU^H. In particular, H is
      tridiagonal when A is hermitian.
-
 ***** Proof
-
       Let A1 := A. Then, from A_k, we may get
 
       A_k = [B_k, C_k;
@@ -2210,7 +2123,6 @@ partial pivoting is as good (a belief, not a truth)
       H~k such that
 
       H~k d= t e^1, dim(e^1) = n - k.
-
 *** QR method with Origin Shifts
 **** Overview
      1. Choose M and A0 to be the upper Hessenberg matrix generated from A with a
@@ -2225,14 +2137,10 @@ partial pivoting is as good (a belief, not a truth)
        Note that every matrix A_i is similar to the previous A_i; therefore they
        are all similar and must contain the same eigenvalues. We really want A_i
        to converge to a diagonal (or upper triangular) matrix.
-
 **** How do we choose u_k?
-
      The algorithm does not care about u_k : features are preserved regardless
      of choice.
-
 **** Convergence
-
      Qk~ := Q0 * Q1 * ... * Qk
      Rk~ := Rk * Rk-1 * ... * R0
 
@@ -2245,10 +2153,7 @@ partial pivoting is as good (a belief, not a truth)
 
      Proof : true for 0 case, and show that is works by induction. This means
      that we are using some variation of the power method.
-
-
 **** Theorem 9
-
      Suppose that A is nonsingular and that A has n distinct eigenvalues (that
      is, n unique eigenvalues) such that abs(lambda_1) > abs(lambda_2) >
      ... > 0.
@@ -2256,15 +2161,11 @@ partial pivoting is as good (a belief, not a truth)
      Also assume that the matrix Y = X^-1 has the LU factorization, where X is
      the matrix of eigenvectors. Then the matrix sequence in the QR method will
      converge nicely.
-
 **** How do we choose the optimal parameter?
-
      pick the bottom right corner of the matrix. This plays nicely with the
      Rayleigh quotient.
-
 ** Givens Matrix
 *** Overview
-
     The famous 2D rotation matrix.
 
                  G(t) = [cos t,  sin t;
@@ -2272,9 +2173,7 @@ partial pivoting is as good (a belief, not a truth)
 
     This is a standard item in analytical geometry. How about higher dimension
     analogs?
-
 *** Givens Matrix - Definition
-
     for k .LEQ. I, we have
     G(k, l, theta) = l + s(e^k (e^l)^T - e^l (e^k)^T)
                    + (c - 1)(e^k (e^k)^T + e^l (e^l)^T)
@@ -2282,9 +2181,7 @@ partial pivoting is as good (a belief, not a truth)
     simpler way:
     G(k, l, theta)_i,i = 1 if i /= k or l
                        = c if i = k or i = l.
-
 **** Properties
-
      Feature-rich transformation!
 
      1. Orthogonal matrix.
@@ -2294,16 +2191,12 @@ partial pivoting is as good (a belief, not a truth)
         y_k = c * x_k + s * x_l, l_l = -s*x_k + c * x_l.
 
      3. if A~ = G(k,l,theta) A then we manipulate two rows or two columns.
-
 **** Constructing Givens Matricies
-
      Given x, k, l there exists a Givens matrix G such that y = Gx is such that
 
      y_i = x_i for i /= k, i /= l
      y_k = sqrt(x_k^2 + x_l^2), y_l = 0.
-
 ***** Proof
-
       if x_k = x_l = 0 then G = G(k,l,0). Therefore G is the identity matrix.
 
       Otherwise,
@@ -2312,9 +2205,7 @@ partial pivoting is as good (a belief, not a truth)
       and s = sin(theta) = x_l / (sqrt(x_k^2 + x_l^2))
 
       works by the pythagorean theorem.
-
 *** Using Givens to form QR
-
     In particular - if A is upper Hessenberg, then we may construct n - 1 Givens
     matricies such that
 

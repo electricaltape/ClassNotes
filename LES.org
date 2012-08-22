@@ -1,0 +1,5 @@
+* 'Better than van driest' idea
+  We know the element size in the 'bulk' and at the coast. We can easily scale
+  correction effects based on element size with a multiplier that is 1 in the bulk
+  and 0 at the edge. More specifically, given the edge length, compute a multiplier
+  on the LES term that ranges from 0 to 1.

@@ -1,0 +1,69 @@
+* Single step methods
+** Model Equations
+   The model for a single-step method is
+
+       y_k+1 = y_k + h*Phi(t_k, y_k, h)
+
+   so we have some _updating function_ Phi that only depends on current
+   information.
+
+   The test equation for determining stability is always
+
+       y' = lambda y
+** Consistency
+   A single-step method is _consistent_ if Phi(y,t,0) = f(t,y).
+** Stability
+*** Regular Definition
+    A Runge-Kutta method is _stable_ if there is some constant c independent of
+    h such that
+
+        NORM(yN - zN) .LEQ. c NORM(yk - zk)
+
+    where h = (b-a)/N, for all k .LEQ. N.
+*** Absolute stability
+    Also known as A-stability.
+
+    This is always the same strategy: use the canonical function y' = lambda y and
+    assume that lambda h < 0. Figure out what happens when we do
+
+    yi+1 = C*yi
+
+    (we need abs(C) < 1 for stability).
+** Convergence
+   People don't seem to talk about convergence for specific ODE solvers. I
+   believe that consistency should imply convergence for single-step methods.
+
+   Actually: consider some ODE solver that has an error term bounded by
+   O(h^p). Clearly the error goes to zero as h -> 0. Therefore we get
+   convergence as long as the error is  bounded. This *really* is not much of
+   an issue for ODE solvers.
+** Order
+   One may determine the order of an equation by repeatedly applying the
+   tangent plane approximation and combining terms to get something like
+
+       LTE [=] local truncation error = y(t_k+1) - y_k+1
+** Butcher Table
+   See numericalNotes2.org
+* Multistep Methods
+** Definition
+   anything like
+
+       SUM(l=0,k) alpha_l*y_(j+l) = h*SUM(l=0,k) beta_l*f_(j+l)
+
+   that is, the alphas are the coefficients for the known solution and the betas
+   are coefficients for h*f(tj,yj).
+** Consistency, Stability, Convergence
+   The _stability polynomial_ is
+
+       rho(z) = SUM(l=0,k) alpha_l*z^l
+
+   (if the single roots are of modulus less than or equal to one and the
+   repeated roots are of modulus less than one then the method is _stable_)
+
+   the method is _consistent_ if c0 = c1 = 0 (at least order 1) where c0, c1 are
+
+       c0  = SUM(l=0,k) alpha_l
+       c_q = 1/q!*SUM(l=0,k) l^q*alpha_l - 1/(q-1)!*SUM(l=0,k) l^(q-1)*beta_l
+
+   This also determines the order of the method (the method is order p if cp = 0
+   but cp+1 /= 0). By 7.5, convergence <-> consistent and stable.

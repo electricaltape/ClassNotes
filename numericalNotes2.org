@@ -1,10 +1,62 @@
-* In-class homework
-  1. compare the proof of theorem 4.1 in the notes to the version in the book.
-  2. Slide 16 - go over the auxillary function F(alphai) and demonstrate
-     equivalence.
-  3. Confirm the quadratic minimization result (page 17)
-  4. Go over the abstract formulation of Galerkin's method. (page 17)
-  5. W = SPAN[x, 1 - x] : figure out the best approximation in this space to e^x.
+* Prelim Stuff
+  1. Know how the Lipschitz constant bounds the error for solving ODEs with
+     single-step methods.
+* General advice
+  + Pick the correct building-blocks - for finite elements we like polynomials,
+  for signal processing we like sines and cosines, etc
+  + DONE Buy a copy of Numerical Functional Analysis by C.W. Cryer.
+
+  What was Lin getting at during our meeting?
+  + we can definitely pick linears as our space - approximate u by some linear
+    combination of tent functions.
+  + Lin talked about the test function space as well - this means that we need
+    not consider the inner product of everything in the solution space with
+    everything else in the solution space. We should drop the last one so that
+    we may enforce our boundary condition instead.
+
+    This is equivalent to what I did for nonhomogeneous bounds - I picked a
+    solution space to include the first and last values (whose values I know)
+    but my test function space did not include these functions (I only used
+    test functiosns on the interior).
+  + The equation should probably be -r u'' + u = 0.
+* Exams
+** Exam 1
+*** Due date: Monday at 5
+*** Walk-Through
+    + Use MATLAB printouts for better precision.
+    + Find the tightest error bound possible - we want the best estimate.
+    + The chebyshev polynomials are whatever kind we discussed in the notes
+      (first kind?)
+    + Have 'good writeups' of the proofs.
+    + For the absolute value problem we must use Peano's kernel.
+    + Number 5 - use the definition and induction.
+*** Strategies
+    + Work through a simpler Peano kernel problem for practice.
+    + Attempt to create better notation for finite differences.
+* Homework
+** In-class Problems
+   1. compare the proof of theorem 4.1 in the notes to the version in the book.
+   2. Slide 16 - go over the auxillary function F(alphai) and demonstrate
+      equivalence.
+   3. Confirm the quadratic minimization result (page 17)
+   4. Go over the abstract formulation of Galerkin's method. (page 17)
+   5. W = SPAN[x, 1 - x] : figure out the best approximation in this space to
+      e^x.
+   6. Verify that the Bernstein operator is linear.
+   7. Prove the general polynomial interpolation error formula.
+   8. Read slides 76-83.
+   9. Read up on the Peano kernel approaches for error bounding.
+   10. Consider rewriting Peano kernel stuff with better notation (heaviside
+       step function)
+   11. Now how to derive the forward difference properties.
+   12. Check out Steklov's theorem in Cryer (for exactness results of Gaussian
+       quadrature)
+   13. Study Theorem 7.4 (book assumptions are weaker)
+   14. Prove Theorem 3 from the notes in Chapter 7
+** Computing Project 2
+   Note for the first problem: make sure that the Hermite interpolation is not
+   'overkill' - the data itself is O(h^4), so make sure that the hermite
+   interpolation itself gives a similar error
 * Overview of Class
   + office hours - 8:30 - 9:20 Monday/Wednesday
   + Computing project available soon (though this course is not about
@@ -166,3 +218,531 @@
 
     this matrix of inner products is called the *Gram Matrix*. It is SPD as the
     wjs are linearly independent.
+* Polynomial Approximation
+** Why?
+   We want to approximate a function with something close, but something
+   simpler.
+
+   Does a polynomial have anything to do with our current predicament? Maybe.
+** Theorem 4.4 - Weierstrass Theorem
+*** Overview
+    Polynomials can approximate continuous functions arbitrarily closely.
+*** Bernstein Polynomials (building block)
+**** Overview
+     /*we will use these to build the theorem*/
+     Given some f in C[0,1], its Bernstein polynomial of degree n is a function
+     Bn(f, x) defined by
+
+     Bn(f,x) = SUM (k=0 to n) f (k/n) g_nk(x)
+     g_nk = (n k) x^k (1 - x)^(n - k)
+     (n k) = n!/(k!(n - k)!) for 0 .LEQ. k .LEQ. n, 0 otherwise.
+
+     To find it on [a,b] :
+     1. F(t) = f(a + (b - a)t) /*shift to 0 to 1 domain*/
+     2. use F in C[0,1] to find Bn(F,t).
+     3. Set
+
+        Bn(f,x) = Bn(F, (x - a)(b - a))
+**** Example
+     Let f(x) = x^2. What is the associated Bernstein polynomial?
+
+     B2(f,x) = f(0/2) g_20(x) + f(1/2) g_21(x) + f(2/2) g_22(x)
+
+             = 1/2 x (1 - x) + x^2
+
+     Note that *B_n(x) /= f(x)* in general, even if f(x) is a polynomial.
+*** Mappings
+    L : C[a,b] -> C[a,b] is a *positive operator* if L(f(x)) .GEQ. 0 for all x
+    in [a,b] whenever f(x) .GEQ. 0 for x in [a,b].
+
+    *Linear Positive Operator* : f(x) .GEQ. g(x) implies that L(f(x))
+    .GEQ. L(g(x)).
+    L(abs(f(x))) .GEQ. abs(L(f(x))).
+*** Bernstein Operator
+    Bn : f(x) -> Bn(f,x) = SUM (k=0 to n) f (k/n)  g_nk(x)
+*** Bohman-Korovkin Theorem
+    Let Ln, n .GEQ. 0be a sequence of positive operators on C[a,b]. If
+
+    norm(Ln * h - h, inf) -> 0 as n -> inf
+
+    for h(x) = 1,x,x^2 then the same is true for all f in C[a,b].
+**** Proof
+     We want to show that for any epsilon > 0 and continuous f that there
+     exists some N where
+
+     norm(Ln(f) - f, inf) .LEQ. 3 epsilon, forall n .GEQ. N.
+
+     Let h(x,k) = x^k for k = 0,1,2,... Let alpha_n = Ln(h0) - h0, Beta_n = Ln
+     h1 - h1, gamman = Ln(h2) - h2.
+     /*positive operator preserves the inequality. This is a long proof and is
+     in the slides.*/
+*** Formal Statement
+    Given f in C[a,b] and epsilon > 0, there exists a polynomial p(x) such that
+
+    norm(f - p, inf) = max (x in [a,b]) abs(f(x) - p(x)) < epsilon.
+** Orthogonal polynomials and Least Squares Approximation
+*** Overview
+    We know that the space of Bernstein polynomials is rich enough to
+    approximate whatever we want. How can we do this more efficiently?
+
+    Our problem: given [a,b] and some weight function rho(x) and continuous v,
+    find some w* in PIn with
+
+    (f, g) = INTEGRAL (a,b) rho(x) f(x) g(x) dx
+*** Definition
+    Two nonzero functions p0, p1 are *orthogonal* if (p0,p1) = 0 iff p0 /= p1 and
+    (p0,p1) /= 1 iff p0 = p1.
+
+    If (p1,p1) = 1 then we say that the functions are *orthonormal*.
+*** Theorem 3
+    Let p0, p1, pn be a set of orthogonal polynomials on [a,b]. Then
+    1. These polynomials are linearly independent.
+    2. Pi_n = span(p0 .. pn) /*pick n orthogonal polynomials, we span the space
+       of n polynomials */
+    3. (p, pn+1) = 0 for any p in Pi_n (orthogonal to surrounding space)
+*** Sturm Sequence and Orthogonal Polynomials
+    We may relate orthogonal polynomials to a tridiagonal matrix that depends
+    on the bounds [a,b].
+*** Roots of orthogonal polynomials
+    Proposition 4.3 - the nth orthogonal polynomial in the interval [a,b] has n
+    distinct zeros in (a,b).
+
+    Proof, by 3-step tango:
+    1. If n .GEQ. 1 then phi_n(x) must have at least one root in (a,b),
+       Otherwise phi_n(x) has the same sign for all x in (a,b) and
+
+       (phi0, phi_n) /= 0
+
+       which contradicts orthogonality.
+
+    2. If xhat in (a,b) ir a root of phi_n(x) then its multiplicity must be
+       one. Otherwise, w(x) = phi_n(x) / (x - xhat)^2 must be a polynomial of
+       degree n-2 and we would have (phi_n, w) = 0 /* so we constructed a new
+       orthogonal polynomial by removing both repeated roots contradiction */.
+
+    3. All the roots must be in (a,b).
+       By contradiction - assume that only k < n roots are in (a,b). Then
+       phi_n(x) = q(x)(x - x1)(x - x2)...(x - xk) such that q is a polynomial
+       with no sign change in (a,b). Let p(x) = (x - x1)(x - x2) ... (x -
+       xk). Then (p(x), phi_n(x)) = 0 because degree(p(x)) = k < n. However, if
+       we compute the value of the integral we get a nonzero result - a
+       contradiction.
+**** No two consecutive orthogonal polynomials have common roots.
+     Proof - use the recursion formula. This way, if two consecutive
+     polynomials share a zero, then the 3rd polynomial also has this root. We
+     can work this down until phi0(r) = 0, a contradiction.
+**** Phi_n has exactly one root between every root of phi_{n+1}
+     Proof - by induction: phi1(x) has one root and
+     phi_2(a1) = (a1 - a2)phi1(a1) - b2 phi0(a1) = -b2 < 0.
+
+     phi_2(-inf) must be positive, as must phi_2(inf). Therefore since
+     phi_2(a1) is negative, it must have two roots - one between a and a1 and
+     the other between a1 and b.
+
+     induction step - let n be an arbitrary integer such that n .GEQ. 1 and the
+     result above is true for 1 .LEQ. k .LEQ. n.
+
+     For the n+1 case let xi and yi be the zeros of phi_n and phi_n+1. Then
+
+     y1 < x1 < y2 < x2 < ... < yn+1
+
+     by the inductive assumption.
+** Polynomial Approximation
+*** Why we have a need for it
+    We do not always have a function that we can model - sometimes we only have
+    datapoints.
+*** Bounding the error
+    We have a statement for the exact error; can we bound the error (i.e. may
+    we say 'this is the worst possible error') that is not so mysterious?
+
+    Start with the traditional formula:
+    error = f^(n+1)(c)/n! * .PRODUCT. (x - xi)
+    Assume equally spaced nodes:
+    /* claim: for x in [xj, xj + h], abs(x - xj)*abs(x - x{j+1}) .LEQ. h^2/4 */
+
+    We want to get rid of the absolute value signs - the maximum of the
+    quadratic with the absolute values removed is just h^2/4.
+
+    Now we may replace the whole polynomial product by iterating the previous
+    step (replace the one in the middle):
+
+    PRODUCT (x - xi) .LEQ.
+        h^2/4 * PRODUCT (i=0 to j-1) (x - xi) * PRODUCT (i=j+2 to n) (x - xi)
+        /* as x is in the interval [xj, x{j+1}] */
+        .LEQ. h^2/4 PRODUCT (x{j+1} - xi) PRODUCT (xi - xj)
+        /* the rest is not in the slides, but we get */
+
+   M_{n+1} / (4(n+1)) h^(n+1) .GEQ. error.
+**** How may we bound things that don't have nice derivatives?
+     Say we want to interpolate f(x) = abs(x); however, we do not have any
+     derivatives available. We can use Peano's Kernel instead.
+** Peano's Kernel
+*** Definition
+    We say that f in W^m(Mm; a,b) provided that:
+    1. f in C^m-1[a,b]
+    2. f^m(x) is piecewise continuous on [a,b] and abs(f^m(x)) .LEQ. Mm.
+
+    Note that *we can always form a kernel just based on nodes*; we do not
+    require the function for this.
+*** Example
+    Let f(x) = abs(x). Therefore f'(x) is bounded by 1. We can say
+
+    abs(x) in W^1(1; -1,1)
+*** Forms of the Remainder
+    Examine the remainder as follows: (shifted truncated power function)
+    (x - t)^k_+ = 0, for x < t
+                = (x - t)^k for x .GEQ. t
+*** Peano's formula for the error
+**** Definition
+     Let pn(x) be the interpolating polynomial of f(x) with respect to the
+     nodes x0, x1, ... , xn. Let f be in W^m(Mm, a,b) for 1 .LEQ. m .LEQ. n + 1
+     and the smallest interval [a,b] containing y,x0,x1,...,xn. Then
+     f(y) - Pn(y) = Fn(f;y) = INTEGRAL (a,b) Km(t) f^(m)(t) dt
+
+     where Km(t) = 1/(m-1)! ((y - t)_+^(m-1) - SUM (k=0 to n) (xk - t)_+^m-1
+     lk(y))
+
+     where lk(y) is the lagrange cardinal polynomial evaluated at y.
+**** Significance
+     We have n+1 points, but we only need m derivatives to estimate the
+     interpolation error.
+**** Sign Changes
+     The kernel function changes its sign at least once. In particular, by
+     lemma 7, Km(t) change its sign n - m + 1 times.
+*** Example of Kernel Construction
+    Assume that [a,b] = [-h,h] and x0 = -h, x1 = h. Then n = 1 and for m = 1 we
+    may calculate the two Lagrange cardinal polynomials. Then
+
+    K1(y,t) = (y - t)^0_+ - ((x0 -t)^0_+ l0(y) + (x1 - t)^0_+ l1(y))
+            = (y - t)^0_+ - (x1 - t)^0_+ l1(y)
+
+    Therefore K1(y,t) = -l1(y) for y < t and 1 - l1(y) for y .GEQ. t
+
+    Say we fix y. Then this is a step function in t, which jumps at t = y.
+
+    In general, we have n - m + 1 sign changes; n=m=1, so we have exactly one
+    sign change.
+
+    However, by design, this function is continuous for y = t (when y is
+    fixed); this makes sense as we look at K2 (that is, m = 2).
+*** Example for 3 Nodes
+    Now pick three points x0 = -h, x1 = 0, x2 = h. Then n = 2 and we have three
+    lagrange cardinal polynomials.
+
+    Let m = 1. Then we get some function for K1 that has two terms. If we may
+    assume that x0 < y < x1 then we get three terms and we can get rid of the
+    funny step functions.
+** Forward and Backward Differences
+*** Overview
+    Use properties of the derivative to build polynomials - namely, use finite
+    differences to force coefficients to yield correct derivatives.
+*** TODO - My own explanations here.
+    The typical approach and syntax for forward and backward differences
+    sucks. I can do better.
+* Minimax (Best Uniform) Approximation
+** Introduction
+   Given a function f in C([a,b]), how can we find a polynomial p* of order not
+   more than n such that
+
+   NORM(f - p*, inf) .LEQ. NORM(f - p, inf) for all polynomials p in the
+   polynomial space
+   and
+   NORM(f - p*, inf) = min (over all polynomials) max (on x in [a,b])
+   abs(f(x) - p(x))
+   /* minimize the worst point; a.k.a. remove Runge phenomenon */
+** Modulus of Continuity
+*** Definition
+    For some function f, we define the modulus of continuity on [a,b] with
+    respect to delta as:
+
+    omega(f, [a,b], delta) = omega(delta)
+    = sup (x1, x2 in [a,b]; abs(x1 - x2) < delta) abs(f(x1) - f(x2))
+*** Properties
+**** Lemma 4.1
+     if 0 .LEQ. delta1 .LEQ. delta2 then
+     omega(f,[a,b],delta1) .LEQ. omega(f,[a,b],delta2)
+**** Lemma 4.2
+     f is continuous iff
+
+     LIM (delta -> 0) omega(f,[a,b], delta) = 0.
+**** Lemma 4.3
+     If lambda > 0, then omega(f,[a,b], lambda*delta)
+     .LEQ. (1 + lambda) omega(...)
+
+     *Proof*
+     Since lambda > 0, exists n s.t. n .LEQ. lambda < n + 1 .LEQ. lambda + 1.
+     Use Lemma 4.1, where lambda*delta goes with delta1 and (n + 1)delta
+     corresponds to delta2.
+
+     As abs(x1 - x2) .LEQ. (n+1) delta, there is some delta1 .LEQ. delta such
+     that
+     abs(x1 - x2) = (n + 1) delta1.
+
+     Assume that x1 .LEQ. x2 and let
+     zj = x1 + j/(n+1) (x2 - x1), for j in [0..n+1]. Therefore the difference
+     between adjacent zs is less than delta1.
+
+     Therefore, by untelescoping
+     abs(f(x1) - f(x2)) = abs(SUM (f(z{j+1}) - f(zj)))
+     .LEQ. SUM abs(z{j+1} - f(zj))
+     /*we have n+1 terms*/
+     .LEQ. (n+1) omega(f, [a,b], delta1) .LEQ. (n+1) omega(f; [a,b], delta)
+
+     Do some rearranging and we get
+     .LEQ. (1 + lambda) omega(f, [a,b], delta).
+** Theorem 7 - The Good News
+*** Introduction
+    For any continuous function, we may find a sequence of decreasing errors
+    such that
+
+    LIM (n -> inf) En(f, [a,b]) = 0.
+
+    where by definition 4.11
+
+    En(f,[a,b]) = En(f) = NORM(f - p*, inf)
+* What are the optimal nodes for interpolation?
+** Introduction
+   We don't really have a way to minimize the norm of the nth derivative of f,
+   but we can try to minimize the product of the (x - xj) terms.
+
+   We can get better error estimates by using the Chebyshev points. In
+   particular, the choice of Chebyshev nodes minimizes the (x - xj) product
+   under the infinity norm.
+** More bad news
+   For any system of nodes, there exists some continuous function on [a,b]
+   s.t.
+
+   LIM (n -> inf)
+** Some good news
+   On the other hand - if we have the function, we may choose nodes so that
+   the interpolation converges. In particular, since the best polynomial
+   exists by previous work and hits f n+1 times, we know that the
+   interpolation nodes exist.
+* Peano Kernel Redux
+** Introduction
+** Linear Form of Error
+   Let L(f) be a linear functional such that L(f) = 0 for all f in PP^k /*
+   polynomials of order up to k */.
+** The Error Part
+   Let E_n(f,y) be a linear functional:
+   E_n(f;y) = f(y) - pn(y) /* error of interpolation of f at y */
+
+   That isn't really a functional since it has two arguements. How about if we
+   curry E?
+
+   makeFunctional = \ y -> \ f -> E(f;y)
+
+   Let E = makeFunctional y. Then:
+   E(f + g) =
+** The Kernel Part
+   The part of the construction referred to as the _Peano Kernel_ is the
+   function
+
+   Peano(t) = (x - t)^n_+
+   where Peano(t < x) = 0
+         otherwise    = (x - t)^n
+
+   This is a 'nice' function - it is continuously differentiable n - 1 times.
+
+   *Proof Sketch* Consider Peano(t) = (x - t)^2_+. Then
+
+   dPeano(t)/dt = 2*(x - t)_+ on t < x, otherwise 0. Therefore the derivative
+   lines up at the break point. Therefore by induction we can always take n-1
+   continuous derivatives.
+* Chebyshev's Theorem
+  Assume that f is not a polynomial of degree n, f is a continuous
+  function. Then p in Pn is a best uniform approximation to f *iff*
+
+      e(x) = f(x) - p(x)
+** Corollary
+   If we have the n+1 derivative of f and it is nonzero, then:
+   1. The alternating set has at most n+2 points.
+   2. Both a and b are in the alternating set (max or min)
+   3. The alternating set is unique and contains n+2 points
+
+  This alternation forces the degree to be n (n+1 degrees of freedom, n+2
+  intervals).
+** Example
+   Find the BUA of f(x) = e^x over [0,1].
+
+   Let p*(x) = a0 + a1*x. Therefore, as f'''(x) = e^x does not change sign,
+   the alternating set must have three points including the end points.
+
+   The errors must be equal at the endpoints -> a1 = e - 1.
+
+   As the second point must be a max or min in the interval, the first
+   derivative is zero at that point. Therefore
+
+   e'(x2) = f'(x2) - p*'(x2) = 0
+
+   so a0 = 1/2 (e - (e - 1)*ln(e - 1)).
+** Why does this correspond to an interpolating polynomial?
+   We have n+2 alternating points -> n+1 roots of the error -> same as
+   interpolating at roots of error.
+* Hermite Interpolation
+** Some terminology
+   If we match function values then the interpolating polynomial is _Lagrange
+   Type_.
+   If we use some of the derivative information then we have _Hermite Type_
+   interpolation.
+** An example impossibility
+   Find a quadratic where p(0) = 0, p(1) = 1, p(1/2) = 1. This is
+   impossible. However, there are infinitely many cubics that satisfy this. How
+   can we build a constraint so that this doesn't happen?
+** Information Format
+   We can find exactly one polynomial if, for p^(j)(xi) given, we also have
+   p^(k)(xi) for k .LEQ. j. That is, if we have the kth derivative at a point,
+   we need all the lower derivatives as well as the function value.
+
+   Therefore, we have k0 + k1 + ... = m + 1 pieces of information. Does this
+   amount to an order m + 1 polynomial?
+
+   We can build m+1 equations and m+1 unknowns from forming the linear
+   system. Therefore all we need to show is uniqueness.
+* Numerical Integration and Differentiation
+** Interpolatory Quadrature Formulae
+*** Introduction
+    We want something like
+    J(f) = INTEGRAL (a,b) f(x) dx
+*** General Error Bound
+    f(x) = pn(x) + f^(n+1)(c)/(n+1)! w(x) is the general interpolation
+    error. If w(x) changes sign, then we may bound the error by
+
+    E(f) = abs(1/(n+1)! INTEGRAL f^(n+1)(c) w(x) dx)
+         .LEQ. NORM(f^(n+1), inf)/(n+1)! INTEGRAL abs(w(x)) dx
+
+    for change of variables x = a + (b - a)z
+
+         = NORM(f^(n+1), inf)/(n+1)! INTEGRAL (0,1) PRODUCT (z - z_i) *
+         (b-a)^(n+2)
+*** Newton-Cotes Formulae
+    Use evenly-spaced interpolation points. We can use this interpolation with
+    Lagrange cardinal polynomials to compute coefficients.
+
+    For example - we may derive the Trapezoid rule from this using two points.
+
+    Similarly - using three points grants us Simpson's rule.
+*** Bernoulli Numbers
+* Solving IVPs
+** Introduction
+   Our goal is to solve for functions, not numbers.
+   Note that we may always convert higher order single-variable linear ODEs
+   into systems of 1st-order linear ODEs.
+
+   We make two discretizations:
+   We choose several values of t to try and evaluate the function at.
+   We have to discretize the problem itself to calculate the values at those points.
+** Global Existence and Uniqueness
+   If f is at least Lipschitz continuous with respect to y
+** One-Step Methods
+   There exists some _updating function_ Phi such that
+   y_{k+1} = y_k + h_k Phi(t_k, y_k, h_k)
+
+   For Euler, we have Phi(t,k, y_k, h_k) = f(t_k, y_k) /* RK order 1 */
+
+   We can look at local trunction error by
+   LTE(t,h) = y(t + h) - (y(t) + h Phi(t,y(t),h))
+** Butcher Table
+*** Overview
+    For generating RK methods. The cs get the column on the left, the bs get
+    the column on the right, and the as form a lower triangular table in the
+    middle.
+
+    For example, for Euler's method:
+    | c_i | a_ij | b_i |
+    |-----+------+-----|
+    | 0   |      | 1/2 |
+    | 1   | 1    | 1/2 |
+
+    and for Heun:
+    | c_i | a_ij | b_i |
+    |-----+------+-----|
+    | 0   |      |   0 |
+    | 1/2 | 1/2  |   1 |
+
+    *Practice*: RK4
+    | c_i | a_ij | a_ij | a_ij | b_i |
+    |-----+------+------+------+-----|
+    | 0   |      |      |      | 1/6 |
+    | 1/2 |  1/2 |      |      | 2/6 |
+    | 1/2 |    0 | 1/2  |      | 2/6 |
+    | 1   |    0 | 0    |    1 | 1/6 |
+
+    where the cs correspond to different time step add-ons (t_0 + h * c_i) and
+    the as correspond to weights on the Ks.
+
+    Correlation of stages and order:
+    | stages    | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+    |-----------+---+---+---+---+---+---+---+---|
+    | max order | 1 | 2 | 3 | 4 | 4 | 5 | 6 | 6 |
+
+    Therefore we may as well just stick to 4 or 5 - best bang for buck.
+*** Example
+   Say we have
+   | c_i | a_ij | a_ij | b_i |
+   |-----+------+------+-----|
+   | 0   |      |      | 1/6 |
+   | 1/2 | 1/2  |      | 2/3 |
+   | 1   | -1   | 2    | 1/6 |
+
+   Then we can generate the following RK rule:
+
+   K1 = f(t_k, y_k)
+   K2 = f(t_k + 1/2 h, y_k + h / 2 K1)
+   K3 = f(t_k + h, y_k + h (2 K2 - K1))
+
+   so y_1 approx y_0 + h/6 (K1 + 4 K2 + K3).
+** Bounding the Error of ODEs
+*** Convergence
+    Same for 1 or multi step methods
+    lim(m to inf, h to 0, mh = t - a) y_m = y(t) /* show convergence at a
+    single point */
+
+    If a step method (1 or multi) (if multi, of form 7.68) is convergent then
+    it must be consistent.
+*** Consistent Methods
+    if y0 = y(t_0) and
+    y_{k+1} = y_k = h_k phi(t_k, y_k, h_k)
+    is _consistent_ with y' = f(t,y) if phi(t,y,0) = f(t,y).
+*** Theorem 2
+    Assume that the updating function in a single-step method is continuous
+    with respect to h. Then this single-step method is consistent if and only
+    if its order is at least 1.
+
+    Assume that the method is consistent and order p. Then we may show that is
+    must be at least order 1.
+*** Theorem 3
+    If the updating function in a single-step method is continuous with respect
+    to h and Lipschitz with respect to y, then this method is convergent iff it
+    is consistent.
+
+    Use Theorems 7.4 and 2.
+*** Stability
+    If we know how much error we have initially, may we predict the error later
+    on?
+
+    If the difference at a later stage is proportional to the difference at a
+    later stage, or
+    NORM(yk - y~k) .LEQ. C NORM(y0 - y~0)
+    then the method is _stable_.
+
+    For _asymptotic stability_ - change in solution is proportional to change in
+    initial solution.
+
+    For _absolute stability_ - if any step is perturbed by some amount delta,
+    then the perturbation at a later step will not be more than delta.
+*** Bounding Roundoff Errors
+    Say that the incrementing function is Lipschitz with respect to y. Then we
+    can use Lemma 7.1 to bound the difference between two numerical
+    approximations (theoretical and actual).
+** RKF Methods
+*** Overview
+    We would like to change the step size so that we do not waste resources
+    when the slope is very low and minimize error when the slope is very high.
+** Multistep Methods
+   We wish to compute the next value as a linear combination of f evaluated at
+   previously known values. We can make it explicit by setting the constant on
+   the current term to zero.
+** Adams-Bashforth Methods
+   At the pth step we have p known points. We may interpolate a polynomial
+   based on the previous information and extrapolate out to the p+1 node.

@@ -1,0 +1,116 @@
+* Numerical Integration and Steklov's Theorem
+** (Cryer) Steklov's Theorem
+   Let Tx = INTEGRAL (a,b) x(t) dt. Let Tn be a sequence of quadrature formulae
+   such that
+
+       Tnx = SUM wk x(tk)
+
+   where the weights wk and the nodes tk do not depend on x. This quadrature
+   formulae converges for any x in C[a,b] if and only if:
+
+   1. the formulae converge for every polynomial.
+   2. the sum of the absolute values of the weights is bounded by some constant M
+      for all n.
+
+   Cryer uses the sum of the absolute values of the weights as the operator norm.
+   For Gaussian quadrature the weights are always positive (and they sum to 1).
+   They also converge for all polynomials.
+* Orthogonal Polynomials
+** General Properties
+   We say that polynomials are _orthogonal_ on some interval with a weight
+   function w(x) .GEQ. 0 if deg(f_k) = k and
+
+       INTEGRAL (a,b) fm(x) fn(x) w(x) dx = 0
+
+   for m .NEQ. n.
+
+   Orthogonal polynomials have unique (w.r.t. the weight function), simple
+   roots. The roots of the n+1th orthogonal polynomial are within intervals
+   created by the nth orthogonal polynomial.
+** Chebyshev Polynomials (Prasolov)
+*** Definition
+    The Chebyshev polynomials originate in polynomials of cosines, where
+
+        T (x) = cos(n phi)
+         n
+
+    is a polynomial for x = cos(phi).
+
+    The recurrence relationship
+
+        2 x T  (x) = T      (x) + T      (x)
+             n        n + 1        n - 1
+
+    is a consequence of
+
+        cos((n + 1) phi) + cos((n - 1) phi) = 2 cos(phi) cos(n phi)
+
+    which itself is derived from the cosine addition formula (the +1 and -1 sine
+    terms cancel, so all we have are the resulting cosine product terms)
+*** The Chebyshev Equioscillation Theorem
+    For some monic polynomial Pn(x), if abs(Pn(x)) .LEQ. 1/(2^(n-1)) for
+    abs(x) .LEQ. 1 then
+
+                Tn(x)
+        Pn(x) = ------
+                 n - 1
+                2
+
+    that is, the Chebyshev polynomial has the least deviation from zero on [-1,1].
+*** Roots of Chebyshev Polynomials
+    By definition
+
+                k pi
+        T  (cos(----)) = cos(k pi)
+         n       n
+                             k
+                       = (-1)
+
+    for k in [0..n]. Therefore Tn switches signs n+1 times in [-1,1], so Tn has
+    n roots in [-1,1].
+*** Other neat theorems
+    Chebyshev polynomials _commute under composition_: for x = cos(phi),
+
+        Tn(x) = cos(n*phi) = y, Tm(y) = cos(m(n*phi)) = cos(m*n*phi)
+
+    and, similarly, Tm(Tn(x)) = the same. Chebyshev polynomials are the only
+    nontrivial commuting polynomials.
+* Interpolatory Polynomials
+** (AAHS) General error bound
+   The general procedure for procuring an error bound is to examine the
+   function (for x != xi)
+
+       g(t) = f(t) - p(t) - PRODUCT (i) (t-xi)/(x-xi) (f(x) - p(x))
+
+   where the terms in the PRODUCT term are all the interpolatory roots. For
+   Hermite interpolation these are all squared (since we interpolate using both
+   function value and derivative value).
+
+   This function will have roots at t = x and t = xi, so we know that the
+   derivative of this function is zero in n + 1 places (for n interpolation
+   points). Therefore we may keep applying Rolles' Theorem recursively until we
+   are left with a single zero of the nth derivative (or 2nth for Hermite),
+   where the nth derivative of p should be zero (giving us an error bound for x
+   != xi).
+** Hermite error bound
+   This just uses squares of each point (that is, (x - xi)^2 instead of (x -
+   xi)) in the product term. There are enough derivatives on the f(s(x)) term to
+   make up for these 'extra points'.
+** Best Uniform Approximation
+   The important theorem for this guy is the equal-oscillation theorem:
+
+   Theorem 4.12: There exists a set of n + 2 points {xi} such that
+
+       abs(e(xi)) = NORM(f - p*, inf)
+
+   and
+
+       e(xj) = -e(xj+1)
+
+   (the error oscillates equally, hence the name of the theorem)
+
+   This has important consequences. We may find additional information about
+   the interpolating polynomial by calculating where the error is maximized
+   (points where the derivative of the error is zero on the interior).
+* Piecewise Approximation
+** Linears

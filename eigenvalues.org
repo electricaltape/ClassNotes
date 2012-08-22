@@ -1,0 +1,46 @@
+* Gerschgorin's Circle Theorem
+  Each eigenvalue of a matrix lies in some disk such that
+
+      {z in CC : abs(z - ajj) .LEQ. SUM (k != j) abs(ajk)}
+
+  where ajj is a diagonal entry and the summation is the absolute values of all
+  nondiagonal entries.
+* Hessenburg Decomposition
+  First, note that B^-1*A*B and A are *similar* (they have the same
+  eigenvalues). Therefore for any householder matrix U we get
+
+      spectrum(A) = spectrum(U*A*U)
+
+  Let sigma = sign(x(1))*NORM(x,2).
+  Let u = x + sigma*e1, theta = 1/2 * NORM(u,2)^2, U = I - 1/theta u u.T
+
+  then Ux = -sigma e1.
+
+  We may use this to column-by-column build a upper Hessenburg matrix that is
+  similar to A:
+
+      [ 1 0 ]   [a11 b1]   [1 0]   [a11        b1*U]
+      [ 0 U ] * [a1   B] * [0 U] = [-sigma*e1 U*B*U]
+
+  This reduces the first column to two nonzeros and the remainder zeros. For the
+  kth column:
+
+      [Ik 0]    [A11 A12]   [Ik 0]   [A11   A12*U]
+      [0  U]  * [H   A22] * [0  U] = [U*H U*A22*U]
+
+
+   so we may do whatever we need to to H by proper selection of U.
+* QR Method
+  The main trick is to observe that the iteration /* easy version: no shifts */
+
+      A_k = Q_k*R_k
+      A_(k+1) = R_k*Q_k
+
+  produces a unique QR factorization (the products of Qks and Rks all the way
+  down to k = 1) for A_k. By careful analysis one can show that _another_ QR
+  decomposition has the property that the subdiagonal entries of Ak are
+  approaching zero. Therefore by uniqueness this _easy-to-build_ QR iteration
+  technique converges to an upper triangular matrix.
+
+
+

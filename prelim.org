@@ -1,0 +1,337 @@
+* DONE EMAIL DRAYTON EVERYTHING
+  CLOSED: [2012-08-15 Wed 22:21]
+* DONE Nonlinear Equations
+  CLOSED: [2012-07-31 Tue 10:56]
+** Fixed point methods
+** Multidimensional solvers
+* DONE Linear Algebra
+  CLOSED: [2012-08-12 Sun 12:29]
+** DONE General
+   CLOSED: [2012-07-31 Tue 10:56]
+** DONE Direct Solvers
+   CLOSED: [2012-07-31 Tue 10:56]
+** DONE Iterative Solvers
+   CLOSED: [2012-08-12 Sun 12:29]
+   see numericalLinearAlgebra.org
+* DONE Eigenvalues
+  CLOSED: [2012-08-10 Fri 19:51]
+** DONE QR Factorization
+   CLOSED: [2012-08-10 Fri 19:52]
+   Givens rotations! Gram Schmidt!
+
+   Givens matricies are reviewed elsewhere. Gram Schmidt involves
+   orthogonalizing the column space of A
+* DONE Interpolation
+  CLOSED: [2012-07-31 Tue 10:56]
+** By Interpolation Points
+** Pieceswise
+* DONE Numerical Calculus
+  CLOSED: [2012-08-10 Fri 20:13]
+** DONE Numerical Differentiation
+   CLOSED: [2012-08-03 Fri 10:15]
+   Use finite differences. Derive those with Taylor methods. That is really the
+   end of it.
+** DONE Numerical Integration
+   CLOSED: [2012-08-06 Mon 16:30]
+* DONE ODEs
+  CLOSED: [2012-08-12 Sun 18:00]
+** DONE Single-Step Methods
+   CLOSED: [2012-08-12 Sun 18:00]
+** DONE Multistep Methods
+   CLOSED: [2012-08-10 Fri 20:13]
+   Review the formulae regularly.
+* Fun Facts for the Prelim
+  + Properties of the householder transformation
+  + How the Lipschitz constant bounds the error for single-step ODEs.
+
+    This is by Theorem 7.4:
+
+        max(y_k - y(t_k)) .LEQ. D/M * (exp(M*(b-a)) - 1)
+
+    where M is the Lipschitz constant for Phi. Typically M grows with the
+    Lipschitz constant L of f(t,y).
+  + If matrix A is strictly diagonally dominant then
+
+        norm(B_GS) .LEQ. norm(B_J) < 1.
+* Things to Review
+** DONE Memorize old-school iterative methods
+   CLOSED: [2012-08-15 Wed 23:50]
+   Jacobi: D*x_k+1 = -(L + U)*x_k + b /* solve the easy diagonal matrix   */
+   G-S: (L + D)*x_k+1 = -U*x_k + b    /* solve the easy triangular matrix */
+
+   SOR: (L + 1/sigma*D)*x_k+1 = -(U + (1 - 1/sigma)*D)*x_k + b
+   that is, reweight D for G-S to get a larger change.
+** DONE The 'take derivatives of interpolants' problem
+   CLOSED: [2012-08-16 Thu 12:46]
+   See the work below under Spring 2011 Prelim: Issues and Resolutions
+** TODO Symmetric eigenvalue problem
+   Yea, not so sure about this one.
+** DONE Tridiagonal Factorizations
+   CLOSED: [2012-08-15 Wed 21:33]
+   To guarantee: must be diagonally dominant with nonzero entries. This
+   guarantees the LU factorization exists.
+
+   Crout factorization: the 'unusual' one; U has a unit diagonal
+   Doolittle factorization: the 'usual' one; L has a unit diagonal
+** DONE The QR method
+   CLOSED: [2012-08-10 Fri 13:20]
+   The QR method involves the iteration
+
+       A_k   = Q_k*R_k
+       A_k+1 = R_k*Q_k
+** DONE Jargon for ODEs (stability, convergence, etc)
+   CLOSED: [2012-08-12 Sun 18:32]
+** TODO Problem Set 5 from the fall
+** TODO Newton-Kantorovich Theorem
+** DONE Diagonally Dominant Matricies
+   CLOSED: [2012-08-15 Wed 23:43]
+   During row reduction the intermediate forms are also diagonally dominant. The
+   Jacobi and G-S methods converge. That's really about it.
+* Things I have Reviewed (check these again later)
+** DONE machine arithmetic
+   CLOSED: [2012-08-12 Sun 18:44]
+   see machinedetails.org
+** DONE Adams-Bashforth methods (alphas and betas)
+   CLOSED: [2012-08-12 Sun 18:33]
+** DONE Rates of convergence for sequences
+   CLOSED: [2012-08-09 Thu 09:58]
+** DONE Peano kernels
+   CLOSED: [2012-08-09 Thu 09:58]
+   for some point in the domain y,
+
+       f(y) - P_n(y) = E_n(f,y) = INTEGRAL (a,b) K_m(t) f^(m)(t) dt
+
+   where
+
+       K_m(t) = 1/((m-1)!)*((y - t)_+^(m-1) - SUM (k=0,n) (x_k - t)_+^(m-1) l_k(y))
+** DONE Interval of stability for ODEs
+   CLOSED: [2012-08-09 Thu 09:59]
+** DONE Dealing with Multiple Roots
+   CLOSED: [2012-08-12 Sun 18:33]
+   f(x) = (x - p)^m*g(x), g(p) /= 0
+** DONE Mean Value Theorem for Integrals
+   CLOSED: [2012-08-11 Sat 20:48]
+   if w(x) .GEQ. 0 then
+
+       INTEGRAL w(x) f(x) = f(c) INTEGRAL w(x)
+
+   for some c in (a,b).
+
+   Say that we know where w(x) changes sign, i.e. w(x) < 0 on (a,b) and w(x) > 0
+   on (b,c). Then
+
+       INTEGRAL (a,c) w(x) f(x) dx = INTEGRAL (a,b) w(x) f(x) dx
+                                   + INTEGRAL (b,c) w(x) f(x) dx
+           = INTEGRAL (b,a) -w(x) f(x) dx + INTEGRAL (b,c) w(x) f(x) dx
+           = f(c1) INTEGRAL (a,b) w(x) dx + f(c2) INTEGRAL (b,c) w(x) dx
+
+   so we may use this approach to pull out bounds on interior functions.
+* Random Facts
+** Rayleigh Quotients
+   Say we have an approximate eigenvector x. What is the 'best' guess for the
+   associated eigenvalue? That is, find the 'best' lambda for A*x = lambda*x.
+
+   Think of this as a least-squares problem. The coefficient matrix is x and the
+   desired output is Ax. Then
+
+       lambda*x ~ A*x         /* approximate equality */
+       x.T*lambda*x = x.T*A*x /* lambda and x are both approximate */
+
+   which gives us the _Rayleigh quotient_, or
+
+       lambda = x.T*A*x / x.T*x
+
+   Therefore *the Rayleigh quotient does well because it is the best
+   approximation to an eigenvalue given an approximate eigenvector*
+** Chain Rule for f(t,y(t))
+   d/dy(t) f(t,y(t)) = f(t,y(t))*df/dy(t,y(t))
+** Integrating Step Functions
+   The rule
+
+       INTEGRAL (a,b) H(t) dt = H(b)*b - H(a)*a
+
+   is handy. WLOG assume that a < b.
+   + Assume that both a and b are positive. Then we are just integrating one.
+   + Assume that a is negative. The integral is just equivalent to
+
+         INTEGRAL (a,b) H(t) dt = INTEGRAL (0,b) dt
+
+     which is covered.
+   + If both are negative then the whole thing is zero.
+
+   I cannot determine a general rule for something like (y - t)^3_+; Mathematica
+   is the champ there.
+** Condition Numbers
+       K(A) = sqrt(u1/un) where ui is an eigenvalue of A.H*A
+** Spectral Radius
+   The spectral radius is always bounded by induced matrix norms:
+
+       rho(A) .LEQ. NORM(A)
+** Polynomial Error Bound
+   To prove the polynomial interpolation error bound: use
+
+       g(t) = (f(t) - p(t)) - (f(x) - p(x)) PRODUCT (t - xi)/(x - xi)
+
+   Note that this guy has n+2 roots (at xis and x).
+
+   therefore, taking the n+1th derivative wrt t:
+
+       g^(n+1)(c) = (f^(n+1)(t) - p^(n+1)(t))
+           - (f(x) - p(x)) PRODUCT n!/(x - xi)
+
+   so, by rearranging and canceling (p^(n+1)(x) = 0) we get the classic error
+   formula.
+** Gauss Quadrature Error Bound
+   Start with the formula for interpolation error with Hermite polynomials:
+
+       f(x) - h(x) = f^(2*m + 2)(c(x))/((2*m + 2)!) * PRODUCT (x - xi)^2
+
+   Multiply both sides by the weight function and integrate from a to b. We may
+   apply the mean value theorem for integrals since the product term is
+   nonnegative (also rename the product term to be p(x)):
+
+       INTEGRAL (a,b) rho(x) (f(x) - h(x)) dx =
+       f^(2*m + 2)(c)/((2*m + 2)!)* INTEGRAL (a,b) rho(x) p(x) dx
+
+   The summation approximation of the integral is exact for h(x). Therefore we
+   may substitute that in (and that is also the approximation of the integral of
+   f(x)). Now we have
+
+       INTEGRAL (a,b) rho(x) f(x) dx - SUM (i=0,m) Ai f(xi) =
+       f^(2*m + 2)(c)/((2*m + 2)!)* INTEGRAL (a,b) rho(x) p(x) dx
+
+   After a coordinate transformation z = (x - a)/(b - a), we get that
+
+       E(f) = f^(2*m + 2)/((2*m+2)!)*H^(2*m + 3)*beta
+
+   where H = b - a and
+
+       beta = INTEGRAL (0,1) rho(z(b-a) + a) PRODUCT (z - zi)^2 dz
+
+   so as long as rho is bounded (it is!) we can bound beta with something
+   independent of coordinate systems.
+** Summation Formulae
+                      n (n + 1)
+    SUM(i = 1, n) i = ---------
+                          2
+
+                   2   n (n + 1) (2 n + 1)
+    SUM(i = 1, n) i  = -------------------
+                                6
+    a
+** Stein-Rosenberg Theorem
+   Given the iteration matricies for the Jacobi method and G-S method, either
+   both methods converge or both diverge.
+* Prelim Analysis
+** What will *probably* be on the prelim?
+   + six questions, six chapters
+   + We covered chapters {1, 2, 3, 4, 5, 6, 7, 8}
+
+   however, chapters 2 and 8 (nonlinear equations of one and many variables) are
+   very similar. All of the chapter 1 stuff is *very* simple, so as long as I
+   know what floating point arithmetic is I should ignore that.
+
+   Ignoring chapter 1, then, we have the following question list:
+   1. Nonlinear equations
+   2. Linear equations
+   3. Eigenvalues and eigenvectors
+   4. Polynomial Interpolation
+   5. Numerical Calculus
+   6. ODEs
+** Based on that, what are the *most likely* questions in each section?
+*** 1. Nonlinear equations
+    + Newton's method
+    + fixed point method
+    + rates of convergence of sequences
+    + Frechet/Gateaux derivatives
+*** 2. Linear Equations
+    + LU factorization
+    + GEPP
+    + Cholesky Factorization
+    + Iterative Methods (Jacobi, Gauss-Seidel, SOR)
+    + Krylov Methods (steepest descent, CG)
+*** 3. Eigenvalues and Eigenvectors
+    + (inverse) power method
+    + QR factorization
+    + Givens rotations
+    + Householder transformations
+*** 4.
+    aaa
+
+* Spring 2011 Prelim: Issues and Resolutions
+** Proving the upper bound on interpolation error
+   I am not sure (I doubt I am expected to know this anyway) how to prove that
+   the Gauss Quadrature rules are optimal. However, the 2*n + 1 accuracy bound
+   is straight-forward to prove.
+
+   Assume that P(x) is an order 2*n + 1 polynomial that interpolates f(x). Then,
+   by polynomial division (for p(x) a Legendre polynomial of order n+1)
+
+       P(x) = q(x)*p(x) + r(x)
+
+   where q(x) and r(x) are guaranteed to be of order n+1 or less. Note that
+   p(x_i) = 0 where x_i is a root of the n + 1th Legendre polynomial
+   (duh). Therefore
+
+       INTEGRAL P(x) = INTEGRAL q(x)*p(x) + INTEGRAL r(x)
+                     = INTEGRAL r(x) /* cancel 1st integral by orthogonality */
+
+   so applying the Gauss Quadrature rule to P(x) is identical to the Gauss
+   Quadrature rule applied to r(x), which is exact (n+1 points, n+1 order
+   polynomial). Therefore done.
+** Do elementary transformations preserve strict diagonal dominance?
+   This is true (exercise 2.3.12, Stewart).
+
+   Consider the 'worst' case:
+
+       SUM (i=3,n) abs(a(2,i)) + abs(a(2,1)*a(1,i)/a(1,1))
+       = SUM (i=3,n) abs(a(2,i)) + abs(a(2,1))*SUM abs(a(1,i)/a(1,1))
+
+   where the second sum in the second line is less than one. Therefore this new
+   'worst-case' summation is bounded by the original one, so each row is still
+   diagonally dominant.
+** That goofy 'solve B.T*B*x = b by G-S' problem
+   A is orthogonal, alpha > 1
+   B := alpha*I - A
+
+   prove that B.T*B*x = b converges by G-S.
+
+       G-S: (L + D)*x_k+1 = -U*x_k + b
+
+   B = (1 + alpha)^2*I - alpha*(A + A.T)
+
+   what we really want is for B to be SPD; if so then G-S converges without
+   problems.
+
+   That part is *really* easy: the eigenvalues of A must be of modulus 1, so the
+   eigenvalues of A - alpha*I cannot be zero. Therefore B is invertible -> B.T*B
+   is SPD -> G-S (or any SOR method) converges.
+** Error in the derivatives of an interpolating Hermite polynomial
+   Not so sure about this one. I'll have to ask about this guy and determine
+   some general strategy for finding derivatives of interpolating polynomials
+   (Dr. Lin really likes this question)
+
+   Dr. Lin says: Let
+
+       e(x) = H(x) - f(x)
+
+   so e'(xi) = e'(xi+1) = e(xi) = e(xi+1) = 0 and there is some constant c such
+   that e'(c) = 0. Therefore e' has three roots. Therefore by Rolles' theorem
+   e'' has two roots and e''' has one root. Call one of each of these roots y1,
+   y2, and y3. Then
+
+       abs(e'''(x)) .LEQ. INTEGRAL (y3,x) abs(e''''(z)) dz
+                    /* note that H''''(x) = 0 */
+                    .LEQ. INTEGRAL (y3,x) abs(f''''(z)) dz
+                    .LEQ. abs(f'''(C))*INTEGRAL (y3,x) dz
+                    = C (x - y3)
+
+  so we have a bound on e'''. We may use this bound and the integral
+  intermediate value theorem to compute a bound on abs(e''(x)), and use _that_
+  bound on abs(e'(x)). Then we are done.
+** Symmetric Power Method
+   For a Hermitian matrix the eigenvectors are orthogonal (nondefective). One
+   can apply this to the Rayleigh quotient formulation of the estimation of the
+   largest eigenvalue to get a lot of nice cancelation. I don't understand
+   AAKS' approach here, and none of my other books have relevant information to
+   this technique.

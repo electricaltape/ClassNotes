@@ -1,0 +1,25 @@
+* Floating Point Representation
+** Overview of Double Precision (Wikipedia)
+   + 1 sign bit
+   + 11 exponent bits
+   + 53 significand bits (52 explicit)
+** How does the significand work?
+   If the exponent is all zeros then the implied digit is a zero (this is when
+   we have zero the additive identity element). Otherwise this digit is assumed
+   to be one.
+** How does the exponent work?
+   the exponent is a multiplicative offset
+
+       2^(e - 1023)
+
+   note that (- (expt 2 11) 1) => 2047, so this offset lets the exponent range from
+   -1023 to 1024.
+** Fun Facts about spacing
+*** Where does double precision only store integers?
+    between 2^52 and 2^53 no decimal parts are possible. Between 2^53 and 2^54
+    we can only store even integers.
+* DONE Error Analysis of Floating Point
+  CLOSED: [2012-08-12 Sun 18:42]
+  abs(x - fl(x)) .LEQ. 0.5*abs(x)*beta^(1-t)*p
+  where p is 1 for rounding and 2 for chopping.
+

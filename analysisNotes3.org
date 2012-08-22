@@ -20,15 +20,201 @@
   subsumed by abstract stokes theorem and differential forms.
   *Measure theory?* We will discuss a few other kinds of integrals that are
   equivalent to Lebesgue.
-* Homework 1
-  138 1-4, due January 27
+* Homework
+** Homework 1
+   138 1-4, due January 27
 
-  tack-on : INTEGRAL (0,1) f(x) dx = 0, where
-  f(q) = 1/n for x = m/n rational
-  f(0) = 0
-  f(x) = 0 for x irrational.
+   tack-on : INTEGRAL (0,1) f(x) dx = 0, where
+   f(q) = 1/n for x = m/n rational
+   f(0) = 0
+   f(x) = 0 for x irrational.
 
-  #5: Converse of 6.11, special case - show that if f^2 in R(alpha) then f in R(alpha).
+   #5: Converse of 6.11, special case - show that if f^2 in R(alpha) then f in R(alpha).
+** Homework 2
+*** Hints/Setup
+    f(q) = 1/n for x = m/n rational
+    f(0) = 0
+    f(x) = 0 for x irrational.
+*** Problem 2
+    We needed a better definition for alpha-continuous.
+
+    Given epsilon > 0, exists deltax > 0 such that s,t in (x - deltax, x +
+    deltax) .INTERSECT. [a,b] impiles that abs(f(s) - f(t)) < alpha.
+
+    + f is *alpha continuous* if f is alpha continuous at each point in the
+      domain.
+
+    + f is *uniformly alpha continuous* if deltax = delta > 0 is independent of
+      x.
+**** Proofs
+***** Proof 1
+      Take (x - 1/2deltax, x + 1/2deltax) to cover [a,b]. By compactness there
+      is a finite subcover I_x1, I_x2, ... , I_xn. Take
+      delta = min(1/2 deltaxi) for each deltaxi in the finite subcover.
+
+      Now suppose that x in [a,b]. Choose s and t in (x - delta, x +
+      delta). We claim that abs(f(s) - f(t)) < alpha; this works as
+      abs(x - xi) < 1/2 deltaxi, so abs(s - xi) .LEQ. abs(s - x) + (x - xi) <
+      deltaxi. The same holds for t, so
+
+      abs(f(s) - f(t)) < alpha.
+***** Proof 2 - by contrapositive
+      Assume that f is not uniformly alpha-continuous. Then there exists a
+      sequence in [a,b] and points sn, tn in (xn - 1/n, xn + 1/n) so that
+      abs(f(sn) - f(tn)) .GEQ. alpha.
+
+      Therefore, by Bolzano-Weirstrass, there exists a subequence os xns  that
+      converge to x0 in [a,b]. Therefore sn -> x0, tn -> x0.
+
+      Fix delta > 0, so sn, tn in (x0 - delta, x0 + delta), so for n large
+      enough,
+
+      abs(f(sn) - f(tn)) .GEQ. alpha
+
+      so f is not alpha-continuous at x0.
+*** Problem 3
+    Let f be Thomae's function. L is easy to find in this problem (always
+    zero), so we only really worry about U.
+
+    Choose N with 1/N < epsilon/2. Then there are only finitely many ts (t1
+    .. tk) with f(tk) .GEQ. epsilon/2. Choose P such that
+
+    SUM (length(interval_i)) < epsilon/2
+
+    Therefore, if we split the sum in to rational and nonrational tags,
+
+    U(P,f) = SUM Mi l(Ii) + SUM Mi l(Ii) .LEQ. epsilon/2 + epsilon/2.
+** Homework 3
+*** Hints
+    Given a gauge delta, there exists a delta-fine tagged partition /* have to
+    be careful - what if we are talking about the empty set? */
+
+    f(x) = 1 for x rational, f(x) = 0 for x irrational
+
+    is HK integrable. Why?
+** Homework 4
+*** Hints
+    #1 - we already noted that
+    fn(t) = (f(t + 1/n) - f(t))/(1/n)
+    for x^2 sin(1/x) exists in one order but not the other.
+
+    #2 - Again, from last semester
+    x[m][n] = 1 if m .GEQ. n, 0 otherwise. Therefore we can take the n limit
+    first and get zero, and take the m limit first and get 1 - problematic!
+
+    *The Fix* Assume that at least one limit exists uniformly with respect to
+    the other index, that is: given epsilon > 0, exists N(epsilon) (independent
+    of m) such that for all m and n .GEQ. N(epsilon),
+    abs(x[m][n] - y[m]) < epsilon
+*** Solutions
+**** Problem 1
+     Cauchy Solution: Let NORM(fn) .LEQ. NORM(fn - fN) + NORM(fN)
+**** Problem 4
+     Uniform Convergence: should be convergent excluding neighborhoods around singularities
+** Homework 5
+*** Number 9
+    Uniform convergence implies continuity. Be sure to place x_n2 close enough
+    to x so that we get the bound we want.
+
+    For all x_n with x_n -> x, does fn(x_n) -> f(x) imply that fn converges
+    uniformly to f? No.
+
+    However, the converse is true if the domain is compact. Negate the
+    definition of uniform convergence - for n > N and xn in E,
+
+    abs(fn(xn) - f(xm)) .GEQ. epsilon0.
+
+    By Bolzano-Weirstrass, without loss of generality, xn -> x0 and f
+    continuous implies that f(xn) -> f(x0). Then
+
+    abs(fn(xn) - f(x0)) .LEQ. epsilon0 for all n. Therefore by contrapositive
+    we have that the claim is valid.
+*** Number 13
+    should show that f is uniformly continuous on positive real numbers.
+*** Number 16
+    fn -> pointwise f, {fn} equicontinuous -> fn converges uniformly.
+
+    Let epsilon > 0. Pick delta(epsilon). Then we can use compactness as:
+    K subset Ndelta(x1) U Ndelta(x2) ... for finitely many xis.
+
+    Then for abs(fn(xj) - f(xj)) < epsilon, for n .GEQ. Nj.
+
+    Let N be the maximum of the Njs. Then for n .GEQ. N, and x in K with
+    d(x,xj) < delta,
+
+    abs(fn(x) - f(x)) .LEQ. abs(fn(x) - fn(xj)) + abs(fn(xj) - f(xj)) +
+    abs(f(xj) - f(xj)) and use a 3 epsilon arguement.
+
+    *Proof 2* Apply Ascoli-Arzela. Use the fact that pretty much everything is
+    bounded. Also use the fact that the uniform limit must be the same as the
+    pointwise limit.
+*** Number 19
+**** Proof 1
+     Let S be in C(K), where K is compact. Show that S is compact iff S is:
+     + uniformly closed,
+     + pointwise bounded,
+     + equicontinuous.
+
+     We cannot use the usual 'continuous on compact implies bounded' because,
+     while each function is bounded, we want ALL functions to be
+     bounded. Consider K = [0,1] and f_n(x) = nx. The supremum over this is not
+     bounded.
+
+     We need another theorem: for metric space X, X compact implies X closed and
+     bounded.
+
+     S compact implies that
+     + S is uniformly closed (i.e. closed, as it is a subspace of a metric
+       space) by general topology theorem. This implies that S is bounded, as it
+       is a subset of C(K).
+     + Therefore S is bounded as a subset of C(K); again by general topology
+       (compact metric space)
+     + For equicontinuity: let epsilon > 0. Then S is contained in neighborhoods
+       N_f(epsilon), where Nf(epsilon) consists of
+       {g in C(K) : norm(g - f)_uniform < epsilon}
+       Therefore as S is compact, it is a subset of a finite number of these
+       unions. Each particular f_i is uniformly continuous as K is compact
+       /*continuous function on a compact set*/. Therefore there exists some
+       delta_i > 0 s.t. d(y,x) < delta_i -> abs(fi(x) - fi(y)) < epsilon. Let
+       delta be the *smallest of the finitely many f_is*.
+
+       Suppose that x,y are in K. Then d(x,y) < delta, f in S. Choose i s.t.
+       norm(f - fi) < epsilon /*as it is a cover*/. Then
+       abs(f(x) - f(y)) .LEQ. abs(f(x) - fi(x)) + abs(fi(x) - fi(y)) < abs(fi(y)
+       - f(y)) < 3 epsilon
+**** Proof 2
+     Following Rudin's hint:
+     by contrapositive; if S is not equicontinuous then S is not sequentially
+     compact.
+
+     Assume NOT (epsilon > 0, exists delta(epsilon) s.t. x,y in K with d(x,y) <
+     delta(epsilon) and f in S -> abs(f(x) - f(y)) < epsilon)
+
+     Therefore there exists some epsilon0 s.t. forall delta > 0, exists xd, yd
+     in K with d(xd,yd) < delta and exists fd in S where abs(f(xd) - f(yd))
+     .GEQ. epsilon0
+
+     We can apply this with delta = 1/n; for xn, yn in K, fn in S with d(xn,
+     yn) < 1/n and abs(fn(xn) - fn(yn)) .GEQ. epsilon0, let {fn}_k be any
+     subsequence of these guys.  Then for any delta > 0, exists xd yd where
+     d(xd, yd) < delta nad fd in {fnk} with
+     abs(fd(xd) - fd(yd)) .GEQ. epsilon0, so the whole subsequence is not
+     equicontinuous. Therefore the subsequence cannot converge uniformly to any
+     f.
+     *Recall Theorem 7.24* K compact, fnk in C(K) for k = 1,2,3, ...
+     f_n_k converges uniformly to f -> {fnk} equicontinuous; the contrapositive
+     of this statement is the last link in the chain.
+**** Proof of Converse
+     Assume that S satisfies
+     1. uniformly closed
+     2. pointwise bounded
+     3. equicontinuous
+
+     Then S is sequentially compact in C(K).
+
+     Easy to prove. for some sequence {fn}, as it is pointwise bounded,
+     equicontinuous there exists a uniformly convergent subsequence by
+     Ascoli-Arzela. Done.
 * Integrals
 ** Partition
    finite set of points x_i where
@@ -520,14 +706,1324 @@
      Then abs(INTEGRAL f dalpha) = c INTEGRAL f dalpha = INTEGRAL c f dalpha
      .LEQ. abs(c f) dalpha as cf .LEQ. f everywhere.
 ** Heaviside Function and Theorem 6.15
-   Define the Heaviside step function such that it is zero at x = 0. If a < s <
-   b, f is bounded on [a,b], f is continuous at s, and alpha(x) = I(x - s) then
+*** Overview
+    Define the Heaviside step function such that it is zero at x = 0. If a < s <
+    b, f is bounded on [a,b], f is continuous at s, and alpha(x) = I(x - s) then
 
-   INTEGRAL (a,b) f dalpha = f(s)
+    INTEGRAL (a,b) f dalpha = f(s)
 *** Proof
     Consider P = {a = x0, x1, x2, x3 = b}. Then
     U(P, f, alpha) = M2 = sup (f(x), x in [s,x2])
     L(P, f, alpha) = m2
 
-    f continuous at s -> M2 and m2 -> f(s) x2 -> s; done
+    f continuous at s -> M2 and m2 -> f(s) x2 -> ; done
+** Dirac Delta Function
+   A 'function' on RR - 0 at x /= s, 'big' at x = s. This is done so that
 
+   INTEGRAL (over RR) f(x) d_s(x) = f(s).
+** Theorem 6.16
+   Let cn .GEQ. 0 for n = 1,2,3,... where SUM cn *converges*. Let {sn} be
+   distinct points in [a,b],
+
+   alpha(x) = SUM cn I(x - sn) /*I is the Heaviside step function*/
+
+   if f is left continous on [a,b] then INTEGRAL (a,b) f dalpha = SUM cn f(sn)
+   (put another way, INTEGRAL (a,b) 1 dalpha = SUM c_n)
+**** Last semester: countable discontinuities in a monotone function
+     we can write h(x) = SUM (sn .LEQ. x) = INTEGRAL (a to x) 1 dalpha
+**** Proof
+     Let epsilon > 0. Choose N so that SUM cn < epsilon.
+     put alpha1(x) = SUM c_n I(x - sn)
+
+     so-called boring result:
+     Therefore INTEGRAL (a,b) f dalpha1 = SUM (i=1 to N) ci f(si)
+
+     Since alpha2(b) - alpha2(a) < epsilon,
+
+     abs(INTEGRAL (A,B) f dalpha2) .LEQ. M(alpha2(b) - alpha2(a)) = Mepsilon.
+
+     Therefore abs(INTEGRAL (a,b) f dalpha - SUM cn f(sn)) < Mepsilon
+
+     Therefore, as epsilon is arbitrary, the integral equals the sum.
+*** Other extreme - Theorem 6.17
+    Let alpha be increasing, alpha' be Riemann integrable on [a,b]. Let f be a
+    bounded, real valued function on [a,b], so (f in R(alpha) <=> falpha' in R)
+    and then INTEGRAL (a,b) f dalpha = INTEGRAL (a,b) f(x) alpha'(x) dx
+**** Proof
+***** Part 1
+      Let epsilon > 0. Apply theorem 6.6 (Cauchy criterion) to the statement
+      (alpha' in RR). Therefore there exists a partition P (x0=a, xn=b) with
+      (*) U(P,alpha') - L(P,alpha) < epsilon.
+
+      By the mean value theorem, we may find ti in the open interval [x{i-1},
+      xi] with Delta alphai = alpha'(ti | Delta xi) for i = 1..n.
+
+      If si in [x{i-1}, xi] then
+      SUM (i=1 to n) abs(alpha'(si) - alpha'(ti)) Delta xi < epsilon
+      due to (*). /*ti is forced on us by the mean value theorem*/
+
+      Let M = sup abs(f(x)) on [a,b]. Since
+      SUM f(si) Delta si = SUM f(si) alpha'(ti) Delta xi
+      then abs(SUM f(si) Delta alphai - SUM f(si) alpha'(si) Delta xi)
+      = abs(SUM f(si) [alpha'(ti) - alpha(si)] Delta xi)
+      .LEQ. M SUM (alpha(ti) - alpha'(si)) Delta xi < Mepsilon by (*).
+
+      in particular,
+
+      SUM f(si) Delta alphai .LEQ. U(P,f,alpha') + Mepsilon.
+
+      for all si in [x{i-1}, xi], then
+      U(P,f,alpha) .LEQ. U(P,f,alpha') + Mepsilon.
+***** Part 2
+      SUM f(si) alpha'(si) Delta xi .LEQ. abs(SUM f(si) Delta alphai) +
+      Mepsilon
+      therefore U(P,f*alpha') .LEQ. U(P,f,alpha) + Mepsilon.
+
+      Thus abs(U(P,f,alpha) - U(P,f*alpha')) .LEQ. Mepsilon
+
+      all this holds when we refine the partition.:
+      upper INTEGRAL f dalpha - upper INTEGRAL f(x) alpha'(x) dx .LEQ. Mepsilon
+      and as epsilon is arbitrary,
+      upper INTEGRAL f dalpha = upper INTEGRAL (x) alpha'(x) dx.
+***** Conclusion
+      Therefore if f is Riemann Integrable with respect to alpha, falpha' is
+      Riemann integrable.
+** Change of variable theorem
+   Let phi be strictly increasing on [a,b] (1-1, onto). Let alpha be
+   increasing on [a,b], f in RR(alpha) on [a,b].
+   /* phi need not be differentiable */
+
+   Define belta, g on [A,B] by
+
+   beta(y) = alpha . phi(y)
+   g(y) = g . phi(y)
+
+   Then g in RR(beta) and
+   INTEGRAL (A,B) g dbeta = INTEGRAL (a,b) f dalpha
+
+   also: INTEGRAL (A,B) f . phi d(alpha . phi) = INTEGRAL (a,b) f dalpha.
+**** Special case : alpha(x) = x
+     INTEGRAL (A,B) f . phi(x) phi'(x) dx = INTEGRAL (a,b) f(y) dy
+**** Proof
+     To each partition P [x0..xn] of [a,b], corresponds Q = [y0..yn] of [A,B].
+     xi = phi(yi). THis is a 1-1 correspondence because of the invertibility of
+     phi. Therefore
+
+     {values of f on [x{i-1}, xi]} = {values of g on [y{i-1}, yi]}
+     so U(Q,g,beta) = U(P,f,alpha) and L(Q,g,beta) = L(P,f, alpha)
+
+     THerefore everything has to line up:
+     INTEGRAL (A<B) g dbeta = INTEGRAL (a,b) f dalpha
+** Fundamental Theorem of Calculus - Theorem 6.20
+*** Overview
+    f in R on [a,b]. For a .LEQ. x .LEQ. b, let F(x) = INTEGRAL (a,x) f(t)
+    dt. Then F iscontained on [a,b] and
+    (f continuous at x0 -> F differentiable at x0 and F'(x0) = f(x0))
+*** Proof
+    Say that abs(f(t)) .LEQ. M for a .LEQ. t .LEQ. b.
+
+    Then if a .LEQ. x < y < b then
+    abs(F(x) - F(y)) = abs(INTEGRAL (x,y) f(t) dt)
+    .LEQ. INTEGRAL (x,y) abs(f(t)) dt .LEQ. M abs(y - x)
+    so F is continuous on [a,b].
+
+    Assume that f is continuous at x0. Therefore, for epsilon > 0, exists delta
+    > 0 such that
+
+    abs(f(t) - f(x0)) < epsilon for abs(t - x0) < delta, a .LEQ. t
+    .LEQ. b. Therefore
+
+    abs((F(t) - F(s))/(t - s) - f(x0))
+    = abs(1/(t-s) INTEGRAL (s,t) f(x) - f(x0) dx)
+    /* trick: */ f(x0) = 1/(t-s) INTEGRAL (s,t) f(x0) dx
+    Therofer we may rewrite this as
+    abs(1/(t - s) INTEGRAL (s,t) (f(x) - f(x0)))
+    .LEQ. 1/(t-s) INTEGRAL (s,t) abs(f(x) - f(x0)) dx
+    < epsilon/(t - s) INTEGRAL (s,t) 1 dx < epsilon.
+*** Companion - Dual Fundamental Theorem of Calculus
+    Start with F instead of f.
+    given F : [a,b] -> RR. F differentiable [a,b], say f = F'.
+    F(x) = F(a) + INTEGRAL (0,x) f(t) dt
+
+    This is true with an additional assumption - F' = f in RR
+*** Lebesgue-ification
+    Let f be in LL - then the fundamental theorem holds almost everywhere.
+*** Version 2
+    Given F such that F'(x) exists for x in [a,b] - let F' = f. if f is Riemann
+    integrable, we may recover F by
+
+    F(x) = F(a) + INTEGRAL (a,x) f(t) dt.
+**** Proof
+     Let epsilon > 0 and choose some partition P, so
+
+     U(P,f) - L(P,f) < epsilon.
+
+     *mean value theorem* - exists some ti in [x{i-1}, xi] with
+     F(xi) - F(x{i-1}) = f(ti)
+
+     Thus, SUM f(ti) Delta xi = SUM (F(xi) - F(x{i-1})) = F(b) - F(a)
+
+     L(P,f) .LEQ. SUM f(ti) Delta xi .LEQ. U(P,f) /* squeeze it */
+** Does F differentiable imply that F' is Riemann integrable?
+   Not always (yes if F' is continuous - the assumption of 1206)
+
+   Recall our friend g(x) = x^2 sin(1/x), g(0) = 0. This is nice everywhere
+   but 0 (g not continuous at 0)
+
+   /* this uses Abbott's example of a function that is differentiable but not
+   integrable. */
+
+   Bottom line - exists f differentiable on [0,1] where f' is discontinuous at
+   every point in the cantor set.
+
+   modification - there exists a cantor set of positive measure.
+   countable disjoint union of open intervals with sum of lengths less than
+   one.
+
+   so we have a function for which the fundamental theorem of calculus does
+   not apply - we are not able to integrate its derivative and regenerate the
+   original function.
+** How may we patch our definition of integral to cover this problem?
+   from 1206 - Given that INTEGRAL (a,b) f(x) dx = J, given epsilon > 0, there
+   exists some delta > 0 where por all partitions P with max step size less
+   than delta and all choices of tags t1 .. tn /* where ti in [x{i-1}, xi] */
+   it happens that
+
+   abs(S(P,{ti}, f) - J) < epsilon where S(...) is just the sum f(ti) Delta xi
+
+   /* previously we used Darboux integrals with L and Us */
+   Theorem - Darboux integrals are equivalent to the above definition of the
+   Riemann integral. The proof is in abbott.
+** A new integral - *Riemann Complete*, or *HK*
+*** Definition
+    /* Henstock-Kurzweil integral */
+    if F :: [a,b] -> RR is differentiable at each x in [a,b] then F' is
+    *HK-integrable* and F(b) - F(a) = HK INTEGRAL (a,b) F'(x) dx.
+
+    *mesh(P)* - smallest stepsize in P.
+    *Gauge* - a strictly positive function (x -> d(x) > 0) /* determines
+    interval around x */
+    *Tagged Partition* - {a = x0 < x1 < ... < xn = b} includes tags ti in
+    [x{i-1}, xi]
+    *delta-fine* - each [x{i-1}, xi] .SUBSET. (-delta(ti) + ti, ti + delta(ti))
+    /* neighborhood around ti assigned by the gauge */
+    if delta(t) = delta = constant then we get the same thing as mesh(P) <
+    delta
+    Finally, define S(P, f) = SUM f(ti) (xi - x{i-1})>
+
+    if INF delta(t) = delta0 > 0 and mesh(P) < delta0, then P is delta-fine.
+
+    If delta is not bounded below by a positive number then for any delta0 > 0
+    there are P with mesh(P) < delta0 but P not delta0-fine /* some intervals
+    may be larger */
+
+    We say that f is *HK-integrable* if for all epsilon > 0, there exists some
+    gauge delta(t) > 0 such that P delta-fine implies abs(S(P(with-tags), f) -
+    J) < epsilon.
+*** Analog to Partition Refinement
+    We refine the gauges instead.
+    delta1 < delta2  if delta1(t) .GEQ. delta2(t) /* neighborhood in delta2
+    contained by neighborhood in delta1 */
+*** Uniqueness
+    WE say that J = HK INTEGRAL (a,b) f(x) dx is uniquely determined whenever
+    there exists some
+
+    abs(S(P1 (with tags),f) - J1) < epsilon
+    abs(S(P2 (with tags),f) - J2) < epsilon
+
+    if P1 is delta1 fine and P2 is delta2 fine, define a new gauge
+    delta(t) = min({delta1(t), delta2(t)})
+
+    Find a common P which holds for J1 and J2. Then
+
+    abs(S(P,f) - J1) < epsilon
+    abs(S(P,f) - J2) < epsilon which implies by the triangle inequality that
+    abs(J1 - J2) < 2 epsilon, which provides uniqueness.
+*** Fundamental Theorem of Calculus for HK integrals (in Abbott)
+    F :: [a,b] -> RR differentiable at each point of [a,b]
+    set f(x) = F'(x). Then f is HK integrable on [a,b] (f in HK[a,b]) and
+
+    HK INTEGRAL (a,b) f(x) dx = F(b) - F(a)
+*** Pseudo-example (missing some details)
+    From last time - F is differentiable on [0,1] but f = F' is discontinuous
+    on a set of positive measure. This impiles that f is not Riemann
+    integrable, but f is HK integrable and
+
+    HK INTEGRAL (0,1) f dx = F(1) - F(0)
+***** Proof
+      Let P be a tagged partition. Then the error
+      abs(F(b) - F(a) - S(P,f)) = /* telescoping sum */
+      = abs(SUM abs(F(xk) - F(x{k-1})) f(tk)(xk - x{k-1}))
+      /* be creative and cook up a gauge. Let epsilon > 0. We need some P
+      delta-fine so that we get that this error less than epsilon. */
+
+      By definition of f = F' we have that for each t in [a,b], exists
+      delta(t) > 0 so that
+
+      abs((F(x)-F(t))/(x - t) - f(t)) < epsilon for 0 < abs(x - t) < delta(t).
+      This t -> delta(t) defines a gauge (for any t, there is a delta).
+
+      Then for tk in [x{k-1}, xk] .SUBSET. (tk - delta(tk), tk + delta(tk)),
+
+      abs(F(xk) - F(tk) - f(tk)(xk - tk)) =
+      abs(((F(xk) - F(tk))/(xk - tk) - f(tk))(xk - tk)) .LEQ. epsilon (xk - tk)
+      where we may put in the epsilon by definition of f = F'.
+
+      Therefore abs(F(xk) - F(x{k-1}) 0 f(tk) (xk -x{k-1}))
+      .LEQ. abs(F(xk) - F(tk) - f(tk)(xk - tk)) +
+            abs(F(tk) - F(x{k-1}) - f(tk)(tk - x{k-1}))
+      .LEQ. epsilon abs(xk - tk + tk - x{k-1}) = epsilon (xk - x{k-1}), where
+      the x-term is arbitrarily small.
+*** Caveat and Relationship to Lebesgue Integrals
+    It is possible that f in HK[a,b] while abs(f) is not.
+
+    f is Lebesgue integrable iff f and abs(f) are HK-integrable. This is not
+    the usual definition, but it works!
+** Vector-valued Integrals
+*** Definition
+    + Suppose we have k real-valued functions f1, f2, ..., fk on [a,b].
+    + Let fbar = (f1,f2,...,fk), which maps [a,b] to RR^k.
+    Assume that alpha is increasing on [a,b]. We write fbar in R(alpha) if each
+    of the components is in R(alpha).
+
+    Then : INTEGRAL fbar dalpha = (INTEGRAL f1 dalpha, INTEGRAL f2 dalpha, ...)
+*** 'Boring' Theorem 6.12
+    This holds true for the vector-valued case. Everything reduces
+    component-wise.
+*** 6.13b for the vector case
+    What happens when we plough through with absolute values? We may use Cauchy
+    Schwarz to reduce the problem down. Each fi^2 is Riemann integrable so
+    their sums are Riemann integrable as well. The square root of thi ssum is
+    also riemann integrable, so we have what we want.
+**** Proof
+     Let y = INTEGRAL fbar dx. Then
+     abs(y)^n = SUM yi^2 = SUM yi INTEGRAL fi dalpha
+              = SUM INTEGAL yi fi dalpha = INTEGRAL (SUM yi fi) dalpha
+
+     Now apply C-S: SUM yi fi(t) = < (yi, ..., yk), (f1(t), ..., fk(t)) >
+     .LEQ. NORM(ybar) NORM(fbar(t)) for each t in [a,b]. Then
+
+     NORM(ybar)^2 = INTEGRAL (SUM yi fi(t)) dalpha(t)
+                 .LEQ. INTEGAL NORM(y)  NORM(f(t)) dalpha(t)
+                  = NORM(y) INTEGAL NORM(f(t)) dalpha(t)
+
+     the y=0 case is trivial. If y /= 0 then NORM(y) /= 0 so we can cancel it;
+     thereforeabs( INTEGRAL fbar dalpha) .LEQ. INTEGRAL abs(f(t)) dalpha(t); done.
+*** Paths
+    Say that a curve is parameterized by some t. Then the length of the curve
+    is approximately the length of the sum of the line segments.
+
+    Given some partition:
+    let Gamma(gamma, P) = SUM abs(gamma(xi) - gamma(x{i-1})), and let
+    Gamma(gamma) = sup Gamma(gamma, P)
+
+    If gamma(a) = gamma(b) then we say that gamma is a *closed curve*.
+*** Rectifiable Curves
+    We say that gamma : [a,b] -> RR^k is *rectifiable* if
+
+    (where gamma is continuous)
+    V(gamma) = SUP (a = x0 < x1 < ... < xn = b) SUM abs(gamma(xi) -
+    gamma(x{i-1})) < inf
+*** Bounded Variation
+**** Definition
+     /* Some of this notation is from the second, not third, edition of Rudin */
+     f :: [a,b] -> RR^k not necessarily continuous is of *bounded variation*
+     f in BV([a,b]) if SUP (a = x0 < x1 < ... < xn = b) SUM abs(f(xi) -
+     f(x{i-1})) < inf
+**** Example : Smooth but not rectifiable
+     f(x) = x sin(pi/x) on 0 < x .LEQ. 2
+     f(x) = 0           at x = 0
+
+     This is continuous but not of bounded variation on [0,2].
+     The graph of f (namely (t, f(t))) is not rectifiable. Therefore there
+     exist curves that are not
+
+     *Proof*
+     Choose a partition 0, 2/(2n - 1), 2/(2n - 3) ... 2/5, 2/3, 2.
+     Compute V(P,f) =
+     (2 + 2/3) + (2/3 + 2/5) + ... + (2/(2n - 3) + 2/(2n - 1)) + 2/(2n - 1)
+
+     Now, when we evaluate the function at these points we get a bunch of
+
+     sin((2i - 1)/2 pi) * 2/(2i - 1)
+
+     terms. Therefore we get a bunch of 1s, and then with the multipliers we
+     get
+
+     > 1/2 + 1/3 + ... ++ 1/n
+
+     which is not bounded, so it is not rectifible.
+**** Lipschitz and Bounded Variation
+     More general - if f is Lipschitz then f in BV([a,b])
+**** Example: Monotonic functions
+     If f is monotonic on [a,b] then f is in BV([a,b]) and V(f) = f(b) -
+     f(a). Say that f is increasing. Then
+
+     SUM abs(f(xi) - f(x{i-1})) = SUM (f(xi) - f(x{i-1}))  = f(b) - f(a) by
+     telescoping.
+**** Target theorem : not in 3rd edition
+     Any h in BV has a decomposition
+     h = p - q
+     where p is increasing, q is increasing.
+***** Proof
+      Try p = 1/2(vf + f - f(a))
+      Try q = 1/2(vf - (f - f(a)))
+
+      Then p - q = f - f(a), and p + q = vf
+
+      It is clear that p(a) = 0 and q(a) = 0. We want to show that p and q are
+      monotonically increasing.
+
+      Suppose that a .LEQ. x < y .LEQ. b. Then
+      2p(y) - 2p(x) = V(f, x, y) + (f(y) - f(x)) .GEQ. 0.
+
+      means that abs(f(y) - f(x)) .LEQ. V(f,x,y)
+
+      Pick the most trivial partition - P = [x=x0, x1=y], so P is increasing.
+
+      2p(x) - 2q(x) = V(f,x,y) - (f(y) - f(x)) .GEQ. 0.
+
+****** Subproof (by contrapositive)
+       Let f :: [a,b] -> RR^k. on BV([a,b]).
+
+       Define vf(x) = V(f : [a,x]) = SUP SUM abs(f(xi) - f(x{i-1})). Therefore
+       vf is increasing (the supremum can only get larger as we increase the
+       size of the set).
+
+       Then, given f in BV,
+
+       a .LEQ. x .LEQ. y .LEQ. b implies that
+       V(f, a, y) = V(f, a, x) + V(f, x, y).
+
+       If f is continuous, then vf is continuous.
+       *Proof* x = b or y=x then trivial.
+       Say that a < x < y, epsilon > 0. Then choose a partition
+       {xi} of [a,y] such that
+       vf(y) - epsilon .LEQ. SUM abs(f(xi) - f(x{i-1})) .LEQ. vf(y).
+
+       Now: if x is not an xi, then adjoin x to the partition. The triangle
+       inequality implies that V(P,f) increases and still is
+       .LEQ. vf(y). Therefore
+       vf(y) - epsilon .LEQ. SUM abs(f(xi) - f(x{i-1})) .LEQ. vf(y) still holds.
+
+       Now take 'various SUPs':
+       SUP over partitions -> vf(y) - epsilon .LEQ. /* split at xi < x and rest
+       */ vf(x) + V(f,x,y) .LEQ. vf(y). Then, as epsilon is arbitrary, we can
+       squeeze the middle so vf(x) = - v(f,x,y).
+
+       Now assume that f is continuous on a < y < b. Suppose that vf is not left
+       continuous at y. Then
+       exists delta > 0 s.t. V(f, x, y) > delta, where delta is fixed
+       (where V(f,x,y) = vf(y) - vf(x)) for all x < y.
+
+       Now let x = a in the above statement. Then there exists a partition {xi}
+       of [a,y] such that
+       SUM abs(f(xi) - f(x{i-1})) > delta.
+
+       Note that xn = y, x{n-1} < y. f is continuous, so there exists some a1
+       with
+       x{n-1} .LEQ. a < y and abs(f(y) - f(x{n-1})) and abs(f(a1) - f(x{n-1}))
+       different. Now we have composition of continuous functions. The two
+       expressions are equivalent if we take a1 arbitrarily close to y (based on
+       continuity). Then we can write the partition on [a,a1] instead of [a,y]
+       and they are equivalent.
+
+       THerefore, there is some a1 < y sch that V(f, a a1) > delta. We can shift
+       it and still have greater than delta. We can do this forever as a1 was as
+       close as we wanted to y: continue to get a = a0 < a1 < ... < an < y for
+       every n with total variation
+       V(f, a, an) > delta. Therefore vf(y) > Ndelta, so as we can increase N as
+       much as we likef is not in BV.
+
+       *Conclusion* if f is in BV([a,b]) and C([a,b]) then vf is left continuous
+       and right continuous.
+***** Corollary
+      This works out well for vector-valued functions as well - we may repeat
+      the entire process component-wise.
+**** Linear Space properties
+     BV([a,b]) is a linear space as if f,g in BV([a,b]) and c1,c2 are real
+     numbers then c1*f + c2*g is in BV([a,b]).
+
+     Let the normalized BV functions be the functions where f(a) = 0 and f is
+     in BV([a,b]). Then V(f) is a norm on NBV([a,b]).
+*** Line Integrals
+    INTEGRAL f dgamma (we assume that gamma is rectifiable, or that it has
+    finite length)
+**** Path Integrals
+     Assume that gamma' is continuous on [a,b], so gamma in RV([a,b]) and
+     V(gamma) = INTEGRAL (a,b) abs(gama'(t)) dt
+** Integration by Parts
+*** Overview
+    'Some research careers are built on integration by parts'
+    Useful for investigating integral equations!
+*** Statement of Theorem
+**** 6.30, 2nd ed.
+     Let f, g be complex-valued functions on [a,b] of _bounded variation_.
+     Assume that f is continuous. Then
+
+     INTEGRAL (a,b) f dalpha =
+     f(b) alpha(b) - f(a) alpha(a) - INTEGRAL (a,b) alpha df
+
+     /* we know that alpha = p - q, where p and q are monotonically increasing
+     functions. Therefore we can split it up this way intermediately. */
+**** 6.22, 3rd ed.
+     Assume that F, G are differentiable on [a,b] with F' = f, G' = g. Then
+
+     INTEGRAL (a,b) F(x) g(x) dx = /* we could say F(x) dG(x) */
+     F(b)G(b) - F(a) G(a) - INTEGRAL (a,b) f(x) G(x) dx
+*** Proof
+    Use the alternate definition of the integral:
+    INTEGRAL f dalpha = LIM (tagged mesh P -> 0) S(P, f, alpha)
+    (this definition is okay if f is continuous or f is Riemann(alpha)
+    integrable)
+
+    Let P be such a tagged partition. Form another Q with partition points
+    equal to the tags from P, where P's partition points are the tags of Q.
+
+    Clearly, refining P also refines Q. Then
+
+    S(P,f,alpha) = SUM f(ti) (alpha(xi) - alpha(x{i-1}))
+         = SUM f(ti) alpha(xi) - SUM f(ti) alpha(x{i-1})
+                 /* shift the indicies by 1 in the first summation*/
+         = SUM (i=2,n+1) f(t{i-1})alpha(x{i-1}) - SUM f(ti) alpha(x{i-1})
+         /* recombine the summations  and subtract off the leftovers */
+         = SUM (i=1, n+1) alpha(x{i-1}) (f(t{i-1}) - f(ti))
+           - alpha(a) f(a) + alpha(b) f(b)
+         /* rewrite prettily */
+         = f(b) alpha(b) - f(a) alpha(a) - S(Q, alpha, f)
+         /* take the limit over a lot of mesh refinement */
+         = f(b) alpha(b) - f(a) alpha(a) - INTEGRAL (a,b) alpha df
+** McShane Integrals
+*** Definition
+    McS INTEGRAL (a,b) f(x) dx = J
+    means that for all admissable delta-fine tagged partitions P,
+    abs(McS INTEGRAL(P,F) - J) < epsilon
+    where P is a tagged partition satisfying
+    [x{i-1}, xi] .SUBSETEQ. (ti - delta(ti), ti + delta(ti)),
+    *but ti need not be in [x{i-1}, xi]*
+*** Comparison to HK integral
+    This integral requires more values of INTEGRAL(P,f) to be within epsilon of
+    J. If f is McS integrable on [a,b] then f is HK integrable on [a,b] and the
+    integrals are equal.
+*** McShane Lemma
+    f is McShane integrable -> abs(f) McShane integrable. In fact, the McShane
+    integral is equivalent to the Lebesgue integral.
+*** McShane integrability and the Dirichlet function
+    Problem - we could have 'a whole bunch' of subintervals with the same tag.
+* Sequences and Series of Functions
+** Overview
+   {fe} = sequence of functions that map E /* metric space */ to RR
+
+   *Important Question* LIM (t to x) LIM (n to inf) fn(t) ?= flipped limit? Not
+   always. This is not true in general.
+*** Example of failure from last semester
+    our friend f(x) = x^2 sin(1/x) for x /= 0, 0 for x = 0.
+
+    LIM (x -> 0) LIM (h -> 0) (f(x + h) - f(x))/h DNE near origin. However, if
+    we take the h limit first it exists.
+** Issues
+   LIM (n to inf) LIM (t to x) fn(t) ?= LIM (t to x) LIM (n to inf) fn(t)
+
+   Similarly, when may we interchange the orders of limits and integrals, or
+   limits and derivatives?
+** Examples
+*** Example 7.3
+    f_n(x) = x^2 / (1 + x^2)^n. Clearly f_n(0) = 0 for all n.
+    for x /= 0, we can treat this as a geometric series with r = 1/(1 + x^2)
+    Therefore the summation is discontinuous (not continuous at zero) but each
+    individual term is continuous.
+*** Example 7.4
+    f_m(x) = LIM (n -> inf) (cos(m! pi x))^2n = 1, for m! x an integer; 0
+    otherwise.
+    If x is irrational then fm(x) = 0.
+    If x is rational, then for arbitrarily large m we get that m!x is an
+    integer; therefore m .GEQ. q implies that the function is one.
+*** Example 7.5
+    f_n(x) = sin(n*x)/sqrt(n)
+    Then f(x) = LIM (n -> inf) f_n(x) = 0.
+    However, f_n'(x) = sqrt(n) cos(n*x), which blows up at zero for arbitrarily
+    large n.
+*** Investigating Uniform Convergence
+    fn(x) = x^n. on [0,1]
+    Then LIM (n -> inf) f(x) = step function: f(1) = 1, f(x < 1 ) = 0.
+    Therefore our Mn is 1, as
+
+    sup (x^n - 0) = 1.
+** Uniform Convergence for a Sequence of Functions
+*** Definitions
+    We say that fn -> f *pointwise* if, for epsilon > 0, and x in E, there is
+    N(epsilon, x) such that
+    n .GEQ. N(epsilon,x) -> abs(fn(x) - f(x)) < epsilon.
+
+    We say that fn -> f *uniformly* if N does not depend on x.
+
+    Similarly, for Series':
+    SUM (n=1 to inf) fn(x) *converges uniformly* to f(x) means that the partial
+    sums converge uniformly.
+*** Cauchy Criterion
+    fn converges uniformly to some f IFF given epsilon > 0, exists N(epsilon)
+    /* caveat - N is now independent of x */
+    such that x in E, m,n .GEQ. N(epsilon) implies that
+    abs(fm(x) - fn(x)) < epsilon.
+**** Proof
+     (->) Choose N = N(epsilon/2). Then if n,m .GEQ. N(epsilon/2) then
+     abs(fn(x) - fm(x)) .LEQ. abs(fn(x) - f(x)) + (fm(x) - f(x)) < 2 epsilon/2.
+
+     (<-) Assume that we have a cauchy sequence and fix x. As RR is complete,
+     there exists some f(x) in RR such that fn(x) -> f(x).
+     /* that only showed pointwise convergence - we desire uniform */
+     Let epsilon > 0. Choose N(epsilon) as in Cauchy criterion. Thus x in E,
+     n,m .GEQ. N(epsilon) implies that
+
+     LIM (m to inf) abs(fn(x) - fm(x)) < epsilon. The absolute value function
+     is continuous, so lots of nice things happen; namely we get
+     abs(fn(x) - f(x)) .LEQ. epsilon. To be strict we could have used
+     epsilon/2.
+*** Theorem 7.9 - Uniform Convergence Reformulated
+    Let fn converge uniformly to f. in E. Then
+    Mn = SUP (x in E) abs(fn(x) - f(x)) satisfies LIM (n to inf) Mn = 0.
+
+    *Note:* abs(fn(x) - f(x)) .LEQ. epsilon for all x is the same as taking the
+    least upper bound over all of the xs .LEQ. epsilon.
+*** Weirstrass M-Test
+    Let fn : E -> RR. Suppose that abs(fn(x)) .LEQ. Mn, where Mn is independent
+    of x and
+    SUM Mn < inf
+    Then SUM fn(x) converges uniformly on E and converges absolutely for each x.
+**** Proof
+     Apply the uniform Cauchy criterion to sequences of partial sums. Then
+     abs(SUM (i=n to m) fi(x)) .LEQ. SUM Mi .LEQ. epsilon for m > n >
+     N(epsilon).
+*** Theorem 7.11
+**** Statement
+     Let x = limit point of E. Suppose that
+     LIM (t -> x) fn(t) = An
+     exists. Then
+     LIM (t -> x) f(t) = LIM (n to inf) An
+     LIM (t -> x) LIM (n to INF) fn(t) = LIM (n to inf) LIM (t to x) fn(t)
+     exists. Therefore we fix one of our issues and nice things happen.
+
+     *Corollary* Suppose that fn converges uniformly to f. Then f is continuous.
+**** Proof
+     Let epsilon > 0. Then choose N = N(epsilon/3). For n,m .GEQ. N, we have
+     that
+
+     abs(fm(t) - fn(t)) < epsilon/3
+     Let t -> x. THen abs(An - Am) .LEQ. epsilon/3.
+     Then as {An} is Cauchy, we have that
+     abs(f(t) - A) .LEQ. abs(f(t) - fn(t)) + abs(fn(t) - An) + abs(An - A)
+     each term is bounded above my epsilon/3 so we get what we want.
+** Generalization to Arbitrary Metric Spaces (and normed spaces)
+*** Introduction
+    Let C_RR(E) or C_CC(E) = bounded continuous functions on E, a subset of
+    some metric space (X,d). Define
+
+    NORM(f, C(E)) = SUP (x in E) abs(f(x))
+
+    This is, in fact, a norm as we have the triangle inequality and scalar
+    multiplication. We should also check that
+    NORM(0) <=> f(x) = 0 everywhere.
+
+    We can call d(f,g) = NORM(f - g) a metric, so we get a metric space for
+    free from this normed space.
+*** Completeness
+    if C(X) is complete as a metric space, ie {fn} Cauchy implies that there
+    exists some f in C(X) such that d(fn, f) -> 0, also known as NORM(fn -f) ->
+    0.
+**** Proof
+     Cauchy means that for any epsilon > 0, there exists some N(epsilon)
+     such that for n, m .GEQ. N(epsilon) -> NORM(fn - fm) < epsilon. In
+     particular, {fn(x)} is Cauchy for each x. As RR or CC is complete, fn(x)
+     -> f(x) for each x; this gives us a candidate.
+
+     Checking uniform convergence: to see that fn -> f uniformly, note that
+
+     abs(fn(x) - fm(x)) < epsilon for all x, for n,m .GEQ. N(epsilon).
+     Let m -> inf. Then abs(fn(x) - f(x)) .LEQ. epsilon for n
+     .GEQ. N(epsilon). Therefore fn converges to f uniformly. Even better, f is
+     in C(X) by a previous result.
+*** Theorem 7.12 - No Full Converse
+    Assume that fn is continuous, and fn converges to f uniformly. Then f is
+    continuous.
+
+    The converse is not true; there exists a sequence of continuous functions
+    fn converging pointwise to f, f continuous, but the convergence is not
+    uniform.
+
+    *Example* Consider [0,1], f(n) = a tent from 0 to 1/n. Then fn converges
+    pointwise to f = 0. However, SUP (x in [0,1]) abs(fn(x) - f()) = sup(fn(x))
+    = 1, which is nonzero.
+*** Theorem 7.13 - A Partial Converse
+**** Statement
+     Suppose that K is compact, and that
+     1. {fn} sequence of continuous functions
+     2. fn converges pointwise to f on K.
+     3. fn(x) .GEQ. fn+1(x) for all x in K.
+
+     then fn converges uniformly to f on K.
+**** Proof
+     Let gn = fn - f, so g is continuous and gn(x) .GEQ. gn+1(x). Additionally,
+     gn converges pointwise to the zero function on K.
+
+     Let epsilon > 0. Let Kn = { x in K; gn(x) .GEQ. epsilon}, which implies
+     that Kn is closed.
+
+     Fix x in K. Since gn(x) -> 0, x is not in Kn once n is large enough. Then
+     x is not in the intersection of all Kns. Therefore, as x was arbitrary,
+     the intersection must be empty. However, as the nested intersection of
+     compact sets must be nonempty, some Kn must be empty. Therefore
+
+     0 .LEQ. gn(x) < epsilon for all n .GEQ. N(epsilon). =
+
+     Therefore gn -> 0 uniformly.
+**** Example
+     /* why we need a compact domain */
+     fn(x) = 1/(nx + 1) on 0 < x < 1. This has the property that fn(x) goes
+     down to the zero function. However, the convergence is not uniform because
+     SUP (x in (0,1)) fn(x) = 1.
+** Uniform Limits and Integration
+*** Theorem 7.16
+**** Statement
+     Let alpha be a monotonically increasing function on [a,b]. Let fn in
+     Riemann(alpha) on [a,b]. Then
+
+     fn -> f uniformly implies that f in Riemann(alpha) on [a,b] and
+     INTEGRAL (a,b) f dalpha = LIM (n to inf) INTEGRAL (a,b) fn dalpha.
+
+     Note that we can play fun games, like with Dirichlet's function, where
+     Riemann integrals have problems; hence the uniformly qualifier.
+**** Proof
+     Say that {fn} is a sequence of real-valued functions. Let
+     epsilon_n = SUP (x) abs(fn(x) - f(x)) -> 0 as n -> inf. Therefore
+     fn - epsilon_n .LEQ. f .LEQ. f + epsilon_n
+
+     which implies that (**) INTEGRAL (a,b) fn - epsilon_n dalpha
+     .LEQ. lower INTEGRAL f dalpha .LEQ. upper INTEGRAL f dalpha
+     .LEQ. INTEGRAL f + epsilon_n dalpha
+
+     Therefore 0 .LEQ. upper - lower .LEQ. 2 epsilon_n (alpha(b) - alpha(a))
+
+     where epsilon_n decreasing to zero implies that the upper integral equals
+     the lower integral; therefore f is Riemann integrable on alpha.
+
+     By (**) we have that INTEGRAL (a,b) fn dalpha - INTEGRAL (a,b) dalpha
+     .LEQ. epsilon_m (alpha(b) - alpha(a)) and
+     INTEGRAL (a,b) f dalpha - INTEGRAL fn dalpha .LEQ. epsilon_n (alpha(b) -
+     alpha(a))
+
+     which finally implies that
+     abs(INTEGRAL fn dalpha - INTEGRAL f dalpha) .LEQ. epsilon_n (alpha(b) -
+     alpha(a))
+
+     which goes to zero as n goes to inf.
+**** Corollary
+     If the infinite sum of fn(x) converges to f(x) then
+     INTEGRAL f dalpha = SUM INTEGRAL fn dalpha.
+*** Lebesgue Dominated Convergence Theorem
+    Let fn be a Lebesgue-integrable function on [a,b] and fn -> f
+    pointwise. Similarly, for all x except possibly a set of measure zero,
+    abs(fn) .LEQ. g, where g is also Lebesgue-integrable.
+
+    Therefore f is Lebesgue-integrable and the lebesgue integrals of fn
+    converge to the lebesgue integral of f.
+** Uniform Limits and Differentiation
+*** Overview
+    We wish to investigate the question
+    fn -> f ?-> fn' -> f'
+    that is, if a sequence of functions converges to f, do the derivatives
+    converge to f'? Not always.
+
+    fn(x) = sin(nx)/sqrt(n) - converges to zero function. Derivative also zero.
+    fn', however, blows up - does not even converge!
+*** The Fix
+**** Statement
+     Assume that fn' converges uniformly to some g and that fn(x0) converges for
+     x0 in [a,b]. Then fn converges uniformly to f and g = f'.
+**** Proof
+***** Part 1
+      Let epsilon > 0.
+      /* first prove that fn converges uniformly to f */
+      Chose N1 s.t. m,n .GEQ. N1 implies that (1) abs(fn(x0) - fm(x0)) < epsilon/2
+      *and* (2) abs(f'm(t) - f'n(t)) < epsilon/(2(b-a)) /* by uniformness */
+
+      Then, (3) for n .GEQ. N1, abs(fn'(t) - g(t)) < epsilon/3 for all
+      t. /*uniformity*/
+
+      Therefore (2) implies that abs(fn'(t) - g(t)) .LEQ. epsilon/(2(b-a)).
+      Similarly, by the mean value theorem applied to fn - fm,
+      abs(fn(x) - fm(x) - fn(t) + fm(t)) .LEQ. sup(f'n(s) - f'm(t))abs(x-t)
+      and by (2)
+      < epsilon/(2(b-a))(x - t) but (x - t) .LEQ. b - a so this is < epsilon/2.
+
+      Then abs(fn(x) - fm(x)) .LEQ. abs(fn(x) - fm(x) - fn(x0) + fm(x0))
+      + abs(fn(x0) - fm(x0))
+      /* first term is less than epsilon/2, second term also less than epsilon/2
+      */
+      Therefore {fn} converges uniformly (it is cauchy).
+      As the fns are differentiable, they are also continuous, which implies
+      that f is continuous.
+***** Part 2
+      Fix x in [a,b]. We want to show that f is differentiable at x and f'(x) =
+      g(x).
+
+      Define phi_n(t) = (fn(t) - fn(x)) / (t - x), for t /= x.
+      and phi(t) = (f(t) - f(x)) / (t - x)
+
+      Then we know (5) that LIM (t -> x) phi_n(t) = f'n(x) for each fixed n.
+
+      By 4, we know that abs(phin(t) - phim(t)) < epsilon/(2(b-a)). Therefore
+      /* should there be another + in here? */
+      abs(fn(x) - fm(x) - fn(t) - - fm(t)) .LEQ. epsilon/(2(b-a))(x-t) for n, m
+      .GEQ. N1.
+
+      Therefore {phin} converges uniformly on [a,b] \ {x}.
+      Therefore, as fn -> f, phin(t) -> phi(t) uniformly.
+
+      Now choose N2 such that n .LEQ. N2 -> abs(phi(t) - phin(t)) < epsilon/3
+      for all t. Let N = max(N1,N2). Then by (5), exists delta > 0 such that
+      0 < abs(t - x) < delta, so (7) abs(phin(x) - f'n(x)) < epsilon/3.
+
+      Now, putting all the epsilons together:
+      abs((f(t) - f(x))/(t - x) - g(x)) = abs(phi(t) - g(x))
+      .LEQ. abs(phi(t) - phin(t)) + abs(phinN(t) - f'N(x)) + abs(f'N(x) - g(x))
+      < epsilon/3 + epsilon/3 + epsilon/3 = epsilon. Done!
+** Weirstrass' Monster
+*** Statement
+    There exists a continuous f(x) such that f'(x) exists nowhere.
+*** Construction
+    Note that phi(x) = abs(x) is not differentiable at x = 0. Now consider
+    phi(x + 2) = phi(x); base the period around -1 .LEQ. x .LEQ. 1. This is not
+    differentiable at every integer.
+
+    Let Psi_m(x) = phi(4^m x). Now this is compressed and continuous, but not
+    differentiable on 1/4^m integer.
+
+    Observe that phi is Lipschitz with a Lipschitz constant of 1.
+*** Our candidate
+    f(x) = SUM (n = 0 to inf) (3/4)^n phi(4^n x)
+
+    1. f(x) is continuous everywhere; each term in the summation is continuous
+       and the terms go to zero. Therefore the series converges uniformly in
+       x. Therefore we have the uniform limit of continuous functions -> limit
+       is continuous.
+
+    2. Fix x. There exists some sequence deltan
+       -> 0 such that
+       /* m corresponds to one term in the summation */
+       (f(x + deltam) - f(x))/deltam
+       blows up. Let deltam = +/- 1/2 4^-m with the sign chosen such that no
+       integer lies between 4^m x and 4^m(x + deltam). Now we can be assured
+       that we are never on an integer since 4^m abs(deltam) = 1/2 (if x = 1/2
+       we know that we are discontinuous at integers anyway)
+
+       gamman = (phi(4^n(x + deltam)) - phi(4^n))/deltam
+       therefore, since the period is 2, when deltam is even then gamman
+       = 0. More specifically, for n > m, 4^n deltam is even, so every
+       difference quotient becomes a finite sum.
+
+    3. /* Show that the function is discontinuous here */ Since the Lipschitz
+       constant is 1 for phi, we have that
+
+       abs(gamman) .LEQ. 4^n abs(deltam) / abs(deltam) = 4^m.
+
+       Now we "can't go wrong" - note that
+
+       abs(gamman) = abs((phi(4^m x +/- 1/2) - phi(4^mx)) / (+/- 1/2 4^-m))
+
+       Therefore abs(gamman) = 4^m.
+
+       Therefore
+       abs((f(x + deltam) - f(x))/deltam) = abs(SUM (n=0 to m) (3/4)^m gamman)
+       by the triangle inequality:
+       .GEQ. 3^m - SUM (n = 0 to m-1) 3^n
+       /* geometric series formula */
+       = 3^m - (1 - 3^m)/(1 - 3); blows up as m -> inf
+
+    Therefore we have a continuous function that is differentiable nowhere.
+** Compactness of Spaces of Functions
+*** Properties Review
+    1. X is compact.
+    2. Every collection of closed sets with the finite intersection property
+       has a nonempty intersection.
+    3. Every infinite subset in X has a limit point in X.
+    4. Every sequence in X has a subset converging to a point in X.
+    5. X is closed and bounded.
+
+    always             : 1 <=> 2 => 3 => 4 => 5
+    for a metric space : all iff, but 4 => 5
+    RR^k               : all are iff
+    Heine-Borel        : 5 => 1
+*** Where do we go now?
+**** Bolzano-Weirstrass on C(E)
+     Let X = bounded metric space of continuous functions. Do we get 5 => 4 for
+     this metric space?
+
+     Given that some sequence {fn} in C(E) /* our metric space */ with NORM(fn)
+     < M for some M < inf, independent of n, may we conclude
+     Bolzano-Weirstrass? No!
+
+     More specifically, we have a bounded sequence but we do not necessarily
+     have a convergent subsequence when we are dealing with sequences of
+     functions.
+**** Examples of why not
+     There is a sequence {fn} in C([0,1]) with fn -> fand f not continuous.
+     Therefore any subsequence will converge to some not continuous function.
+
+     *Easy Example* fn(x) = x^n converges to f(x < 1) = 0, f(1) = 1 on [0,1].
+
+     *Example* Say that fn converges to some continuous f, but the convergence
+     is nonuniform since
+     f = 0, fn(1/n) = 1 implies that any subsequence fnk(1/nk) = 1 -> cannot
+     converge to f.
+*** Equicontinuity
+**** Definition
+     A family of functions is _equicontinuous_ on E:
+
+     given epsilon > 0, exists delta > 0 such that for x,y in E with d(x,y) <
+     delta, f in FF -> abs(f(x) - f(y)) < epsilon.
+
+     In particular: f in FF is uniformly continuous if we may pick delta
+     dependent only on f and epsilon. If delta also depends on x then we have
+     pointwise continuity.
+**** Negation of Equicontinuity
+     F *not* equicontinuous means that there exists some epsilon0 > 0 such that
+     for all delta > 0, exists x, y in E where d(x,y) < delta and f_delta such
+     that abs(f_delta(x) - f_delta(y)) .GEQ. epsilon0.
+**** Example
+     Let FF = {x, x^2, x^3, ...} on E = [0,1]. Choose epsilon0 = 1/2. Then
+*** Ascoli-Arzela Theorem
+**** Statement
+     Let K be compact and fn in C(K). Assume that for each n,
+     SUP n {fn(x)} .LEQ. M(x) is bounded for each x and {fn} is
+     equicontinuous. Then there exists a subsequence {fn_k} which is uniformly
+     convergent to some g in C(K)
+
+     *converse* if fn converges uniformly to f then {fn} is uniformly bounded
+     and {fn} is equicontinuous.
+**** Key Lemma
+***** Statement
+      /* beefed-up BW */ {fn} is a point-wise buonded sequence on a countable
+      set E -> {fn} has a subsequence {fn_k} such that {fn_k} some
+***** Proof
+      Let {xi} be an enumeration of points in E. By BW, {fn(xi)} is bounded on
+      RR so there exists a convergent subsequence.
+
+      Call this subsequence fn1, fn2, ... converges for some x = x1.
+
+      Now look at {f1,n(x2)} which is also bounded on RR -> has a convergent
+      subsequence. Therefore
+      f21, f22, f23, ... converges at x = x2 and x = x1.
+
+      Therefore we can build a whole table
+      f11 f12 f13
+      f21 f22 f33
+      f31 f32 f33
+
+      so that row j = subsequence of row j-1 and row j evaluated at xi (i=1..j)
+      converges.
+
+      Now let gn = fnn. /* the diagonal */. Then {gn(xj)} for n .GEQ. j we have
+      a subsequence of {fjn(xj)} for n .GLEQ. j, which is the tail of some
+      convergent subsequence. Therefore this converges to something.
+
+      This implies that {gn(xj)} converges. Therefore our key lemma is good to
+      go.
+**** Theorem 7.24 /* second part of the converse */
+***** Statement
+      The first part of this converse was the 1st homework problem in set 4.
+
+      Let K be a compact metric space, fn in C(K). Then {fn} uniformly
+      convergent on K implies that FF = {fn} is equicontinuous.
+***** Proof
+      Let epsilon > 0. Therefore there exists an N s.t. abs(fn(x) - fN(x)) <
+      epsilon for n .GEQ. N.
+
+      continuous functions on compact K are uniformly continuous, so there
+      exists some delta such that /* we may go out finitely many */
+      abs(fi(x) - fi(y)) < epsilon for some 1 .LEQ. i .LEQ. N. and x,y in K,
+      d(x,y) < delta.
+
+      We have taken finitely many fis, so we may take a minimum. The remark is
+      that if FF is finite then each function is uniformly continuous.
+
+      If n .GEQ. N and d(x,y) < delta, we get
+
+      abs(fm(x) - fn(y)) .LEQ. abs(fm(x) - fN(x)) + abs(fN(x) - fN(y)) +
+      abs(fN(y) - fn(y)) < 3epsilon.
+
+      /* we were lazy and did 3epsilon instead of epsilon */
+**** Again: Ascoli-Arzela 7.25
+***** Statement
+      Let K be compact and fn in C(K). Then for n in NN, let {fn} be bounded and
+      equicontinuous. Then
+
+      (a) {fn} is uniformly bounded
+      (b) {fn} contains a uniformly convergent subsequence.
+***** Proof of A
+      Let epsilon > 0. Then choose delta > 0 such that d(x,y) < delta. Then
+      abs(fn(x) - fn(y)) < epsilon for all n /* by equicontinuity */.
+
+      As K is compact
+
+      THen there exist finitely many {p1..pn} in K such that for each x in K,
+      there is at least one pi with d(x,pi) < delta.
+
+      {fn} point wise bounded implies that there exists some M. < inf such that
+      abs(fn(pi)) .LEQ. Mi for all n.
+
+      Then take M := max({M1, ... Mr}).
+      Then abs(fn(x)) .LEQ. abs(fn(x) - fn(pi)) + abs(pn(pi)) < epsilon + M =
+      'new M'. This implies A.
+***** Proof of B
+      Let E be a countable, dense subset of K. By the Key Lemma, {fn} has a
+      subset {fnk} converging at each x in E.
+
+      Let gk = fnk for simplicity. Claim : {gi} converges uiformly.
+
+      Let epsilon > 0. Pick delta = delta(epsilon) from equicontinuity.
+
+      Let V(x,delta) = {y in K s.t. d(x,y) < delta} = N_delta(x) /* it is a
+      neighborhood around x */
+
+      Then: {V(x,delta) : x in K} convers K implies that K is in some finite
+      union of the Vs. Then there exists an N s.t. abs(gi(xs) - gj(xs)) <
+      epsilon for all j .GEQ. N and 1 .LEQ. s .LEQ. m.
+
+      THen for x in K, x in V(xr, s) for some s implies that
+      /* do another 3 epsilon trick */
+** Weirstrass' Approximation Theorem
+*** Statement
+    if f is a continuous, complex-valued function on [a,b] then there exists a
+    sequence of polynomials Pn s.t. Pn converges uniformly to f on [a,b].
+**** General Principle
+     Approximate identity of a function. Suppose {Kn} is continuous,
+     real-valued on RR, Kn(x) .GEQ. 0. Then
+
+     INTEGRAL (-inf, inf) Kn(x) dx = 1, so SUP (abs(x) .GEQ. delta) = 0 for
+     increasing delta.
+
+     Then:
+     INTEGRAL (-inf,inf) Kn(x - y) f(y) dy = INTEGRAL (-inf,inf) Kn(y) f(x-y') dy'
+
+     so we can smooth things over with polynomials.
+**** Proof
+     Let us say that f is bounded by some M.
+     abs(INTEGRAL (-inf,inf) Kn(y) f(x-y) dy - f(x)) =
+     abs(INTEGRAL (-inf,inf) Kn(y) (f(x - y) - f(x)) dy)
+
+     .LEQ. INTEGRAL (abs(y) .GEQ. delta) Kn(y) abs(f(x - y) + f(x)) dy
+         + INTEGRAL (abs(y) .LEQ. delta) Kn(y) abs(f(x - y) - f(y))dy
+     .LEQ. 2M SUP (abs(y) .GEQ. delta) Kn(y)
+         + SUP (abs(y) .LEQ. delta) f(x - y) - f(y)
+
+     where the first one goes to zero and the second one is bounded by epsilon.
+*** General Proof
+    Rudin's. He calls it Stone-Weirstrass.
+** Stone-Weirstrass Theorem
+*** Overview
+    This is a nice generalization of Weirstrass' theorem. However, we need some
+    new terminology:
+
+    Let A be a family of complex-valued functions defined on E. Then A is an
+    _algebra_ if f,g in A -> f+g in A, f*g in A, and cf in A for c in CC.
+
+    A is _uniformly closed_ means that fn converges uniformly to f for fn in A,
+    and f is in A.
+
+    Let B = the set of all functions's that are uniform limits in A. This is
+    the _uniform closure_ of A.
+
+    Weirstrass' result: for P, a space of functions on [a,b], then P_{uniform
+    closure} is C[a,b].
+*** Theorem: Uniform closure of an algebra is an algebra
+    Let B be the uniform closure of some Algebra A of bounded functions -
+    then B is also an algebra.
+
+    *Proof* f in B, g in B, so say fn -> f, gn -> g uniformly. Then for fn, gn
+    in A
+
+    fn + gn -> f + g
+    fngn    -> fg
+    cfn     -> cf
+*** Conditions to eliminate trivial counter-examples
+**** Separates Points
+     Given some A, a family of functions on a set E, we say that A _separates
+     points_ on E if:
+
+     given distinct points x1, x2 in E, there exists some f in A such that
+
+     f(x1) /= f(x2)
+
+    *Example of Brokenness* Polynomials on [0,1] with p(0) = p(1). Then pn -> f
+    uniformly with pn in A implies that f(0) = f(1); therefore we cannot obtain
+    every function in C[0,1].
+**** Vanishing
+     A _vanishes_ at no point of E means: to each x in E, there exists some gx
+     in A with gx(x) /= 0.
+**** 2-Point Interpolation Problem
+     Given that x1, x2 in E and are distinct, c1,c2 numbers, then there exists
+     some f in A where f(x1) = c1, f(x2) = x2.
+
+     What if we don't have polynomials? How can we interpolate?
+
+     *Lemma* say that A is an algebra that separates points and A vanishes at
+     no point. Then the general two-point interpolation problem is solvable.
+
+     *Proof* ('use what you have') Choose some g, h, k in A with:
+
+     g(x1) /= g(x2), h(x1) /= 0, and k(x2) /= 0.
+
+     /*Then we cheat and build the lagrange polynomials anyway.*/
+
+     Then u = gk - g(x1)k, v = gh - g(x2)h, so u and v are in A. then
+
+     u(x1) = 0,  v(x2) = 0
+     u(x2) /= 0, v(x1) /= 0
+
+     Then take l1 = 1/v(x1) v(x), l2 = 1/u(x2) u(x).
+
+     Therefore f = c1*l1(x) + c2*l2(x) solves the 2-point interpolation
+     problem.
+*** The Formal Statement
+    Let A be an algebra of real continuous functions on some compact K, where A
+    separates points and vanishes at no point. Let B be the uniform closure of
+    B. Then B is equal to the continuous functions on C[K].
+*** Proof
+**** Step 1: f in B -> abs(f) in B
+     say that a = SUP (x in K) abs(f(x)). Let epsilon > 0. By the Weirstrass
+     Theorem, there exist real [c1..cn] s.t.
+     abs(SUM ciy^i - abs(y)) < epsilon for -a .LEQ. y .LEQ. a.
+
+     Let y = f(x) for some x in K. Then
+     abs(SUM cif(x)^i - abs(f(x))) < epsilon.
+
+     By the previous observation, the uniform closure of an algebra is an
+     algebra. Then this summation in the first half of the absolute value
+     argument is in B. Therefore abs(f) in B closure, so abs(f) in B.
+**** Step 2: Use the lattice (Stone's trick)
+     f,g in B -> take the pointwise maximum and pointwise minimum. These are
+     both in B.
+
+     *Proof* max(f,g) = (f + g)/2 + abs(f - g)/2. This is in B, so we are good
+     to go.
+     min(f,g) = (f + g)/2 - abs(f - g)/2. Also in B.
+
+     By iteration, we can take finitely many guys in B. Then the pointwise
+     maximum and minimum of those functions is in B.
+**** Step 3: f continuous, x in K, epsilon > 0 : gx in B.
+     Given real valued f in K, x in K, epsilon > 0, then there exists some
+     gx(x) = f(x) where gx(t) > g(t) - epsilon for t in K.
+
+     so gx(x) agrees with f at at least one point, but goes not drop more than
+     epsilon below f.
+
+     Let A in B and A separates points. A does not vanish at any x. Similarly,
+     for B, we can solve two point interpolation problems by previous work.
+
+     Therefore, for each y in K, we can find some hy in B such that hy(x) =
+     f(x) and hy(y) = f(y).
+
+     By continuity - there exists some open interval Jy containing y such that
+     hy(t) > f(t) - epsilon for t in Jy. Then
+
+     {Jy : y in K}
+
+     is an open cover of compact K. THerefore there exists y1, .., yn with K
+     `subset` Jy1 union Jy2 ...
+
+     Put g := max(hy1, ..., hy2)
+**** Step 4: Given f in C(K) and epsilon, exists h in B s.t. NORM(f - h) < epsilon
+     Let f in C(K), so f is in B closure. Let epsilon > 0.
+
+     This is like step 3. Given some f and a lower epsilon envelope, our h is
+     always above this lower epsilon envelope.
+
+     For each x in K, there exists some open neighborhood V(x) such that
+
+     gx(t) < f(t) + epsilon (already have this for all epsilon by step 3) for
+     any t in Vx.
+
+     Then {Vx : x in K} is an open cover of compact K, so there is a finite
+     union that covers K.
+
+     Let h = min({gx1, gx2, ... gxn}). By step 2, h is in B. Each gxi has the
+     property that gxi(t) > f(t) - epsilon, so h(t) > f(g) - epsilon for all
+     epsilon.
+
+     Therefore, for t in Vxi, h(t) .LEQ. gxi(t) < f(t) + epsilon. Done!
+*** Applications
+**** Page 169, #20
+     Let f be continous on [0,1], INTEGRAL (0,1) f(x) * x^n dx = 0 -> prove
+     that f(x) = 0 on [0,1].
+
+     By Weirstrass - there exists a sequence of polynomials that converge
+     uniformly to f. Then each INTEGRAL (0,1) f(x) pn(x) dx = 0. Therefore as
+     this converges uniformly, INTEGRAL (0,1) f(x)^2 dx = 0 -> f(x) = 0.
+**** Page 169, #21
+     Let TT be the unit circle in CC. Let A be the algebra of functions of the
+     form
+
+     f(h) = SUM (n=0 to N) c_n h^n for h in TT
+
+     so AA is an algebra of complex-valued continuous functions on TT, some
+     compact unit circle.
+
+     As AA separates points, f(h) = h, and it nonvanishing on TT.
+
+     However, the complex-valued version of Stone-Weirstrass fails, as in the
+     closure of AA does not include all continuous complex functions on TT.
+
+     By Cauchy's theorem - the path integral of f(z) is zero over some
+     rectifiable path and holomorphic function f. HOwever, we can cook up some
+     fi in B where
+
+     INTEGRAL (0,2*pi) f(exp(i*t)) * exp(it) dt = 0
+     Let g(exp(it)) = exp(it). Then this integral is 2*pi*i, which is not zero.
+
+     *The necessary tweak*
+     Let AA be a _self adjoint algebra_ that is a subset of continuous,
+     complex-valued functions on some compact K. If f = u+i*h is in A, then
+     ff = u - i*h is in A. (for real valued u and h).
+
+     Then AA separates points, and vanishes at no point of K. Let B = closure
+     of A. Then B is the set of all complex-valued continuous functions on TT.
+
+     *Proof* Cosmetic. Let A_R be the real-valued functions on K which are in
+     A. if f is in A, write f = u + i*h, for u, h in C_R(K). Then
+
+     2*u = f + ff which is in AA, so u is in AA. A_R is nice (separates points,
+     does not vanish).
+
+     Therefore for real-valued version, A_R = C_R(K).
+
+     Let f = u + i*h. in C_R(K). THis has some u in A_R, so (f - u)/i is in
+     B. Therefore f is in B.
+* Power Series
+** Recall Theorem 3.39
+   We only did one point at a time.
+** Theorem 8.1 - Examine Uniform Convergence
+   We say that a power series converges *uniformly*, i.e.
+
+   Sn(x) = nth partial sum of the power series converges uniformly to the
+   infinite power series at x in [-R + epsilon, R - epsilon] for each epsilon
+   > 0. Therefore it is continuous on the open interval (-R, R)a
+** Examine Derivatives
+   fn -> f implies that fn' -> f' for some fn' converging uniformly to g, and
+   fn converging uniformly to f, then f' = g.
+
+   Application - say that f(x) = SUM a_n x^n on (-R, R), so 1/R = lim sup
+   abs(a_n)^(1/n)
+
+   We would like to take the derivative termwise and have everything work. Is
+   it true for this summation?
+
+   Let S'n(x) be the derivative of the nth partial sum. This has the same
+   radius of convergence of x * SUM derivative of each term, n from 0 to
+   inf. We get the same radius of convergence, so we are cool.
+
+   Similarly, since we did not change the radius of convergence, we can keep
+   taking derivatives forever. Even better - we can calculate the derivative at
+   zero and relate that back to the original function, which gives us a
+   function in terms of its derivatives at zero (MacLaren series)
+** Analytic Functions
+   Can be represented by such a power series at all points.
+** Abel's Theorem
+*** Examples
+    What happens at the end points?
+    the infinite SUM of x^n diverges at x = 1.
+    However, infinite SUM 1/n x^n converges at x = -1.
+    Similarly, infinite SUM 1/n^2 x^n converges at x = -1.
+*** Statement
+    Say that the infinite sum of c_n x^n converges for -1 < x < 1 and that the
+    sum of the coefficients converges. Then
+
+    LIM (x -> 1-)  = SUM c_n
+*** Proof
+    Let c_n = s_n - s_{n-1} for finite sums, where s_{-1} = 0.
+
+    Then we may split the sum, reindex, and get
+
+    SUM(1,m) s_n x^n - x SUM(1,m-1) s_n x^n = s_m x^m + (1-x) SUM(0,m) s_nx^n
+
+    For abs(x) < 1, let m -> inf, so we get
+    f(x) = (1 - x) SUM(0,inf)s_n x^n
+
+    Suppose that s_n -> s. Let epsilon > 0. Choose N large, so
+    aas(s - s_n) < epsilon/2 and crash through with absolute values a lot.
+*** Applications
+    if SUM a_n, SUM b_n, SUM c_n converge to A,B, and C, then
+    c_n = a_0 b_n + ... + a_n b_0 -> C = AB.
+
+    if SUM a_n converges absolutely to A, SUM b_n = B,
+    c_n= SUM a_k b_{n-k} -> SUM cn = AB
+
+    Proof of the more general result:
+    f(x) = SUM a_n x^n, g(x) = SUM b_n x^n, h(x) = SUM c_n x^n, all for
+    0 .LEQ. x .LEQ. 1.
+
+    All of these have a radius of convergence greater than 1, so by Abel's
+    theorem f(x) -> A, g(x) -> B, and h(x) -> C as x -> 1-.
+** Theorem 8.4
+   For f(x) = power series on abs(x) < R, we have uniform convergence on
+   [-R + delta, R -delta] for all delta.
+   Pick some a such that -R < a < R. Then f can be expanded in a power series
+
+   SUM f(n)(a)/n! (x - a)^n
+
+   which is valid for abs(x - a) < R - abs(a). Therefore we can approximate it
+   locally by this specific power series.
+** Double Series Theorem
+   Given some {a_ij}, and
+   SUM (j=1 to inf) abs(a_ij) = b_i < inf for any i
+   and SUM b_i converges then
+
+   SUP (over m) SUM (i=1 to m) SUM (j=1 to m) abs(a_ij) < inf
+
+   (also known as we can exchange the summation orders)
+*** Generalizations
+    We already proved this last semester, but we may do it now with power
+    series.
+    The more general result is
+    fn -> f uniformly of A -> lim (t -> x) lim (n -> inf) fn(t) = switched
+    limits
+    (so fn continuous implies that f is continuous)
+** Theorem 8.4
+   Say that f(x) = SUM c_nx^n on some interval (-R, R)
+   then f is infinitely differentiable on (-R,R) and f(x) equals its taylor
+   series at least for abs(x - a) < R - abs(a)
+*** Remark 1
+    The two polynomial representations of f are the same.
+*** Proof
+    f(x) = power series = SUM c_n ((x - a) + a)^n
+         = SUM c_n (SUM (m= 0 to n) (n m) a^(n-m) (x - a)^m)
+
+    what happens if we differentiate this series m times?
+    f^(m)(x) = SUM (n+m)(n + m - 1) ... (n + 1) c_{n+m} a^n
+    where the product is just (n+m m) * m!
+
+    Therefore this summation is still equal to
+    SUM abs(c_n) (abs(x - a) + abs(a))^n
+    which converges absolutely for r < R -> 'cool by previous result on
+    interchanging order of summation'
+** Theorem 8.5 - Uniqueness of Analytic Continuation
+   Suppose that f(x) = some power series and g(x) = some other power series on
+   (-R,R). Let E = {x in S : f(x) = g(x)}. Suppose that E has a limit point in
+   S. Then f(x) = g(x) for all x in S.
+
+   Note that this is not true for all C^inf functions: let
+   f(x) = 0, x .LEQ. 0, and f(x) = e^(-1/x) for x > 0 and g(x) = 0. Then E =
+   RR- is cool but f(x) /= g(x) for x > 0.
+*** Proof
+    Let c_n = a_n - b_n and f(x) = SUM c_n x^n, so f(x) = 0 on E. Let A be the
+    set of limit points of E in S. Let B = S \ A. Then A is closed relative to
+    E implies that B is open.
+
+    We claim that A is also open. Then S = A U B = disconnection of S, but S =
+    (-R, R)  is open. Therefore one of A or B is empty. By hypothesis, A is not
+    empty, so B is empty. Therefore A = S, so f = 0 on all of S.
+
+    Why is A open?
+    Let x0 in A. Then we know that
+    F(x) = SUM d_n(x - x0)^n for abs(x - x0) < R. Therefore
+
+    Suppose there is a first k where dk /= 0, so f(x) = SUM n=k on

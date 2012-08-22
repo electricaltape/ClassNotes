@@ -1,5 +1,17 @@
-* Homework 1
-  if g is real, then hat(g)(K) = hat(g*)(-K)
+* Homework
+** 2/27
+   Page 134, 89, 90.
+* Fun things to do
+** Homework 1
+   if g is real, then hat(g)(K) = hat(g*)(-K)
+** Poisson - part 2
+   How can we go from Poisson with Cea's lemma to interpolation error?
+** Homework 4
+   Use a similar approach to Cea's Lemma/what Zhu did for NS to prove error
+   estimates for Stokes.
+** Homework 5
+   #94, page 135 - prove an error estimate for the pressure under the inf-sup
+   norm.
 * Turbulence
 ** What is turbulence?
    Does it even make sense to define it? Some say that we should only approach
@@ -81,38 +93,83 @@
 
       < g(x) exp(-I k dot x) > = ck
 
-      if g is real -
+      g(x) = SUM (over k) g(k) exp(I k dot x)
 **** Direction of energy transfer
      Energy enters at the lowest wave numbers. The energy is transfered to
      larger wave numbers - at the Kolmogorov length scale the energy is
      dissipated to heat.
-**** Viscous dissipation
-     This is why we picked viscous dissipation - we cannot get a lot of energy
-     to high wave numbers. We can only recover information at lower wave
-     numbers.
+***** Viscous dissipation
+      This is why we picked viscous dissipation - we cannot get a lot of energy
+      to high wave numbers. We can only recover information at lower wave
+      numbers.
 **** Mathematics of the energy cascade
      Not much is known rigorously about this picture.
 
-* Making due with less - given an equation for u, how can we calculate average(u)?
+     Energy enters at the top, travels down at a slope of -5/3rds, and then
+     exists at the bottom. Why? Verified by practice but not by theory.
+
+     Kolmogorov argued that the energy in the system scales like
+     E(k) ~ C e^a k^b, where E(k) is the energy contained within wave number k.
+
+     e - energy dissipation rate
+     e = LIM SUP (T to inf)
+     INTEGRAL (0,T) (1/L^3 INTEGRAL (Omega) nu (Grad dot u(x,t))^2 dx) dt
+
+     Therefore we are taking a time average over the space average
+
+     We want b = -5/3 so that we arrive where we want to (that is, show the
+     equation describing the slope of the line)
+
+     Richardson was the orginator of the concept of *energy cascade* -
+     Kolmogorov just elaborated on some of the mathematical background.
+
+     We get a similar thing for nu/L = Re^(-4/3)
+***** Dimensional Analysis
+      [k]    = 1/L (inverse length)
+      [e]    = U^3/L (combination of viscosity and (Grad u)^2)
+      [E(k)] = energy units
+
+      Therefore, to make everything line up - we need U^2 L = U^(3a)/(L^a L^b),
+      which implies that b = -5/3.
+*** Fourier Transforms - In general
+    F_k(dg/dxj) = 1/i^3 TRIPPLE INTEGRAL (OMEGA) dg/dxj (x) exp(-I k dot x) dx
+                = -I K_j g(k) /*we can reduce derivatives to multiplication*/
+* Making due with less - given an equation for u, what is average(u)?
 ** Starting with NS
-   + We may say that the average left side is equal to the average right
-     side. Decent averaging is linear, so we can average term-wise.
-   + Similarly, assume that the average of the gradient is the gradient of the
-     average. Also assume this for time derivatives and Laplacians.
-   + Now we can turn it into a PDE of the average variables (average velocity
-     and average pressure)
-   + Note that we cannot know in advance what areas of the flow will be badly
-     behaved - we need some strategy for mesh adaptation.
-*** Dealing with the convective term
-    we have the average of 'u dot Grad u', but we want this as a function of
-    our average variables.
+*** Average Version
+    + We may say that the average left side is equal to the average right
+      side. Decent averaging is linear, so we can average term-wise.
+    + Similarly, assume that the average of the gradient is the gradient of the
+      average. Also assume this for time derivatives and Laplacians.
+    + Now we can turn it into a PDE of the average variables (average velocity
+      and average pressure)
+    + Note that we cannot know in advance what areas of the flow will be badly
+      behaved - we need some strategy for mesh adaptation.
+**** Dealing with the convective term
+     we have the average of 'u dot Grad u', but we want this as a function of
+     our average variables.
 
-    We also want the equation to look like it has a lower Reynolds
-    number. Therefore we want some positive constant C where
+     We also want the equation to look like it has a lower Reynolds
+     number. Therefore we want some positive constant C where
 
-    u average dot Grad u average = C Laplacian u average.
+     u average dot Grad u average = C Laplacian u average.
 
-    this will lower the *effective* Reynolds number.
+     this will lower the *effective* Reynolds number.
+*** What is the advantage of artificial viscosity?
+    If we drop everything but the time and diffusion:
+
+    du/dt + nu * K^2 u = 0
+
+    the solution is an exponential : u = exp(-nu K^2 t). Therefore we get
+    *largest change for lowest wave number*. This makes the higher frequencies
+    die faster.
+*** Projection and NS
+    Say we try a model like
+
+    duj/dt + nu K^2 uj = -Pjk /*projection onto plane perpendicular to K*/
+    [ iKl SUM (over K') uk(K') ul (K - K')]
+
+    we cannot decouple this way.
 ** Closure Models
 *** Closure Model 1
     Try a variant of NS:
@@ -129,3 +186,313 @@
 
     This is nice - the higher u gets, the larger the effect of scaling the
     Reynolds number.
+* Cea's Lemma and error estimates
+** Lemma itself
+   norm(u - u^h) .LEQ. C INF norm(u - v^h)
+*** Proof
+    Let v = v^h. Then
+    a(u,v^h) = L(f,v^h) and a(u^h,v^h) = L(f,v^h) : combine and get
+    a(u-u^h, v^h) = 0 for all v^h in X^h.
+    *trick* Use e = (u - w^h) - (u^h - w^h) /* first part is in X, second part
+    in X^h */, so rewrite as e = eta - Phi^h, where eta is in X and Ph^h is in
+    X^h.
+
+    Therefore a(eta, Ph^h) = a(Phi^h, Phi^h) = seminorm(Phi^h, H1)^2
+    by Cauchy-Schwarz : (eta, Phi^h, H1) .LEQ. C * seminorm(eta) * seminorm(Ph^h)
+
+    now we are almost done. We still need to take norm(u^h - w^h, H1) and get
+    norm(u - u^h, H1).
+
+    norm(e) = norm(eta + Phi^h) .LEQ. seminorm(eta, H1) + seminorm(Phi^H, H1)
+
+    where norm(phi^h) .LEQ. norm(eta)
+*** How did we do this?
+    /* Use this same algorithm whenever the problem is stationary. */
+    We used continuity (AKA cauchy schwarz) as well as the Galerkin
+    orthogonality. Here are the steps:
+    1. Galerkin orthogonality (a(u - u^h, v^h) = 0) /* error perpendicular */
+    2. Split the error : e = eta - Phi^h (eta in X, Phi^h in X^H)
+    3. Use coercivity, continuity, and a(*,*) to obtain
+       norm(Phi^h) .LEQ. C norm(eta)
+    4. Apply the triangle inequality:
+       norm(e) .LEQ. norm(eta) + norm(Phi^h)
+    5. Take the infimum over w^h in X^h
+    6. QED
+** How may we calculate the infimum?
+   + Call the RHS O(h^k), where h^k comes from the interpolation error.
+   + For the H1-norm we get an interpolation error O(h^1).
+   + For the L2-norm we get an interpolation error O(h^2).
+** How may we practically test this?
+   Choose v^h in the RHS of Cea to be the linear interpolant of u in X^h. Then
+   from interpolation we can prove that norm(u - interpolant(v)^h, H1) = O(h).
+   We may also prove that norm(u - v^h, L2) = O(h^2)
+* Duality
+** Introduction
+   WE have some linear operator L. What do we know about the adjoint operator,
+   L*?
+
+   (Lv, u*) = (v, L*u*) would be nice behavoir.
+** Have and Need
+  We know for the energy norm that norm(u - u^h, 1) = O(h^k)
+  We want to prove that norm(u - ^h, 0) = O(h^(k+1)), or we gain an order in
+  the L2 norm
+** Example: Poisson
+   /* Aubin-Nitche Trick */
+   -Delta u = f, u = u - u^h
+   Let e = u - u^h. Then e = (u - v^h) - (u^h - v^h)
+                           = eta - Phi^h; Phi^h in X^h
+
+   Then: seminorm(e,1)^2 = (Grad e, Grad e)
+                         = (Grad e, Grad e)
+                         /* substitute from above */
+                         = (Grad e, Grad nu - Grad Phi^h)
+                         = (Grad e, Grad nu) /* Galerkin orthogonality */
+                         .LEQ. seminorm(e,1) seminorm(eta,1) /* C-S */
+
+   Where does duality come in? If we can just write seminorm(e,0)^2 = (e,e)
+   then we are done. Instead write
+
+   /* We can apply Galerkin orthogonality because Grad e is perpendicular to
+   anything in the approximating space */
+   seminorm(e,0)^2 = (Grad e, Grad u* - Grad u*^h)
+   /* apply Cauchy-Schwarz */
+   .LEQ. seminorm(e,1) seminorm(u* - u*^h, 1)
+   where we can bound the second seminorm by the seminorm of the interpolation
+   error. What we want is
+   seminorm(u* - u*^h, 1) .LEQ. h seminorm(u*, 2) .LEQ. h^1 seminorm(e, 1)
+*** Implies that we solve (e,e) = (Grad e, Grad u*)
+    We really want (e,e) = (e, -Laplacian u*) - therefore we solve
+    -Laplacian u* = e, u* = 0 on boundary
+
+    What can we do? Since we have _elliptic regularity_ it holds that
+    seminorm(u*, 2) < C seminorm(e,0)
+** General Approach
+   Let Lu = f, where L is elliptic and linear. Then, for Lu^h = f, by Galerkin
+   Orthogonality we have that
+
+   (L(u - u^h), v^h) = 0 for all v^h in X^h.
+   *Have* - norm(e,1) = O(h^k)
+   *Need* - norm(e,0) = O(h^(k+1))
+
+   Where do we start? seminorm(e,0)^2 = (Le, u*)
+                                      = (e, L*u*) /* L* is adjoint */
+
+   Therefore we have our dual problem : we need to find L*u* = e.
+
+   Therefore (e, L*u*) = (Le, u* - u*^h). This works out nicely for Poisson
+   because that operator is *self adjoint*
+** Example: Navier Stokes
+
+*** Have and Need
+    We know that seminorm(u - u^h, 2) = O(h^k)
+    We want to bootstrap to the 1-seminorm and 0-seminorm.
+** Example : 2D NSE
+*** Have and Need
+    Assume that we are in a divergence-free space. Most of our previous work
+    required a linear operator - we need to linearize it before we begin.
+
+    Lv = -Laplacian v + (u dot Grad) v + (v dot Grad) u
+    The adjoint: a lot harder. Solve this for 100 points!
+
+    so if L(V) = -Delta v u dot Grad v + nu dy .DoT.
+
+    An initial guess:
+    Guess that Lv = -v'' + uv' + vu'
+    and        L*u = -u*'' - u - ux
+
+    Then we can equate the equation and the divergence of the equtation by equality.
+* Proving Convergence
+** Overview
+   The 'holy grail' of finite elements - how can our approximation approach the
+   true solution?
+** Projections and Convergence
+   if (u^h, p^h) is a solution of S^h where NORM((u^h, p^h)) .LEQ. C
+   NORM((u,h)) then (u,p) -> (u^h, p^h) is a projection and (u^h, p^h) exist
+   uniquely.
+
+   *Using the little lemma* then we can get that we have convergence, or
+   NORM(u - u^h) + NORM(p - p^h) .LEQ. INF (v^h, q^h) (NORM(u - v^h) + NORM(p -
+   q^h))
+
+   Therefore, for some solution (u, p) that solve the stokes problem, we get
+   exactly one approximate solution (u^h, p^h). This is a well-defined
+   function. Why? This is the same as Ax = 0 has only the trivial solution.
+** Example - Steady-State Navier Stokes
+*** Overview
+    We have both continuous and discrete versions - additionally, compared to
+    Stokes, we also need to consider Re (or nu - same thing).
+
+    May we apply the same algorithm as we did for Stokes to prove convergence?
+    Note that
+    1. ((u dot Grad) dot u, u) = 0 for all u in H01 - we may get rid of the
+       convection term by manipulating the test function.
+    2. Small data implies uniqueness of NS.
+    3. Existence - can prove for any Re.
+
+    With this, we can attempt to apply the Little Lemma and obtain some
+    convergence result.
+*** (2)
+    Suppose that u1 and u2 are solutions of the Navier Stokes equations. Then
+    nu(Grad u1, Gradv) (u1 dot Grad u1, v) - (p, Grad v) = (f,v)
+    We know by incompressibility that (p, Grad dot v) = 0.
+
+    Then, subtracting that from the same thing for u2:
+    nu(Grad u2, Gradv) (u2 dot Grad u2, v) = (f,v)
+    so
+    nu(Grad(u1 - u2), Grad v) + (u1 dot Grad u1, v) - (u2 dot Grad u2, v) = 0.
+
+    a technique: let u1 - u2 = e, let v := e. Then we get
+    nu (Grad e, Grad e) + (e dot Grad u, e) + (u2 dot Grad e, e) = 0
+    by *skew symmetry* the third term drops:
+    nu (Grad e, Grad e) + (e dot Grad u, e) = 0
+
+    we know that the first term is positive - therefore we want to show that
+    the magnitude of the second is bounded by the first so that they are both
+    zero.
+
+    Let M = sup (u,v,w in X) (u dot Grad v, w)/(NORM(u) NORM(v) NORM(w)) < inf
+    (a Ladyzhenskya norm)
+*** Convergence Analysis
+    How may we guarantee that solutions to finite element approximations of NS
+    converge to the solution?
+
+    For well-posedness: assume the small data condition. This should prove
+    existence and uniqueness.
+
+    Start with the weak form and let v^h = u^h. Then
+    a0(u^h, v^h)     = nu (Grad u^h, Grad v^h)
+    b(u^h, v^h, w^h) = ((u^h dot Grad)v^h, w^h)
+
+    To deal with the nonlinear form: let b*(u^h, v^h, w^h) = 1/2 b(u^h, v^h,
+    w^h) - 1/2 b(u^h, w^h, v^h)
+
+    Therefore we call what we have
+    a0(u^h, v^h) + b*(u^h, v^h, w^h) + c(p^h, v^h) = (f, v^h)
+
+    Now apply the following algorithm:
+    1. u - u^h
+    2. e = (u - u^h) - (u^h - v^h) = nu - psi_m
+       /* we cannot control nu, the interpolation error */
+
+    *Goal* get a bound SEMINORM(psi^h) .LEQ. C NORM(nu) (for all v^h)
+    and inf abs(phi^h) .LEQ. C inf abs(nu). This way we can get something like
+    abs(e) .LEQ. SEMINORM(phi^h) + SEMINORM(nu)
+*** Approach: NSE - NSE^h
+    Rewrite with the b* version of the trilinear form, and subtract the
+    difference. We wish to bound u - u^h.
+
+    Subtracting the two: let e1 = u - u^h and e2 = p - p^h. Then
+    nu(Grad e1, Grad u^h) + b*(u,u,v^h) - b*(u^h, u^h, v^h) - (e2, Grad dot
+    v^h) = 0
+    and
+    (q^h, Grad dot e1) = 0
+
+    Then, rewriting the trilinears:
+    b*(u, u, u^h) = b*(e1, u, v^h) + b*(u^h, u, v^h)
+    we can do a lot of tricks in here with e1.
+                  = b*(e1, u, v^h) + b*(u^h, e1, v^h) + b*(u^h, u^h, v^h)
+* Approximating Steady Flows
+** Introduction
+   A better title: _Finite Elements for Steady-State Navier Stokes_
+   We may write the NS equations with no time dependency as
+
+   -Re^-1 Laplacian u + (u dot Grad) u + Grad p = f, Grad u = 0
+** The weak formulation
+   nu (Grad u, Grad v) + ((u dot Grad)u, v) - (P, Grad dot v) = (f,v)
+   /* we wish to assume as little regularity about P as possible, so transfer a
+   derivative over */
+   and (Grad u, q) = 0 /* use the pressure basis functions */
+** FEM Formulation
+*** Finding a Solution
+    Find some u^h, p^h in X^h, Q^h such that the weak formulation
+    nu (Grad u^h, Grad v^h) + ((u^h dot Grad)u^h, v^h) - (P, Grad dot v^h) =
+    (f,v^h) for all v^h in X^h
+    and (Grad u^h, q^h) = 0 for all q^h in X^h
+
+    We also work with *conforming* finite elements - X^h is a subset of H^1_0
+    and Q^h is a subset of L^2_0.
+
+    *The best we may hope for* convergence to the solution.
+*** Issues to examine
+    1. Well-posedness
+    2. Convergence
+    3. Existence, but not uniqueness for large data. For large data we can even
+       use functional analysis to show that multiple solutions exist.
+*** Inf Sup Condition
+    Also known as LBB;
+
+    INF (q in L20) SUP (v in H10) (q,Grad v)/(norm(q) norm(v)) .GEQ. beta > 0.
+*** 'Little Lemma'
+**** Statement
+     We have a family of operators {Y^h} and some projections {P^h}. If we can
+     prove that the projections are uniformly bounded,
+     NORM(P^h y) .LEQ. alpha NORM(y) for all h,
+     then the conclusion is Cea's Lemma, or
+     norm(w - P^hw) .LEQ. C(alpha) inf (v^h in Psi^h) NORM(w - v^h)
+**** Proof
+     norm(w - P^h w) .LEQ. NORM(w - v^h) + NORM(v^h - P^h w)
+
+     where NORM(w - v^h) .LEQ. (1 + alpha) NORM(w - v^h)
+     and, as v^h = P^h v^h, NORM(v^h - P^h w) .LEQ. alpha NORM(v^h - w),
+     for all v^h.
+
+     Therefore, as it is true for all v^h, we can take the infimum.
+*** 'The Crazy Part'
+**** Statement
+     If we have some projection (u,p) -> (u^h,p^h) and
+     NORM((u^h,p^h)) .LEQ. C NORM((u,p))
+     then there exists a unique approximation to S^h /* discretized stokes */
+**** Proof
+     Take the Stokes problem: (Grad u, Grad v) - (p, Grad v) = (f, v) and
+     (Grad u, q) = 0.
+
+     Similarly, we also have the discrete stokes problem:
+     (Grad u^h, Grad v^h) - (p^h, Grad v^h) = (f, v^h) and (Grad u^h, q^h) = 0.
+
+     The link between the two is f, the forcing function. We can use this to
+     create a map between the two spaces.
+
+     We say: given any pair (u,p), there exists a unique (u^h, p^h) in our
+     finite-dimensional space.
+
+     It would be nice to have something similar to linear algebra, where if the
+     only vector in the null space is the zero vector we know that our mapping
+     is 'nice'.
+
+     Or: if (u^h, p^h) = (0,0) then (u,p) = (0,0). This is true!
+     Additionally: this is a projection operator because it maps (u^h,p^h) to itself.
+**** Last Step: boundedness
+     The last thing we need to show is that NORM((u^h, p^h)) .LEQ. C
+     NORM((u,p)).
+
+     To show the convergence of S^h to S, the only thing we need is a uniform
+     bound for u^h and a uniform bound for p^h.
+
+     Our first try: let v^h := u^h. Then
+     nu NORM(Grad u^h)^2 .LEQ. (f,u^h) .LEQ. NORM(f) NORM(Grad u^h)
+     which implies that
+     NORM(Grad u^h) .LEQ. NORM(f)/ nu, not quite what we wanted.
+
+     Next piece of information: How do we prove a bound for p^h?
+* Time Dependent Navier Stokes
+** Duality Notes
+   20 or so pages posted on Scholar.
+** Bounding the Pressure Error
+   We have to play games with spaces; more notes on scholar.
+** Fixed Point Contraction Operator
+   We need a solution to T(x) = x : a.k.a. lipschitz continuous with a constant
+   of less than one.
+
+   Section 7.2 : Whenever you have a small-data condition, then we have to
+   think that a fixed-point iteration is somewhere in the background.
+
+   Banach's fixed-point theorem is in the background here.
+
+   Consider (T(u) - u, v^h) - (T(u^h) - u^h, v^h). This equals
+   (T(u) - T(u^h), v^h) - (u - u^h, v^h) = 0.
+
+   Let e = u - w^h - (u^h - w^h). Then nu = u - w^h, Phi = u^h - w^h.
+   Let v^h = phi^h. Then
+
+   (T(u) - T(u^h), Phi) - (nu, Phi) + (Phi, Phi) = 0.
+   Norm(Phi) .LEQ. NORM(nu)*NORM(Phi) - NORM(T(u) - T(u^h), Phi^h)

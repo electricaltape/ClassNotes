@@ -1,0 +1,50 @@
+* Class Layout
+** Introduction
+   + Reminder of deadline (test), test procedure (multiple attempts)
+   + Review of when help is available (Friday morning, office hours, etc)
+   + Review of recent test averages.
+   + Start with some group work to get people moving.
+   + Alternatively, start with examples.
+** Material
+*** Integrals - Do things backwards
+    + Emphasis on things already known - chain rule from differentiation.
+    + Do things one step at a time (minimum number of things/time)
+    + Relate u-substitution to the chain rule from differential calculus
+*** u-substitution algorithm
+    1. Choose a u. Separate into parts related to u and u.
+    2. Substitute and integrate
+    3. Substitute back to convert a function of u to a function of x.
+
+    The algorithm is presented; then we ran through several examples
+    clearly following the algorithm through.
+
+    The harder examples are saved for later; the easier ones come earlier in
+    the series of examples.
+*** Trigonometric Substitution
+    Discuss several ways to solve the problem; take suggestions from
+    students.
+*** Dealing with Mistakes
+    Encourage students to speak out when they find errors.
+*** Area Between Curves
+    Provide an algorithm:
+    1. Find intersection points.
+    2. Test values in the intervals.
+    3. Write separate integrals.
+
+    This is a general procedure for calculating areas between curves.
+
+    By this point in the class the instructor just sets up integrals in terms
+    of basic functions (sines, cosines, polynomials, exponentials) and saves
+    time by not solving them.
+** Time to walk around
+   The instructor took about 5 minutes in the middle of the lecture to let
+   students practice the material; she walked around and observed and then
+   reviewed the solutions.
+
+   Instructor ocassionally calls on students to randomly come to the front of
+   the class and do a problem. Everyone receives extra credit if the student is
+   correct. This provides strong motivation for the students to work examples
+   in class.
+* My own stuff
+** Lecture after spring break
+   Integration by parts; prepare lecture *before* I leave town.

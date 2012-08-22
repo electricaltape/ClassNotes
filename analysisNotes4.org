@@ -1,0 +1,1659 @@
+'Any problem is fixed with the right definition'
+* Homework
+** Homework 6
+*** Problems
+    198, 12,13,14,15
+*** Hints
+    Write sigmaN(f,x) as -INTEGRAL (-pi,pi) KN(x - y) f(y) dy
+    where KN = Fejer kernel, satisfies
+    + KN .GEQ. 0
+    + INTEGRAL (-pi,pi) KN(t) dt = 1
+    + INTEGRAL (-pi,-delta) + INTEGRAL (delta, pi) -> 0 as N -> inf for each
+      delta > 0
+
+    the rest is similar to Weirstrass.
+** Homework 7
+*** Problems
+    239-240 6, 7, 14, and more? Due Friday, April 6.
+    check email for extra stuff
+*** Solutions
+**** Problem 16
+     Because of the chain rule (or the fact that we cannot use it) we get the
+     wrong answer from the naive application of the directional derivative.
+
+     Let gamma(t) = (a(t), b(t)),
+     so d/dt f . gamma (at t = 0) = a'(0)^3 / (a'(0)^2 + b'(0)^2)
+
+     We can prove that f is not differentiable at (0,0):
+
+     (f(x,y) - f(0,0) - [ [1, 0]] [[x],[y]]) / NORM([x,y])
+
+** Homework 8
+   239 15, 16, 18, 19
+   Bonus: what is the function in problem 18 in complex notation?
+
+   Use a = (0,1), b = (-1,0) for problem 18.
+** Homework 9
+   242, 27 : the mixed second derivatives can exist on RR2 and be continuous at
+   everywhere but the origin, but d2f/dxdy = 1 /= -1 d2f/dydx, so the partial
+   derivatives are order dependent.
+   also 28 and 30.
+** Homework 10
+   289-290 4,5,8,9
+   includes understanding 10.7 in an example problem.
+* Exam
+** Part A: Take Home
+   Homework! To be posted.
+** Part B: Statements of Theorems
+   single-variable theorems, linear algebra theorems - state
+   multivariable/nonlinear extensions.
+* Final Exam (Part 1)
+  Page 291 #17
+
+  When we do the chains pieces should cancel out. We will obtain something more
+  geometric.
+* Trigonometry without angles
+** Introduction
+   See the prologue to Rudin's book on Real and Complex analysis.
+   Define pi so that pi/2 is the first positive zero of
+
+   C(x) = 1/2 (E(ix) + E(-ix)) and E(z) = SUM z^n/n!
+   S(x) = 1/(2i) (E(ix) - E(-ix))
+
+   where C and S will become cosine and sine.
+** Fourier Series
+*** Overview
+    Trigonometric polynomials - Fourier solved the heat equation by
+
+    f(x) = a0 + SUM (n from 1 to N) an*cos(nx) + bn*sin(nx)
+
+    more conveniently, in terms of the exponential function:
+    = SUM (n from -N to N) Cn exp(i n x)
+
+    where a0 = c0, an = cn + c(-n), bn = i(cn - c(-n))
+*** Integrating the more convenient form
+    Note that we may recover the constants cn by integrating:
+
+    1/2pi INTEGRAL (-pi, pi) f(x) exp(-i*m*x) dx =
+    1/2pi INTEGRAL (-pi, pi) SUM (-N,N) cn exp(i*n*x) * exp(-i*m*x) dx
+
+    which allows for us to calculate each cm.
+*** The Cadillac Model of Inner Product Spaces
+    hilbert spaces. L2 is not complete.
+*** Taylor Series - Relation to Fourier
+    Say that f is infinitely differentiable. Then we may recover derivatives by
+    f(x) ~ SUM (n from 0 to inf) f^(n)(0)/n! x^n
+
+    when is ~ actually =?
+
+    Say that {phi_n} is an infinite orthonormal set on H and f is in H. Then we
+    associate the abstract Fourier series
+
+    f ~ SUM (-inf, inf) < f, phi_n > phi_n
+
+    is the abstract version of the Taylor Series. We want
+    norm(f - SUM <f, phi_n> phi_n ) -> 0 as N -> inf.
+*** Theorem 8.11
+**** Statement
+     Let {phi_n} be an orthonormal set on some hilbert space H. Let
+     sn = SUM (m=-n, n) cm phim where cm = <f, phim>.
+
+     Suppose that tn = SUM (m=-n,n) gamman phin is another projection on to
+     some orthonormal series of functions.
+
+     Then NORM(f - sn)^2 .LEQ. NORM(f - tn)^2 /* we have solved some
+     optimization problem */
+
+     Therefore sn is the best mean approximation to f by any trigonometric
+     polynomial of degree less than or equal to n.
+**** Proof
+     NORM(f - tn)^2  = < f - tn, f - tn >
+                     = < f, f > - < f, tn > - < tn, f > + < tn, tn >
+
+     where < f, tn > = < f, SUM gammam phim >
+                     = SUM conjugate(gammam) cm
+
+     and  < tn, tn > = < SUM gammam phim, SUM gammak phik >
+                     = SUM SUM gammam conjugate(gammak) < phim, phik >
+                     = SUM gammam^2
+
+     so our original deal becomes
+     NORM(f - tn)^2  = NORM(f)^2 - SUM abs(cm)^2 + SUM abs(cm - gammam)^2
+
+     which is minimized for gammam = cm.
+**** Interesting Result
+     Take gamman = cn. Then
+     SN(f) = SUM (f, phin) phin
+
+     and 0 .LEQ. NORM(f - SN(f))^2 = NORM(f)^2 - NORM(SN(f))^2
+     so we recover a version of the Pythagorean theorem due to orthogonality of
+     f - SN(f) to SN. We may obtain this by expanding a bunch of inner
+     products:
+     (f + g,f + g) = NORM(f)^2 + NORM(g)^2
+*** Hilbert Spaces
+**** Example - incomplete space
+     (f,g) = 1/2pi INT (-pi, pi) f(x)conjugate(g(x)) dx
+
+     this is not complete with the Riemann integral.
+**** Example - complete space
+     Same thing as above, but with the Lebesgue integral
+* Infinite Orthonormal Sets
+** Properties
+*** Bessel's Inequality
+    Let {Phi_n} be an infinite orthonormal set. Then, for any N,
+
+    SUM (f,phi_n)^2 .lEQ. NORM(f)^2
+
+    which even holds in the infinite case.
+** Skip to Chapter 11
+*** What can we say about an orthonormal set in a complete space?
+    Let H be a Hilbert space and let {Phi_n} be  an orthonormal set.
+
+    Then SN(f) = SUM (f,Phi_n) Phi_n.
+
+    and: NORM(SM(f) - SN(f)) = NORM(SUM(N+1 to M) cn Phin_n)^2 = sum of
+    squares of cns and, since the sequence converges by completeness (cauchy
+    sequence in a complete space) this summation of the tail of cns must go to
+    zero as N and M grow.
+
+    When can we say that f = S?, where S = LIM (n -> inf) SN(f)? That is, when
+    does a function equal its infinite Fourier series?
+
+    We can make the orthonormal set 'too small' - say we have some orthonormal
+    set and we pop off an element. Said popped off element cannot be
+    approximated by its Fourier series, because the remainder of the set is
+    orthogonal.
+
+    We say that an orthonormal set is complete if f in H, (f, phi_n) = 0 for
+    all n implies that f = 0.
+*** Theorem - Convergence of Fourier Series'
+**** Statement
+     Let H be a Hilbert space and let {Phi_n} be a complete orthonormal
+     set. Then f is equal to its Fourier series generated by {Phi_n}.
+**** Proof
+     We want to show that f - s = 0 under the completeness assumption. We can
+     show (based on completeness) that (f - s, phi_m) = 0 for all m.
+
+     LIM (N to inf) (f - SN, phi_m) =
+       (f, phi_m) - LIM (N -> inf) (SUM (f,phi_n) phi_n, phi_m)
+     = (f, phi_m) - LIM (N -> inf) SUM (f,phi_n) (phi_n, phi_m)
+
+     where all terms cancel in the sum by orthogonality but phi_m, which we
+     subtract off.
+*** Example
+    Let H = the Lebesgue L2 functions on (-pi, pi). Then
+    {phi_n} = {e^(inx)} for n=0, +/-1, +/-2, ... is orthonormal and complete.
+
+    Proof - Let f be in LL L2(-pi,pi). Let epsilon > 0. By a result from
+    measure theory, there exists some continuous g in LL L2 such that
+
+    NORM(f - g)^2 < epsilon, where g(-pi) = g(pi).
+
+    Then we can approximate this g by Stone-Weirstrass.
+
+    Therefore for some f in LL L2, there is some sequence {Pn} of
+    trigonometric polynomials where Pn -> f in the L2 norm.
+
+    Final step - For (f, phi_n) = 0, we have that
+
+    (f, PN) = (f, SUM cn exp(inx)) = SUM conjugate(cn) (f, exp(inx)) = 0
+
+    Choose PN to be a trigonometric polynomials with PN -> f. Then
+    NORM(F)^2 = (f,f) = LIM (N -> inf) (f, PN) = 0.
+
+    so PN -> f implies that (PN,g) - (f,g) -> 0 for all g.
+
+    therefore - INTEGRAL (-pi,pi) (f(x) - SUM (f, phi) phi)^2 dx -> 0
+*** Lemma - Completeness of an orthonormal sequence
+    Let {Phi_n} be the usual exp(-inx) sequence on (-pi, pi).
+
+    Proof - we argued that there was a sequence of trigonometric polynomials
+    with NORM(f - PN)^2 -> 0 as N -> inf.
+
+    Let epsilon > 0.  Then there exists some continuous function h where
+    NORM(f - h) < epsilon/2 /* result from measure theory */
+    We can approximate this guy wyth some trig polynomial P_epsilon, where
+    NORM(h - P_epsilon) < epsilon/2
+
+    so NORM(f - P_epsilon) < epsilon
+
+    Similarly, if (f, phi_k) = 0 for all k, then
+    NORM(f)^2 = (f,f) = LIM (N -> inf) (f, P_N)
+                      = LIM (N -> inf) c_n (f, phi_n) = 0
+
+    so f = 0.
+*** Bessel's Inequality
+    SUM abs((f, phi_k))^2 .LEQ. NORM(f)^2 for any orthonormal set
+
+    if the orthonormal set is complete, then it becomes an equality.
+*** Parseval's Equality
+    Bessel's, but equal!
+** Back to Chapter 8 (no measure-theory cheating)
+*** Introduction - Approximating functions in R L2(-pi, pi)
+    Let H be RR L2(-pi, pi), some incomplete space.
+
+    Let f be an RR L2. Then by previous work
+
+    1/(2pi) * INTEGRAL (-pi, pi) abs(f(x) - SUM (-N to N) c_n exp(inx)) -> 0
+    for increasing N.
+
+    Say that f is bounded. Then f is in R L2(-pi, pi) = RL1(-pi, pi)
+    Then we can approximate f in the RL1 norm.
+
+    How do we do this? Choose a bunch of step functions, chisel away a little
+    on each end and connect with linears. Therefore the integral of the
+    approximation is as close as we like to the integral of the original.
+
+    then we do the same thing we did before - for any function f in R L2(-pi,
+    pi) we may approximate it by something continuous. We may then approximate
+    f by some continuous h (constructed as above). Then we may approximate h by
+    some trigonometric polynomial.
+*** If f is continuous, then does SN(x, f) -> f for all x?
+    How about uniform convergence?
+
+    No. There exists a continuous 2pi-periodic function on R such that there
+    exists an x where SN(x, f) does not converge to anything.
+
+    Even better - Kolmogorov showed that there exists some L1 function such
+    that SN(f,x) diverges for almost every x.
+*** The cop-out
+    Instead of SN(f), use sigmaN(f) where
+
+    sigmaN(f) = 1/(N + 1) (S0(f) + S1(f) + ... + SN(f))
+
+    then if f is continuous, then sigmaN(f) -> f uniformly.
+*** The cop-out: part2
+**** Assumptions
+     Assume that f has a continuous periodic extension across the whole line.
+
+     Also assume that there exists some delta > 0 and M < inf such that
+     abs(f(x + t) - f(x)) .LEQ. Mt for t in (-delta,delta).
+
+     Then SN(x,f) -> f(x) at this particular x.
+*** Dirichlet Kernel
+**** Introduction
+     DN(x) = SUM(-N, N) exp(inx)
+
+     SN(F,x) = 1/(2pi) SUM exp(inx) INTEGRAL (-pi,pi) f(t) exp(-int) dt
+             = 1/(2pi) int (-pi,pi) f(t) SUM (-N,N) exp(inx) exp(-int) dt
+
+     Then f(x) - SUM (-N,N) c_n exp(inx)
+     = 1/2pi * INTEGRAL (-pi,pi) f(t) DN(x - t) dt
+
+     we may analyze the error with an integral form!
+
+     DN(x) = sin((N + 1/2)x) / sin(x/2)
+
+     How did we get this? We can sum a geometric series:
+
+     exp(-iNx) SUM (0,2N) exp(ix)^n
+     = exp(-iNx) (1 - exp(i(2N+1)x)x)/(1 - exp(ix)) exp(-ix/2)/exp(-ix/2)
+     and then simplify:
+     = (-exp(-i(N + 1/2)x) + exp(i(N + 1/2)x))/(-exp(-ix/2) + exp(ix/2))
+     = sin((N + 1/2)x) / sin(x/2) = DN(x)
+**** Integral
+     1/2pi INTEGRAL DN(x) dx = 1. Harder to show.
+*** Theorem 8.14
+**** Statement
+     Given some periodic f in C([-pi,pi]) and x in [-pi,pi], if
+     abs(f(x + t) - f(x)) .LEQ. M abs(t) for -d < t < d, then
+
+     LIM (N -> inf) SN(f,x) = f(x)
+**** Proof (same as Rudin)
+     g(t) = (f(x - t) - f(x)) / sin(t/2), g(0) = 0. By hypothesis, g is
+     bounded - the only possible discontinuity is at x = 0.
+
+     Therefore g is in RR L2(-pi,pi).
+
+     Using the Dirichlet kernel we get that
+
+     SN(f,x) - f(x) = 1/(2pi) INTEGRAL (-pi,pi) (f(x - t) - f(x)) DN(t) dt
+
+     Then, decomposing by angle addition:
+     = 1/2pi INTEGRAL (-pi,pi) (g(t)cos(t/2))sin(Nt) dt   /* imaginary */
+     + 1/2pi INTEGRAL (-pi,pi) (g(t) sin(t/2)) cos(Nt) dt /* real */
+
+     = Im (G1, Phi_N) + Re (G2, Phi_N) -> 0 as N -> inf
+
+     Therefore, by Bessel's inequality we get that (G, PhiN) -> 0, so we are
+     done.
+**** Localization Theorem
+     f(t) = g(t) for all t in some neighborhood of x implies that
+
+     SN(f,x) - SN(g,x) = SN(f - g, x) -> 0 as N -> inf.
+
+     This contrasts with power series': if we have two functions which are
+     equal in some neighborhood, then the Fourier series should be the same
+     there.
+** Wavelets
+*** Frames
+    Let H be a Hilbert space. We say that {Phi_n} is a _frame_ if there exist
+    constants 0 < m .LEQ. M < inf such that
+
+    m NORM(f)^2 .LEQ. SUM (f,phi_n)^2 .LEQ. M NORM(f)^2
+
+    for a _tight frame_: m = M = 1, so Parseval holds. This does not imply
+    anything about completeness or orthonormality.
+*** Simple Example
+    Let phi_1 = (1,0), phi_2 = (0,1), phi_3 = 1/sqrt(2) (1, 0), phi_4 =
+    1/sqrt(2) (0, 1), for the hilbert space RR2.
+* Multivariable Calculus and Linear Algebra
+** Linear Vector Spaces
+   We care about linear functions. These may be represented by matrix
+   multiplication. Additionally, the have the property that
+   f(c1 x + c2 y) = c1 f(x) + c2 f(y) /* linearity */
+** Dual Spaces
+   We also have _dual spaces_ - L(x,y) is the set of linear functions from
+   dimension x to dimension y. We define addition of functions by
+
+   (f1 + f2)(x) = f1(x) + f2(x)
+
+   and composition by matrix multiplication.
+
+   This is also an _algebra_ - we have that A(B + C) = AB + AC, a lack of
+   commutivity. Satisfaction of these properties makes this a _module_.
+** Banach Spaces
+   (complete normed vector space) Let X be RR^n and Y be RR^m.
+   Let A be an operator in L(X,Y). We need not think of this as a matrix. Let T
+   be in L(H). Let a_ij be the numbers defined by (T phi_j, phi_i), so the
+   transformation of a basis vector with another basis vector. This generalizes
+   the concept of matricies.
+
+   Then if f is represented by its Fourier series (f = SUM x_i phi_i), so Tf =
+   SUM y_j phi_j, then we have an infinite matrix with
+
+   y = A x.
+** Induced Operator Norm
+*** Overview
+    Let NORM(T) = SUP({NORM(Tx) : x in X, NORM(x) .LEQ. 1})
+    in fact, NORM(T) = INF({lambda > 0 : NORM(T(x)) .LEQ. lambda NORM(x)})
+    Then, the above, by some extra work with the set, implies equality.
+
+    Then NORM(Tx) .LEQ. NORM(T) NORM(x) by linearity - take x = NORM(x) * x/NORM(x)
+
+    We say that T is _bounded_ if NORM(T) < inf. This is always true for finite
+    dimensional spaces.
+*** Finite Space Properties
+**** Boundedness of Operators
+     If X and Y are finite dimensional then T in L(X,Y) is finite dimensional.
+
+     *Proof*
+     Let {e1..en} be a basis for X and {f1..fn} be a basis for Y. Then if x =
+     SUM (1,n) x_i e_i and y = Tx = SUM (1,m) y_j f_j, then
+     [y_1..y_n] = A [x_1..x_n]
+     where T(x) = SUM(i=1,m) (SUM(j=1,n) a_ij x_j) f_j
+     so, taking the norm of both sides
+     NORM(T(x)) = NORM(SUM(i=1,m) (SUM(j=1,n) a_ij x_j) f_j)
+                = NORM(T(SUM(j=1,n) x_j e_j))
+                = NORM(SUM(j=1,n) x_j T(e_j))
+
+     therefore the x_js are at most one. Therefore
+                .LEQ. NORM(SUM(j=1,n) T(e_j))
+
+     which is finite. Therefore NORM(T) is finite.
+
+     Similarly, if T is a linear operator on just X and X is finite dimensional,
+     then T is bounded.
+**** Isomorphism to RRk
+     Let X be a finite-dimensional Banach space with basis vectors e1
+     .. ek. Then X is isomorphic to RR^k.
+
+     Pretty easy to prove. Map each basis vector to some basis vector of RR^k.
+**** Bounded Properties
+     if T is bounded, then T is uniformly continuous. Put another way, given
+     epsilon > 0, there exists delta > 0 such that NORM(x - y) < delta implies
+     that NORM(T(x) - T(y)) < epsilon.
+
+     *Proof*
+     NORM(T(x) - T(y)) = NORM(T(x - y)) .LEQ. NORM(T) NORM(x - y) < epsilon.
+**** The Two-Norm and Equivalency
+     NORM(x, 2) = (SUM abs(x_i)^2)^(1/2) is a norm.
+
+     There exist constants 0 < m .LEQ. M < inf such that
+     m NORM(x,2) .LEQ. NORM(x) .LEQ. M NORM(x,2)
+     (they induce the same topology)
+
+     *Proof*
+     if x = SUM x_i e_i then NORM(x) .LEQ. SUM abs(x_i) NORM(x). When we apply
+     CS:
+     .LEQ. NORM(x,2) (SUM NORM(e)^2)^(1/2)
+     where we may set M = SUM NORM(e)^2.
+
+     For the other part of the inequality : let S = {x in X | NORM(x) = 1}.
+     Check: x -> NORM(x) is continuous. This is true because compact domains
+     are mapped to compact domains under continuous mappings; when we 'pull
+     back' we still get a compact space.
+
+     Therefore there exists some m > 0 such that
+     m = NORM(x_0) = INF {NORM(x,2), x in S}
+
+     Therefore, for any x in X,
+     NORM(x/NORM(x,2)) .GEQ. m
+
+     so NORM(x) .GEQ. m NORM(x,2)
+
+     Therefore NORM(T(x)) .LEQ. SUM abs(x_i)
+*** Induced Metric
+    The norm induces a metric like rho(S,T) = NORM(S - T)
+    Then the metric is _translation-independent_ : we may add the same thing to
+    S and T and the distance between them is unchanged.
+** Operators on Banach Spaces
+*** Overview
+    Let BL(X) be the set of bounded linear operators on some Banach space
+    X. Let GL(X) be the set of invertible bounded operators on X.
+*** GL(X) is open in BL(X)
+**** Statement
+     Given some A in GL(X), B in BL(X) with NORM(B - A) < 1/NORM(A^-1), then
+     B is in GL(X).
+**** Proof
+     Let NORM(A^-1) = 1/alpha and NORM(B - A) = beta. Assume that beta <
+     alpha. Then for x in X,
+     alpha NORM(x) = alpha NORM( A^-1 A x) .LEQ. alpha NORM(A^-1) NORM(Ax)
+     = NORM(Ax) .LEQ. NORM((A - B)x) + NORM(Bx) .LEQ. beta NORM(x) + NORM(Bx)
+     Therefore (alpha - beta) NORM(x) .LEQ. NORM(Bx)
+
+     Therefore Bx = 0, so x = 0
+**** Proof 2 - Functional Analysis version for Infinite Dimensions
+     B = A - (A - B)
+       = A(I - A^-1(A - B)) /* factor out A */
+
+     In general - if T is in BL(X) with NORM(T) < 1 then (I - T)^-1 exists and
+     T^n converges /* result from Numerical Analysis */
+
+     As X is complete, BL(X) is complete. Then
+
+     NORM(SUM(N,m) T^n) .LEQ. SUM(N,m) NORM(T^n) .LEQ.  SUM(N,m) NORM(T)^n
+     < NORM(T)^N / (1 - NORM(T)) -> 0 as N -> inf.
+
+     Check it: (I - T) SUM(0,inf) T^n = (I - T) LIM(N, inf) SUM(0,N) T^n
+     = LIM(N,inf) (I - T) SUM(0,N) T^n
+     = LIM(N,inf) I - T^N+1 = I
+
+     Therefore NORM(A^-1(A - B)) .LEQ. NORM(A^-1) NORM(A - B) < 1
+     so NORM(A - B) < 1/NORM(A^-1) -> A^-1 (A - B) invertible, so A - B is
+     invertible.
+
+     We can check the inverse on the other side /* left and right inverses need
+     not be equal in the infinite dimensional case */ and it works.
+** Multidimensional Differentiation
+*** Overview
+    How may we differentiate some function from RR^n to RR^m? We cannot use the
+    classic formula because we can't divide by vectors.
+
+    Instead, we apply norms to everything:
+
+    LIM(h,0) NORM(f(x + h) - f(x) - f'(x) h)/NORM(h) = 0
+
+    Therefore we say that f is _differentiable_ at x if there exists some
+    transformation A :: RR^n -> RR^m such that
+
+    LIM(h,0) NORM(f(x + h) - f(x) - A h,RR^m)/NORM(h,RR^n) = 0
+
+    Therefore A is the best first order linear approximation to f localized at
+    x, or
+    f(y) .APPROX. x + A*y for some y near x. More precisely,
+    LIM(y,x) NORM(f(y) - f(x) - A(y - x))/NORM(x - y) = 0
+
+    Then we say that A h = D f(x) [h].
+*** Observations
+**** Uniqueness
+     A is uniquely determined - if A and A' both work then
+     NORM((A - A')h) .LEQ. NORM(f(x + h) - f(x) - A h)
+                         + NORM(f(x + h) - f(x) - A' h)
+
+     Let NORM(h) = 1. Then
+
+     NORM((A - A')t h)/abs(t) -> 0 as t -> 0
+
+     the ts cancel, so A = A'.
+**** Differentiability Implies Continuity
+     f(y) - f(x) = A(y - x) + epsilon (y - x) NORM(y - x)
+     when epsilon (y - x) -> 0 as y -> x, we get that
+     LIM(y,x) f(y) = f(x)
+**** The Chain Rule
+     if
+     + E is open on RR^n and f :: E -> RR^n
+     + f is differentiable at x0
+     + g maps an open set int RR^k
+     + g is differentiable at f(x0)
+
+     then if F = g . f -> F'(x0) = g'(f(x)) f'(x)
+
+     *Proof* write A = f'(x0), B = g'(y0). Make the problem easier with new
+     notation for the errors:
+     u(h) = f(x0 + h) - f(x0) - A h
+     n(k) = g(y0 + k) - g(y0) - B k
+
+     then
+     epsilon(h) = NORM(u(h))/NORM(h) -> 0 as h -> 0; similarly
+     nu(k)      = NORM(n(k))/NORM(k) -> 0 as k -> 0.
+
+     Given some h, set k = f(x0 + h) - f(x0). Then
+     NORM(k) = NORM(A h + u(h)) .LEQ. NORM(A) + NORM(h) + u(h)/NORM(h) NORM(h)
+             = (NORM(A) + epsilon(h)) NORM(h) -> 0 as h -> 0.
+
+     F(x0 + h) - F(x0) - B A h = g(y0 + k) - g(y0) - B A h /* definition of F */
+     = B k + n(k) - B A h
+     = B (k - A h) + nu(k)
+     = B u(h) + n(k)
+
+     therefore
+     (F(x0 + h) - F(x0) - B A h)/NORM(h) .LEQ. NORM(B) epsilon(h) +
+     NORM(n(k))/NORM(h)
+     so as h -> 0, k -> 0 and n(k) -> 0 as well.
+*** Definition
+    We say that f :: E .SUBSET. RR^n -> RR^m
+    is _differentiable_ at x0 in E if there is a linear transformation
+    A :: RR^n -> RR^m such that
+
+    LIM(h,0) NORM(f(x0 + h) - f(x0) - Ah) /NORM(h) = 0. /* Frechet derivatives */
+
+    Another formulation - bounding the error of the linear interpolation:
+
+    f(x0) + h - (f(x0) + Ah) = epsilon(h) where NORM(epsilon(h))/NORM(h) -> 0
+    as h -> 0.
+*** What are the entries of A?
+    If f is differentiable at x0, then in particular
+    (f_i(x1, x2, ..., xj + h, ... , x-N) /* increment one entry */ - f(x0))/h
+    - (f'(x0) e_j, f_i) = ((f(x0 + h e_j) - f(x0))/h - f(x0) - f'(x0) h e_j,
+      f_i) / NORM(h e_j)
+
+    so, as it turns out, the entries of A are partial derivatives of f, where
+    D_j f_i(x_0) = df_i/dx_j (x_0).
+
+    Therefore if f'(x_0) exists then each partial derivative exists at x_0.
+*** Existence
+    We have three statements:
+    1. df_i/dx_j(x_0) exists
+    2. f'(x_0) exists
+    3. df_i/dx_j(x) exists in a neighborhood of x_0 and all are continuous at
+       x_0
+
+    3 -> 2 -> 1, but the converses are generally not true.
+*** Theorem 9.11
+    f :: E .SUBSET. RR^n -> RR^m differentiable at x in E then the partial
+    derivatives exist at E and f'(x) e_j = SUM D_j f_i(x) e_i /* sum of the
+    derivatives of each term */
+
+    We can even apply this to the chain rule.
+*** Examples
+**** Special Case: m = 1
+     f :: RR^n -> RR. Then
+     f'(x_0) e_j = df/dx_j(x_0). However, we also know that this guy is a row
+     matrix. Therefore
+
+     f'(x_0) e_j = [a1 a2 ... an] [0 0 ... 1 ... 0].T = a_j.
+**** Derivative as a column
+     Let gamma :: (a,b) .SUBSET. RR -> E .SUBSET. RR^n
+
+     then gamma'(t) = [gamma_1(t), gamma_2(t), ...].T
+
+     We know that if g(t) = f(gamma(t)) for f :: E -> RR : this implies that
+     if g'(t) = f'(gamma(t)) gamma'(t) then we should ultimately have a scalar
+     function. Therefore
+
+     SUM df/dx_i gamma(t) gamma_i'(t) = g'(t).
+*** Theorem 9.19 : Weak Mean Value Theorem
+**** Statement
+     let E be a convex subset of RR^n. If f :: E -> RR^m, and NORM(f'(x)) < M
+     for some M and all x in E, then
+
+     NORM(f(b) - f(a)) .LEQ. M NORM(b - a). Note that we do not claim anything
+     about M = f'(c).
+**** Proof
+     Fix q, h in E. Define
+
+     gamma(t) = (1 - t) a + t(b) /* line segment */
+     Then, for t in [0,1], gamma(t) in E. Thus
+     g'(t) = f'(gamma(t)) gamma'(t)
+     so by CS
+     NORM(g'(t)) .LEQ. NORM(f'(gamma(t))) NORM(gamma'(t))
+     .LEQ. M NORM(gamma'(t))
+     /* recall how we defined gamma */
+     .LEQ. M NORM(b - a)
+
+     for all valid t. For each unit vector u in RR^m,
+     d/dt g(t) `DOT` u = g'(t) `DOT` u
+
+     and by the mean value theorem
+     g(1) `DOT` u - g(0) `DOT` u = g'(u) `DOT` u
+
+     so abs(f(b) - f(a) `DOT` u) .LEQ. M NORM(b - a)
+*** Continuously Differentiable
+**** Definition
+     We say that a differentiable mapping f on an open set E .SUBSET. RR^n ->
+     RR^m is continuously differentiable in E if f' is continuous and
+     f' :: E -> L(RR^n, RR^m) /* linear operators from RR^n to RR^m */
+     put another way, for each x in E and epsilon > 0, there exists a delta(x,
+     epsilon) > 0 such that
+     NORM(y - x) < delta.NORM implies that NORM(f'(y) - f'(x)) < epsilon
+**** Theorem
+     Given f :: open E .SUBSET. RR^n -> RR^m then f in C1(E) if and only if D_j
+     f_i exist and are continuous in E for 1 .LEQ. i .LEQ. n, 1 .LEQ. j .LEQ. n.
+
+     *Proof* (forward direction) if x -> df_i/dx_j (x) is continuous, then each
+     of these is continuous. Tweak this for the homework.
+** Inverse Function Theorem
+*** Statement
+    Suppose f :: U .SUBSET. RR^n -> RR^n is C1 and U is open.
+
+    THen for some a in U, f'(a) is in LL(RR^n) and is invertible. if the linear
+    approximation f(a) + f'(a) (x - a) .APPROX. f(x) is invertible, then f is
+    invertible in some neighborhood of a.
+*** Proof
+**** Preparation : Contractions
+     Phi :: X -> X is a _strict contraction_ if there exists some c < 1 such
+     that
+     d(phi(x), phi(y)) .LEQ. c d(x,y)
+
+     A nice example: NORM(T) < 1 where T is some linear operator.
+**** Theorem 9.13 : Picard iteration, AKA Contraction Mapping Theorem
+***** Statement
+      Let X be a complete metric space. If Phi is a contraction, Phi :: X -> X,
+      then there exists a unique fixed point x in X where phi(x) = x.
+
+      Note that this is the general case of T x = x -> x = 0 as
+      x - T x = 0, (I - T) x = 0 and I - T is invertible as NORM(T) < 1.
+***** Proof
+      Let x0 in X be arbitrary. Define {x_n} recursively by x_{n+1} = phi(x_n).
+      Then d(x_{n+1}, x_n_ = d(phi(x_n), phi(x_{n-1}))) .LEQ. c d(x_n, x_{n-1})
+      and we may repeat this and get c^n d(x1, x0). Then
+      d(x_m, x_n) .LEQ. SUM (i=n+1, m) d(x_i, x_{i-1}) .LEQ. c^n + c^{n+1} +
+      .LEQ. c^n / (1 - c) d(x_1, x_0)
+      and this goes to zero as n -> inf.
+
+      Therefore {x_n} is Cauchy. Since X is complete, {x_n} converges.
+**** Inverse Function Theorem Proof
+     Let A = f'(a). Let lambda = 1/(2 NORM(A^-1)).
+     As f' is continuous at a, there is an open ball U around a such that
+     NORM(f'(x) - A) < lambda for x in U.
+
+     Given y in RR^n, set phi_y(x) = x + A^-1(y - f(x))
+     /* idea: find f(x) = y, some fixed point of phi_y */
+     Note that
+     Phi_y'(x) = I - A^-1 f'(x) = A^-1 (A - f'(x))
+     Therefore
+     NORM(phi_y'(x)) < NORM(A^-1) NORM(A - F'(X)) < 1/2 because the third norm
+     is just lambda.
+
+     Therefore by a corollary to the mean value theorem we have that
+     NORM(phi_i(x1) - phi_y(x2)) .LEQ. 1/2 NORM(x1 - x2), so we have a
+     contraction.
+     THerefore phi_y is 1-1 on U for all y.
+
+     Now let V = f(U). We claim that V is open.
+     Pick y0 in V. We know that there is some x0 in U such that y0 =
+     f(x0). Choose some new neighborhood (instead of U) small enough around x0
+     such that closure(B) in U. Then a neighborhood of radius lambda r' around
+     y0 is open. Then V is open.
+
+     *Proof* Fix y in the lambda r' neighborhood of y0. Then
+     NORM(y - y0) < lambda r'. Then if we show that phi_y(x) in Nr'(x0) = B,
+     then for any y, Phi_y :: B -> B, and we may apply the fixed point theorem
+     to Phi_y with X = B to get what we want.
+
+     NORM(phi_y(x) - x0) .LEQ. NORM(phi_y(x) - phi_y(x0)) + NORM(phi_y(x0) -
+     x0)
+     /* should it be .LEQ. r' ? */
+     .LEQ. 1/2 NORM(x - x0) + r'/2 = r' by our knowledge of the radius.
+
+     Therefore phi_y is a contraction for any x in B for all y.
+     Therefore by the Contraction Mapping Theorem we can solve uniquely for x
+     in closure(B) .SUBSET. U so that phi_y(x) = x, i.e. f(x) = y.
+     The conclusion : f(U) = V is open.
+**** Another Iteration of the Proof
+     We want to find some small neighborhood Nr(a) = U of a where:
+     b = f(a)
+     f'(a) invertible
+     f :: U -> V is 1-1 and onto, where V = f(U)
+
+     For x0 in U, pick y0 = f(x0) in V. Then for some r' > 0:
+     closure(N_r'(x0)) = closure(B) in U = Nr(a)
+***** Openness
+      *claim* : N_{lambda r'}(y_0) .SUBSET. V,
+      i.e. given some y in N_{lambda r'}(y0) it holds that there exists an x in
+      U with f(x) = y.
+
+      *Proof* : With this choice of y, we show that
+      Phi_y :: closure(B) -> closure(B)
+      (B closure is a complete metric space)
+      so for x in B,
+      NORM(Phi_y(x) - x0) .LEQ. NORM(Phi_y(x) - Phi_y(x0)) +
+                                NORM(Phi_y(x0) - x0)
+                          .LEQ. 1/2 NORM(x - x0) + NORM(f'(a)^-1(y - y0))
+                          < 1/2 r' + NORM(f'(a)^-1) r'/(2 NORM(F'(A)^-1))
+                          = r'
+      Therefore by the contraction mapping theorem we have a unique fixed point
+      of Phi_y at some x in closure(B).
+***** Use of the Fixed Point
+      *Claim* Define g(y) = x by the unique solution on U of f(x) = y, so
+      g :: V -> U. Then G is differentiable on V.
+
+      *Proof* Pick some y in V = f(U), where y + k is in V.
+      Then there exists some x in U such that x + h is in U (as U is convex)
+      such that y = f(x), y + k = f(x + h)
+      By the chain rule:
+      /* we have to know that f is differentiable for this to work */
+      g . f x = x
+      so g'(f(x)) . f'(x) = I /* differentiate both sides */
+      so g'(f(x)) = f'(x)^-1
+
+      if we estimate the derivative by g(y + k) - g(y) - Tk :
+      g(f(x + h)) - g(f(x)) - T(f(x + h) - f(x))
+      = h - T(f(x + h) - f(x))
+      = -T (f(x + h) - f(x) - f'(x) h) as T = f'(g(y))^-1 = f'(x)^-1
+
+      Therefore
+
+      NORM(g(y + k) - g(y) - T k) / NORM(k)
+      .LEQ. NORM(T) / NORM(k) NORM(h) NORM(f(x + h) - f(x) - f'(x) h) / NORM(h)
+      we want h -> 0 whenever k -> 0. We get this by
+
+      Phi_y(x + h) - Phi_y(x) = h + f'(a)^-1 (f(x) - f(x + h))
+      = h - f'(a)^-1 k
+
+      we know that NORM(Phi_y(x + h) - Phi_y(x)) .LEQ. NORM(h) / 2
+      so
+      NORM(h - f'(a)^-1 k) .LEQ. 1/2 NORM(h)
+      and some other stuff happens.
+***** g is differentiable and g is in C1
+      *Proof* WE now have a fomrula for g'(y) :
+      g'(y) = f'(g(y))^-1
+
+      Before the inverse: the composition of continuous mappings is continuous,
+      so f(g(y)) is continuous. We have already assumed that g and f' are
+      continuous mappings.
+
+      From topology - if A is an invertible linear operator, then for B 'close'
+      to A, B is also invertible and A^-1 is continuous.
+
+      NORM(A^-1 - B^-1) .LEQ. NORM(A^-1 (B - A) B^-1)
+                        .LEQ. NORM(A^-1) NORM(B - A) NORM(B^-1)
+** Some Complex Analysis - Another View of RR2
+   we say that f :: CC -> CC is complex-differentiable at some z if
+   LIM (h,0) (f(z + h) - f(z))/h = f'(z)
+   exists.
+
+   f(z) = u(x,y) + i v(x,y) -> (u(x,y), v(x,y))
+   so if we do everything with 2D vectors instead of complex numbers:
+   NORM((u(x + h, y + k),v(x+h, y+ k)) - (u(x,y),v(x,y)) - f'(z) h)/NORM((h,k))
+   -> 0 as h -> 0.
+
+   Let f'(z) = a + b i, for real a and b. Then we get that
+   [[h],[k]] -> [[a,-b], [b,a]] [[h],[k]]
+   the classic formula for representing complex multiplication by real matrix
+   multiplication.
+
+   Conclusion : f is holomorphic at z implies that f :: E -> RR^2 is
+   differentiable at some (x,) where
+   f'(x,y) = [[Real(f(z)), -Im(f(z))], [Im(f(z)), Real(f(z))]].
+
+   Conversely - for f = [u,v] :: E -> RR^2 and f is differentiable at (x,y)
+   then we get the classic formula for the 2D derivative, where A is the
+   jacobi matrix.
+
+   For this to come from a holomorphic function, we must have the Cauchy
+   Riemann equations (the Jacobi matrix is the same thing we got for f'(x,y)).
+
+   Therefore we can rewrite a complex problem as a real one, but we need some
+   extra conditions to write a real problem as a complex one.
+** More complex stuff
+   if f is a C1 mapping of some open set E into RR^n, f'(x) invertible for
+   every x in E => f is an open mapping. If W is open, then f(W) is open.
+** Implicit Function Theorem
+*** Example 1
+    f(x,y) = x^2 + y^2 - 1
+    Say we want to solve for f(x,y) = 0. Then we get that
+    y^2 = 1 - x^2 : we are stuck with some nonuniqueness due to the square
+    root.
+
+    We can solve uniquely in a neighborhood as long as the y derivative is not
+    equal to zero. We also need the x derivative to be nonzero.
+*** Example 2
+    Say that A :: RR^(n+m) -> RR^n
+
+    Then we can write A as two catenated matricies: one is nxn, the other is
+    mxn. Then We see that A(x,y) = A1x + A2y = 0 requires that A1 be invertible.
+*** Implicit Function Theorem
+**** Statement
+     Let f be a C1 mapping of an open subset of RR^(n + m) to RR^n. Let (a,b) be
+     in E (where a is in RR^n and b is in RR^m) with
+     f(a,b) = 0 in RR^n.
+     Let A = f'(a,b), which is in LL(RR^(n+m), RR^n).
+     Take the matrix representation of f'(a,b) to be just [Ax Ay]. Assume that
+     Ax is invertible. Then there exists some U subset RR^(n+m) and W in RR^m
+     with (a,b) in U, b in W such that:
+
+     for every y in W there exists a unique x such that (x,y) in U, f(x,y) = 0
+     /* unique determination of x makes this a function */
+     (so x = g(y)) and g :: W -> RR^n.
+
+     Then g is C1 frm W into RR^n, g(b) = a, and f(g(y),y) = 0 and
+     g'(b) = -(A x)^-1 A y.
+**** Example
+     f(x,y) = x^2 + y^2 - 1
+     (a,b) = (x0, y0) in TT (the unit circle). Then we demand locally that
+     f'(x,y) = [2x 2y] be nonzero so that we df/dx /= 0.
+**** Proof
+     Let F(x,y) = (f(x,y),y) so F :: (E .SUBSET. RR^(n+m)) -> RR^(n+m)
+     Then F is in C1.
+
+     *Claim* F' is invertible
+     *Proof* Write f(a + h, b + k) = A(h,k) + r(h,k)
+     where r(h,k) / NORM(h,k) -> 0 as h,k -> 0.
+     Then F(a + h, b + k) - F(a,b) = (f(a + h, b + k), b + k) - (f(a,b),b)
+     /* where f(a,b) = 0 */
+     = (A(h,k), k) + (r(h,k), 0)
+     /* the A term is our candidate for the derivative */
+     so F'(a,h)(h,k) = (A(h,k), k)
+     where the matrix representation is [[Ax, Ay],[0, I]]. As Ax is invertible,
+     this guy is invertible.
+
+     There exists open U, V .SUBSET. RR^(n + m)
+     with (a,b) in U, (0,b) in V such that F :: U -> V is 1-1 and onto.
+
+     Let W = {y in RR^m | (0,y) in V}, so b is in W. As V is open, W must be
+     open.
+
+     If y in W then (0,y) = F(x,y) for some (x,y) in U. By the definition of
+     F,
+     F(x,y) = (f(x,y),y) so f(x,y) = 0 if (0,y) = F(x,y).
+     F is 1-1 if there is at most one such x such that (x,y) in U.
+
+     This gives y in W -> x in RR^n with (x, y) in U.
+
+     Let Phi(y) = (g(y),y), so Phi :: W -> V. Note that
+
+     f . Phi = 0 /* 0 in RR^n */ for any y in W. Then
+
+     (f . Phi)'(b) = 0 /* linear transformation */
+     so f'(Phi(b)) Phi'(b) = 0.
+
+     Then
+
+     [Ax Ay] [[g'(b)], [I]] = Ax g'(b) + Ay = 0.
+**** Linear Case
+     Say that [Ax Ay] is linear. Then
+     [Ax Ay] [[x], [y]] = 0 -> x = -Ax^-1 Ay y
+** Derivatives of Higher Order
+*** Overview
+    We have already looked at partial derivatives: D_j f :: E -> RR is a
+    function of n variables. It may or may not have its own partial
+    derivatives.
+
+    *Example*: D_ij f is the x_ith derivative of the x_jth derivative of f.
+
+    If all of these exist and are continuous on E, then we say that f is in
+    C2. For f :: (E .SUBSET. RR^n) -> RR^m.
+*** Two-Variable Mean Value Theorem (9.41)
+    Say that f is defined on some open E .SUBSET. RR2, D1 f, D21 f exist at
+    every point of E.
+    Then for some Q = closed rectangle from (a,b) to (a+h, b+k)
+    /* a closed rectangle in E */
+    let Delta (f, Q) = f(a + h, b + k) - f(a + h, b) - (f(a, b+ k) - f(a,b))
+    /* so we compare increments on the left and right sides of the rectangle */
+    Then there is a point (x,y) in Q^0 such that
+
+    Delta(f,Q) = hk D21 f(x,y) for some (x,y) in Q.
+
+    *Proof* Apply the mean value theorem for u(t) = f(t, b + t) - f(t,b).
+
+    Then Delta (f, Q) = u(a + h) - u(a) = h u'(x)
+    and by the mean value theorem
+    = h ((D1 f)(x, h + k) - (D1 f)(x, b))
+    and apply the mean value theorem again and we get
+    = hk D21 f(x,y) for some point (x,y).
+*** Theorem 9.11
+    Suppose that f is defined on E. If D1 f, D21 f, D2 f all exist at each
+    point of E, and D21 f is continuous at some point (a,b) in E, then D12 f
+    exists at (a,b) and (D12 f)(a, b) = (D21 f)(a,b)
+
+    *Corollary* If f is in C2(E) then then D12 f = D21 f.
+* Differentiation of Integrals
+** Overview
+   When do we have
+   d/dt INTEGRAL (0,b) phi(x,t) dx = INTEGRAL dphi/dt (x,t) dx ?
+   Not always (Rudin 28), but with an extra constraint we do.
+** Theorem 9.42
+*** Statement
+    Suppose that phi(x,t) is defined for a .LEQ. x .LEQ. b, c .LEQ. t .LEQ. d,
+    and suppose that:
+    + alpha is increasing on [a,b]
+    + phi^t < R(alpha) for every t
+    + c < s < d
+    + for all epsilon > 0, there exists a delta(epsilon) such that
+      abs((D2 phi)(x,t) - (D2 phi)(x, s)) < epsilon.
+
+    Then (D2 phi)^x is continuous in t uniformly with respect to x. This is
+    automatic if D2 Phi is continuous on some compact set.
+    Define
+    f(t) = INTEGRAL (a,t) phi(x,t) d alpha(x) for c .LEQ. t .LEQ. d (exists by
+    assumption). Then
+
+    (D2 phi)^s in R(alpha), f'(s) exists and
+
+    f'(s) = INTEGRAL (a,b) (D2 phi)(x,s)
+*** Proof
+    Look at some Psi(x,t) = (phi(x,t) - phi(x,s))/(t - s) for 0 < abs(t - s) <
+    delta. By the mean value theorem there corresponds to each (x,t) a number
+    u between s and t such that Psi(x,t) = (D2 phi) (x,u).
+
+    Then by another assumption
+    abs(psi(x,t) - (D2 phi)(x,s)) < epsilon for all x.
+    Then we write
+    (f(t) - f(s))/(t - s) = INTEGRAL (a,b) Psi(x,t) d alpha(x), which implies
+    that Psi^t -> D2 phi^s uniformly. Then by theorem 7.16 we get that since
+    each Psi^t is Riemann integrable that the limit converges to what we want.
+** Multidimensional Taylor Series
+   Say we want to expand out f(a + x). We can do this by the chain rule.
+** Multidimensional Integration
+*** Overview
+    We call I^k a k-cell where each a_i .LEQ. x_i .LEQ. b_i for x in I^k.
+
+    Let f be a real, continuous function on I^k. Let f = f_k, and define
+    f_{k-1} on I^{k-1} by
+
+    f_{k-1} (x1, x2, ..., x_{k-1}) = INTEGRAL (a_k, b_k) f_k dx_k
+
+    then f_{k-1} is continuous on I^{k-1}. Repeat this process to get any f_j
+    on I^j, for j = 1, 2, ... , k. We arrive at
+
+    f_0 = INTEGRAL (a_1, b_1) f_1 dx_1 = a number.
+
+    Define the integral over I^k by the iteration of these integrals -
+    integrate dimensions one at a time.
+*** Theorem 10.2
+**** Statement
+     For every f in C(I^k), L(f) = 'integral in standard order' = L'(f)
+     'integral in some other order'
+     /* that is we may integrate along whatever permutation of dimensions we
+     like */
+**** Proof
+     Suppose that h(x) = h_1(x_1) h_2(x_2) ... h_k(x_k), where each h_j is
+     continuous. Then, when we integrate this guy we get
+
+     L(h) = PRODUCT INTEGRAL (a_i, b_i) h_i(x_i) dx_i = L'(h) by the
+     commutative property of real numbers.
+
+     Let AA = set of finite sums of such separable continuous functions. By
+     linearity we have that L(f) = L'(f) for functions in AA (by what we just
+     did). AA is an algebra of functions on I^k, to which Stone-Weirstrass
+     applies. We may check our favorite things (separates points, does not
+     vanish) and we get that AA is dense in C(I^k).
+
+     Let V = PRODUCT (b_i - a_i) if f in C(I^k). If epsilon > 0, there exists
+     some g in AA such that NORM(f - g) < epsilon/V. Then
+     L(f) - L'(f) = L(f) + L'(g) - L'(g) - L'(f) = L(f - g) + L'(g - f)
+                                                 = epsilon/V*V + epsilon/V*V
+                                                 = 2 epsilon
+    so L(f) -> L'(f) /* within 2 epsilon */
+*** Support
+    the _support_ of a function, supp f /* f real or ocmplex on RR^k */, is the
+    closure of a set of points x in RR^k where f(x) /= 0.
+
+    If f is continuous with compact support, let I^k = any k-cell containing
+    supp f. Then we define
+    INTEGRAL RR^k f = INTEGRAL I^k f
+** Integrating on Simplexes
+   Let Q^k be the k-simplex. Then Q^1 is just a unit interval, Q^2 is the unit
+   triangle, Q^3 is the unit tetrahedron and so on.
+
+   Suppose that f is in C(Q^k) /* continuous on some simplex */ by setting
+   f(x) = 0 outside of Q^k. We need f(x) = 0 on the boundary, which we do not
+   necessarily have - however, we can get arbitrarily close by the usual trick
+   of drawing very sharp lines at the border arbitrarily close to the actual
+   function to make it continuous.
+
+   Define F_delta(x) = Phi_delta(x1 + ... + xk) f(x). /* continuous on Q^k,
+   zero on boundary */
+   Put y = (x1, .., x_{k-1}), so x = (y, x_k).
+
+   Consider the set {x_k : F(y, x_k) /= f(y, x_k)}. This set is either empty or
+   is a segment of length less than delta.
+
+   Since 0 .LEQ. Phi .LEQ. 1, we get that
+
+   abs(F_{k-1}(y) - f_{k-1}(y)) .LEQ. delta NORM(f) /* integrate out the x_k */
+
+   as delta -> 0 this exhibits f_{k-1} as a uniform limit of a sequence of
+   continuous functions. Therefore f_{k-1} is in C(I^{k-1}), so we may bo the
+   iterated integrals with no problem. Therefore we have the existence of an
+   integral.
+
+   The choice of x_k was arbitrary, so we may do integration in any order on
+   simplexes.
+** Change of Variables Theorem
+*** Statement
+    We want to have some T :: (E .SUBSET. RR^k) -> RR^k be a 1-1 and C1
+    mapping, where the Jacobian is just the determinant of T'(x) /* must be
+    continuous as it is a combination of continuous functions, as T is C1 */
+
+    If f is continuous on RR^k with compact support supp f .SUBSET. T(E), then
+
+    INTEGRAL (RR^k) f(y) dy = INTEGRAL (RR^k) f(T(x)) abs(J_T(x)) dx
+*** Preliminaries
+    Let G :: E -> RR^n . Assume that there exists an integer 1 .LEQ. m .LEQ. n
+    and real-valed g with domain E such that
+
+    G(x) = SUM (i + m) x_i e_i + g(x) e_m.
+    /* composition of n nonlinear elementary transformations of Types I and II
+    */
+    (type I - add a multiple of one row to another)
+    (type II - multiply a row by a nonzero scalar) (multiply determinant by
+    constant)
+    (type III - interchange rows) (multiply determinant by -1)
+
+    *Illustration* g is linear, so g(x) = a1 x1 + a2 x2 + ... + an xn. Then G
+    is also linear
+*** Theorem 10.7
+    Let F be a C1 mapping of an open set E in RR^n into RR^n. 0 in E, F(0) = 0.
+
+    If F'(0) is invertible then there exists a neighborhood of 0 in RR^n in
+    which F can be factored as F(x) = B1 ... B{n-1} Gn o G1 o ...
+    where the Bs are flips or identities and the Gs ar nonlinear elementary
+    transformations.
+** Primitive Transformations
+   Recall: G :: open E -> RR^n  is *primitive* or a nonlinear elementary
+   transformation if
+   G(x) = SUM (i +- m) x_i e_i + g(x) e_m
+   so
+           |       1 |       0 | ... |   0 | 0       |
+           |       0 |       1 | ... |   0 | 0       |
+   G'(0) = |     ... |     ... | ... | ... | ...     |
+           | dg/dx_1 | dg/dx_2 | ... | ... | dg/dx_n |
+           |       0 |       0 | ... |   1 | ...     |
+
+   so one row is the partial derivatives with respect to that variable.
+
+   Linear case - elementary matricies.
+
+   so G'(0) invertible if and only if the diagonal entry in the row is nonzero.
+** Theorem 10.7
+*** Introduction
+    if F = C1 mapping of E into RR^n, 0 in E, F(0) = 0, and F'(0) is invertible
+    then there exists a neighborhood of 0 in RR^n where
+
+    F'(x) = B1 B2 ... Bn, , Gn . Gn-1 ... G0
+
+    flip on identity or primitive.
+
+    Any invertible matrix factors are at most n-1 type III elementary matricies
+*** Proof
+    Notation: put Pm x = x1 e1 + ... + xm em /* zero at the rest */
+
+    Put F = F1. Assume that 1 .LEQ. m .LEQ. n - 1.
+
+    Induction hypothesis: there exists some Vm = neighborhood of 0 in RR^n such
+    that we get what we want. This holds for n = 1 by previous work.
+
+    Now assume that this holds up to the nth case. Our goal is to show it for
+    the n+1 case.
+
+    By 17, we know that Fm(x) = P_{m-1}(x) + SUM (i=m,n) alpha_i (x) e_i where
+    the alphas are C1 scalar valued functions on Vn. Then
+
+    Fm'(0) e_m = SUM (i = m, n) partials of alphas e_i.
+
+    If F_m'(0) is invertible, then not every dalpha_i / dx_m can be zero.
+
+    Pick some index k such that (m .LEQ. k .LEQ. n) (D_m alpha_k)(0) /= 0. Let
+    Bm be the flip which interchanges m and this k. If k and m are the same
+    then the matrix Bm is the identity matrix.
+
+    Define Gm(x) = x + (alpha)k(x) - xm em /* dot product gives us just the
+    mth entry */. Then Gm is in C1 and Gm is primitive. Gm'(0) is also
+    invertible. By the inverse function theorem,
+
+    Dm G = 1 + dalpha_k /dx_m (0) - 1 = dalpha_k / dx_m(0) /= 0.
+
+    so there exists an open Um ith 0 in Um such that Gm is a 1-1 mapping of Um
+    into a neighborhood v_m+1 of 0 in whcih G^-1_m is continuously
+    differentiable. Then we may befine
+
+    F_m+1 by F_m+1(y) = B_m F_m . G^-1_m(y)
+
+    for some y in V_m+1. with m+1 in place of m. Use the fact that Bm is its
+    own inverse to see this. THen
+
+    F_{m+1}(y) = Bm Fm . G^-1_m(y) is the same as F_m(x).
+
+    if we apply this with m = 1, n-1 then we get
+
+    F = F1 = B1 . F2 .G1 = B1 B2 F3 . G0 . G1
+
+    if we continue applying this we get that
+
+    B1 .. Bn-1 Fn . Gn-1 ... G1 on some Un, which is a neighborhood of 0.
+
+    From P_{n-1} Fn(x) = P_{n-1}(x) we get that Fn is primitive - there is
+    only one coordinate left.
+
+    Finally, set Gn = Fn and we are done.
+** Change of Variables Formula
+*** Introduction
+    Let T be a 1-1 C1 mapping of some open E -> RR^n with J_T(x) /= 0 for x in
+    E. If f is continuous on RR^k with supp f compact, then we get the change of
+    variable formula:
+
+    INTEGRAL f(y) dy = INTEGRAL f . G(x) abs(J_T(x)) dx
+
+    where the transformed integral has support equal to T^-1(supp f); since supp
+    f is compact and T^-1 is continuous, then this is also compactly supported.
+
+    Earlier observation - this is correct in single variables.
+*** Proof
+    We need the absolute value so that the signs come out correctly - we don't
+    want any odd flips.
+
+    This is true for T = G = primitive mapping. Then
+
+    INTEGRAL (-inf, inf) f(g(x)) abs(dg/dx_m(x)) dx_m = INTEGRAL f(y) dy_m
+
+    by the single variable case.If T(x) = B x = a flip,
+
+    assume that f(x) = f1(x1) ... fk(xk) is separable. Then abs(J_B(x)) = 1 and
+    INTEGRAL f(y) dy = INTEGRAL f1(y1) dy1 ... INTEGRAL fk(yk) dyk
+    /* all that the flip does is change dummy variables */
+    = INTEGRAL f . B(x) dx
+
+    By previous work, we know how to approximate a general continuous f by many
+    continuous fs, so T = B.
+
+    *step 3* if the theorem is true for transformations P and Q and if S(x) = P
+    . Q(x) then
+
+    INTEGRAL f(x) dx = INTEGRAL f(p(y)) abs(J_P) dy
+                     = INTEGRAL f(p . Q(z)) abs(J_P(Q(z))) abs(J_Q(z)) dz
+
+    and by the chain rule that Jacobian composition is exactly the Jacobian of
+    S evaluated at z.
+
+    *Conclusion* if T^(-1) (supp f) contains zero and is contained in an open U
+    where the previous theorem (local primitive transformation decomposition)
+    holds, then we are done.
+*** Added Details: Step 4
+    Shift 0 to any a in T^-1(supp f) and apply the previous theorem to some
+    neighborhood around a. By a primitive decomposition centered at a instead
+    of zero.
+
+    Each a must have a neighborhood U in E in which
+    T(x) = T(a) + B1 .. Bk-1 Gk .. G1 (x - a)
+** Partition of Unity
+*** Overview
+    By Theorem 10.8, K compact in RR^n, there exists some
+    {V_alpha} = open cover of K -> there are psi_1, psi_2, ... psi_s in C(RR^n)
+    such that
+    + 0 .LEQ. psi_i .LEQ. 1
+    + each psi_i is supported in V_alpha,
+    + psi_1(x) + psi_2(x) + ... psi_s(x) = 1 for all x in K.
+
+    Note that this was crucial for step 4 of the change of variables theorem.
+
+    *Corollary* for f in C(RR^n), supp f in K, it holds that
+    f = SUM psi_i f
+    and each psi_i f has support in some V_alpha.
+    *Proof*
+    Associate with each x in K an index alpha(x) such that
+    alpha in V_alpha(x).
+    Then
+    {V_{alpha(x)}, x in K} is an open cover of K. By compactness we have that
+    there is a finite subcover. Therefore there are open balls centered at each
+    x B(x) and W(x) where closure(B(x)) in W(x) in closure(W(x)) in V_alpha(x).
+
+    Then {W(x) : x in K} is an open cover of K. Therefore there exist x1,
+    ... xs in K where K SUBSET B(x1) U B(x2) ... U B(xs). /* for safety */
+
+    Choose some phi_1 ... phi_s with phi(x) = 1 on B(x_i) and phi_i(x) = 0
+    outside of W(x_i). As
+    0 .LEQ. phi_i(x) .LEQ. 1 on RR^n /* Urysohn's Lemma */ (more generally,
+    replace RR^k by some X = paracompact topological space)
+    /* every open cover has a locally finite refinement */
+    Then (28)
+    psi_{i+1} = (1 - phi_1) ... (1 - phi_i) phi_{i+1}  for i = 1 .. s - 1. Then
+    by a we get that each psi_i is supported in some V_alpha (call this (b))
+    /* this is why we had to do the elaborate tap-dance with W(x) */
+
+    *Claim* we say that phi_i + ... + phi_i = 1 - (1 - phi_1) - ... - (1 -
+    phi_i).
+    Assume this for some i < s. Then
+    psi_1 + .. + psi_{i+1} = 1 - (1 - psi_i) * ... * (1 - psi_i) + (1 -
+    psi_i) * ... (1 - psi_i) psi_{i+1}
+    = 1
+
+    *Conclusion* SUM phi_i(x) = 1 - PRODUCT (i=1,s) (1 - psi_i(x))
+
+    which gives us what we wanted.
+** Differential Forms
+*** Overview
+    We earlier discussed curves in RR^n. We said that a _curve_ is some subset
+    of RR^n that has a parameterization gamma(t), 0 .LEQ. t .LEQ. 1, where
+    {gamma(t) : 0 .LEQ. t .LEQ. 1, gamma : [0,1] -> R^n continuous}
+
+    so a _parameterized curve_ 'includes the gamma'.
+*** K-Surface
+    We define a _k-surface_ in E .SUBSET. RR^n to be a C1 mapping Phi where
+    Phi :: (D .SUBSET. RR^k) -> RR^n /* D is a k-cell, or k-simplex */
+    Our main interest D is a k-cell or k-simplex.
+*** Example
+    D = {(psi, theta) for 0 .LEQ. psi .LEQ. 1, 0 .LEQ. theta .LEQ. pi}
+    Phi(psi,theta) = (sin(phi) cos(theta), sin(phi) sin(theta), cos(phi))A
+*** Differential Form of Order k
+    for k .GEQ. 1 i nE : a formal expression
+
+    w = SUM (i1, i2, ..., ik) a_{i1, i2, ... ik} (x) dx_i1 .. dx_in
+    for some i_j in [1..n].
+
+    The as are continuous functions on E, which assign each k-surface Phi in E
+    the number
+    w(Phi) = INTEGRAL (Phi) w
+    = INTEGRAL (D) SUM (i_1, ...) a_{i1 i2 ..} Phi(n) d(x1, ... xn)/d(u1... uk)
+
+    and here Phi(u) = (x1(u1...u_k), x2(u1..u_k), ... xn(u1..uk))
+    and the large partial derivative term is just the determinant of the first
+    k dimensions of partial derivatives.
+
+    we consider w and w' to be equal if their integrals over Phi are equal for
+    all Phi.
+*** Examples
+**** Example: Line Integrals
+     Let f = some vector field and let c(t) be a curve in RR^3. Then
+     c(t) = (c1(t), c2(t), c3(t)), f :: RR^3 -> RR^3 = (f1(x), f2(x), f3(x))
+
+     Then, in vector calculus we do
+     INTEGRAL (c) f .DOT. ds = INTEGRAL (0,1) f(c(t)) .DOT. c'(t) dt
+     so, for this example, c is a 1-surface and Phi(t) = c(t) :: [0,1] -> RR^3
+     and the stuff in the integral is a differential form:
+     w = f1 dx1 + f2 dx2 + f3 dx3
+
+     so line integrals are just the action of a 1-form on a 1-surface.
+**** Example: Surface Integrals
+     Phi(u,v) = (x(u,v), y(u,v), z(u,v)) for two parameters u and v.
+     F = F1 i + F2 j + F3 k
+     so INTEGRAL (Phi) F .DOT. n dS = INTEGRAL (D) F .DOT. (Tu x Tv) du dv
+     which (surprise) gives us the dot product of F with a bunch of
+     derivatives. We have a differential form so the usual things apply.
+**** Example: Volume Integrals
+     Let Phi be an n-surface in RR^n.
+     INTEGRAL (Phi) f dV = INTEGRAL (D) f . Phi(u) det(Phi'(u))
+     = INTEGRAL (Phi) f dx1 ^ dx2 ^ dx3 ...
+     where dx1 ^ dx2 = - dx2 ^ dx1 : we are now concerned with orientation and
+     we want to preserve it. If the determinant works out to be positive then
+     the mapping is orientation-preserving, and negative gives us
+     orientation-reversing.
+     where det(Phi'(u)) = J_Phi(u) /* same notation */
+** More change of Variables
+   Let f be continuous on RR^n. Let
+   INTEGRAL f(y) dy = INTEGRAL f . T(x) abs(_T(x)) dx
+   where Q is some nice closed and bounded region in RR^n. Let f be continuous
+   on Q. Then the iterated integral formula works on simplexes /* can change
+   order of integration */
+   let f~(y) = f(y) on Q, 0 not on Q. f~ is not continuous on RR^n. Then we
+   can do something like
+   INTEGRAL (Q) f(y) dy = INTEGRAL (T^-1(Q)) f . T(x) abs(J_T(x)) dx.
+
+** Abstract Stokes Theorem
+*** Overview
+    We really want something like
+    INTEGRAL (Phi) dw = INTEGRAL (dPhi) w
+
+    which contains Gauss, Green, classic Stokes as special cases.
+*** Elementary Properties
+    c is a real number, and we want
+    INTEGRAL (Phi) cw = c INTEGRAL (Phi) w
+    We really actually just want linearity.
+
+    We also want w = SUM (I) a_I(x) dx^I where I = some tuple of k indicies and
+    dx^I = dx_i1 ^ dx_i12 ^ ... ^ dx_ik.
+
+    we may treat each dx^I almost like a basis vector. However, they are not
+    really linearly independent.
+
+    In general, if we have repetition of indicies in I then a(x) dx^I = 0 as
+    INTEGRAL (Phi) w = INTEGRAL (D) a(Phi(u))  (determinant of matricies) = 0
+    as the considered matrix has two identical rows.
+
+    This implies that if k > n then w = 0 (we will get duplicated rows in this
+    matrix again)
+
+    We may arrange I to be increasing by possibly changing the sign.
+    dx3 ^ dx1 ^ dx2 = - dx1 ^ dx3 ^ dx2 = dx1 ^ dx2 ^ dx3.
+
+    so, if we may arrange I to be strictly increasing (as we can definitely
+    rearrange and if we have duplicates we get 0 anyway) we call the result
+    _basic k-forms_. There exist binomial(n,k) basic k forms in n variables.
+*** Theorem 10.15
+**** Statement
+     w = SUM (I) b_I(x) dx_I is the _standard presentation_ of a k-form. If
+     w = 0, i.e. INTEGRAL (Phi) w = 0 for all Phi, then b_I(x) = 0 for every
+     increasing k-index set.
+
+     Put another way, if w = 0 as a functional on k-surfaces then each b_I
+     = 0.
+**** Proof
+     if b_J(v) > 0 for some v in E and there is an increasing index set J.
+     General idea: one can rig up a Phi so that INTEGRAL (Phi) w /= 0.
+
+     By continuity of b, we have that there exists some h > 0 such that b_J(x)
+     > 0 for all RR^n whenever abs(x_i - r_i) .LEQ. h. Let D be the k-cell on
+     RR^k with u in D; then abs(u_r) .LEQ. h for r = 1 .. k.
+
+     Define Phi(u) = r + SUM u_r e_j_r. We claim that the whole integral
+     collapses as
+     INTEGRAL (Phi) w = INTEGRAL (D) B_J(Phi(u)) du > 0.
+     Therefore w /= 0.
+
+     *Proof of Claim* we can cleverly differentiate
+     d(x_j_1, ..., xj_k)/d(u_1, ... u_k) = 1.
+
+     For other I, the standard form implies that some index in I is not one of
+     the j_rs, so some partia derivative is zero. Therefore the matrix has a
+     zero row.
+**** Road to w -> dw
+     We need products of basic k-forms.
+
+     Let I = {i_1 ... i_p} and J = {j_1 ... j_q}. for each index an integer
+     between 1 and n.
+
+     Then dx_i ^ dx_J = dx_{i_1} ^ ... ^ dx_{i_p}
+     which is a p + q form.
+
+     Therefore p + q > n so we get dx_i ^ dx_J = 0 /* must be a repetition */
+
+     If I and J have some element in common then the wedge product is zero. If
+     they have no elements in common then we write
+     [I, J] for increasing (p + q)-index associated with I .UNION. J. Then we
+     may do
+
+     dx_[I .UNION. J] = basis of the p + q form /* things are now in increasing
+     order */
+**** Bilinearity
+     _Claim_ dx_I ^ dx_J = (-1)^alpha dx_[I, J]
+     where alpha is the number of pairs j_t - i_s such that the difference is
+     negative.
+
+     Suppose we have that I, J, K = (k_1 .. k_r) for increasing index r. Then
+     we have that
+
+     (dx_I ^ dx_J) ^ dx_k = dx_I ^ (dx_J ^ dx_k) /* associative */
+
+     For I, J, K pairwise disjoint, write [I, J, K] for the arrangement of
+     I .UNION. J .UNION. K.
+
+     For multiplication of forms: w = SUM (I) b_I(x) dx_I /* p-form */
+     Let lambda = SUM (J) c_J(x) dx_J /* q-form */
+
+     Define w ^ lambda = SUM (I,J) b_I(x) c_J(x) dx_I ^ dx_J
+     which is a p + q form.
+     /* therefore the wedge product is bilinear */
+
+     We may also define some zero form - a C1 function on E. We lose the
+     wedges. The product of the 0 form and another form commutes.
+
+     By the bilinearity property, we have that
+
+     (w1 + w2) ^ lambda = (w1 ^ lambda) + (w2 ^ lambda) and on the left as
+     well.
+**** Differentiation
+     if f is a zero form then we define df as
+     df = df/dx_i(x) dx_i
+
+     f w is a k-form then w = SUM (I) b_I dx_I. Then
+     dw = SUM (I) (db_I) ^ dx_I
+
+     we may call d an exterior derivative as it takes k forms and returns k+1
+     forms.
+
+     Therefore d of any n form is zero - we get an n+1 form, which means
+     repeats.
+*** Example - Volume Integral
+    INTEGRAL (Phi) 1 dx_{i_1} ^ dx_{i_2} ^ ... ^ dx_{i_k}
+    Phi is a set corresponding to a k-dimensional surface Phi :: D -> RR^k
+    Assume that the mixed partial derivatives are nonzero on D for some
+    Phi(u) = (x1(u), x2(u), ... xn(u))
+    and define P_I . Phi(u) = (x_{i_1}(u), x_{i_2}(u) ...) in RR^I
+    then we can find the volume (P_I . Phi) is just
+    INTEGRAL (P_I . W) 1 dx_{i_1} ... makes sense; furthermore
+    INTEGRAL (D) partial derivatives with respect to u1, u_k . du is the same
+    by the change of variables formula as +/- INTEGRAL 1 (P_I . W) 1 dV.
+*** Example - Surface Integral
+    Say that we have some surface S in RR^3. Assume that S has some
+    parameterization Phi(D). Then
+    INTEGRAL (S) 1 dS = (surface area) = INTEGRAL dy ^ dz + dz ^ dx + dx ^ dy
+    = area of projection to yz plane + area of xz plane + area of projection to
+    xy plane.
+*** What do we have so far?
+    PHi :: D -> RR^n is a continuous map of some k-surface. We can write
+    w = SUM (I) a_I(x) dx^I is some _k-form_.
+
+    If we have that w maps some k-surface to RR given by
+    w(Phi) = INTEGRAL (phi) w = SUM (I) INTEGRAL (D) a_I . Phi() dx^I/du (a) du
+
+    Since we may rearrange the order of these partial derivatives up to a sign
+    flip to account fororientation, we can drop any Is with repeated indicies
+    and only keep Is such that
+    i_1 < i_2 < ... < i_n. There are n choose k such possibilities.
+*** An overview
+    let w = SUM (I) B_I(x) dx_I : a p-form in n variables.
+    let Phi :: RR^p -> RR^n.
+    then w(Phi) = INTEGRAL (Phi) w = SUM INTEGRAL b_I . Phi(u) dx_I/d(u1 .. up)
+
+    We may notate derivatives in a more useful way by
+    dx_I ^ dx_J = dx_{i_1} ^ ... dx_{i_p} ^ d_x_{j_1} ... dx_{j_q}.
+    for I = p-tuple, J = q-tuple, and K - some r-tuple.
+
+    /* we may extend to more general forms by linearity */
+    let w = SUM b_I(x) dx_I, a p-form.
+    let lambda = SUM c_J(x) dx_J, a q-form.
+    let sigma = SUM d_K(x) dx_K, an r-form.
+*** Combination
+    then w ^ lambda = SUM (I,J) b_I(x) c_J(x) dx_I ^ dx_J.
+
+    Let f be a 0-form and w be a p-form. THen f . w (rather than f ^ w) is
+    SUM (I) f(x) b_I(x) dx_I.
+*** Differentiation
+    if f is a 0-form then df = SUM df/dx_i (x) dx_i, a 1-form.
+
+    dw = SUM (I) (db_I) ^ dx_I = SUM (I) db_I/dx_l(x) dx_l dx_I.
+
+    _Product Rule_ if f, g are zero forms then
+    d(fg) = SUM (i=1,m) (df/dx_i (x) g(x) + f(x) dg/dx_i(x)) dx_i
+          = df . g + f . dg /* 1-form */
+*** Theorem 10.20
+**** Theorem
+     Let w be a p-form. Let lambda be a q-form of class C1 on E. Then
+     d(w ^ lambda) = dw ^ lambda + (-1)^p w ^ dlambda.
+
+     part 2 - if w . f is of class C2 on E, then
+
+     d^2 w = d(dw) = 0.
+**** Proof
+     It sufficies to do special case
+     w = f dx_I, lambda = g dx_J.
+
+     Then w ^ lambda = f g dx_I ^ dx_J. Assume that I and J have no index in
+     common /* otherwise everything goes to zero */
+
+     then d(w ^ lambda) = d(f g dx_I ^ dx_J)
+                        = (-1)^alpha d(f g dx_{I,J})
+
+     applying the product rule we get that
+     d (f g) = f dg + g df.
+
+     Therefore d(w ^ lambda) = (-1)^alpha (f dg + g df) ^ dx_{I, J}
+                             = (g df + f dg) ^ dx_I ^ dx_J.
+
+     As dg ^ dx_I = (-1)^P dx_I dq we get that
+
+     d(w ^ lambda) = (g df + f dg) ^ dx_I ^ dx_J
+                   = (df ^ dx_I) ^ (g dx_J) + (-1)^P (f dx_I) ^ (dg ^ dx_J)
+                   = dw ^ lambda + (-1)^P w ^ d lambda.
+
+     As f is a 0-form
+
+     d^2 f = d (SUM (j=1,n) df/dx_j (x) dx_j)
+           = SUM (j=1,n) d(df/dx_j) ^ dx_j
+           = SUM (j=1,n) d(d^2f/(dx_j dx_i)) dx_i ^ dx_j
+             /* 0 when i = j */
+*** Back to Stokes' Theorem
+    INTEGRAL (d Phi) w = INTEGRAL (Phi) dw is the goal.
+    if w = SUM (I) a_I (x) dx_I /* k-1 form */
+    then dw = SUM (I) da_I(x) ^ dx_I.
+
+    Say that Phi maps some (u1, ... un) to (x1(u), ... xn(u)).
+    what is d Phi?
+
+    One special case is the standard k-surface: f(x) = f(0) + A x.
+
+    Shorthand notation : let sigma = [p0, p1, ... pk] be the oriented affine
+    simplex.
+
+    We use the other notation
+    sigma(alpha1, alpha2 ... alphak) = P0 + SUM (i=1,k) alpha_I(P_i - P0)
+
+    _example_ Let D be the k-simplex, parameterized by alphas. Then
+    sigma(alpha1, alpha2) = alpha1 e1 + alpha2 e2.
+
+    Let sigma_overline = [P_i0, P_i1, ... P_ik] = S(i0, i1, ... ik) sigma
+    where the S-term is the sign of the permutation? This part needs to be
+    checked.
+
+    Let d [P0, P1, ... Pn] = SUM (j=0) (-1)^j [P-, ... Phat_j ... Pk]
+    /* remove one in the middle */
+
+    _example_ d [0, e1, e2] = [e1, e2] - [0, e2] + [0, e1]
+
+    This gives us a way of automating the right-hand rule: we now know how to
+    deal with the boundaries.
+*** Affine Chains
+    Let Gamma be open at L. Then for some
+
+    n1 sigma1 + ... + nL sigmaL
+    then for integers nj, signed, with or without flip of orientation, the
+    boundary delta of affine k simplex is an affine k-1 chain.
+
+    Differentiable simplex and chains: let T be a C2 mapping of an open E in
+    RR^n into an open V in RR^m. Let sigma be an oriented affine k-simplex in
+    E. Define Phi = T . sigma - a k-surface in V with parameter domain called
+    Q^k in RR^k /* oriented k-simplex */
+
+    Then a k-chain in C2 is the formal sum
+    SUM (j=1,n) n_j Phi_j
+    where each Phi_j = T_j sigma_j.
+
+    We declare d Phi_J /* boundary */ = T_j . (d sigma_j)
+    so we travel from a k-simplex to a k-1 chain simplex. By the work we have
+    already done on Stokes' Theorem.
+** Affine Simplexes
+*** Introduction
+    let sigma = [p0, p1, ... , pk] be a k-simplex, possibly affine.
+    sigma(alpha1, ... alphak) = p0 + SUM (i=1,k) alpha_i (pi - p0) for alpha1
+    .. alphak in D, the domain of the function, such that their sum is 1 /* we
+    are in a simplex */
+
+    Let sigmabar = s(i0, i1, ... ik) sigma /* sorted version */
+    where s(i0,i1, ...) = the product of the signs of (iq - ip) = +/- 1; this
+    gives us that
+    INTEGRAL (sigmabar) w = epsilon INTEGRAL (sigma) w
+**** Proof
+     Let k = 0. Then INTEGRAL (p0) f = epsilon f(p0) by definition.
+
+     Now let sigma be the k-simplex [p0, ... , pk].
+     Suppose that 1 .LEQ. j .LEQ. k. the nwe may obtain sigmabar from
+     interchanging ps: this is where we get the sign change, where epsilon is
+     equal to the s-term. Then
+
+     sigmabar(u) = pj + B u where B ej = p0 - pj and B ei = pi - pj.
+
+     We will write that A ei = Pi - p0 = xi, where sigma(alpha) = p0 + A alpha.
+     Then the columns of B are just xi - xj, ..., xj-1 - xj,
+
+     If we subtract the jth column from each of the other columns, we get that
+     x1, ... xj-1 - xj , ... xk
+
+     which is the same as A except we are using a different column j. Therefore
+     the determinant of B is just -1 * det(A).
+
+     Now consider sigmabar(u) = P0 + C u, where C has the same columns as A but
+     with the ith and jth columns interchanged. Then we get the same result
+     with the sign flip.
+*** Boundaries of Simplexes - Affine Chains
+    delta [P0, P1, ... Pk] = SUM (j=0, k) (-1)^j [P0, ... Pjhat, ... Pk] which
+    is a k-1 chain.
+
+    Affine chains - some surface Gamma on some open E in RR^n
+    = n1 gamma1 + ... + nr gammar, for each ni in ZZ and each gammai is an
+    affine k-simplex.
+
+    Then d(SUM nj sigmaj) = SUM nj (dsigmaj)
+
+    If the chain is differentiable: PHi = T . sigma and T = some C2 mapping on
+    an open E in RR^n into an open V in RR^m (not necessarily 1-1)
+
+    Then sigma :: Q^k -> RR^n in E, so Phi :: Q^k -> RR^m, Phi is C2. We may
+    extend this to chains using formal summations.
+
+    chain = SUM (j=1,r) nj Phij.
+*** Change of Variables
+    Let T be a C1 mapping, w be a k-form with standard presentation
+    w = SUM (I) b_I(y) dy_I. /* y in m variables */
+    Let t1 .. tm be the components of T. Then tj = tj(x), x in n variables
+
+    then dti = SUM (j=1, n) dti/dxj(x) dxj = 1-form.
+    We then declare that wT = SUM (I) b_I(T(x)) dt_{i_1} ^ ... ^ dt_{i_k}.
+
+    Ingredients of proof : (w + lambda)_T = w_T + lambda_T
+    (w ^ lambda)_T = w_T ^ lambda_T
+    d(w_T) = (dw)_T
+    (w_S)_T = w_(ST)
+
+    Then, by 10.24:
+
+    INTEGRAL (Phi) w = INTEGRAL (Delta) w_Phi where Phi :: Delta -> RR^n.
+
+    By 10.25:
+
+    INTEGRAL (T . Phi) w = INTEGRAL (Phi) w_T
+
+    This result reduces to the special case
+    lambda = f(alpha) dx1 ^ ... ^ dxrhat ^ ... ^ dxk is a k-1 form in k
+    variables.
+
+    sigma = standard simplex. All that we need to show now is the special case
+
+    INTEGRAL (sigma) dlambda = INTEGRAL (dsigma) lambda.
+
+    for k = 1: INTEGRAL (0,1) f'(u) du = f(1) - f(0) /* this is orientation in
+    the standard case: terminal - initial */
+
+    for k > 1: fix some 1 .LEQ. r .LEQ. k and choose some C1 f. Assume
+    lambda = f(x) dx1 ^ ... ^ hat(dxr) ^ ... ^ dxk. Note that any k-1 form is a
+    summation of terms like this.
+
+    The boundary dsigma = [e1 ... ek] + SUM (i=1,k) (1)^i tau_i where tau_i is
+    where we leave out e_i.
+
+    Let tau_0 = [er, e1, ... not er, ... ek] which is a k-1 simplex. This is
+    obtained from e1 .. ek by r-1 interchanges and deleting er. Therefore the
+    boundary of sigma is
+    dsigma = (-1)^(r-1) tau0 + SUM (i=1,k) (-1)^i tau_i. The action on k-forms
+    is the same up to the sum.
+
+    Each tau has Q^k-1 as a parameter domain. If x - t0(u) (u in Q^{k-1}) then
+
+    xj = uj, for 1 .LEQ. j .LEQ r
+    j - SUM(U1 + .. + UK-1) for j - r
+    and uj-1 for r < j .LEQ. k.
+
+    Assume that lambda is a (k-1)-form with the rth term deleted.
+
+    For i = 0, i = r, the map is the indentity so J0 = Jr = 1.
+    for other i (say ) Ji has a row of zeros, so the determinant is zero. Then
+    INTEGRAL taui lambda = 0.
+
+    Therefore the boundary of sigma (-1)^(r - 1) tau0 + SUM (i=1,k) (i1)^i
+    taui. Therefore
+    INTEGRAL (dsigma) lambda = (01)^(r - 1) INTEGRAL tau0 lambda + (01)^R
+    INTEGRAL tau_r lambda
+
+    Also, by the definition of dlambda, if we do the integral with respect to x
+    we are done.

@@ -1,0 +1,98 @@
+* What are the proposed numerical methods?
+  Stabilize a simple time-dependent convection-diffusion-reaction problem with
+  various methods.
+
+  Methods consist of addition of a stabilization term to the original Galerkin
+  formulation. Each may be written as an L2 product within each element of
+* Weak Form
+  We will work in W = H_0^1. Assume that all the coefficient matricies are time
+  independent and bounded. For the Galerkin method, we want some Uh in L2 such
+  that
+
+  (Vh, dUh/dt) + a(Uh, Vh) - l(V_h) = 0 /* a is bilinear, l is linear */
+
+  and the stabilization is some extra term
+
+  r(Uh, Vh) = SUM (over elements) INTEGRAL (over element) P(Vh).T Tau R(Uh) dElement
+
+  where Tau is DOF x DOF matrix with time units, P(Vh) is an operator on the
+  test function and R(Uh) is the residual of the time-discretized differential
+  equation.
+
+  Therefore stabilization depends on *residue* and *particular method*.
+* Specific Methods (we are only concerned with two)
+** SUPG - Streamline-upwind/Petrov-Galerkin method
+*** Codina
+**** Overview
+     Add numerical diffusion in the direction of flow (where it is needed the
+     most for stability).
+
+     For a general one-step time discretization, /* generalized trapezoid rule */
+
+     Delta u^n / Delta t + LL(u^(n+theta)) = f
+
+     where theta = 1 corresponds to backward Euler, theta = 1/2 corresponds to
+     Crank-Nicolson, and theta = 0 is forward Euler. Therefore we want to solve
+
+     /* time discretization of the weak form */
+     (vh, Delta uh^n / Delta t) + a(uh^(n + theta), vh) - l(vh) = 0
+**** Stabilizing Term
+     Matches the general format.
+
+     /* if we used the conservative form on a single element it would always be
+        zero? */
+     P(vh) is the nonconservative form of the convective operator:
+
+     P(vh) = a .CDOT. GRAD vh
+
+     R(uh) is the residual of the time discretization:
+
+     R(uh) = Delta uh^n / Delta t
+           + GRAD .CDOT. (a uh^(n+theta) - k GRAD uh^(n+theta))
+           + s u_h^(n+theta) - f.
+
+     This method is *consistent* because if we have the true solution the residue
+     is zero.
+**** Intrinsic Time
+     We can show that a certain choice of Tau gives us exact results in the 1D
+     case. We may extrapolate this to the multiple-dimension case using an
+     unspecified method.
+
+*** Mizukami
+**** Introduction
+     The weighting function w~ is
+
+     w~ = w + Tau u .CDOT. GRAD w
+
+     where w is the 'Galerkin-type weighting function' /* ? */
+**** Tau
+     The new formula is
+
+     Taui = 1/2 (Mii / (max(abs(Aij)) + Dii))
+
+     /* I believe the author refers to the *local* matricies here. */
+     where Mij is the entry of the mass matrix, Aij is the entry of an
+     advection matrix and Dij is an entry of the diffusion matrix.
+** SGS  - Subgrid Scale Method
+*** Codina
+**** Introduction
+     Split the variable in to pieces:
+     u = ubar + u'
+     where ubar may be resolved by the mesh and u' cannot.
+     FEM terminology : u' is the component of the solution in the orthogonal
+     complement of the space
+
+     *The big assumption* is that u' vanishes on element boundaries. Therefore
+
+     L(u') = f - L(ubar) inside elements and u' = 0 on element boundaries.
+**** Solution
+     We can solve this
+     L(u') = f - L(ubar)
+     by some Green's function g:
+     u'(y) = - INTEGRAL (element) g(x,y) (L(ubar) - f)(x) := M(L(u) - f)(y)
+     where M is an integral operator (integrate over all elements)
+
+     if we split the test function as well
+     a(ubar, vbar) + a(u', vbar) = l(vbar)
+     so
+     a(u', vbar) = (L*(vbar), u')
