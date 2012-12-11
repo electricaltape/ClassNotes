@@ -1,0 +1,1589 @@
+** Homework
+** Homework 1
+   Due on the second day! One problem, on scholar; do problem a.
+
+   Read section 1 of chapter 0.
+** Homework 2
+   Due *Thursday*, 10:45 AM. We are still (lecture before homework was
+   originally due) working on sigma algebras.
+
+   Problem 1: a series of proofs.
+
+   A ring has differences, a sigma algebra has complements. The entire space may
+   not be in the ring (cannot get compliment by taking a difference)
+** Homework 3
+*** Hints
+    mu* measurable sets form a sigma algebra.
+
+    {E subset XX: E is mu* measurable}
+    is a sigma algebra. The outer measure is defined on all subsets of XX. If we
+    throw out the sets where mu* does not act like a measure then we get a
+    measure space.
+
+    This homework will probably be extended to being due on Monday.
+
+    _4th problem_
+    How do we show that the set of rational intervals contains some empty set?
+    Our restriction is -inf .LEQ. a < b .LEQ. +inf.
+
+    Form a union of no sets in particular. Then this union is empty. For our
+    purposes we can assume that the empty set is in this collection already.
+
+    _5th problem_
+    mu finite, use it to build an outer measure mu*. Say that E
+    subset X and mu*(E) = mu*(X) = mu(X) /* has to agree with already measurable
+    sets */
+
+    Does this imply that mu*(E^c) is 0?
+
+    say that mu*(E) = 0. Then we want
+    mu*(A) = mu*(A intersect E) + mu*(A \ E^c)
+
+    but mu*(A intersect E) = 0, so as mu*(A) .GEQ. mu*(A \ E^c) we get what we
+    want (the other direction, .LEQ., is a freebie)
+
+    There exist examples mu*(E) = mu*(X) but E is *not* mu*-measurable.
+    so mu*(E^c) = 0 need not be true.
+
+    A better hint: if we assume that E is measurable then we are okay. Part a is
+    the hard part.
+
+    *Part A* assume that A and B are in M, and A intersect E = B intersect
+    E. Show that this implies that mu(A) = mu(B)
+
+    Consider four parts: A \ B, B \ A, A intersect B, and (A union B)^c. Where
+    can points in E be? Draw a Venn diagram here. What matters is this: where is
+    E?
+
+    Ultimately we need the symmetric difference to have measure zero. Then we get
+    what we want.
+*** Remarks (Post Mortem)
+**** 18 c
+     We assume that mu0 is sigma finite on AA. We want to show that 18b holds
+     even without the finite measure assumption.
+
+     We can get rid of some of the union of an intersection of a union problem
+     by insisting that the sets are disjoint.
+
+     The idea is to show that X can be written as a union of disjoint sets.
+
+     Another way to do it: soup up the result from part b. Consider epsilon
+     > 0. Then there exists some Cn where En subset n, mu^*(Cn) <
+     epsilon*2^(-n) + mu^*(En). Then, adding things up, we get that
+
+         mu^*(Cn) = mu^*(En) + mu^*(Cn \ En)
+
+     where mu^*(Cn \ En) < epsilon*2^(-n).
+
+     Now let Bepsilon = UNION Cn in AA, E subset Bepsilon. Therefore
+
+         Bepsilon \ E subset UNION (Cn \ En)
+
+     so mu^*(Bepsilon \ E) < epsilon by choice of the epsilon*2^(-n). Therefore
+     we can use this on the converse.
+** Homework 4
+   We need to prove at least the following:
+   1. part c of 1.19
+   2. proposition 1.20
+* Math 5225: 5000 reals
+  Cover 'classical' theory of integration and measure, applications to
+  probability theory, etc. This semester: get through chapter 3.
+
+  October 22: tentative midterm
+  December 19: final exam
+* Theory of Integration: A Brief Overview
+** Incompleteness of the theory of Riemann integrals
+*** A Brief Overview
+    Say we have
+
+        INTEGRAL (a,b) f(x) dx
+
+    we develop some partition of [a,b] (that is, make it many smaller closed
+    intervals). We pick some point in each interval and then sum up
+
+        f(yi) *(xi - xi-1)
+
+    note that we have used the concept of length here in addition to function
+    evaluation. This is closely related to the concept of *measure* (we want to
+    measure the size of sets that are not intervals of real numbers).
+*** Example of Failure
+    The function f(x) = 1 at rational numbers, 0 at irrational numbers; too many
+    discontinuities.
+
+    We may *enumerate* the rational numbers on the unit interval as
+
+        q1, q2, ...
+
+    Let us define f_n(x): f_n(x) = 1 if x is in [q1..qn], zero otherwise. Our
+    original function is the limit (pointwise) of the f_n(x)s.
+
+    We cannot rearrange (switch the order of the limit and integral) here; we
+    end up with an undefined term.
+*** Improper Integrals
+    Say we want to integrate ln(x) from 0 to 1. We run in to trouble here
+    because of the unboundedness of the function.
+
+    In 'freshman calculus' we just took the integral from T to 1 and took the
+    limit as T went to zero; this is not particularly great.
+*** Lebesgue Integrals
+    The Lebesgue should 'extend' the Riemann integral; if the Riemann integral
+    of a function has some value, then the Lebesgue integral should have the
+    same value.
+
+    The Lebesgue integral has stronger results about interchanging limits and
+    integrals. It generalizes integration to many settings where the Riemann
+    integral 'has no hope'.
+
+    The Lebesgue integral is the foundation of functional analysis (basically
+    consists of thinking of collections of functions as metric spaces, where the
+    metric is defined in terms of some integral).
+** The concept of 'length'
+   We can assign a 'length' or 'measure' to any pair of set elements. This is
+   notated by mu(a,b) typically, for set elements a and b. We want to preserve
+   intuitive notions of 'measure' (see pages 19 and 20), like additivity.
+
+   The idea behind Lebesgue integration is that we can integrate over many kinds
+   of sets; we need some notion of 'length' first that is consistent with
+   everything else we already have.
+
+   *Big Issue* it is not possible to assign numerical values to all subsets of
+   the real numbers in a way that is consistent. This is worked out on page 20,
+   but we will come back to it later on.
+
+   Therefore we must limit our sets to sets where values can be assigned in a
+   'correct' manner. This is a lot bigger than just 'intervals'.
+
+   These are sets to which we can assign a *measure*. Sigma Algebras also play a
+   role.
+* Section 0.5: The Extended Real Numbers
+** Introduction
+   We are already familiar with the real numbers as a field. We care about the
+   real numbers because we have completeness (every nonempty subset which is
+   bounded below has an infimum). Similarly, any nonempty set bounded above has
+   a supremum. The infimum and supremum, when they exist, are unique. They need
+   not be set elements.
+
+   Positive and negative infinity are not field elements, but we need them
+   eventually (what is the Lebesgue measure of the real line?). We really want
+   mu(RR) = +inf. We use the real numbers and tack on +inf and -inf; this is
+   typically notated as OVERBAR(RR). The typical properties apply; additionally,
+   0*inf = 0. We want this to be true so that
+
+       0 = INTEGRAL (-inf, inf) 0 dx
+         = INTEGRAL (-inf, inf) 0*1 dx
+         = 0*INTEGRAL (-inf, inf) 1 dx
+
+   does not create a contradiction.
+** How about completeness?
+   Every nonempty subset of OVERBAR(RR) has a supremum and infimum. Recall that
+   inf and -inf may be supremum and infimum respectively, now. If a set has no
+   finite upper or lower bound then +/- inf is the unique bound (must be
+   supremum/infimum).
+** How about the empty set?
+   Every number is a lower bound! Therefore +inf is the greatest lower
+   bound. Similarly -inf is the least upper bound.
+** Sequences of Real Numbers
+*** Overview
+    We call a sequence a *real sequence* if it consists entirely of real
+    numbers. Similarly, if it incluedes +inf or -inf, then it is an extended
+    real sequence.
+
+    Dr. Day prefers the notation (x_n) as parenthesis indicate order. The
+    notation {x_n} uses curly brackets, like sets, which are not necessarily
+    ordered.
+*** Limits
+    Say we take the infimum of the first N elements in a sequence, then the
+    first N+1, etc. This sequence of infimums is monotone. Therefore it
+    converges in the extended reals.
+
+    The same holds for the lim sup. If
+
+        sup (inf x_n) = inf (sup x_n)
+
+    then that value is the limit of the sequence.
+*** Properties
+    1. lim inf x_n .LEQ. lim sup x_n
+    2. {x_n} converges (in overbar(RR)) iff lim inf x_n = lim sup x_n.
+
+# complete this proof as an exercise.
+    *Proof of (1)* Consider k, k' in N. Let n+ = max(k,k'). Then
+
+    *Proof of (2)* We won't do the whole thing here; for now, just consider an
+    infinite case: if lim inf = +inf then lim sup = +inf. Consider y <
+    +inf. Since y < sup inf x_n then we must have some N such that y < inf xn, n
+    .GEQ. N. This means that y < x_n for n > N.
+*** Cluster Points
+**** Definition
+     A point c in RR is a _cluster point_ of a sequence when for all epsilon >
+     0, there are infinitely many xn in (c - eps, c + eps).
+
+     c = +inf is a _cluster point_ of the same sequence when for all y in RR,
+     there are infinitely many x_n in (y, +inf). An analogous result holds for c
+     = -inf.
+**** Fun Facts
+     1. c in overbar(RR) is a cluster point iff there is a subsequence
+        converging to c.
+     2. The lim inf is the smallest cluster point in a sequence. The lim sup is
+        the largest cluster point in a sequence.
+
+     *Proposition 0.20* Let f :: X -> [0,inf) This makes the point that we
+     should examine the case
+
+         SUM (X) f(x)
+
+     where X is an uncountable set. The book proposes that we can equate this as
+
+         SUM (X) f(x) = sup {SUM (F) f(x), F .SUBSETEQ. X, F is countable}
+
+     The positive part is useful because we can talk about finite sets where
+     f(x) > 1/n for some positive integer n.
+** Proposition 0.21
+*** Assertion
+    Every open subset of RR is a countable, disjoint union of open intervals.
+*** Proof
+    Assume U .SUBSETEQ. RR is open. Let JJx = {I in RR | I is an open interval
+    containing x, I .SUBSETEQ. U}
+
+    /* we use script letters, not really possible to display here, to indicate
+    that someting is a set of sets (like Jx) */
+
+    let Jx be the union of JJxs. We claim that this is an interval. /* Note that
+    an interval is a convex set; given two elements, everything 'between' them
+    is also in the set. */ Suppose that y is in Jx. Then there is some I such
+    that y in I, and I is an interval (and x must be in I). Therefore Jx
+    contains all points between x and y. Therefore Jx is an interval (at least
+    between x and y). Note that we may pick some y /= x because Jx is open.
+
+    Consider x, y in U. Suppose that E = Jx .INTERSECT. Jy. Then Jx .UNION. is
+# check the equality used on this line; the next statement does not quite
+# follow. Also: where did we use the axiom of choice here?
+    also an interval in U and it contains x and y, so Jy = Jx .UNION. Jy =
+    Jx. Therefore the sets are either equal or disjoint.
+
+    Let JJ = {Jx : x in U} be a collection of disjoint open intervals. Clearly U
+    = .UNION. J, J in JJ.
+
+    Let f(J) be a rational number in J. This function f is injective because if
+    J1 /= J2 (they are disjoint). Therefore the domain is some subset of the
+    rationals, so we have countability.
+* The Rest of Chapter 0
+** TODO Orderings on Sets
+   Well-ordered, partially ordered, etc; review this.
+** Axiom of Choice
+   Say that X is a nonempty set; there exists some x in X.
+
+   If we have a collection of nonempty sets, then do we have a *selection
+   function* such that
+
+   f :: A -> UNION Xs with F(alpha) in Xalpha
+
+   so we can take a set and then pick the sets in X that contain an element of
+   this set.
+
+   We will use the axiom of choice a lot.
+** Cardinality of Sets
+   A set is countable if there exists a one-to-one correspondence between the
+   set and the natural numbers.
+
+   The real numbers are not countable.
+** Other Sections in Chapter 0
+   The book includes sections on well-ordering, metric spaces, and some other
+   things. We will touch on these next semester.
+* Sigma Algebras
+** Overview
+   We have to limit the sets to sets where we can assign measure. These are
+   so-called *sigma algebras*.
+
+   A _nonempty_ collection A of subsets X is a *algebra* of sets on X if:
+   1. E in A -> E^c in A
+   2. If E1..En are in A (a finite collection of sets), then their union is in
+      A.
+
+   A is a *sigma-algebra* if #2 holds for countably infinite unions (if we have a
+   sequence of sets {Ei} then the infinite union is in A).
+** Properties of Sigma Algebras
+*** Closure under intersections
+    Assume that the sigma algebra AA is nonempty.
+
+    Note that XX itself is in the sigma algebra. Then the null set = compliment
+    of XX is in AA.
+
+# check the demorganization logic here.
+    Say that Ei is a sequence in AA. Then each Ei^c is in AA, so the infinite
+    union of the compliments is in AA. Then the compliment of this infinite union
+    of compliments is in AA, so the infinite intersection of Ei is in AA.
+
+    Similarly: since AA is closed under intersections and compliments,
+
+        E \ F = E .INTERSECT. Fc
+
+    is in AA.
+
+    Let F1 = E1. Let F2 = E2 \ E1, F3 = E3 \ (E1 .UNION. E2), etc (a sequence of
+    disjoint sets, gram-schmidt style)
+
+    If AA is an algebra closed under countable _disjoint_ unions then it is a
+    sigma algebra.
+*** Combining Sigma Algebras
+    Supose that AA and BB are sigma-algebras on the same set XX. Then
+
+        A .INTERSECT. B = {E .SUBSET. XX : E in AA, E in BB}
+
+    it is pretty easy to show that this is a new sigma algebra. That is: we can
+    intersect any number of sigma algebras (with same master set) and get a
+    sigma algebra back (countable or uncountable).
+
+    Why is this important? If we start with a collection of sets EE such that we
+    want to be in the sigma algebra we will ultimately work with (we want open
+    sets when we get to the real line). We want to build a sigma algebra that
+    includes at least these sets.
+
+    If we start with a collection of sets EE then we define the smallest sigma
+    algebra that includes everything by taking
+
+    MM(E) = .INTERSECT. AA, where AA is a sigma algebra in EE. This is the sigma
+    algebra generated by EE.
+
+    *Example* Let XX = RR. Let A (our target) be E .INTERSECT. (0, +inf) is
+    anything, and E .INTERSECT. (-inf, 0) is all or nothing.
+
+    MM(E) is a sigma algebra when E is in MM(E) and MM(E) .SUBSET. AA whenever
+    AA is a sigma algebra with EE .SUBSET. AA.
+*** Lemma 1.1
+    If EE and FF are both collections of subsets of XX and EE in MM(FF), then
+    MM(EE) .SUBSET. MM(FF).
+
+    This result immediately follows from the last statement above by changing
+    the name of FF.
+*** Topologies
+    Recall that a topology is a collection of open sets. We may form the
+    smallest sigma algebra that contains these sets. These are usually called
+    the _Borel sets_ (or the Borel sigma-algebra on XX). That is, the sets in
+    the sigma algebra are the open intervals of the topology.
+
+    This is the 'smallest' sigma algebra that is useful.
+*** Proposition 1.2
+    The Borel sets on the real line (where we have a well-defined notion of
+    openness) is a sigma algebra generated by each of the following:
+
+        E1 = the intervals (a,b), a < b.
+        E2 = the intervals [a,b], a < b.
+        E3 = the intervals (a,b], a < b.
+        E4 = the intervals [a,b), a < b.
+        E5 = the intervals [a,b), a < b.
+        E6 = the intervals (-inf,b), b is finite.
+        E7 = the intervals (-inf,b], b is finite.
+        E8 = the intervals (a, +inf), a is finite.
+        E9 = the intervals [a, +inf), a is finite.
+
+    and more! The proof is a tedious application of Lemma 1.1.
+
+    Let O = { E .SUBSET. RR : E is open}
+
+    *Proof* Note that we can 'build' E8 and E9 out of countable unions in E3 and
+    E4, respectively (we only want to use countable unions for sigma
+    algebras). By proposition 0.21, O .SUBSET. MM(E1) so B_RR = MM(O)
+    .SUBSET. MM(E1), but as E1 .SUBSET. O, we get that MM(E1) .LEQ. MM(O)
+    .SUBSET. B_RR. So B_RR = MM(E1).
+
+    Next, observe that Ei .SUBSET. B_RR for all Ei. For example, [a,b] is the
+    infinite intersection of (a - 1/n, b + 1/n), so E2 .SUBSET. B_RR. Thus M(Ei)
+    .SUBSET. B_RR.
+
+    Next, if we know that MM(Ei) = B_RR and can show that Ei .SUBSET. M(Ej),
+    then it will follow that
+
+        B_RR = MM(Ei) .SUBSET. MM(Ej) .SUBSET. B_RR
+
+    so MM(Ej) = B_RR.
+
+    Let j = 2 and i = 1 (we already showed that E1 is fine). We want to build E1
+    from E2. Therefore pick the infinite union of things like [a - 1/n, b + 1/n]
+    to get open intervals.
+
+    In general, we can use this countable union trick to turn closed intervals
+    in to open intervals. Each of these implies that E1 .SUBSET. M(Ej), for j =
+    2, 3, or 4.
+
+    Now we can build E5, E6, E7, and E8 from E3. We could do it from E1, but it
+    is easier with E3.
+
+    Note that (a, b] = (a, +inf) \ (b, +inf) so E3 .IN MM(E5), and MM(E5) =
+    B_RR.
+
+    Similarly, for j=6, use i = 4; [a,b) (-inf, b) \ (-inf, a) -> E4
+    .SUBSET. MM(E6).
+
+    for j = 7, use i = 6, where we use that (-inf, a) = [a, inf)^c.
+
+    for j = 8, use i = 3, where we use that (-inf, a) = [-inf, a)^c.
+*** Advice: How do we prove things about all Borel sets?
+    Our natural inclination is to start with the smallest sigma algebra (we know
+    that this contains Borel sets). Say we start with sets that are open or
+    closed.
+
+    It is not valid to assume that a Borel set may be written in a particular
+    way. If EE is a Borel set, then EE can be written as (some particular form)
+    does not work.
+
+    More generally: if we generate a sigma algebra from some set of sets, we
+    don't have a good way to represent sets in the sigma algebra. We cannot
+    write them in some constructure way (unless we have a very trivial master
+    set).
+*** Proving things about elements of sigma algebras
+    Say we want to prove some property P about all elements of sigma algebras.
+    The 'usual' or 'basic' approach is to show that every set we used to
+    generate the sigma algebra has property P. If every sigma algebra formed
+    from the master set has this property, then the sigma algebra we care about
+    has the desired property.
+
+    Example: suppose that we have two measures on the real numbers with Borel
+    sets called nu and mu. Suppose these measures agree on open intervals. Does
+    this imply that they agree on all sets in the sigma algebra? We will get
+    here eventually.
+*** Sets in a Sigma Algebra
+    The sets in a sigma algebra are usually called 'measurable sets'. We will
+    start using this language soon.
+* G-delta sets and F-sigma sets
+  If X is a topological space, then A is called a Gdelta set if
+
+      A = INTERSECT Un where each Un is open
+
+  A subset X is called an F-sigma set if
+
+      A = UNION Cn where each Cn is closed.
+
+  G-delta-sigma sets are countable unions of G-delta sets. F-sigma-delta sets
+  are countable intersections of F-sigma sets.
+* Measure
+** Definition
+   /* note that sigma algebras are also subsets of the power set */
+   Suppose MM is a sigma-algebra of sets on X: a measure in (X, MM) is a function
+   mu :: MM -> [0,inf] /* standard theory of nonnegative measure */ with the
+   properties
+
+   1. mu(NULLSET) = 0
+   2. Whenever we have a sequence of sets {Ei} that are disjoint (no element in
+      more than one set) then the measure of the union is the sum of the
+      individual measures.
+
+   If we only require #2 to apply for finite unions, then mu is called a
+   *finitely additive* measure.
+
+   If mu(E) < +inf, then mu(E) = mu(E .UNION. nullset) = mu(E) + mu(nullset)
+
+   which implies that the measure of the nullset better be zero; otherwise
+   everything has infinite measure.
+** Application: a finite set of sets
+   Say that E1..En are disjoint. We can apply #2 by filling out the remainder of
+   the sequence with null sets.
+** Theorem 1.8
+*** Statement
+    Suppose that (X, M, mu) is a measure space (M is a sigma algebra, mu is a
+    measure). If we have two measurable sets E, F (i.e. they are both in the
+    sigma algebra) and E .SUBSET. F then
+
+    1. mu(E) .LEQ. mu(F)
+    2. if {Ej} (sequence) .SUBSET. M then mu(UNION Ej) .LEQ. SUM (mu(Ej))
+    3. If {Ej} (sequence) .SUBSET. M and E1 .SUBSET. E2 .SUBSET. ... then
+
+           LIM (j, +inf) mu(Ej) = mu(UNION Ej)
+
+    4. If {Ej} (sequence) .SUBSET. M and E1 .CONTAINS. E2 .CONTAINS. ... with
+       mu(E1) < +inf, then
+
+           LIM (j, +inf) mu(E1) = mu(INTERSECT Ej)
+
+    in fact, (4) holds if mu(Ej) < inf for some j, but if all mu(Ej) = +inf,
+    then if m is the lebesgue measure and Ei = (i, +inf) (each mu(Ei) is +inf)
+    then we get that the infinite union is the null set and the equality does
+    not hold.
+
+    Note that we are not using the extended real numbers.
+*** Proof
+# prove this again for practice.
+    (part 1) Since E and F \ E are disjoint, and F = E .DISJOINT UNION. (F \ E),
+    then we get that (by #2 in the definition of measure) that
+
+        mu(F) = mu(E) + mu(F \ E) .GEQ. mu(E)
+
+    which proves the first part.
+
+    Let F1 = E1 and Fk = Ek \ (UNION Ei) for k > 1.
+
+    (part 2) Since the sequence of Fis are disjoint ests in M, we get that
+
+        UNION Fj = UNION Ej.
+
+    therefore
+
+        mu(UNION Ei) = mu(UNION Fi) = SUM mu(Fi)
+                     .LEQ. SUM mu(Ei)
+
+    (part 3) F1, Fk = Ek \ Ek-1. The Fjs are disjoint.
+
+    (part 4) Let Fj = E1 \ Ej. Then F1 .SUBSET. F2 .SUBSET. ...
+    so by (part 3) we get that
+
+        LIMIT mu(Fj) = mu (UNION Fj)
+
+    Think of it this way: the Fjs keep getting bigger, but do not include the
+    infinite intersection of Ejs.
+
+    E1 contains all of these sets (UNION Fj) so the measures of each Fj is
+    bounded above by the measure of E1 (so all sets have finite
+    measure). Therefore we can do subtraction (cannot subtract infinities so we
+    are fine). Therefore
+
+    LIM (j, +inf) (mu(E1) - mu(Fj)) = mu(E1) - mu(UNION Fj)
+
+    Note that E1 = Ej UNION (Ei \ Ej) = Ej UNION Fj. This is a disjoint union by
+    definition of Fj. Therefore
+
+        mu(E1) > mu(Fj) = mu(Ej) + mu(F1) - mu(Fj) = mu(Ej)
+
+    Also: E1 = E1 \ (INTERSECT Ej) (disjoint union) (INTERSECT Ej)
+             = UNION E1 \ Ej (disjoint union) (INTERSECT Ej)
+
+    so mu(E1) - mu(UNION Fj) = mu(UNION Fj) + mu (INTERSECT Ej) = mu(UNION Fj) =
+    mu (INTERSECT Ej)
+
+    which gives us what we wanted.
+** Spaces with some sort of measure
+   A pairing of a space and a measure is a *measurable space*. The combination
+   of a measure, mu, and a set is a *measure space*.
+
+   _Important Examples_
+   * m((a,b)) = b - a. Does this collection of open real intervals work? No. The
+     compliment of an open interval is not another open interval. We will need
+     to tweak this.
+   * If X is any set, then M = P(x) (power set). Pretty easy to show that
+     compliments and unions are fine. We can assign the measure
+
+     mu(A) = 0 if A is finite; +inf if A is infinite.
+
+     However we lose countable additivity (if we have an infinite number of
+     sets, each with one distinct element, then we lose #2; we do have finite
+     additivity, however)
+   * X is an uncountable set. MM = {E in X : either E or E^c is countable;
+     cocountable sets}. Note that (E^c)^c is countable, so we get #1.
+   * Example on RR: II is the collection of subsets of RR expressible as the
+     union of a *finite* collection of intervals which are open on the left and
+     closed on the right (we allow the lower bound to be -inf). We consider
+     (a,a) to be the null set. This is an algebra.
+   * If mu(X) = 1 then mu is a *probability measure*
+   * If mu(X) < +inf then mu is a *finite measure*
+   * If X is a countable union of sets with finite measure, then X is called a
+     *sigma-finite measure*. Note that X may have infinite measure.
+   * If for all E in M there is F .SUBSET. E, F in MM, with
+
+         0 < mu(F) < +inf
+
+     then mu is called seminfinite. (that is a part of the set has finite
+     measure)
+
+     If we have a union of two of these intervals, we either get two disjoint
+     intervals or one interval of the right type.
+
+     We do not have a sigma algebra: consider
+
+         UNION (0, 1 - 1/n] = (0,1)
+
+     so an infinite union yields an open interval. Can we add some extra sets to
+     II so that we get a sigma algebra.
+** Sets with zero measure
+   This is called a *null set* (while this depends on the measure itself). A
+   countable union of null sets is also zero.
+** Almost Everywhere
+   There is a *null set* E such that the property holds for all x in E.
+
+   A trivial example: x is irrational for 'almost all' real numbers. Here we are
+   thinking of Lebesgue measure. Think of a countable union of intervals
+   consisting of individual points.
+** Complete Measure
+   A measure is *complete* if  whenever E in MM, mu(E) = 0 and F is a subset of
+   E, then F is a subset of MM.
+
+   It is always possible to form the *completion* of a measure space (Xbar,
+   MMbar, mubar).
+
+   What should the new sigma algebra look like?
+   1. We should be able to take any set in the original sigma algebra and
+      tack-on a set of measure zero.    2.
+
+   Let
+
+       MMbar = {E UNION F : E in MM and F is contained in a null set}
+
+   _Building the Sigma Algebra_
+   We claim that this is a sigma algebra. Consider some E UNION F in MMbar. We
+   want to write the complement in a similar way.
+
+   (E UNION F)^c = E^c INTERSECT F^c
+
+   as F is in N /* N is a null set */, then F^c is in N^c UNION (N \
+   F). Therefore
+
+       (E UNION F)^c = (E^c INTERSECT F^c) UNION (E^c INTERSECT (N \ F))
+
+   the second set on the right is a subset of a set of measure zero. The first
+   set on the right must be en M (closed under complements and
+   intersections). Therefore we are done.
+
+   How about closure under countable unions? Consider the sequence
+
+       {Ei UNION Fi}
+
+   where Ei in MM, Fi .SUBSET. Ni in MM, mu(Ni) = 0.
+
+   Let N be the countable union of the Nis. This is in MM and it's measure is
+   zero. Then
+
+       UNION (Ei UNION Fi) = (UNION Ei) UNION (UNION Fi)
+
+   which is a set in MM. Done.
+
+   _Building the Measure_
+   if G in MMbar, G = E UNION F, E in MM, F .SUBSET. N in MM (mu(N) = 0) then if
+   mubar(G) = mu(E), is this well-defined?
+
+   Say that G = E1 UNION F1 = E2 UNION F2. Then E1 \ E2 .SUBSET. F2 so
+
+       mu(E1 \ E2) = 0.
+
+   Similarly, E2 \ E1 is a subset of F1, so mu(E2 \ E1) = 0.
+
+   mu(E1) = mu((E1 INTERSECT E2) (disjoint union (?)) (E1 \ E2))
+          = mu(E1 INTERSECT E2) + mu(E1 \ E2)
+          = mu(E1 INTERSECT E2) + mu(E2 \ E1) /* both zero */
+          = mu(E2)
+
+   so mubar does *not* depend on representation.
+
+   Let Gi = Ei UNION Fi (for Fi a subset of Ni, mu(Ni) = 0). Assume that the Gis
+   are disjoint, so the Eis are disjoint. then
+
+   mubar(UNION Gi) = mu(UNION Ei) = SUM mu(Ei) = SUM mubar(Gi)
+
+   so mubar is a measure.
+
+# review this completeness argument.
+   We claim that (Xbar, MMbar, mubar) is complete. Let G in MMbar with
+   mubar(G) = 0. We want to show that a subset of this is in the sigma
+   algebra. Let H be a subset of G.
+
+   Let G = E UNION F. If mbar(G) = mu(E) = 0 then N UNION E in MM is a null
+   set.
+
+   Suppose that mu~ is any other expansion of MMbar. so mu~ = mu in MM. If G = E
+   UNION F, E in MM, then mu~(N) = 0 -> mu~(F) = 0 /* usual F in N */ so
+
+       mu~(G) = mu~ (E (disjoint union) (G \ E))
+              = mu~ (E) + mu~(G \ E)
+              = mu(E) = mu~(G).
+
+   therefore uniqueness!
+** How may we construct measures?
+   /* Dr. Ball was here */
+   Carotheodory approach: go through outer measure. This does not cover all
+   examples; wait for Chapter 7.
+
+   Define mu* : P(X) /* all subsets */ -> [0, +inf] such that mu*(nullset) = 0,
+   mu*(A) .LEQ. mu*(B) if A .SUBSET. B.
+   mu* is the outer measure because we are working on the power set. mu* is
+   monotonic and countably subadditive.
+
+   also: mu*(UNION Aj) .LEQ. SUM mu*(Aj)
+
+   Recall that we previously only worked with the measure of sigma algebras
+   because we ran in to nonmeasurable sets. The .LEQ. is the price we paid.
+** Construction of Outer Measures
+*** Overview
+    Let EE be a family of element sets, oh which a notion of measure is
+    defined. Approximate from above by finite or countable unions of elements of
+    EE.
+
+    A formal definition: Let E be a subset of P(X), rho : E -> [0,+inf], nullset
+    in E and rho(nullset) = 0.
+
+    Define mu*(A) = inf{ SUM rho(Ej) : Ej in EE, A .SUBSET. .UNION. Ej = EE}
+
+    Proposition 1.10 : mu* is an outer measure.
+
+    Given mu* is an outer measure, say A is mu*-measurable. We may use
+    Carotheodory's theorem where MM is a collection of mu*-measurable sets is a
+    sigma algebra and mu* on MM is a measure.
+*** Example
+    Let E = {NULLSET, XX}. Define rho(nullset) = 0, rho(X) = 1. Then we get what
+    we want for mu*(A).
+*** Proof
+    Given any A .SUBSET. XX, choose E1 = XX, Ej = NULLSET. (j > 0) so there
+    exists some {Ej} .SUBSET. EE with A in .UNION. Ej. Therefore our definition
+    makes sense.
+
+    Here are some other checks: if a sequence consists of only the null set,
+    then the summation is a lot of zeros; the inequality holds.
+
+    For monotonicity: for A in B, any countable EE-cover of B is also a
+    coultable EE-cover of A. Therefore, if we take the infimum of a larger set
+    it must stay the same or go down.
+
+    Therefore mu*(A) .LEQ. mu*(B).
+
+    For countability: use an epsilon/2^n trick.
+
+    For {Aj} .SUBSET. P(X), then mu*(UNION Aj) .LEQ. mu*(Aj). Given some Ajs,
+    choose {E^k_j} /* subsequence */, a subset of EE, with
+
+    Aj .SUBSET. UNION E^k_j and SUM rho(E^k_j) .LEQ. mu*(Aj) + epsilon 2^-j. for
+    each j. Then A .SUBSET. UNION E^k_j and hence
+
+        mu*(A) .LEQ. SUM mu*(E_j^k) = SUM (j) SUM (k) rho(E^k_j) /* order of
+        summation */
+        .LEQ. SUM (j) (mu*(A_j) + epsilon*2^(-j))
+        .LEQ. SUM (j) mu*(A_j) + epsilon
+** mu* measurability
+   Given outer measure mu*, A in XX is a mu* measure if for all E in XX, mu*(E)
+   = mu*(E .INTERSECT. A) + mu*(E .INTERSECT. A^c)
+
+   This subadditivity implies that .LEQ. always holds. If mu*(E) = +inf, then
+   .GEQ. holds.
+
+   To check that A is mu*-measurable, one need only check that for all E SUBSET
+   X with finite outer measure (mu*(E) < +inf) we have that
+
+       mu*(E) .GEQ. mu*(E .INTERSECT. A) + mu*(E .INTERSECT. A^c)
+       /* E = NULLSET is always measurable in this context */
+
+   by 1.11: throw away the nonmeasurable sets and we get a measure. The sigma
+   algebra formed
+** Caratheodory's Theorem
+   Let mu* be an outer measure on X. Let MM be a collection of mu*-measurable
+   subsets of X. Then MM is a sigma-algebra and mu* is a measure.
+
+   Proof: We already saw that NULLSET in MM. We need to show that this is closed
+   under complimentation and that the union of disjoint sets is in MM.
+
+   _Closed Under Single Unions_
+   That is a lot to do. Let us show that A,B in MM -> A .UNION. B in MM.
+
+   Note that mu*(E) = mu*(E .INTERSECT. A) + mu*(E .INTERSECT. A^c)
+
+   by definition of A in MM. Then
+
+   = E(E .INTERSECT. A .INTERSECT. B) + mu*(E .INTERSECT. A .INTERSECT. B^c) +
+     mu*(E .INTERSECT. A^c .INTERSECT. B) + mu*(E .INTERSECT. A^c
+     .INTERSECT. B^c)
+
+   so E .INTERSECT. A is the new E and B is in M.
+
+   The trick: A .UNION. B = A .INTERSECT. B .UNION. (A .INTERSECT B^c)
+   .UNION. (A^c .UNION. B)
+
+   By subadditivity:
+
+   mu*(E I A I B) + mu*( E I A I B^c) + mu*(E I A^c I B) .GEQ. mu*(E I (A U B))
+   (1)              (2)                 (3)
+
+   Then we can demorganize and get what we want.
+
+   _Closed Under Countable Unions_
+   Let Bn = UNION (j=1,n) Aj, where B is the infinite union of As (or infinite
+   union of Bs).
+
+   Then, for all E .SUBSET. X,
+
+   mu*(E I Bn) = mu*(E I Bn I An) + mu*(E I Bn I An^c)
+               = mu*(E I An) + mu*(E Bn-1)
+
+   so by induction we get finite additivity.
+
+   Therefore mu*(E) = mu*(E I Bn) + mu*(E I Bn^c) by definition.
+                    = SUM (j=1,n) mu*(E I A_j)
+
+   as Bn in B and B^c in Bn^c, as n -> +inf,
+
+   mu*(E) .GEQ. SUM (mu*(E I Aj)) + mu*(E I B^c)
+          .GEQ. mu*(UNION (E I Aj)) + mu*(E I B^c) by countable subadditivity.
+
+   Since we started with mu*(E), we get, by squeeze, that  B in MM. Therefore
+
+   mu*(B) = SUM (j=1, +inf) Aj, so mu = mu* restricted to MM is a measure.
+* Refinement: Premeasures
+** Overview
+   Suppose that AA in P(X). is an algebra. Then
+
+   mu0 : AA -> [0, +inf] is a *premeasure* (it is not defined on a sigma algebra,
+   so it is not a measure) if
+   1. mu0(NULLSET) = 0
+   2. if {Aj} is a sequence of disjoint sets from AA such that UNION Aj in A /*
+      not a sigma algebra so this is not guaranteed */, then
+      mu0(UNION Aj) = SUM mu0(Aj)
+
+   that is, if AA was a sigma algebra, then mu0 would be a measure.
+** Inducing outer measure: Proposition 1.13
+   Take EE = AA. rho = mu0. Let
+
+       mu*(E) = inf( SUM mu0(Aj) : Aj in AA, E .SUBSET. UNION Aj )
+
+   by a previous result: mu* is an outer measure. Therefore mu*-measurable sets
+   form a sigma algebra; let (mu*, MM*) be that measure.
+
+   It is possible that MM* = {NULLSET, X}. This is not very useful.
+
+   *Proposition 1.13*: A .SUBSET. MM* and mu* restricted to A is just mu0.
+
+   That is, for anything in A, mu* is the same as mu0. Therefore mu* restricted
+   to MM is also measurable. This allows us to do extensions from algebras to
+   sigma algebras.
+
+   _Proof_
+   E in AA, so m0(E) and mu*(E) are both defined.
+
+   if E is in UNION Aj, with Aj in AA, let Bn = E I (An \ U Aj) and dU /*
+   disjoint union*/ Bn = E. By a property of premeasure:
+
+       mu0(E) = SUM mu0(Bj) .LEQ. SUM mu0(Aj)
+
+   so this satisfies monotonicity. By definition of mu* as the infimum:
+
+       mu0(E) .LEQ. mu*(E)
+
+   Next part: for A in AA, E .SUBSET. X, epsilon > 0 -> there exists {Bj}
+   .SUBSET. AA with E .SUBSET. UNION Bj and SUM mu0(Bj) .LEQ. mu*(E) +
+   epsilon. As mu0 is additive on AA,
+
+       /* subadditivity? */
+       mu*(E) + epsilon .GEQ. SUM mu0(Bj I A) + SUM mu0(Bj I A^c)
+                        .GEQ. mu*(E I A) + mu*(E I A^c)
+
+   so as epsilon > 0 is arbitrary, mu*(E) .GEQ. mu*(E I A) + mu*(E I A^c)
+
+   so any A in AA is measurable, which is the second part of the proposition.
+** Theorem 1.14
+   if AA .SUBSET. P(X) is an algebra, and mu0 is a premeasure on AA, then MM is
+   a sigma algebra generated by AA. Therefore there exists a measure on MM with
+   restriction to AA equal to mu0. That is, *a premeasure on an algebra extends
+   to a measure on an algebra*.
+
+   _Proof_
+   Our previous results imply this theorem!
+
+   Part 2: we want uniqueness. If nu = another measure on MM (sigma algebra
+   generated by AA) which extends mu0, then nu(E) .LEQ. mu(E) for all E in MM
+   with '=' if mu(E) < +inf.
+
+   That is, if everything is finite, than we get '='s everywhere; if mu0 is
+   *sigma finite* (that is, X = dU Xj, Xj in AA, mu0(Xj) finite) then nu = mu.
+
+   _Proof_
+   Say that E is in MM, and E .SUBSET. UNION Aj where Aj in AA. Then
+
+       nu(E) .LEQ. SUM nu(Aj) /* countable subadditivity */
+             = SUM mu0(Aj) /* working in AA now */
+
+   which implies that nu(E) .LEQ. mu*(E) = mu(E)
+
+   Next set A = UNION Aj, so
+
+   nu(A) = LIM (n,+inf) nu(UNION Aj)
+         = LIM (n,+inf) mu(UNION Aj)
+
+   continuity from balls for a measure.
+
+   if mu(E) < +inf, then choose Ajs in AA such that (E .SUBSET. A)
+
+       mu(A) < mu(E) + epsilon
+       mu(E U A \ E) = mu(E) + mu(A \ E) < mu(E) + epsilon
+
+   so mu(A \ E) < epsilon.
+
+   And mu(E) .LEQ. mu(A) = nu(A) = nu(E) + nu(A \ E)
+                                 = nu(E) + mu(A \ E) .LEQ. nu(E) + epsilon
+
+   Since they are the same when finite, they are the same on countable
+   unions.
+
+   _Sigma Finite Part_
+   X = UNION Aj where mu0(Aj) < +inf. Assume that the Ajs are disjoint. Then for
+   E in MM,
+
+       mu(E) = SUM mu(E I Aj) = SUM nu(E I Aj) = nu(E)
+
+   that is, we may lift things true in the finite case to things true in sigma
+   finite.
+** Proposition 1.15
+*** Proposition
+    Let F :: RR -> RR be an increasing (so a .LEQ. b -> f(a) .LEQ. f(b)) and
+    right continuous function. If {(aj, bj]} /* finite collection, j in 1..n */
+    are disjoint h-interval, and
+
+    /*
+     * note that for the h-intervals to form a sigma algebra they must contain
+     * intervals with infinite endpoints.
+     */
+        mu0(INTERSECT (aj, bj]) = SUM (F(bj) - F(aj))
+
+    with mu0(nullset) = 0, then mu0 *is a premeasure* suon the algebra AA of the
+    finite disjoint unions of h-intervals.
+
+    Note that we are not dealing with the extended reals here. We define F(+inf)
+    and F(-inf) by limits.
+*** Proof
+**** Overview
+     Last time we said that if mu0 is well-defined and mu0 is finitely additive
+     on AA. We need to show that mu0 is *countably* additive, but only on the
+     algebra. In other words, if we have a set in the algebra, so it is a finite
+     union of disjoint h-intervals, and we have a sequence of sets in the
+     algebra
+
+         E in AA, {Ej} SUBSET AA, E = UNION (infinite) Ej
+
+     then the defined value for E (based on how we defined the finite sum) should
+     be the same as the infinite series
+
+         mu0(E) = SUM (infinite) mu0(Ej)
+**** Setup
+     Note that each Ej is the union of a finite number of h-intervals. We can
+     always assume that the union we are working with is of disjoint sets (take a
+     lot of set differences to construct a different set).
+
+     We may replace each Ei by the finite set of h-intervals whose union is
+     Ei. Therefore, replace the whole sequence {Ei} = by {Ij}, a sequence of
+     disjoint h-intervals. We want to show that
+
+         mu0(E) = SUM mu0(Ij)
+
+     and also E = UNION (finite) Jk is a union of a finite number of disjoint
+     h-intervals Jk. Therefore it suffices to show that
+
+         mu0(Jk) = SUM mu0(Jk INTERSECT Ij)
+
+     which is the same as what we started with, but now with only h-intervals. At
+     this point we just need to take a finite sum over k and then we are done.
+
+     /* all we have done so far is reduce the problem to working with individual
+     h-intervals */
+
+     Therefore, it suffices to consider the case
+
+         (a,b] = UNION (countable) (aj, bj] (disjoint intervals)
+           I                          Ij
+
+     and show that mu0((a,b]) = SUM mu0(the disjoint intervals)
+**** Proof
+     We will do this by proving inequalities both ways.
+***** easy half:
+     Using the finite additivity of mu0 on AA, we know that
+
+         mu0(I) = mu0(UNION Ij) + mu0(UNION I \ (UNION Ij))
+         /* all guaranteed by properties of the algebra */
+         mu0(I) .GEQ. mu0(UNION Ij)
+                =     SUM mu0(Ij) /* by disjointness construction */
+
+     so mu0(I) .GEQ. sum(mu0(Ij))
+
+***** hard half: we need to show mu0(I) .LEQ. sum(mu0(Ij)).
+      Without loss of generality, assume that a < b. Also, (we will drop this later)
+
+          -inf < a < b < +inf
+
+      Let epsilon > 0. By right continuity of F, there exists a delta such that
+
+          F(a + delta) < F(a) + epsilon
+
+      and for some epsilon*2^(-j), there exist deltaj where
+
+          F(bj + deltaj) < F(aj) + epsilon*2^(-j)
+
+      so as
+
+      (a + delta, b] SUBSET [a + delta, b] SUBSET (a, b]
+      SUBSET UNION (aj, bj + deltaj)
+
+      and since [a + delta, b] is compact, there is a finite subcover
+
+      [a + delta, b] SUBSET UNION (aj, bj + deltaj)
+      SUBSET UNION (aj, bj + deltaj]
+
+      from finite additivity it follows that
+
+      mu0((a + delta, b]) .LEQ. SUM mu0((aj, bj + deltaj])
+
+      but
+
+          mu0(I) = F(b) - F(a)
+          < epsilon + F(b) - F(a + delta)
+          = mu0((a + delta, b]) + epsilon
+
+      and
+
+          mu0((aj, bj + deltaj)) = F(b + deltaj) - F(aj)
+          < epsilon*2^-j + F(bj) - F(aj)
+          = SUM epsilon*2^(-j)*mu0(Ij)
+
+      so
+
+          mu0(I) < epsilon + mu0((a + delta, b])
+          .LEQ. epsilon + SUM (1,N) mu0((aj, bj + delta])
+          .LEQ. epsilon + SUM (1,N) mu0(ij) + epsilon*2^-j
+
+      so mu0(I) < epsilon*2 + SUM mu0(Ij)
+      which gives us the other direction as epsilon -> 0.
+***** Infinite Case
+      Note that this argument still works for I .SUBSET. UNION Ij. Whenever one of
+      the bounds is infinite: truncate the interval to have finite endpoints. Then
+      pick
+
+          cM = max(-M, a)
+          dM = min(M, b)
+
+      these intervals are finite; we can then show that the measure of (cM, dM] is
+      contained in the infinite union. Then, as
+
+          F(dM) - F(cM) = SUM mu0(Ij)
+
+      as M -> +inf then we obtain what we wanted by limits of F.
+** Theorem 1.16: Distribution Functions
+*** Statement
+    Suppose F : RR -> RR is an increasing, right-continuous function. Then
+    1. There exists a unique measure muF on (RR, BB_RR) /* borel sets */ with
+
+            muF((a,b]) = F(b) - F(a) for all -inf < a < b < +inf.
+    2. If G : RR -> RR /* like F */ is an increasing, right-continuous function,
+       then muF = muG iff F - G is a constant function.
+    3. If mu is a Borel measure such that mu(E) < +inf whenever E in BB_RR is
+       bounded, then mu = muR where
+
+       F(x) = mu((0, x]) where 0 < x
+       F(x) = 0 where x = 0
+       F(x) = -mu((x, 0]) where 0 > x
+*** Proof
+    _Part 1_
+    By proposition 1.15, F induces a premeasure mu0 on the algebra A of finite
+    disjoint unions of h-intervals by
+
+        mu0((a,b]) = F(b) - F(a).
+
+    Note that as mu0 is sigma finite as we can cover RR with a union of
+    intervals (-n, n], where the measure of any of those is finite. Therefore,
+    by theorem 1.14, as mu0 is sigma-finite there is a unique measure muF on RR
+    where MM(A) = BB_RR.
+    /* note that uniqueness is a result of 1.14 */
+
+    In particular, it follows that muF = mu0 on h-intervals.
+
+    _Part 2_
+    By the uniqueness in part 1, muF = muG if and only if F(b) - F(a) = G(b) -
+    G(a). Therefore F(b) - G(b) = F(a) - G(a) for any interval (therefore any
+    pair of points) a and b. Therefore the functions have a constant difference
+    between them.
+
+    _Part 3_
+    Given mu, let F be defined as indicated. Consider only a < b. Then
+
+        F(b) - F(a) = mu((0,b]) - mu((0, a]) = mu((a, b]) for 0 .LEQ. a < b
+                    = mu((0,b]) + mu((a, 0]) = mu((a, b]) for a < 0 .LEQ. b
+                    there is another case for a < b < 0.
+
+    _What does it all mean?_
+    Given some function F : RR -> RR, we can find a measure space by use of the
+    Borel sets.
+
+    We can extend mu0 on AA to a complete measure (sometimes denoted muF, the
+    domain is different) on the mu0*-measurable sets (induced from mu0) where
+    MM contains M(AA) which is the borel sets.
+
+    Last point: this extension (according to 1.9) is the completion of muF
+    restricted to the borel sets; see exercise 22a (very close!).
+** Section 1.4
+*** General Idea
+    _Section 1.4_
+    We previously had some easy examples of measures. The point of this work
+    with outer measure is to prove that something exists and then promote it to
+    a measure.
+
+    *Proposition 1.10*: We can almost always construct some outer measure mu*,
+    starting from some initial assignment of values. Start from mu0: EE ->
+    [0,+inf] where the only restriction on mu0 is that it contains the empty
+    set.
+
+    By Theorem 1.11, from an outer measure (defined on P(X)) we can define some
+    sigma algebra such that the outer measure is a measure on this new set. This
+    is the Caratheodory Theorem.
+
+    *Proposition 1.13*: If the collection of sets EE is an algebra and mu0 is a
+    premeasure, then mu0 = mu* on EE.
+
+    _Section 1.5_
+    Wew want to build measures on RR or the Borel sets; that is, we want
+    specified values for mu([a,b]).
+*** Using monotonically increasing functions with measures
+    Start with a right-continuous increasing (non-decreasing) F :: RR -> RR. Use
+    this to define mu0((a,b]) = F(b) - F(a) /* h-intervals; open on left, closed
+    on right */. Other possible intervals include (-inf, b) and (a, +inf).
+
+    Let us use these to describe an algebra. Let AA be the set of finite,
+    disjoint unions of h-intervals.
+
+    We claim that mu0 is a premeasure. Suppose that an decreases down to
+    a. Consider the interval (an, b]: these are nested, or
+
+        (an, b] .SUBSET. (an+1, b]
+
+    We know that the measure of terms in the sequence must converge to the
+    measure of (a, b]. Therefore
+
+    F(b) - F(an) = F(b) - F(a)
+
+    so the limit as an -> a of F(an) must be F(a) by cancelation. Therefore F
+    must be right-continuous.
+
+    If mu is a measure on RR or B_RR such that mu of a bounded interval is less
+    than +inf, then we can define
+
+        F(x) = mu((0,x])  for x > 0
+        F(x) = 0          for x = 0
+        F(x) = -mu((x,0]) for x = 0
+
+    Suppose theat yn approaches +inf monotonically.
+
+    Given such an F, mu((a, +inf)) = LIMIT (yn, +inf) mu((a, yn]) = LIMIT
+                                   = LIMIT (n,+inf) F(yn)
+                                   = F(+inf)
+
+    Therefore it is okay to talk about F(+inf) and F(-inf) in the intuitive way;
+    those values must be the values of the limits.
+*** Turn the crank: using F with measures
+    We want:
+    1. mu(NULLSET)   = 0
+    2. mu((a,b])     = F(b) - F(a)
+    3. mu((a,+inf))  = F(+inf) - F(a)
+    4. mu((-inf, b]) = F(b) - F(-inf)
+
+    This defines mu0 for individual h-intervals. However, we want to extend this
+    to the whole Algebra.
+
+    Note that we haven't done anything with unions of these intervals yet! We
+    need to show that it works under unions.
+
+    /* DU is disjoint union */
+    Let (c, d] = DU (aj, bj]. Assume that ajs are in increasing order. Also:
+    by disjointness, aj+1 .GEQ. bj. In particular, c = a1 and bn = d. In
+    particular, to close up any holes, bj .GEQ. aj+1. Therefore bj = aj+1.
+
+    For a finite union: F(d) - F(c) = F(bn) - F(a1)
+    and by telescoping we get what we want: all the intermediate endpoints
+    cancel and we get that mu((c,d]) = mu(SUM((aj, bj])).
+
+    Let {I1 .. In} be a set of disjoint h-intervals. Let {J1 .. Jn} be another
+    set of disjoint h-intervals. However, assume that
+
+         U Ij = U Jj
+
+    Then
+
+        Ii = (U (j) Ii) intersect Jj
+
+    so mu0(Ii) = SUM mu0(Ij intersect Jj).
+
+    Therefore SUM mu0(Ij) = SUM SUM (mu0(Ii intersect Jj))
+                          = SUM (SUM (mu0(Ii intersect Jj)))
+                          = SUM mu0(Jj)
+
+    We now need to show that if we have E in AA and {Ei} subset AA (disjoint
+    sequence) with E = UNION Ei, then
+
+        mu0(E) = SUM mu0(Ei)
+** Section 1.5: Borel Measures on RR
+   Let A be a disjoint union of h-intervals /* half open, half closed */. We
+   assume open on the left and closed on the right:
+
+       (a, b] where -inf .LEQ. a < b < +inf
+
+   also 'throw in' the empty set and (a, +inf).
+
+   _Proposition 1.7: AA is an algebra_
+   We did a more abstract version before; recall proposition 1.2 where EE was an
+   elementary form by f subsets of some set X, where NULLSET in EE, E, F in EE
+   -> E I F in EE, E^c = finite disjoint union of elements in EE.
+
+   The conclusion here is that AA is the set of finite, disjoint unions of
+   elements in EE is an algebra. This is a set theory exercise.
+
+   Assume F :: RR -> RR where F((a,b]) = F(b) - F(a) extends to premeasure. Take
+   F(x) = x; now we have Lebesgue measure!
+* Lebesgue-Stieljes Measure
+** Definition
+   Let F :: RR -> RR be a right-continuous increasing function on MM_muF. These
+   are mu*-measurable sets which is a superset of the borel sets.
+
+   When F(x) = x, we get *Lebesgue Measure*; that is normally denoted by just
+   m. This is defined on the sigma-algebra LL (that is, the mu*-measurable
+   sets) and (RR, LL, m) is a complete measure on RR.
+
+   Note that the measure of a singleton set is zero: consider
+
+       m((b - eps, b]) = eps for any epsilon > 0.
+
+   Similarly, the measure of any set with a countable number of entries is also
+   zero. The Lebesgue measure of the rationals, for example, is zero (and their
+   complement has infinite measure).
+** Lemma 1.17
+   For any E in MMmu, we have that
+
+       mu(E) = INF({SUM (mu(ai, bi)) where E subset UNION (ai, bi)})
+
+   _Proof_
+   If E is already a subset of a union of open intervals, then
+
+       mu(E) .LEQ. mu(UNION (ai, bi)) .LEQ. SUM mu(ai, bi)
+
+   therefore mu(E) .LEQ. inf(...).
+
+   Since mu = mu* on MM,
+
+       mu(E) = mu*(E) = inf((SUM F(bj) - F(aj)), E subset UNION (aj, bj])
+
+   by definition of the outer measure. We need to remove that right
+   endpoint. By definition of the infimum, there esists some set {(ai, bi]}
+   such that
+
+       E subset (ai, bi] and SUM F(bi) - F(ai) .LEQ. mu(E) + epsilon.
+
+   The idea here is to modify the bis by at most epsilon more. For each i there
+   is some deltai such that
+
+       F(bi + deltai) < F(bi) + epsilon*2^(-i)
+
+   Therefore
+
+   mu((ai, bi + deltai)) .LEQ. mu((ai, bi + deltai)) = F(bi + deltai) - F(ai)
+                         < F(bi) - F(ai) + epsilon*2^(-i)
+
+   so E is a subset of the union of the (ai, bi + deltai) and
+
+       SUM mu((ai, bi + deltai)) .LEQ. SUM mu((ai, bi)) + epsilon*2^(-i)
+                                 .LEQ. 2*epsilon + mu(E)
+
+   so we get that mu(E) = inf(...).
+** Theorem 1.18
+   LET IEMU BE A Lebesgue-Stieljes measure on RR.
+   Suppose that E is in MMmu (mu*-measurable). THen we want to show that
+
+       mu(E) = inf(mu(U) : U is open, E subset U)
+       mu(E) = sup(mu(K) : K is compact, K subset E)
+
+   _Proof_
+   If E subset U and U is open, then
+
+       mu(E) .LEQ. mu(U) so mu(E) .LEQ. inf(mu(U), ...)
+
+   so for any epsilon*2, lemma 1.17 implies that there exists (ai, bi) where
+
+       E subset UNION (ai, bi) and SUM (mu(ai, bi)) .LEQ. mu(E) + epsilon.
+
+   U = UNION (ai, bi) is open,
+
+       mu(U) .LEQ. SUM mu(ai, bi) .LEQ. mu(E) + epsilon
+
+   so inf(mu(U), ...) .LEQ. mu(E).
+
+   so by definition of the infimum, mu(E) = the infimum.
+
+   _Supremum: For E bounded_
+   For the supremum part: we are going to use the first part. Assume that E is
+   bounded. Consider epsilon > 0, so there exists some open set U with
+
+   (that is, U contains the difference between E and its closure, is open)
+
+       E closure \ E subset U -> mu(U) < epsilon + mu(E closure \ E)
+
+   Now let K = E closure \ U. In particular, we removed everything in E closure
+   take away E. Therefore K is closed and bounded. Therefore K subset E, K
+   compact.
+
+   Note that E closure must be bounded. Therefore
+
+   mu(E) = mu(E closure) - E(E closure \ E) /* we have finite values here */
+         .LEQ. mu(E closure) - mu(U) + epsilon
+         .LEQ. mu(E closure) - mu(E closure intersect U) + epsilon /* subtract
+         less */
+
+   Since E closure = K UNION (E closure intersect U),
+
+       mu(E) .LEQ. epsilon + mu(K).
+
+   so the supremum of the compact sets must be greater than or equal to mu(E).
+
+   _Supremum: E unbounded_
+   Assume that E is unbounded. Let
+
+       En = E intersect [-n, n]
+
+   so En is bounded and U En = E. Therefore mu(En) goes up to mu(E). Therefore,
+   for y < mu(E), there is an n such that y < mu(En).
+
+   Since En is bounded, there is a K subset En with y < mu(K). Therefore, for
+   every y < mu(E), y < sup(mu(K), K compact, K subset E). Therefore
+
+       mu(E) .LEQ. sup(mu(K), K compact, K subset E)
+
+   and by work in the finite case, mu(E) .GEQ. sup(...). Therefore they must be
+   equal.
+** Regularity
+*** Overview
+    In this context: the regularity of a measure is
+    we can approximate mu(E) by a mu of open or closed sets.
+
+    Let mu = muF. Let MMmu be a superset of the borel sets.
+*** Theorem 1.19
+**** Statement
+     Let mu be a Lebesgue-Stieljes measure on RR. The following are equivalent:
+     1. E in MMmu (all sets that are measurable)
+     2. Each E in MMmu may be written as a G-delta set with a set of measure zero
+        removed (V is a G-delta set, mu(N1) = 0, E = V \ N).
+     3. Each E in MMmu may be written as an F-sigma set with a set of measure zero
+        added on (E = H union N where H is an F-sigma set and mu(N) = 0).
+
+     In other words, we may sandwich any measureable sets between a G-delta set
+     and an F-sigma set.
+**** Proof
+     (we will do the proof of part c for homework)
+     Note that every open set is in BB_RR by definition (smallest sigma algebra
+     with all open sets). Similarly, all open sets are also in BB_RR. Therefore
+     all G-delta and F-sigma sets are in BB_RR.
+
+     Assume b or c. Then for some sets Ni are measurable by hypothesis. Then a
+     must be true (closure under set differences).
+
+     Suppose that E in MMmu. If mu(E) < +inf then
+
+         mu(E) = inf(mu(U) : U is open, E subset U)
+
+     /* note that this approach is slightly different from the book's */
+     We may then use Theorem 1.18 to get that E is a subset of Uj open and mu(Uj)
+     approaches mu(E). Take V = intersect Uj: then E is contained in V and this V
+     is a G-delta set. Let
+
+         N1 = V \ E
+
+     so mu(N1) = mu(V) - mu(E). We are dealing with sets of finite measure so we
+     are allowed to subtract; therefore as mu(V) = mu(E) then mu(N1)
+     = 0. Therefore E = V \ N1.
+
+     In general: Let En = E intersect [-n, n]. Then UNION En = E, mu(En) <
+     inf. Let epsilon > 0. Then there exist open sets Un, En subset Un, with
+     /* we can approximate from the outside/above by open sets that contain it */
+         mu(Un) .LEQ. mu(En) + epsilon*2^(-n)
+
+     which is possible by Theorem 1.18. Let Nn = Un \ En /* an error term */. Then
+     En = Un \ Nn, where Un and Nn are disjoint. Since mu(En) < inf, we can say
+     that mu(Nn) < epsilon*2^(-n).
+
+     Let U = UNION (n=1, inf) Un. U is open and E subset U since En subset U for
+     all n. Let N = U \ E. If x in N then x is in U. Therefore x is in Un \ En =
+     Nn. Therefore N subset UNION Nn, so
+
+         mu(N) .LEQ. sum mu(Nn) < sum epsilon*2^(-n) < epsilon.
+
+     For each epsilon = 1/n, there is an open set Un such that E in Un and mu(Un \
+     E) < 1/n. Let U = infinite intersection Un. This is a G-delta set containing
+     E. Let N1 = U \ E, then N1 subset Un \ E for every n. Therefore mu(N1)
+     .LEQ. mu(Un  \ E) < 1/n for every n. THerefore mu(N1) = 0. Therefore E is a
+     subset U, some G-delta set, where mu(U \ E) = 0.
+*** Proposition 1.20
+    _Overview_
+    IF E is in MMmu with mu(E) < inf, then for every xi > 0 there is a set A
+    which is the union of a finite intersection of open intervals and
+
+        mu(E Delta A) < epsilon /* recall that Delta is symmetric difference */
+** Properties of Lebesgue Measure
+*** Overview
+    Let (m, RR, LL) be our measure space. For any E subset RR, s, r in RR, then
+    the notation E + s = s + E = {x + s : x in E} /* set translation */
+    Similarly, r*E = {x*r : x in E} /* set scaling */
+*** Theorem 1.21: Closure under Scaling and Translation
+    We expect that translating an interval should not effect the
+    length. Similarly, doubling an interval should double its length. Then, for
+    any s and r in RR and some Lebesgue-measurable set E,
+
+    1. m(E + s) = m(E) /* translation invariance */
+    2. m(E*r) = abs(r)*m(E) /* dilation */
+
+    We need F-sigma and G-delta representations to tackle this proof.
+
+    _Proof_
+    Assume that r and s are real numbers. Let
+        FF = {E subset RR such that E + s is a Borel set}
+        GG = {E subset RR such that E * r is a Borel set}
+
+    it is easy to check that these are sigma algebras. All intervals are in one
+    of these.
+    HI NABIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    _Application to Borel Sets_
+    Note that when we multiply by some negative number we have to 'flip' the
+    interval around. All intervals are in FF and GG. Therefore the Borel sets
+    are at least a subset of FF and at least a subset of GG.
+
+    If r = 0: Then r*E is just {0} or the empty set. Either way:
+
+        m(r*E) = 0 = abs(r)*m(E).
+
+    Now we can assume that r /= 0. We want to show that
+
+        mS(E) = m(s + E) and m~r(E) = 1/abs(r)*m(r*E)
+
+    give us the same answers as m for the Borel sets. Observe that
+
+        Ms((a, b]) = m((a + s, b + s]) = (b + s) - (a + s) = b - a = m((a,b])
+
+    and that m~r((a,b]) = 1/r m((r*a, r*b]) for r > 0
+                        = -1/r m((r*b, r*a]) for r < 0
+
+    which works out to be 1/r*(r*b - r*a) = b - a. By the uniqueness assertion
+    in Theorem 1.16, we have that ms = m = m~r on Borel sets (since they agree
+    on h-intervals). The tricky part here is how to deal with sets of measure
+    zero (we can cover borel sets pretty well).
+
+    _Application for Not Borel Sets_
+    Suppose that we have a N in LL such that m(N) = 0. From 1.15, we know there
+    is a Borel set G, N subset G, and m(G) = 0. Then
+
+        s + N subset s + G, r*N subset r*G
+
+    where m(s + G) = m(r*G) = 0 (by the previous result regarding Borel
+    sets). Therefore as m(s + G) = 0 and m(r*G) = 0, and we have a subset of a
+    null set, it is also Lebesgue-measurable.
+
+    If E in LL then there exists some H in BB_RR and N in LL with m(N) = 0 such
+    that E = H union N and then
+
+        s + E = (s + H) union (s + N)
+        r*E   = (r*H) union (r*N)
+
+     so s + E and r*E are in LL (union of things in LL, an algebra). Therefore
+     ms = m~r = m on LL.
+** Nonmeasurable Sets
+   Folland goes and constructs a subset of [0, 1) which is not measurable.
+
+   Let x ~ y mean x - y is rational. This is an equivalence relation on this
+   interval. Let [x]~ be the equivalence class of x (every element of the set
+   contains countably many things in its equivalence class).
+
+   Let N be the set of equivalence classes (select one thing from each
+   class). This is certainly an uncountable set. Note that we used the axiom of
+   choice here.
+
+   We claimed that there is some function that goes from N -> union of
+   equivalence classes; a selector function.
+
+   There is no way that N can be a Lebesgue-measurable set. For each rational
+   number in our interval: for each r in [0, 1) intersect QQ, translate
+   everything by 1 to the right mod 1 (so everything stays in the interval):
+
+       Nr = {y + r : y in N, y + r < 1} /* pieces that we did not need to mod */
+      union {y + r - 1 : y in N, y + 1 .GEQ. 1} /* pieces that we modded back */
+
+
+   This has two disjoint sets: one is in [r, 1) and the other is in [0, r).
+
+   Claim: For any x in [0, 1), there is a unique r with x in Nr.
+
+   Therefore the interval [0, 1) is the disjoint union of the Nrs. Note that if
+   it were true that N was Lebesgue-measurable, then Nr is also
+   Lebesgue-measurable; we can intersect N with some interval and translate,
+   then union that with another intersection/translation pair. Therefore
+
+       m(N) = m(N intersect [0, 1 - r)) + m(N intersect [1 - r, 1))
+            = m(r + N intersect [0, 1 - r)) + m(r - 1 + N intersect [1 - r, 1))
+            = m(Nr)
+
+   Therefore 1 = m((0, 1]) = SUM m(Nr) = SUM m(N) = 0 or +inf. Therefore N
+   cannot be a Lebesgue-measurable set.
+* The Cantor Set
+** Definition
+   We take [0,1] and take out the middle third. We then recursively delete the
+   middle third from every resulting subinterval.
+
+   C (the cantor set) is compact, nowhere dense, totally disconnected, m(C) = 0,
+   and card(C) = card([0,1]).
+** Ternary Expansion
+   Let x in [0,1]; this x has a *ternary expansion* (expand in base 3). Let
+
+       x = SUM aj s^-j where aj is in {0, 1, 2}.
+
+   some xs have two expansions: consider some x ending in an infinite number of
+   2s. Therefore
+
+       x = 0.a1 a2 ... ak 2 2 2 2 2 .....
+         = 0.b1 b2 ... bk 0 0 0 0 0 .....
+
+   where we insist that ak < 2. For any such x, 3^k x = p, an integer, because
+   the decimal expansion halts at some finite point. If bk /= 0 then 3 does not
+   divide p.
+
+   If ak is zero, then bk is one. If ak is one, then bk is two. This will be our
+   convention:
+
+   1. If ak = 0 and bk = 1 then use the ak representation.
+   2. If ak = 1 and bk = 2 then use the bk representation.
+
+   With this convention, the cantor set is very easy to define: Let the cantor
+   set C be those xs whose ternary expansion *never* uses a 1 in any position.
+
+   Consider some x with a 1 in the kth position but no preceding 1s. These x
+   comprise a union of intervals; how high or low can we go before we get to
+   another x value?
+
+   We can go 'to the right' until we fill every position in x with a two. We can
+   go to the left until they are all zeros.
+
+   Consider 0. ... 1 2 2 2 2 2 ...; this is 0. ... 2, which is in the cantor
+   set. Therefore we don't delete this right endpoint. Similarly, we do not
+   delete the left endpoint (it is still in the Cantor set).
+** Proof of Assertions
+   Note that C = [0, 1] \ union of open intervals. Therefore it is closed and
+   bounded (so compact).
+
+   C does not contain any open intervals; why? Let x in (0,1). Given any epsilon
+   > 0, there exists some y in C^c such that abs(x - y) < epsilon.
+
+   Given x and epsilon, pick k > 0 s.t. 3^(-k) < epsilon. Starting with the
+   ternary expansion of x, go out to the kth position and change all following
+   digits to ones; call this y. This is not in the Cantor set (based on how we
+   used ternary expansion for terms in the Cantor set). Therefore an upper bound
+   on the difference between these is
+
+       abs(x - y) .LEQ. SUM 3^(-j) < epsilon
+
+   so every point in the Cantor set is arbitrarily close to something in its
+   complement. Therefore there are no open intervals.
+
+   _Measure of C^c_
+
+       m([0, 1] \ C) = SUM 2^(k-1) 3^(-k) = 1/3 SUM (2/3)^l
+                     = 1/3*1/(1 - 2/3)
+                     = 1.
+
+   Therefore, as C is measurable (it is a borel set because it is closed) m(C)
+   = 0.
+
+   _Uncountability_
+   Let x = SUM aj 3^-j, aj is 0 or 2; this is is a subset of the Cantor set. Let
+   bj = aj/2, so f(x) = SUM bj 2^(-j). Therefore a subset of the Cantor set
+   corresponds to the set of all binary expansions on the unit interval.
+
+   _A trick with f(x)_
+   Note that f(x) is the same at each endpoint of the excluded intervals. This
+   gives us a function from the closed unit interval to itself: this is the
+   Cantor function. This function has some fun properties:
+   1. monotonically increasing
+   2. onto [0,1]
+   3. continuous (monotone and onto)
+   4. constant on each (excluded) interval
+   5. f is differentiable with f'(x) = 0 for all x not in the Cantor set.
+
+   Therefore, except for a set of measure zero, this function has derivative
+   zero but is certainly not the constant function.

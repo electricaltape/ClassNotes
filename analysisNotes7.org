@@ -1,0 +1,753 @@
+* Functions of multiple variables, vector-valued functions, product spaces
+** Overview
+   We have done measure theory for functions of several variables so far. We
+   skipped most of Folland's work for product spaces.
+** Product Measures
+*** Overview
+    Suppose we have *two* measure spaces (X, M, mu) and (Y, N, nu). We want to
+    define the product sigma-algebra M x N on X x Y as well as the product
+    measure mu x nu.
+
+    Folland does cartesian products of arbitrary products of sets
+
+        PRODUCT (alpha in A) X alpha (Xalpha, Malpha, mualpha)
+
+    Our plan is to just do everything for two. All these results hold for
+    finite and countable collections. We will not look at uncountable products.
+*** Building Them
+    Assume that (X, M, mu) and (Y, N, nu) are measurable spaces. We want to
+    build the product measure mu x nu in (X x Y, M x N), where M x N is a
+    product sigma-algebra.
+
+    What we want is mu x nu (E x F) = mu(E) nu(F).
+*** Measurable Rectangles
+    The set {E x F : E in M, F in N} is an elementary family; contains the empty
+    set and is closed under (term-wise) intersection.
+
+    Let AA be the set of finite disjoint unions of measurable rectangles. This
+    is an algebra of subsets of X x Y. Define
+
+        Pi(UNION (Ei x Fi)) = SUM mu(Ei) nu(Fi).
+
+    for disjoint pairs Ei x Fi. We need to check that Pi is well-defined and
+    that Pi is a premeasure (then we may use Caratheodory).
+
+    If E x F = UNION (j) Aj x Bj (indicies finite or countable) where the As and
+    Bs are disjoint then
+
+        Chi_(E x F)(x, y) = chi_E(x) chi_F() = SUM chi(Aj x Bj) (x, y)
+                          = SUM chi_Aj(x) chi_Bj(y).
+
+    For each y we have that
+
+        mu(E) chi_F(y) = INTEGRAL chi_(E x F) ( , y) dm
+                       = INTEGRAL SUM chi_Aj( ) chi_Bj(y) dm
+                       = INTEGRAL SUM chi_Aj( ) chi_Bj(y) dm
+                       = SUM (j) chi_Bj(y) INTEGRAL chi_Aj) dm
+                       = SUM (j) chi_Bj(y) mu(Aj)
+
+    Therefore mu(E) chi_F(y) = SUM (j) mu(Aj) chi_bj(y) for all y in Y. This
+    shows that our definition of Pi is not ambiguous.
+
+    If UNION Ck x Dk = UNION Aj x Bj in A then we need to show that the
+    Pi-values for both representations are equal. We can do this by intersecting
+    both sides and get a double union that looks like
+
+        UNION (k) UNION (j) (Ck intersect Aj) x (Dk intersect Bj).
+
+    We won't show that this is zero (but it is!) so Pi does what we want it to do.
+*** Showing that Pi is a premeasure
+    Right now we have a well-defined function Pi on an algebra A. We know that
+
+        Pi(E x F) = mu(E) nu(F)
+
+    If we can show that Pi is a premeasure then by 1.14 we are done. It is!
+    Therefore we have that Pi extends to a measure on M x N. This is the minimal
+    extension. Additionally, if mu and nu are both sigma-finite then Pi is
+    sigma-finite on AA, so Pi has a unique extension from AA to M x N.
+
+    If (X, M, mu) and (Y, N, nu) are each sigma-finite then there is a *unique*
+    extension mu x nu on (X x Y, M x N) with the property
+
+        mu x nu(E x F) = mu(E) nu(F).
+** Fubini's Theorem
+*** General Idea
+    We wish to show that nu(Ex) is a measurable function of x and that
+
+        mu x nu(E) = INTEGRAL nu(Ex) dmu
+
+    and
+
+        INTEGRAL (X x Y) chi_E(x,y) d mu x nu
+        = INTEGRAL (X) (INTEGRAL (Y) chi_E(x, y) dnu) dmu.
+** Theorem 2.37
+*** Statement
+    Assume that (X, M, mu) and (Y, N, nu) are sigma-finite measure spaces. This
+    Theorem exists in two cases: Tonelli's and Fubini's.
+
+    The sigma-finite part is important. The theorem will fail without it. See HW.
+*** Tonelli Statement
+    If f in L+(X x Y) then
+
+        g(x) = INTEGRAL fx dnu in L+(X)
+        h(y) = INTEGRAL fy dmu in L+(Y)
+
+    and INTEGRAL f d(mu x nu) /* integral w.r.t. product measure */ = INTEGRAL
+    g(x) dmu = INTEGRAL h(y) dnu /* interated integrals, one variable at a time
+    */
+
+    Recall that fx refers to the function y -> f(x,y); think of it as currying
+    the x part. We know that fx is measurable w.r.t. y for each x by Theorem
+    2.29.
+*** Tonelli Proof
+**** Simplification and Proof of Simple Functions on Measurable Rectangles
+     If we can prove it for simple functions psi using psin converging upwards to
+     f then we will get the general case by monotone convergence.
+
+         g(x) = LIMIT INTEGRAL (phin)x dnu
+
+     If we can prove it for chi_E, E in M x N, then we get Tonelli for simple
+     functions by taking
+
+         Phi = SUM ci chi_Ei
+
+     so it suffices to prove Tonelli for f = chi_E. We know that fx(y) =
+     Chi_Ex(y) where
+
+         Ex = {y : (x, y) in E}
+
+     and Ex in N by Theorem 2.29. Therefore g(x) = INTEGRAL fx dnu = nu(Ex) is
+     defined, but we have to show that it is a measurable function of x.
+
+     Back up more: what if E = A x B, A in M, B in N? These sets are measurable
+     rectangles and they generate M x N, so maybe just checking things like A x B
+     will be enough.
+
+     Let E = A x B, a measurable rectangle. Let Ex = B is x in A and the empty
+     set if x is not in A. Then nu(Ex) = nu(B) chi_A(x), which is a measurable
+     function of x. Then
+
+     INTEGRAL nu(Ex) dmu = nu(B) mu(A) = mu x nu(A x B) = INTEGRAL f d (mu x nu)
+
+     The same trick works for Ey. Therefore the theorem holds if f = chi_E and E
+     is a simple rectangle.
+**** Extension to general sets in M x N
+     Let C = {E in M x N : nu(Ex) is a measurable function of x and mu x nu(E) =
+     INTEGRAL nu(Ex) dmu}
+
+     We need to show that C is a sigma-algebra. If we can do that then then C is
+     a sigma-algebra containing the measurable rectangles, so C would have to
+     contain all E in M x N.
+     /* Dr. Day says: this is going to be harder than you think! */
+
+     What do we know about C?
+     1. It does contain all measurable rectangles.
+     2. It is closed under *finite* disjoint unions.
+
+     Suppose that E = UNION Ei, Ei in C, Eis disjoint. THen Ex = UNION
+     (Ei)x. Therefore
+
+         nu(Ex) = SUM nu(Eix)
+
+     each of these is a measurable function of x. Therefore
+
+         mu x nu(E) = SUM mu x nu(Ei)
+                    = SUM INTEGRAL nu((Ei)x) dmu
+                    = ...
+                    = INTEGRAL nu(Ex) dmu
+
+     /* at this stage we do know that C contains the algebra of finite disjoint
+     unions of measurable rectangles */
+     Is C closed under complements? Well, you *can* verify that if mu and nu are
+     finite measures, but it is not clear how to do it more generally.
+
+     Without compliments in general how can we show that C is closed under
+     nondisjoint unions, or intersections?
+**** Showing that C is a sigma-algebra, part 1.
+     We seem to be stuck: not clear how to finish showing that C is a
+     sigma-algebra. However there are other properties of C that are useful.
+
+     If E1 subset E2 subset ... in C then their infinite union is in C. To see
+     this note that
+
+         (E1)x subset (E2)x subset ...
+
+     so nu((En)x) -> nu(Ex) pointwise (pointwise limit of measurable functions
+     is measurable) where the nu((En)x)s are measurable. Therefore
+
+         mu x nu(E) = LIMIT mu x nu(En)
+                    = LIM INTEGRAL nu((En)x) dmu
+                    = INTEGRAL LIM nu((En)x) dmu /* monotone convergence */
+                    = INTEGRAL nu(Ex) dmu
+
+     so E in C. If we nest the other way (that is, E1 superset E2 superset ...)
+     then we hope we can do the same thing.
+**** Expanding C (show it is closed under complements)
+     Based on construction it is not clear that C is closed under intersections
+     and unions.
+
+     We showed that C is closed under monotone increasing unions. If we have a
+     decreasing sequence of sets in C *and* we can fit them in a product set (a
+     measurable rectangle) then the intersection should be in C.
+
+     Suppose there are Xk in M, Yk in N with mu(Xk) < oo, nu(Yk) < oo /* this is
+     where the sigma-finite assumption comes in */ with E1 subset Xk x Yk. Then
+     En subset Xk x Yk for all n and since mu x nu(En) < oo we can say that
+
+         mu x nu(En) -> mu x nu(E).
+
+     For x not in Xk we should get that (En)x = emptyset. For x in Xk we should
+     get (En)x is a subset of Yk.
+
+     Note that (En)x goes down to Ex. Therefore as the measures are finite
+     nu((En)x) = nu(En) /* we may use continuity from above for a finite measure
+     space */.
+
+     By hypothesis, nu(En)x) is a measurable function of x so the pointwise
+     limit nu(Ex) needs to be a measurable function of x.
+
+     Note that chi_Xk(x) nu(Yk) is in L1; therefore by the dominated convergence
+     theorem we get that
+
+     mu x nu (E) = LIMIT mu x nu(En) /* as mu x nu(E1) <= mu(Xk) nu(Yk) < oo */
+                 = LIMIT INTEGRAL nu ((En)x) dmu /* because En in C */
+                 = INTEGRAL LIMIT nu ((En)x) dmu
+                 = INTEGRAL nu ((E)x) dmu.
+
+     so nu(Ex) is measurable and mu x nu(E) = INTEGRAL nu(Ex) dmu.
+**** Use of the Monotone Class Lemma
+***** Definition and Basic Results
+      A collection C of subsets of X is called a _monotone class_ when it is
+      closed under monotonically increasing unions and monotonically decreasing
+      intersections.
+
+      Just as for sigma-algebras: if we have any collection of sets we can
+      expand it to a monotone class. In particular we can find the smallest such
+      monotone class by intersecting all the possible monotone classes.
+
+      A collection E of sets is a sigma-algebra iff it is both an algebra and a
+      monotone class (see the Monotone Class Lemma).
+***** Statement
+      This is similar to the pi-lambda theorem, another way of splitting
+      sigma-algebra axioms in to two different things that are easy to prove.
+
+      Suppose AA is an algebra. Then M(AA), the smallest sigma-algebra
+      containing AA, is the smallest monotone class containing AA.
+***** Proof
+      Let C refer to the smallest monotone class containing AA. Let M be the
+      smallest sigma algebra containing AA and is a sigma algebra. M is a
+      monotone class, so C subset MM.
+
+      To show that these sets are equal, all we need to do is show that C is an
+      algebra.
+
+      /* complements */
+      Let C0 = {F in C : Fc in C}; we want to show that this is a monotone class
+      and it contains AA. Therefore C0 contains the smallest monotone class
+      which contains AA. This means that everything in C has a complement in
+      C. Therefore C is closed under complements.
+
+      /* intersections */
+      Let C1 = {F in C : E intersect F in C for E in AA}. We can show that this
+      is also a monotone class. This implies that this contains the smallest
+      monotone class containing the algebra, so everything in C is in C1;
+      therefore anything in C intersected with something in AA gives us
+      something in C.
+
+      Let C2 = {F in C : E intersect F in C for E in C}. This contains the full
+      algebra. Therefore (briefly) this contains the smallest (C) so C is closed
+      under intersections.
+
+      Therefore C is an algebra and we are done.
+**** Status and Expansion to Sigma-finite case
+     We have shown that C contains the algebra of finite disjoint unions of
+     measurable rectangles.
+
+     We have also shown that if mu and nu are finite then C is a monotone class.
+
+     Therefore if mu and nu are finite then we are done (by the Monotone Class
+     Lemma we have that M x N are subsets of C), so the properties defining C
+     hold for all E in M x N.
+
+     We would like to extend this to the sigma-finite case, so X = UNION Xk,
+     mu(Xk) < oo, Xk subset Xk+1 (similar for Yk and N). We wish to show that C
+     is still a monotone class. We already know that X and Y are already in C.
+
+     We also must consider decreasing sequences; En+1 subset En, E =
+     INTERSECTION En. If E in C then we are done (monotone class lemma). *If* we
+     knew that En INTERSECT (Xk x Yk) in C then we are fine.
+
+     /* Note that Folland sweeps a lot under the rug here. His work is
+     incomplete. This work is not in Folland. */
+
+     The MCL will rescue us again. Let
+
+         Ck = {E in M x N : E intersect (Xk x Yk) in C}
+
+     We can check that Ck contains all measurable rectangles because C contains
+     all measurable rectangles.
+
+     We also want Ck to be closed under finite disjoint unions because C is
+     closed under finite disjoint unions.
+
+     Finally, we want to show that Ck is a monotone class. For En going 'up' to
+     E, we get that E in Ck as En goes up to E in C. For En going 'down' to E,
+     we get that (En INTERSECT (Xk x Yk)) subset Xk x Yk that (En INTERSECT (Xk
+     x Yk)) is in C. Therefore the intersection (En INTERSECT (Xk x Yk)) is in
+     C. Therefore
+
+         (INTERSECTION En) INTERSECT (Xk x Yk) in C
+
+     so INTERSECTION En in Ck by definition of Ck.
+
+     Finally, by the MCL
+
+         M x N subset Ck
+
+     Thus for every E in M x N, E in Ck, so E intersect (Xk x Yk) in
+     Ck. Therefore nu([E intersect (Xk x Yk)x]) is x-measurable. Additionally,
+     by the MCT, nu((E intersect (Xk x Yk))x) nu(Ex) is
+
+     Taking the limit
+
+         mu x nu (E) = INTEGRAL nu(Ex) dmu.
+
+     Now we have finished showing that if (X, M, mu) and (Y, N, nu) are
+     sigma-finite then for every E in M x N nu(Ex) is measurable on x and that
+
+         mu x nu(E) = INTEGRAL nu(Ex) dmu.
+
+     The same is true for Ey. Therefore we are done for Tonelli's theorem with
+     indicator functions. Therefore we have it for indicator functions.
+     Therefore by monotone convergence we get that Tonelli's theorem holds for
+     all L+(mu x nu).
+*** Fubini Statement
+    If f in L1(mu x nu) then fx in L1(nu) for almost all x and fy in L1 for
+    almost all y. Remember that x is associated with mu and y is associated with
+    nu. Therefore
+
+        g(x) = INTEGRAL fx dnu in L1(mu)
+        h(y) = INTEGRAL fy dmu in L1(nu)
+
+    and 2.38 holds.
+*** Fubini Proof
+    This relies on Tonelli's proof.
+
+    Consider f = f+ - f-; f+, f- in L+. By Tonelli's theorem we can do the split
+    for either the + or the - part separately. The only problem is if they are
+    both infinite.
+
+    Let I^(+/-) = {x : INTEGRAL f^(+/-) (.) dnu = oo} /* set where integrals of
+    cross sections is infinite */. We know that mu(I^(+/-)) = 0; otherwise we
+    would not get functions in L1. Since (f^(+/-))x = (fx)^(+/-) we see that for
+    x not in I^+ UNION I^- we should get that
+
+        INTEGRAL (fx) dnu = INTEGRAL (fx)^+ dnu - INTEGRAL (fx)^- dnu
+
+    is defined and finite. Therefore
+
+        INTEGRAL abs(fx)) dnu = INTEGRAL fx^+ + fx^- dnu < oo
+
+    so fx in L1(nu) for x nto in I^+ UNION I^-. Therefore for x not in the bad
+    set we are fine.
+
+    Fox x in I^+ UNION I^-, fx may fail to be integrable. The integral may not
+    even be defined on this set (oo - oo). Replace f by f~, where
+
+        f = f~ chi_((I^+ UNION I^-)^c)
+
+    so they are the same when x is not in the bad set and f~ is zero otherwise
+    (where f may not be integrable). Therefore the functions are equal to
+    each-other almost everywhere. Therefore their integrals must be equal, so
+
+        INTEGRAL f dmu x dnu = INTEGRAL f~ dmu x dnu.
+                             = INTEGRAL f~^+ dmu x dnu - INTEGRAL f~^- dmu x dnu
+                             = INTEGRAL (f~^+x dnu) dmu - INTEGRAL (similar)
+
+    Therefore INTEGRAL f dmu x dnu =
+              INTEGRAL chi_(not bad set)*(INTEGRAL fx^+ dnu) dmu - (same) f^-
+            = INTEGRAL (not bad set) (INTEGRAL fx dnu) dmu
+
+
+    Therefore we have avoided the bad part of
+
+        INTEGRAL (Y) (fx)^+ - (fx)^- dnu
+
+    by avoiding the problematic x values.
+
+*** Conclusion
+    Therefore for f in L1(mu x nu) we get that
+
+        INTEGRAL f dmu x dnu = INTEGRAL (INTEGRAL fx dnu) dmu.
+
+    where we may drop the awkward cases.
+
+    Therefore, to use Fubini, use Tonelli's theorem on the absolute value of
+    f. If it is integrable then use Fubini on the original.
+** Product sigma-algebra
+*** Points
+    p in X x Y is p(x,y) such that x in X, y in Y.
+*** Coordinate Maps
+    These are the functions
+
+        Pi1 : X x Y -> X; Pi1(x,_) = x
+        Pi2 : X x Y -> X; Pi2(_,y) = y
+*** How can we build a sigma algebra?
+    Note that we have to be careful here. Consider the sigma algebra
+
+        {X x Y, nullset}
+
+    then Pi1^(-1)(E) = E x Y, where if E is in MM then (E, Y) is not in the new
+    sigma-algebra.
+
+    There are a couple things we want to ensure here. For example
+
+        (E x Y) intersect (X x F) = E x F
+
+    where E x F is a _measurable rectangle_. We want the sigma-algebra to
+    contain all sets that look like that.
+
+    It turns out that this is the right definition! The smallest sigma-algebra
+    we care about is the sigma-algebra generated by the collection of all
+    measurable rectangles, or
+
+        {E x F : E in MM, F in NN}.
+
+    Note that the sigma algebra generated by
+
+        {E x Y : E in MM} UNION {X x F : F in NN}
+
+    is the same sigma algebra.
+*** Proposition 1.4'
+**** Statement
+     /* This is slightly different than Folland's version; we are only using two
+     measure spaces */
+
+     Suppose that we have a collection of sets E1 subset M such that E1
+     generates M and E2 subset N generates N. Then the product sigma algebra M x
+     N is generated by the measurable rectangles
+
+         {E x F : E in E1 or E = X, F in E2 or F = Y}
+
+     /* if we just used {E x F : E in E1, F in E2} we would not have
+     compliments; we have to ensure that E and F can be their whole sets
+     respectively */
+
+     _Brief counter-example to Exclusion of X an Y_
+     Let X = RR = Y, let E1 = E2 = {(-oo, 0]}, so
+
+         M = N = {RR, nullset, (-oo, 0], (0, oo)}
+
+     Therefore M x N contains the four quadrants. If we did *not* include RR
+
+         M = N = {(-oo, 0] x (-oo, 0] and the complement of that thing}
+
+     which only includes quadrant 3 and not(quadrant 3). These are not the same!
+**** Proof
+     Let FF = {E x F : E in E1 or E = X, F in E2 or F = Y}
+
+     Clearly FF is contained in the product sigma-algebra, so the sigma-algebra
+     generated by F is a subset of M x N.
+
+     The set of E for which E x Y in M x N forms a sigma-algebra which contains
+     E1 because E1 subset M x N. Therefore it contains all E in MM.
+
+     The set of F for which X x F in M x N forms a sigma-algebra which contains
+     E1 because E1 subset M x N. Therefore it contains all F in MM.
+
+     Likewise the set of all F such that X x F in M(FF) is a sigma-algebra and
+     it contains E2. Therefore it contains all F in NN, i.e. X x F in M(FF) for
+     all F in N.
+
+     Therefore
+
+         E x Y, X x F in MM(FF)
+
+     for all E in M and F in N. Therefore MM(FF) contains all such E x F
+     Therefore M x N subset MM(FF). Therefore they are equal.
+*** Is the product sigma algebra of a pair of Borel sets a Borel set?
+    Suppose that X and Y are metric spaces with metrics dX and dY. For G subset
+    X to be open means
+
+        for every x in G, there is an epsilon > 0 s.t. the epsilon-ball around
+        x is in G, or {w in X : dX(x, w) < epsilon} is a subset of G.
+
+    Therefore we have a notion of open in both axii. What about the product
+    space? The product topology is the metric topology using the product metric
+    (that is, how do we measure things in the product space?)?
+
+        Use dXY(x,y) = max(dX(x,u), dY(y,v)) for two points (x,y) and (u,v).
+
+    The product metric creates some sort of 'open square' with sides
+    2*epsilon. Note that if we used the usual pythagorean-style metric we would
+    get the same things (an open set with one contains an open set with the
+    other).
+
+    The main reason this metric is the 'right' one is that our sets are now
+    already rectangles.
+*** Proposition 1.15'
+**** Statement
+     If X and Y are metric spaces and we give X x Y the product topology
+     (i.e. use the product metric) then
+
+         BX x BY subset B(X x Y)
+
+     with equality if both X and Y are separable (that means it has a countable
+     dense subset). We care most about RR x RR so we usually get what we want.
+**** Proof
+     If U is an open subset of X and V is an open subset of Y, then the
+     cartesian product of these two sets will be open in the product space (look
+     at the open balls around v in V and u in U; pick the minimum value of
+     epsilon to form the open rectangle).
+
+     Note that this includes the case U = X and V = Y. Therefore by proposition
+     1.14' we have that each U x V generates a product sigma-algebra. Therefore
+     the sigma algebra generated by BX x BY is a subset of B(X x Y).
+
+     For the other direction: we need to show that all the open sets in the
+     product space are in the cartesian product of the two
+     sigma-algebras. *Difficulty*: in Topology arbitrary unions are fine, but
+     for measure theory we need countable unions; this is why we need the extra
+     thing for separable.
+
+     Suppose that X and Y are separable; i.e. there exists C1 subset X and C2
+     subset Y countable and dense. Then C1 x C2 is countable and dense with
+     respect to the product measure (that is, given any (x,y) in X x Y we have
+     sequences {xn} and {yn} in C1 and C2 that converge to x and y
+     respectively).
+
+     It follows from this that our open set O is the union of some set of open
+     balls with centers in the dense set and rational radii. There are countably
+     many balls of this type. Therefore O can be written as a countable union of
+     open balls under the product metric. Each such ball looks like
+
+     {(x, y) : max(dX(u,x), dY(v,y)) < r} < {x : dX(u,x) < r} U {y : dY(v,y) < r}
+     in BX x BY.
+
+     Pick any p in O. Then Bepsilon(p) subset O for some epsilon > 0. Therefore
+     there exists some c in C with d(p, c) < epsilon/2. Then there exists r in
+     QQ with d(p, c) < r < epsilon/2.
+
+     We claim that Br(c) subset O. THen d(p,c) < r, so p in Br(c). If q in Br(c)
+     then
+
+         d(p, q) <= d(p,c) + d(c,q) < epsilon
+
+     so q in Bepsilon(p) subset O.
+** Measurability of multivariate functions
+*** Proposition 2.14'
+**** Statement
+     Consider f : Z -> X x Y, where G is a sigma-algebra on Z.
+
+     f is (G, M x N) measurable if and only if each pi_i . f is measurable.
+**** Proof
+***** Forward Direction
+      Observe that pi_i are measurable (M x N, M) or (M x N, N) respectively. To
+      see this, note that for any E in M
+
+          pi_1^-1(E) = E x Y in  M x N.
+
+      so if f is measurable then f : Z -> X x Y and pi_1 are both measurable; by
+      composition pi_1 . f is measurable.
+***** Backward Direction
+      Conversely, suppose that both pi_i . f are measurable. To show that f is
+      measurable it suffices to show that f^(-1)(E x F) in G whenever E in M and
+      F in N.
+          As F^(-1)(E x F) = (pi1 . f)^-1(E) INTERSECT (pi2 . f)^-1(F), by
+      hypothesis both of these sets forming the intersection are in G.
+*** Application: Addition of Measurable Functions
+    let Phi(x,y) = x + y. This function is continuous on RR2, so with the Borel
+    sigma-algebra (B_RR x B_RR, B_RR) this function is measurable.
+
+    Say that f, g :: X -> RR are measurable. Then F = (f, g) :: X -> RR x RR is
+    measurable by 2.14. Therefore
+
+        Phi . F = f(x) + g(x)
+
+    must be a measurable function. Same for products (proposition 2.6).
+*** Set-up: measuring functions with multiple inputs
+    Pick y0 in Y. Define the injection phi(x) = (x, y0). Therefore phi(x) : X ->
+    X x Y. We claim that phi is measurable (for (M, M x N)).
+
+    Consider E x F; then phi^(-1)(E x F)  E, if y0 in F and nullset if y0 not in
+    F. This is always in M. Therefore phi is measurable. Also:
+
+        phi^(-1)(A) = {x in X : (x,y0) in A}
+
+    we sometimes all this the A_y0 cross section of A. Similarly psi(y) = (x0,
+    y) is (N, M x N) measurable. This is sometimes called A_x0 (same idea as
+    before).
+
+    If f(x,y) is (M x N, G) measurable then both f . phi and f . psi are
+    measurable (these freeze one argument of f). As usual these are notated by
+    f_y0 and f_x0.
+*** Proposition 2.34
+**** Statement
+     Assume that (X, M) and (Y, N) are measurable spaces and f : X x Y -> Z is
+     (M x N, G) measurable.
+
+     1. If A in M x N then Ax in N, Ay in M for all x in X, y in Y.
+     2. fx : Y - Z and fy : X -> Z are (N, G) and (M, G) measurable.
+
+     The converse of this is not true! Recall that if a function is continuous
+     with respect to x and with respect to y it may still fail to be continuous.
+**** Counter-Example to The Converse
+     Let A in RR be nonmeasurable. Define f : R x R -> R by f(x,y) = 1 if x = y
+     in A and zero otherwise.
+
+     If we freeze an y0 then we get that f(x, y0) = 0 if y0 not in A, 1 if x0 =
+     y0 in A. This is a measurable function (indicator function for a single
+     point) for each y0.
+
+     Now consider the function g : RR -> RR x RR defined by g(x) = (x, x). This
+     is a measurable function (recall what we did with composition of
+     pi_i). Therefore if f is measurable then f . g is measurable; however this
+     function is
+
+         f . g = f(x,x) = 1 for x in A, 0 for x not in A
+
+     which is not measurable.
+**** Proof
+     See the previous work.
+* Lebesgue Measure in RR^n
+** Comparison to RR^2
+   m x m = m^2 is the Lebesgue measure in RR^2. This is complete (Caratheodory)
+   and is uniquely determined because m^2((a, b] x (c, d]) = (b - a)*(d - c).
+** Extension to RR^n
+   We call m^n the n-dimensional product of m (same idea as m^2). This is the
+   completion of m^n on BB_RR^n.
+** Extensions to things we proved in RR
+*** Theorem 2.40 (Approximation by simpler sets)
+    We can approximate any E in LL^n by compact sets from inside or open sets
+    from outside.
+
+    We can approximate by Gdelta or Fsigma (or finite disjoint) unions of
+    rectangles.
+*** Theorem 2.41 (integrable functions)
+    We can approximate integrable functions in L1 by simple functions from below
+    or by simple functions with compact support.
+*** Theorem 2.42 (translation invariance)
+**** Addition
+     f is lebesgue measurable iff f(_ + a) is lebesgue measurable. Similarly
+
+         m^n(E) = m^n(E + a) /* translation invariance */
+
+     but the scalar multiplication thing is more generalized.
+**** Scalar Multiplication
+     Let T be an invertible n x n matrix and T :: RR^n -> RR^n. Let T(x) = T
+     x. For this we consider x to be a column vector.
+
+     If f :: RR^n -> R is lebesgue measurable then f o T is lebesgue
+     measurable. If f .GEQ. 0 or L1(m^n) then
+
+         INTEGRAL f dm^n = abs(det T) INTEGRAL f o T dm^n.
+**** Examples
+     T = a I -> INTEGRAL f(x) dm^n(x) = abs(a^n) INTEGRAL f(a x) dm^n(x).
+**** Proof (Scalar Multiplication)
+     Suppose f is Borel measurable. Then f . T is measurable. As T is
+     continuous, we get that it is Borel measurable. As
+
+         (f o T)^(-1) (E) = T^(-1)(F^(-1)(E))
+
+     Note that we may write T as a product of a finite number of elementary
+     matricies. Let the three types be scaling a row, adding/scaling two rows,
+     and interchanging two rows. Therefore it suffices to verify 2.45 for
+     elementary matricies. We can do that with Fubini/Tonelli.
+
+     Consider 2 dimensions and the first case (scale a row by a constant): we
+     get that f o S(x, y) = f(x, c y). Rewriting
+
+         INTEGRAL f dm^2 = INTEGRAL (INTEGRAL f(x, y) dm(y)) dm(x)
+                         /* based on what we did in 1 D */
+                         = INTEGRAL (abs(c) INTEGRAL f(x, c y) dm(y)) dm(x)
+                         = det(S) INTEGRAL (INTEGRAL f . S (x, y) dm(y)) dm(x)
+
+     For the second one:
+
+         INTEGRAL f dm^2 = INTEGRAL (INTEGRAL f(y~, x~) dm(y)) dm(x)
+                         = INTEGRAL (INTEGRAL f(y~, x~) dm(x~)) dm(y~)
+                         = INTEGRAL f(y~, x~) dm^2(x~, y~)
+                         = INTEGRAL f o S.
+
+     For rotations: T T* = I (T is unitary). Note that det(T) = +/- 1. This
+     gives us a nice corollary (2.46) (lebesgue measure is invariant under
+     rotations).
+** Polar Coordinates
+*** Overview
+    We want to be able to do x = r theta, theta = x/norm(x), r = norm(x).
+
+    Let Phi = RR^n \ {0} -> (0, oo) x S^(n-1) is a continuous bijection. We go
+    from sectors (in cartesian) to rectangles (in polar). We want to show that
+    m^n on RR^n \ {0} corresponds to rhon x sigma(n-1). Therefore we want
+    something like
+
+        INTEGRAL f . Phi(x) dm^n = INTEGRAL f(r, theta) d rhon x sigma_n-1
+
+    For now we will just consider f in L1, f >= 0.
+*** Working on the surface of the unit sphere
+    Define sigma_n-1 and consider some E subset S_n-1. If E is a Borel subset of
+    S_n-1 then by Proposition 1.5 (0, a] x E will be a borel subset of (0, oo) x
+    S_n-1.
+*** Surface Measure
+    We want to backtrack so that we can ensure everything works. We define
+    sigma_n-1 on the unit sphere S_n-1 by
+
+        sigma_n-1 (E) = n m^n(E1)
+
+    Thinking in 2D : this is like defining the measure of an arc by the measure
+    of the swept-out cone underneath. COnsider (a, b] x E; we have that
+
+        rho_n x sigma_n-1((a, b]) = rhon((a, b]) x sigma_n-1(E)
+
+    where rhon((a,b]) = INTEGRAL (a,b) r^(n-1) dr = (b^n - a^n)/n. Then
+    m^n(Phi^-1(a, b] x E) = Phi^-1((0, b] x E) \ phi^(-1)((0, 0] x E) = Eb \
+    Ea. Therefore /* this does not exactly follow, but I am a bit tired */ we
+    just have m^n(Eb) - m^n(Ea). Therefore
+
+        m^n(Phi^(-1)(A)) = rho_n x sigma_n-1 (A)
+
+    is a measure on (0, oo) x S_n-1. Therefore m^n x phi^n-1(.) and rhon x
+    sigma_n-1(.) are both measures which agree on an algebra. Therefore they
+    agree on the sigma algebra, so they agree on all Borel subsets. Therefore we
+    know that for all Borel sets, we get that the measure of the cartesian
+    interpretation agrees with the measure of the polar version.
+*** Finishing up
+    For f = chi_A we have that f . chi(x) = 1, or (after some work)
+
+        INTEGRAL f . Phi dm^n = INTEGRAL f drho_n x dsigma_n-1
+
+    for all Borel sets. Therefore by MCT we have that this holds for any f in L^+.
+*** Do surface integrals match our intuition?
+    Say that we have a surface. We are going to compute its volume by extending
+    it out by h. Then
+
+        m^n(Phi^-1(1, 1 + h) x E)) ~~ h E
+        (1 + h - 1) * m(E) = volume ~~ h * surface area by flattening argument.
+
+    Therefore our choice of nomenclature for 'surface integral' matches our
+    intuition.
+***
+** Proposition 2.53
+*** Statement
+    INTEGRAL RR^n exp(-a NORM(x)^2) dm^n = (pi/a)^(n/2)
+*** Proof
+    Let I = INTEGRAL RR exp(-a x^2) dm. By Tonelli:
+
+        INTEGRAL exp(-a SUM xi^2) dm^n(x) = INTEGRAL PRODUCT exp(-a xi^2) dm(xi)
+
+    so by symmetry this is just I^n. For n = 2 we know that this is just 2
+    pi. By iterated integrals
+
+        I^2 = INTEGRAL S1 (INTEGRAL RR^+ exp(-a r^2) drho2(r)) dsigma1(theta)
+            = INTEGRAL S1 1/(2 a) dsigma1(theta)
+            = pi/a.
+
+    THerefore I^n = (pi/a)^(n/2).
+** Gamma Function
+*** Relationship to Unit Sphere
+    As pi^(n/2) = INTEGRAL RR^n exp(-NORM(x)^2) dm^n
+*** Facts
+    Gamma(1) = 1, Gamma(n + 1) = n!
+    The measure of the unit sphere in n dimensions is
+
+

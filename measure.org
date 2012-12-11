@@ -1,0 +1,96 @@
+* Premeasure
+** Wikipedia
+   A precursor to a _bona fide_ measure. Every premeasure can be extended to a
+   measure.
+
+   mu0 is called a *premeasure* on R .subset. P(X)
+   1. mu0(empty set) = 0
+   2. if {Aj} is a sequence of disjoint sets _whose union is in R_ then
+
+          mu0(UNION (+inf) An) = SUM (+inf) mu0(Aj)
+
+   the only thing missing is that this is defined on some ring instead of a
+   sigma algebra.
+** Folland
+** Royden
+* Outer Measure
+** Wikipedia
+*** Overview
+    Given X, an _outer measure_ is defined on P(X) such that
+
+    1. mu0 :: P(X) -> [0, +inf]
+    2. mu0(empty set) = 0
+    3. A .subset. B -> mu(A) .LEQ. mu(B) /* monotonicity */
+    4. for any sequence of subsets {Aj} .subset. P(X)
+
+           mu0(UNION (+inf) Aj) .LEQ. SUM (+inf) mu0(Aj)
+*** Caratheodory's Theorem
+    If a subset E of X is mu0-measurable if and only if for every A in P(X)
+
+        mu0(A) = mu0(A .itersect. E) + mu0(A .intersect. E^c)
+        /* note that to meet this condition the onus is on E; mu0(A) is already
+           defined */
+
+    The next result is that the mu0-measurable sets form a sigma algebra.
+    Therefore mu0 restricted to the measurable sets is a countably additive
+    complete measure.
+*** Construction from Premeasure
+    we can extend a premeasure to an _outer measure_; that is if mu0 is a
+    premeasure defined on a ring of subsets R in P(X) then
+
+    mu*(E) = inf (SUM mu0(Aj) such that each Aj in R, S .subset. UNION (+inf) Aj)
+** Folland
+*** Overview
+    We want to do something similar to freshman calculus: we want to measure a
+    superset and a subset of what we want and see if the answers converge to the
+    same value.
+
+    We call mu* an _outer measure_ on X if for
+
+        mu* : P(X) -> [0, +inf]
+
+    we have that
+
+    1. mu*(empty set) = 0
+    2. mu*(A) .LEQ. mu*(B) if A .subset. B
+    3. mu*(UNION Aj) .LEQ. SUM Aj
+
+    we will build outer measures by starting with easy-to-deal-with subsets
+    (think of rectangles in the plane) and combine them in countable unions.
+
+    In particular, by proposition 1.10: if E .subset. P(X), rho : E -> [0,+inf]
+    and rho(empty set) = 0, X and emptyset in E, then
+
+    mu*(A) = inf (SUM rho(Ej) such that each Ej in E, A .subset. UNION (+inf) Ej)
+
+    is an outer measure.
+
+    We say that a set A is _mu*-measurable_ if
+
+        mu*(E) = mu*(E intersect A) + mu*(E intersect A^c) for all E in P(X)
+
+    note that if we want to show that this is true, then mu*(E) .LEQ. ... is
+    automatically true by subadditivity. The other direction is harder.
+* Countable Subadditivity
+** Wikipedia
+   For any sequence {Aj}, Aj in P(X),
+
+       phi(UNION Aj) .LEQ. SUM phi(Aj)
+* Additivity
+** Folland
+   For any disjoint sequence {Aj}, Aj in P(X),
+
+       phi(UNION Aj) = SUM phi(Aj)
+* Complete Measure
+** Folland
+   A measure whose domain contains all subsets of null sets is called _complete_.
+
+   In particular, by Theorem 1.9, we can extend any measure space (X, MM, mu) with:
+   1. NN = {N in MM: mu(N) = 0}
+   2. MMbar = {E union F : E in MM and F .subset. N for N in NN}
+
+   where MMbar is a sigma algebra and there is a unique extension mubar to mu
+   to form a complete measure on MMbar.
+
+   mubar is sometimes called the _completion_ of mu, and MMbar is called the
+   _completion of MM_ with respect to mu.

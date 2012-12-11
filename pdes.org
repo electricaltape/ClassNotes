@@ -1,0 +1,1866 @@
+* Exams
+** Test 1
+   Tuesday, October 23, 6:00/7:00 PM - 10:00 PM
+
+   Need to know:
+   + implicit function theorem
+   + ODE stuff
+   + linear algebra stuff (linear independence, solutions of ODEs form linear
+     systems, etc)
+   + wave equation (characteristics)
+   + be able to prove simple proofs regarding parts of the class
+   + Be able to do the goofy diamond problem from homework 4.
+   + McB 232.
+* Homework
+  posted on Dr. Sun's web page.
+** Homework 4
+   The part with characteristics was hairy.
+
+   The corners should be (-1/2, 21/2), (0, 10), (-11, 0), (1, -12), (11, -2).
+
+   Know how to do this problem for the test!
+* MATH 5425: Business
+  Dr. Sun, McB 432, phone number 231-8042
+  sun@math.vt.edu
+  course webpage: http://www.math.vt.edu/people/sun
+  We don't really have a textbook. The course will not follow the book much;
+  there is a PDE book on the webpage.
+
+  Slightly stronger emphasis on the theory; a little less on applications
+  one in-class exam and one take-home exam, for the final and midterm
+* Structure of class
+  The first semester is less theoretical and easier; the second semester is more
+  along the lines of the preliminary exam.
+* Linear Algebra
+** General Review
+   A *vector* in RR^n; RR^n is the set of ordered n-tuples of real
+   numbers. These form a vector space with the usual properties.
+
+   The euclidean norm and the dot product have the usual meanings.
+** Vector Spaces
+*** Overview
+    We have two well-defined operations: we may add vectors together and we may
+    multiply them by scalars. The classic eight vector space properties apply.
+
+    We may also form a linear space of matricies of specified size. The usual
+    properties apply.
+
+    Infinite dimensional spaces: consider spaces of sequences (that is, a
+    countable-length vector).
+*** Example: l^p
+    l^p : sequences (x1, x2, ...) such that SUM abs(xi)^p < +inf
+    p = 1 is the set of all absolutely convergent series'. We can show that
+    this is closed under addition by application of the triangle inequality to
+    finite sequences (and then taking the limit to get infinite ones).
+
+    In particular, we have that
+
+    (SUM abs(xi + yi)^p)^(1/p) .LEQ.
+        (SUM abs(xi)^p)^(1/p) + (SUM abs(yi)^p)^(1/p)
+
+    so we can bound the summation by two finite numbers raised to the pth
+    power.
+*** Example: Function Spaces
+    Instances include C(D,RR) (set of all continuous functions :: D -> RR).
+    /* this is usually notated as just C(D); the RR codomain is implied */
+    C^k means continuous up to kth derivatives. This is also a vector space.
+
+    How can we get scalar multiplication and addition to work? Is the sum of
+    two continuous functions a continuous function? (yes)
+
+        g + f = lambda x : g x + f x
+
+    Of course f(x) = 0 is the zero vector. The eight rules for vector spaces
+    are satisfied.
+*** Subspaces
+**** Overview
+     Let V be a vector space and S be a subset of V. S is a _subset_ of V if:
+     1. s, t in S -> s + t in S
+     2. s in S -> a*s in S
+
+     Note that if a = 0 we get the identity element. If a = -1 we get inverse
+     elements.
+**** Example: Kernel and Range of Linear Operators
+     These both form subspaces. Note that the kernel of an operator is the same
+     as the null space.
+**** Example: Solutions of a homogeneous differential equation
+     Let H be the set of solutions of the homogeneous equation
+
+         y' + p(t) y' + q(t) y = 0
+
+     where p(t) and q(t) are continuous functions. Then H is a subspace of
+     C2(RR).
+
+     Proof: let y1(t) and y2(t) be in H. Then by plugging them in we can see
+     that
+
+         y1' + p(t) y1' + q(t) y1 = 0
+
+     implies
+
+         c*y1' + c*p(t) y1' + c*q(t) y1 = 0*c = 0
+
+     so the set is closed under scalar multiplication. Similarly, since the ODE
+     is linear, the space is closed under addition. Therefore H is a subspace of
+     C2(RR).
+**** L2 and L~2
+     Let Omega .SUBSET. RR^n with a boundary (simply connected, smooth). Let
+
+         L~^2(Omega, CC) =
+             {u(x) in C(Omega, CC) | INTEGRAL (Omega) abs(u(x))^2 dx < +inf}
+
+     That is, all the functions are L2 integrable. This is a subspace of
+     C(Omega, CC).
+
+     Proof: Let u, v in L~^2. Recall that 2*a*b .LEQ. a^2 + b^2. We can then
+     show easily that u + v is in L~^2. Scalar multiplication is also easy.
+*** Basis
+    Let V be a vector space. A vector u in V is a _linear combination_ of
+    vectors v1, v2, ... vn if there exist scalars c1..cn such that
+
+        u = SUM ci vi.
+
+    in particular: if a subset of a vector space (with n basis vectors) bas more
+    than n vectors then it is linearly dependent.
+*** Infinite Dimensional Basis
+    Say that B has a countable number of basis vectors. We say that B is
+    linearly independent if any *finite set* of B is linearly independent.
+*** Dimension
+    The *dimension* of a vector space is the number of vectors in the basis. If
+    no finite basis exists then we say that V is infinite dimensional (like
+    l^p).
+
+    For example, {e_i} is linearly independent (ones occur in different places
+    in each vector).
+
+    Another example: The set C(RR, RR) is infinitely dimensional. The set {1, x,
+    ... } is linearly independent and infinite, and this is just a subset.
+** Geometric Structure of Vector Spaces
+*** Overview
+    We want to establish concepts like distance and angle, even for spaces of
+    functions.
+*** Inner Product Spaces
+    We have the usual inner product (the dot product) with RR^n. Note that
+
+        z dot z = NORM(z)^2
+
+    in the Euclidean norm. Inner products are bilinear.
+
+    The (real valued) inner product has the following properties:
+    1. (u, v)       = (v, u)
+    2. (u + w, v)   = (u, v) + (w, v)
+    3. (u, alpha v) = alpha (u, v)
+    4. (u, u) .GEQ. 0 and (u, u) = 0 iff u = 0.
+
+    If V is a complex vector space and the inner product is complex-valued, then
+    1. (u, v) = conjugate((v, u))
+    3. (u, alpha v) = conjugate(alpha) (u, v)
+*** Norms
+    Let a f :: V -> RR. This function f is a norm if:
+    1. norm(u) .GEQ. 0 and norm(u) = 0 <-> u = 0.
+    2. norm(alpha u) = abs(alpha) norm(u)
+    3. norm(u + v) .LEQ. norm(u) + norm(v)
+*** Metrics
+    f :: V x V -> RR. This function is a *metric* if
+    1. d(u,v) .GEQ. 0 and d(u,v) = 0 <-> u = v
+    2. d(u, v) = d(v, u)
+    3. d(u, v + w) .LEQ. d(u, v) + d(u, w)
+*** Metrics and Inner Product Spaces
+    Given an inner product (* , *)  in V, then NORM(u) = sqrt((u, u)).
+
+    Given a norm, d(u, v) = norm(u - v) is a metric.
+
+    Therefore, given some inner product, then d(u,v) = (u - v, u - v) is a
+    suitable metric.
+*** Cauchy-Schwarz Theorem
+    abs(u,v) .LEQ. norm(u)*norm(v) /* note how we defined the induced norm with
+    a square root so that this works */
+** Convergence in a normed linear space
+   We say that a sequence of vectors vn converges to v if
+
+       LIM (n,inf) NORM(vn - v) = 0
+** Useful inequalities
+   Note that 2 a b .LEQ. a^2 + b^2 for real numbers a and b.
+
+   Analogously, (u,v) .LEQ. 1/2 u^2 + 1/2 v^2.
+** Orthogonality
+   We say that u and v are *orthogonal* if (u,v) = 0.
+
+   _Complete Orthonormal Sets_
+   Let V be an inner product space. Let O = {v}, a sequence of orthonormal
+   vectors. If
+
+       LIM (n,+inf) NORM(u - SUM (i=1, n) (u, vi) vi) = 0
+
+   then we say that O is *complete*. We also write
+
+       u = SUM (i=1, +inf) (u,vi) vi
+* ODEs
+** Overview
+   ODEs have one independent variable. PDEs have multiple independent
+   variables. We can turn a single high-order ODE in to a system of first-order
+   ODEs. All ODEs need some sort of initial condition, or perhaps boundary
+   conditions.
+
+   One way to solve ODEs is by separation of variables; get the dys and the ys
+   together and the dts and ts together.
+
+   *Example* Multiplicity of solutions: say that we have dy/dt = sqrt(y). If
+   y(0) = 0, then we have two valid solutions: y(t) = 0 and y = t^2/4. How may
+   we guarantee uniqueness?
+** Picard Existence Theorem
+   let y' = F(t,y) be an initial value problem, where y(t0) = y0. F is a
+   function from D .SUBSETEQ. R x RR^n -> RR^n
+
+   The existence theorem is this: assume that D /* domain from above */ is an
+   open set and F(t,y) is continuous with respect to t. Say that we fix y; we
+   now have a continuous function of t. If F is *uniformly Lipschitz* in y, or
+
+       F is uniformly Lipschitz <-> exists a constant Gamma s.t. for any
+       (t,y1) and (t,y2) that (note that the two points have the same time
+       index)
+
+       NORM(f(t,y1) - f(t,y2)) .LEQ. Gamma*NORM(y1 - y2)
+
+   Then for any (t0, y0) there is an interval I (t-, t+) .SUBSETEQ. D (where t0
+   must be in I) such that the IVP has a unique solution.
+
+   Finding Lipschitz constants is difficult. It is easier to check a sufficient
+   condition instead. We only need to guarantee the existence of such a
+   constant.
+
+   This condition is necessary for well-posedness, but not sufficient.
+** Determining The Uniformly Lipschitz Property
+   If the Frechet derivative (that is, the matrix of partial derivatives of F
+   arranged in the usual way) is a bounded, continuous matrix function in D
+   then F is uniformly Lipschitz.
+
+   *Example* Say we are just in RR. Then if f(t,y) = abs(y) we have problems at
+   y = 0. This function is still uniformly Lipschitz (slope is always bounded
+   by 1) everywhere, so this is not a deal breaker. Note that the previous
+   example is not Lipschitz at y = 0.
+** Continuity with respect to the initial condition
+   Assume that F(t,y) satisfies the conditions in Picard's theorem. What
+   happens when we perturb the initial conditions? We can continuity at the
+   initial condition if
+
+       Limit ((t~0, y~0) -> (t0, y0)) y(t~0, y~0) = y(t0,y0)
+** Well-Posedness
+   Given an initial value problem, we say that this IVP is *well-posed* if
+   there is a unique solution of the IVP and the solution is continuous w.r.t.
+   the initial value.
+
+   If a mathematical model does not have this property, then it is called
+   *ill-posed*.
+* Subsets of RR^n
+** Balls
+   Let x be a vector in RR^n and let r > 0 be a real number. Then
+
+   Br(x) = {y in RR^n such that NORM(y - x) < R}
+
+   is the *open ball* of radius r. If we use .LEQ. instead of < then we get the
+   closed ball.
+** Open and Closed Sets
+   A subset D in RR^n is *open* if for every point x in D, there exists some
+   r > 0 such that the open ball Br(x) .SUBSET. D. If this is true, then x is
+   an *interior point* of D.
+* Operator Theory
+** Introduction
+   Let V and W be vector spaces. A *linear operator* is a linear mapping between
+   V and W (or W and V). That is,
+
+       L(u + v) = L u + L v
+       L(a*u)   = a*L u
+
+   Note that the domain of L may be a subspace of a larger vector space.
+
+   Note that if the domain is different, the operator is different, even if the
+   operators are formed the same way (a Laplacian for example)
+
+   Let L be a linear operator from D(L) /* domain of L */ to to W. The *Kernel*
+   of L is the set of u in D(L) such that L u = 0.
+** Properties
+   If L(ubar) = f and L(u~) is in the null space, then L(u + u~) = f.
+
+   One example to this is that if we have
+
+       L(y) = y'' + 4 y' + 4 y
+
+   to find the solution
+
+       L(y) = 16 t^2 + 4
+
+   first find a single solution, and then anything in the null space of the
+   operator can be scaled by a constant and added on to this particular
+   solution.
+** Symmetric Operator
+   If, in some real (complex) inner product space
+
+       (L(u), v) = (u, L(v))
+
+   then L is called symmetric (Hermetian).
+** Eigenvalues of Operators
+   L :: D(L) -> V, D(L) subset V. If there is a scalar lambda and a nonzero
+   vector u such that
+
+       L u = lambda u
+
+   then (lambda, u) is an *eigenpair* of L. The dimension of the eigenspace is
+   known as the multiplicity of the eigenvalue.
+
+   Note that the eigenvalues of a symmetric matrix must be real:
+
+       ld (u, u) = (ld u, u)
+                 = (L u, u)
+                 = (u, L u)
+                 = (u, ld u)
+                 = bar(ld) (u, u)
+
+    so ld = bar(ld), and ld /= 0; therefore ld must be real. Another useful
+    result is that the eigenvectors of symmetric eigenvalues are orthogonal.
+* Fun Facts
+** Inverse Function Theorem
+   Let F :: RR^n -> RR^n is C1 in some neighborhood of x0. Assume that F(x0) =
+   P0.
+
+   Let dF/dx = jacobian matrix. This is invertible as long as its determinant is
+   nonzero. Then there is another small ball Br0(x0) such that for yet another
+   ball centered around Br1(P0) that for F : Br0(x0) -> Br1(P0) is
+   invertible. In other words: there is some function P(p) that goes from Br1 to
+   Br0 which is the inverse of F.
+** Implicit Function Theorem
+   Let F(x, y) be a function from RR^q x RR^p -> RR^p. Assume that F(x,y) is in
+   C1 in some ball B(x1, y1) and F(x0, y0) = 0. Furthermore
+
+   dF/dy(x0, y0) (matrix of y derivatives, it is square by construction) is
+   invertible and there is a function y = f(x) : Br0(x0) -> RR^p
+
+   Put another way: given f(x,y) = 0 then we can solve for ys in terms of xs.
+
+   _Example_ say that F(x, y) = x^2 + y^2 + 1. Then we can solve for x in terms
+   of y as long as x /= 0 in the neighborhood and vice versa.
+** Vector Calculus
+   INTEGRAL (C) F dot dr = INTEGRAL C F1 dx + F2 dy + F3 dz
+
+   where C is a smooth curve in RR^3 and can be represented by a path C = f(t),
+   a path parameterized by t.
+
+   Divergence Theorem: Let S be a piecewise smooth surface enclosing a volume
+   V. Then
+
+   INTEGRAL (S) F dot n dS = INTEGRAL (V) grad dot F dV.
+* General PDEs
+** Canned example
+   a(x, y) u_xx + b(x,y) u_xy + c(x,y) u_yy is:
+   + hyperbolic if b^2 - 4 a c > 0
+   + parabolic if b^2 - 4 a c = 0
+   + elliptic if b^2 - 4 a c < 0
+** Canonical Forms
+* Heat Equation
+** Overview of scenario
+   We have a perfectly insulated, infinitely thin bar.
+
+   q = -k dT/dx (Fourier's Law of Heat Conduction)
+
+   let u = u(T) be the amount of energy stored by the substance. Assume that
+   u(0) = 0, so u = Cp rho T. Then (see wikipedia) we can conserve energy over a
+   control volume to derive the heat equation.
+
+   where du/dt = dq/dx = -k dT^2/dx^2
+** Model Assumptions
+   + The string is very taut: both ends are fixed and the displacement is
+     small.
+   + The horizontal displacement of particles on the string is negligible
+     compared to the vertical displacement.
+   + The displacements may just be transverse.
+** Another Example (separation of variables)
+   Say that
+
+       u_t = u_xx + u_yy
+
+   u(0, y, t)   = 0
+   u_x(1, y, t) = 0
+   u(x, 0, t)   = 0
+   u(x, 1, t)   = 0
+
+   and u(x, y, 0) = f(x, y). By separation of variables:
+
+       T' X Y = X'' Y T + X Y'' T
+
+   so
+
+       T'/T = X''/X + Y''/Y = -lambda.
+
+   Therefore T' = -lambda T and X''/X = -lambda - Y''/Y = -mu. Therefore
+
+       -X'' = mu X and -Y'' = (lambda - mu) Y
+
+   so mu_n = (n pi - pi/2)^2 and X(x) = sin((n pi - pi/2) x), n in NN.
+
+   Another eigenvalue problem is
+
+       -Y'' = (lambda - (n pi - pi/2)^2) Y
+
+   so we have a second set of eigenvalues for Y'' which are indexed by n and
+   m. In particular, lambda_{m,n} - (m pi)^2 + (n pi - pi/2)^2 and Ym = sin(m pi
+   y).
+* Wave Equation
+** Overview
+   y_tt = c^2 y_xx + F/rho; holds for any domain [0, L], [0, +inf), (-inf, inf).
+** What conditions do we need?
+   We need to know the initial velocity and the initial position.
+   We also need to know the boundary conditions.
+
+   We went over D'Alambert's derivation of the wave equation:
+
+       u(x, t) = w(x + c t, x - c t)
+               = F(x + c t) + G(x - c t)
+** When is the solution zero?
+   There is no need to rederive this on the homework.
+
+   For
+
+       u(x,t) = 1/2(f(x + t) + f(x - t)) + 1/2 INTEGRAL (x - t, x + t) g(s) ds
+
+   given some u(x0, t0) = 0 we can say that
+
+       0 .LEQ. x0 + t0 .LEQ. 1
+       0 .LEQ. x0 - t0 .LEQ. 1
+** Properties
+   The solution at a point is only effected by a certain range of initial
+   conditions: in the x-t plane we get a triangle (0 = x - ct and 0 = x + ct) of
+   points which effect the solution at a given point.
+** Influence Region
+   Consider a 2D plot of t and x. Given some point (t, x), we can compute what
+   the value of u depends on based on the *influence region*: that is, drawing a
+   little triangle connecting that point to the t-axis.
+** Solution by Separation of Variables
+*** Overview
+    Assume that
+
+        u_tt - c^2 u_xx = 0
+
+    for 0 < x < L and t > 0. Also assume that u(0, t) = u(L, t) = 0 and u(x, 0) =
+    f(x) and u_t(x, 0) = g(x).
+
+    Apply separation of variables by writing that
+
+        u(x,t) = X(x) T(t)
+
+    so
+
+        X(x) T''(t) - c^2 X''(x) T(t) = 0
+
+    implying that
+
+        T''(t) / (c^2 T(t)) = X''(x)/X(x) = F(x, t)
+
+    Note that dF/dx = 0 and dF/dt = 0; this implies that F is a constant. Let
+
+        F = -lambda.
+
+    Therefore we just get a pair of ODEs
+
+        X''(x) = -lambda X(x)
+        T''(t) = -lambda c^2 T(t)
+
+    where any solution needs to satisfy the original boundary conditions. In
+    particular, as
+
+        u(0, t) = 0 -> X(0) T(t) = 0 -> X(0) = 0 (otherwise we get just u = 0)
+        u(L, t) = 0 -> X(L) T(t) = 0 -> X(L) = 0 (otherwise we get just u = 0)
+
+*** Solving for X(x)
+    Then, as X(x) satisfies
+
+        X''(x) = -lambda X(x).
+
+    The boundary conditions force that lambda /= 0. Try lambda < 0:
+
+        r1, r2 = +/- sqrt(-lambda)
+
+    so our solutions are combinations of hyperbolic sine and hyperbolic
+    cosine. Again, the boundary conditions force lambda > 0 (no solutions here).
+
+    Therefore we want lambda > 0. Therefore r1, r2 = +/-
+    sqrt(lambda)*i. Therefore our eigenfunctions are
+
+        X(x) = c1 cos(sqrt(lambda) x) + c2 sin(sqrt(lambda) x)
+
+    c1 = 0 by one boundary condition. Therefore for c2 sin(sqrt(lambda) L) = 0 we
+    have that
+
+        lambdan = (n pi / L)^2
+
+    is an eigenvalue. In particular, since we have a symmetric operator, the
+    eigenfunctions should be orthogonal.
+
+    so un(x, t) = Xn(x) Tn(t)
+        = cin sin(sqrt(lambda n) x)*(cn cos((n pi x/L)*t + dn sin((n pi x/L)*t)))
+
+    is a solution to u_tt - u_xx = 0.
+
+    INTEGRAL (0, L) f(x) sin((m pi/L)*x) dx =
+    INTEGRAL (0, L) SUM c_n sin((n pi/L)*x) sin((m pi/L)*x)
+
+    All of these cancel except for n = m by orthogonality. We then get that
+
+        c_m = 2/L*INTEGRAL (0, L) f(x) sin((m pi)/L*x) dx.
+
+*** Example: Heat Equation
+    For
+
+        u_t = k^2 u_xx
+
+    and u_x(0, t) = 0 and u_x(L, t) = 0 (insulated ends) and initial conditions
+    u(x, 0) = f(x) we have that
+
+        u(x, t) = X(x) T(t)
+
+    so
+
+        T'(t) X(x) = k^2 X''(x)
+
+    so T'(t) / (k^2 T(t)) = X''(x) / X(x) = - lambda
+
+    For the first case: X'' = -lambda X; the operator is symmetric (has real
+    eigenvalues).
+
+    The result to this is the famous infinite series.
+*** Laplacian in Polar
+    Laplace's equation in polar is
+
+        d^2u/dr^2 + 1/r*du/dr + 1/r^2*d^2u/dtheta^2 = 0.
+
+    Let u = R(r) Th(theta). Then by separation of variables we have
+
+        R''(r) Th(theta) + 1/r R'(r) Th(theta) + 1/r^2 R(r) Th''(theta) = 0.
+
+    The solutions to this are Bessel's functions.
+* Laplace Equation
+** Separation of Variables
+   We get
+
+       X'' Y + Y'' X = 0
+
+   so
+
+       X''/X = -Y''/Y = lambda
+
+   so
+
+       X''/X = lambda, -Y''/Y = lambda.
+
+   The remaining trick is to apply the boundary conditions repeatedly to get a
+   solution out.
+
+   For u(0, y) = f(y), u_x(1, y) = g(y), u_y(x, 0) = 0, u(x, 1) = 0 we get that
+
+       lambdan = (n pi - pi/2)^2
+
+   are all eigenvalues (lambda = 0 and lambda < 0 are not). Then
+
+       Yn(y) = cos(lambdan y)
+
+   and the general solution is
+
+       u(x, y) = SUM (cn exp((n pi - pi/2) x) + dn exp(-(n pi - pi/2) x)) cos((n
+       pi - pi/2) y)
+* Sturm-Liouville BVP (S-L Problem)
+** Overview
+   The canonical form is
+
+       -d/dx (p(x) du/dx) + q(x) u(x) = lambda u(x) w(x), a < x < b.
+
+   If a and b are finite and p, p', and q are real and continuous with p > 0 and
+   w > 0 on [a,b] then this S-L problem is called *regular*.
+** Formulation of a linear space
+   Let
+
+       L u = 1/w(x) ( -(p u')' + q u)
+
+   (note that w is positive so w /= 0), so that gives us an operator/eigenvalue
+   problem:
+
+       -L u = lambda u.
+
+   Let L^2 w([a,b]) be the function space where the functions satisfy
+
+       f in L^2 w([a,b]) -> INTEGRAL (a,b) (f(x))^2 w(x) dx < inf.
+
+   This is a linear space (evidence omitted). We now have an inner product space
+
+       (f, g)_w = INTEGRAL (a, b) f(x) g(x) w(x) dx
+
+   where f(x) and g(x) are in L^2 w([a,b]). Note that now we have a linear space
+   and a linear operator.
+** Boundary conditions
+   There are a few different boundary conditions we may imply on functions in
+   this space:
+   /* unmixed refers to a boundary condition that only involves one endpoint */
+   1. unmixed boundary conditions:  cos(alpha) u(a) - sin(alpha) u'(a) = 0
+   2. same as above, but beta and b instead of alpha and a.
+
+   Note that if we have
+
+       l1 u(a) + l2 u'(a) = 0
+
+   we can divide through by sqrt(l1^2 + l2^2) and find some alpha such that
+
+       cos(alpha) = l1/sqrt(l1^2 + l2^2)
+       sin(alpha) = -l2/sqrt(l1^2 + l2^2).
+** Formulating the domain of the linear operator L
+*** Statement
+    Assume that we have set up some space of functions which all meet the
+    homogeneous boundary conditions. Let
+
+        D(L) = {u in L^2 w([a,b]) such that ux in L^2 w, uxx in L^2 w, u
+        satisfies BCs}
+
+    If L is defined as above
+
+        L u = 1/w (-(p u')' + qu) with D(L)
+
+    Then
+    1. the eigenvalues of L are real
+    2. the eigenvalues of L are bounded below by a constant lambda_G in RR.
+    3. the eigenfunctions of L are orthogonal in L^2 w([a,b]).
+    4. each eigenvalue has multiplicity one /* corresponds to one eigenfunction
+       */
+*** Proof
+**** Part 1
+     We show that L is symmetric in L^2 w to show several of the first properties
+     (real eigenvalues, multiplicity one).
+
+     Note that
+
+         (L u, v)_w = INTEGRAL (a,b) 1/w (-(p(u'))' + q u) v w dx
+                    = INTEGRAL (a,b) -(p(u'))' v dx + INTEGRAL (a,b) q u v dx
+
+     Then, by integration by parts
+
+                    = INTEGRAL (a,b) -p(u') v' dx + INTEGRAL (a,b) q u v dx
+                    + (-p u' v + p u v') on (a,b)
+
+     applying the boundary conditions
+
+         p(b) u(b) v'(b) - p(b) u'(b) v(b) =
+
+         p(b) (u(b) (-cos(beta)/sin(beta) v(b)) - (-cos(beta)/sin(beta) u(b)) v(b))
+         if sin(beta) /= 0 and
+         0
+         if sin(beta) = 0.
+
+     then by rearrangement of the boundary condition we get that
+
+         (L u, v) = (u, L v)
+
+     so the operator is symmetric.
+**** Part 2
+     Use the same argument with u = v. Then
+
+         (L u, u) = - pu' u on b,a + INTEGRAL (a,b) p u' u' dx
+                    + INTEGRAL (a,b) q u u dx.
+             = -p(b) u'(b) u(b) + p(a) u'(a) u(a) + INTEGRAL (a,b) p (u')^2 dx
+               + INTEGRAL (a,b) q (u)^2 dx.
+
+     = p(b) cot(beta) (u(b))^2 + p(a) cot(beta) u^2(a) + INTEGRAL (a,b) p (u')^2
+     dx + INTEGRAL (a,b) q u^2 dx
+
+     Note that INTEGRAL (a,b) q u^2 dx .GEQ. (min (x in (a,b)) q(x)) INTEGRAL
+     (a,b) u^2 w dx /* q is positive */ = lambda_G norm(u)^2
+
+     therefore (L u, u) .GEQ. lambda_G norm(u)^2. Therefore the eigenvalues are
+     bounded below by a constant.
+**** Part 3
+     skip for now.
+**** Part 4
+     Assume that we have two linearly independent eigenfunctions u and v, with
+
+         L u = lambda u, Lv = lambda v.
+
+     that is two eigenfunctions with the same eigenvalue. Recall that
+
+         /* the Wronskian */
+         W[u, v] = det([[u(x), v(x)] [u'(x), v'(x)]]) /= 0 for any x in [a,b].
+
+     Also note that
+
+         cos(alpha) u(a) - sin(alpha) u'(a) = 0
+         cos(alpha) v(a) - sin(alpha) v'(a) = 0
+
+     Therefore we reach a contradiction: sin(alpha) = cos(alpha) = 0, which is
+     not possible.
+** Specifying eigenvalues of the operator
+*** Statement
+    There are an infinite number of eigenvalues (no repeats). We may list them
+    in a sequence (bounded below) as
+
+        lambda1 < lambda2 < ...
+
+    where lim (n, inf) lambdan = +inf. The set of normalized eigenfunctions
+
+        {phi_i} (i from 1 to +inf)
+
+    forms an orthonormal basis for the space L^2 w([a,b]).
+*** Proof
+    omitted.
+** Examples
+   Consider
+
+       -u'' = lambda u
+
+   where u(0) = 0, u'(1) = 0.
+
+   This has eigenvalues lambda = (n pi - pi/2)^2, n in NN, and eigenfunctions
+
+       un = cn sin((n pi - pi/2) x)
+
+   Normalizing the eigenfunctions
+
+       phin = cn sqrt(2) sin((n pi - pi/2) x).
+
+   Then for any f in L2(0,1) we get that
+
+       f(x) = SUM (f, phin) phin(x)
+* Transformation Methods
+** Overview
+   Consider the nonhomogeneous heat equation
+
+       u_t = k^2 u_xx + g(x,t)
+
+   with boundary conditions u(0,t) = 0, ux(1,t) = 0, u(x,0) = f(x).
+
+   To find the solution we first solve the *homogeneous* version
+
+       u_t = k^2 u_xx
+
+   by separation of variables. Note that part of our solution includes finding a
+   basis for the space u lives in, or
+
+       un(t) = INTEGRAL u(x,t) phin(x) dx
+
+   so gn(x,t) = SUM gn(t) phin(x). Note that this automatically fits the
+   boundary conditions.
+** Solution
+   Recall that
+
+       INTEGRAL (0,1) u_t phi_n(x) dx = INTEGRAL (0,1) k^2 u_xx phin(x) dx
+                                      + INTEGRAL (0,1) g(x,t) + phin(x) dx
+
+   After integrating by parts
+
+       = -k^2 lambdan INTEGRAL (0,1) u(x,t) phin(x) dx + gn(t)
+       = -k^2 lambdan un(t) + gn(t)
+
+   so
+
+       dun/dt = -k^2 lambdan un + gn(t).
+
+   We end up with something of the form
+
+   u(x,t) = SUM (fn exp(-lambda^2 t)
+          + INTEGRAL (0,t) exp(-lambda^2 (t - s)) gn(s) ds)
+            sqrt(2) sin((n pi - pi/2) x)
+** Time-dependent forcing
+   u_t = k^2 u_xx + g(x,t); u(0,t) = h1(t); ux(1,t) = h2(t)
+
+   u(x, 0) = f(x).
+
+   We want to make this more convenient, so decompose
+
+       u(x,t) = v(x,t) + w(x,t).
+
+   Assume that w(x, t) = a(t) x + b(t) /* if this does not work then try a
+   quadratic or a cubic */
+
+   Therefore w(x,t) = h2(t) x + h1(t) (this matches the desired boundary
+   conditions). Then
+* Convergence
+** Overview
+   A series of functions
+
+       SUM un(x)
+
+   converges (or has a sum) S() if its sequence of partial sums converges.
+** Weierstraßs M-Test
+   If there exists a convergent series of positive constants s.t. SUM Mn
+   converges and abs(un(x)) .LEQ. Mn for x in I, then SUM un(x) is uniformly
+   convergent in I.
+
+   Note that a uniformly convergent series of continuous functions must converge
+   to something which is continuous.
+** Example: Heat Equation
+   u_t = k^2 u_xx, 0 < x < L and t > 0.
+
+   Say that we have boundary conditions u_x(0, t) = 0 and u(x, 0) = f(x). Using
+   separation of variables we have that
+
+       u(x, t) = c0/2 + SUM c_n exp(-n^2 pi^2 k^2 t / L^2) cos (n pi x / L)
+
+   where
+
+       cn = 2/L INTEGRAL (0, L) f(x) cos(n pi x / L) dx.
+
+   How do we verify that this is a solution?
+
+   Assume that f is continuous in [a,b] and that f is bounded, say abs(f(x)) <
+   B. Then
+
+       abs(cn) .LEQ. 2/L INTEGRAL (0, L) B dx = 2B.
+
+   for t .GEQ. t0 > 0. Then
+
+       c0/2 + SUM cn exp(...) cos(...) .LEQ. abs(c0)/2 + SUM abs(cn exp(...) cos(...))
+
+   so let mu_n = 2 B exp(... t0). Then the sum
+
+       SUM mu_n = 2 B SUM (exp(.../n)^n)
+                = 2 B / (1 - exp(.../n)) < +inf
+
+   so by the M-Test we get uniform convergence.
+
+   Note that we need uniform convergence and differentiability term-wise to move
+   the differential operator inside the summation.
+
+   We can do a similar process for the derivatives. This shows that we satisfy
+   the PDE and the boundary conditions.
+
+   For initial conditions:
+   we want u(x, 0) = c0/2 + SUM cn cos(...), but f(x) is equal to that only in
+   the L2 sense (almost everywhere).
+
+   Let phin(x) bi the eigenfunctions of a regular S-L problem. If f(x) is
+   piecewise smooth on [a, b], then f(x) and f'(x) are picewise continuous. Then
+   for every x in (a,b)
+
+       (f(x+) + f(x-))/2 = SUM cn phin(x)
+
+   If f also satisfies the BCs and is continuous, then equality holds for all x
+   in [a,b].
+* Fourier Transforms
+** Introduction
+   Consider some S-L problem, like
+
+       -u'' = lambda u
+
+   so when the solution u is bounded, for finite x we should have bounded
+   eigenfunctions (that is, only positive values for lambda).
+
+   Let lambda = w^2 > 0, so we have solutions
+
+       u(x) = a(lambda) exp(i w x) + d(lambda) exp(-i w x)
+
+   so for any f in L2(-inf, inf) we have that
+
+       f(x) = INTEGRAL (0, inf) (a(w) exp(i w x) + b(w) exp(-i w x)) dw
+            = INTEGRAL (-inf, inf) (c(w) exp(i w x)) dw.
+
+   due to how the signs flip for exp(...).
+
+   Now consider u(-l) = u(l), u'(-l) = u'(l), -l < x < l.
+
+   The more general form is
+
+       f(x) = c0 phi0(x) + SUM (an phin(x) + bn psin(x))
+       f(x) = 1/(2 l) (f, 1) + SUM 1/l (cos(n pi x/l), f)*cos(n pi x)
+                                   1/l (sin(n pi x/l), f)*sin(n pi x)
+
+   which normalizes correctly.
+** Definition
+   The most convenient form for our purposes is
+
+       F[f] (lambda) = INTEGRAL (-inf, inf) f(s) exp(i lambda s) ds
+
+   So, for the derivative of a function,
+
+       f(s) exp(i lambda s) (evaluated on +inf, -inf)
+       - INTEGRAL (-inf, inf) i lambda f(s) exp(i lambda s) ds
+       = -i lambda F[f]
+
+   which changes the problem back to just multiplications.
+** Example: Heat Equation in an unbounded region
+   Let U(lambda, t) = Fx[u](lambda), so
+
+       Fx[u_t] - c^2 Fx[u_xx] = 0
+
+   so U_t + c^2 lambda^2 U = 0.
+
+   As U(0, lambda) = Fx[f(x)](lambda) we have that
+
+       U(lambda, t) = Fx[f(x)](lambda) exp(-c^2 lambda^2 t)
+
+   so u(x, t) = Flambda^(-1)[U(lambda, t)](x) = f .conv. g(x,t)
+
+   Therefore, after some more work
+
+       u(,x,t) = 1/sqrt(4 pi c^2 t)
+                 INTEGRAL (-oo, oo) f(s) exp(-(x - s)^2/(4 c^2 t)) dt
+** Example: Laplace Equation in the Half Plane
+   For
+
+       u_xx + u_yy = 0, -oo < x < oo, y > 0
+       u(x, 0) = f(x).
+
+   we assume that u -> 0 as y -> oo.
+
+   Let U(x, y) = Fx[u(x,y)] = INTEGRAL (-oo, oo) exp(i lambda x) u(x,y) dx. Then
+
+        Fx[u_xx] + Fx[u_yy] = 0
+       (-i lambda)^2 + u_yy = 0
+
+   so U(lambda, 0) = Fx[f], U(lambda, y) -> 0 as y -> oo, so
+
+       Uyy - lambda^2 U = 0 -> U(lambda, y) = C1 exp(-abs(lambda) y)
+                                            + C2 exp(abs(lambda) y)
+
+   where C2 = 0 because of long-term behavior. Therefore
+
+       U(lambda, y) = Fx[f](lambda exp(-abs(lambda) y))
+
+   so u(x, y) = Flambda^(-1)[U(lambda, y)]
+              = F^(-1)lambda[exp(-abs(lambda) y)]
+              = 1/(2 pi) INTEGRAL (-oo, oo) exp(-i lambda x) exp(-abs(lambda) y)
+              dlambda.
+** Fourier Sine and Cosine Transforms
+   We know that
+
+       F(lambda) = INTEGRAL (-oo, oo) exp(i lambda x) f(x) dx.
+       f(x)      = 1/(2 pi) INTEGRAL (-oo, oo) exp(-i lambda x) F(lambda)
+       dlambda.
+
+   Let f~(x) be defined in (-oo, oo) with an *odd extension*; that is
+
+       f~(x) = f(x), x > 0; -f(x), x < 0. Assume that f(0) = 0.
+
+   This allows us to approximate with sines more easily. Then
+
+       F(lambda) = INTEGRAL (-oo, oo) f(x) dx
+                 = INTEGRAL (-oo, oo) i sin(x) f~(x) dx.
+
+   Therefore, for the odd part
+
+       f~(x) = 1/(2 pi) INTEGRAL (-oo, oo) exp(-i lambda x) F(lambda) dlambda.
+             = 1/(2 pi) INTEGRAL (-oo, oo) -i sin(lambda x) F(lambda) dlambda.
+             = -i/pi    INTEGRAL (0, oo) sin(lambda x) F(lambda) dlambda.
+
+   and therefore Fs[f] = Fs(lambda) = INTEGRAL (0, oo) sin(lambda x) f(x)
+   dx. This is commonly called the *Fourier sine transform*.
+
+   Similarly, for f'(0) = 0, f(x) = f(-x),
+
+       Fc[f] = Fc(lambda) = INTEGRAL (0, oo) cos(lambda x) f(x) dx
+** Another example: semiinfinite solids
+   Say that we have the heat equation in a semiinfinite solid, so
+
+       u_t = c^2 u_xx, 0 < x < oo, t > 0.
+
+   I.C. u(x,0) = f(x) and B.C. u(0,t) = g(t). Therefore, using the F-S transform
+
+       U(lambda, t) = Fs[(x,t)](lambda)
+       Fs[u_t] = Fs[c^2 u_xx] so U_t = c^2 (lambda u(0, t) - lambda^2 U)
+
+   Therefore
+
+       U_t + lambda^2 c^2 U = lambda c^2 g(t).
+
+   So
+
+       U(lambda, t) = Fs[f](lambda) exp(-lambda^2 c^2 t)
+                    + INTEGRAL (0, t) lambda c^2 exp(-lambda^2 c^2 (t - s)) g(s)
+                      ds.
+
+   Therefore
+
+       u(x,t) = 2/pi INTEGRAL U(lambda, t) sin(lambda t) dlambda
+              = 2/pi INTEGRAL Fs[f](lambda) exp(-lambda^2 c^2 t) sin(lambda t)
+              dlambda
+              + 2/pi c^2 INTEGRAL (0, oo) INTEGRAL (0, t) lambda exp(-lambda^2
+                c^2 (t - s) g(s) ds) sin(lambda x) dlambda.
+
+       = 2/pi INTEGRAL Fs[f](lambda) exp(-lambda^2 c^2 t) (cos(lambda (x - s)) -
+       cos(lambda (x + s))) dlambda
+       - 2 c^2/pi INTEGRAL (0, t) d/dx (INTEGRAL (0, oo) exp(-lambda^2 c^2 (t - s) )
+         cos(lambda x) dlambda) g(s) ds.
+
+  so we can just rewrite the inside as d/dx G(x, t - s) for
+
+      G(x, t) = 1/pi INTEGRAL (0, oo) cos(lambda x) exp(-lambda^2 c^2 t) dlambda
+              = 1/sqrt(4 pi c^2 t) exp(-x^2/(4 c^2 t))
+** Inhomogeneous Equations
+*** Duhamel's Principle
+    Consider the nonhomogeneous equation
+
+        rho(x) u_t + L u = g(x,t) or
+        rho(x) u_tt + L u = g(x,t)
+
+    with boundary conditions. Also consider the homogeneous case
+
+        rho(x) v_t + L v = 0 or
+        rho(x) v_tt + L v = 0
+
+    for t > tau. Assume that the boundary condition and initial condition are
+
+        v(x, tau; tau) = g(x, tau)/rho(x), for t = tau, or
+        v(x, tau; tau) = 0, v_t(x, tau; tau) = g(x, tau)/rho(x).
+
+    Assume that the solution is v(x, t; tau). Then
+
+        u(x, t) = INTEGRAL (0, t) v(x,t; tau) dtau
+
+    is a solution of the nonhomogeneous equation with u(x, 0) = 0.
+
+    _Check 1_
+    Note that u_t(x,t)  = v(x, t; t) + INTEGRAL (0, t) v_t(x,t; tau) dtau
+              u_tt(x,t) = d/dt (v(x, t; t) + v_t(x, t; tau))
+                        + INTEGRAL (0, t) v_tt(x, t; tau) dtau.
+
+    Then for L u = INTEGRAL (0, t) L v(x, t; tau) dtau:
+
+    rho(x) u_t(x,t) + L u = rho(x) (g(x,t)/rho(x) + INTEGRAL (0, t) v_t(x,t;
+    tau) dtau). + INTEGRAL (0, t) L v(x,t; tau) dtau
+    = g(x, t) + INTEGRAL (0, t) (rho(x) v_t(x, t; tau) + L v(x, t; tau)) dtau
+    = g(x, t)
+
+    _Check 2_
+    As rho(x) u_tt + L u = rho(x) (0 + (x,t)/rho(x) + INTEGRAL (0, t) v_tt(x, t;
+    tau) dtau) + INTEGRAL L v(x, t, tau) dtau.
+
+    Now: for each x in RR^n, f(x) is defined on RR^n with suitable decay at
+    oo. Then
+
+        f(lambda) = F[f(lambda)](lambda) = INTEGRAL (-oo, oo) INTEGRAL (-oo, oo)
+        exp(i (x1 lambda1 + x2 lambda 2 + ..)) f(x1, ..) dx1 .. dxn.
+*** Example: Wave Equation, 2D
+    Say we have u_tt - c^2 (u_xx + u_yy + u_zz) = 0
+    where u(x,y, z, 0) = 0 and u_t(x, y, z, 0) = f(x, y, z).
+
+    We have three infinite directions, so use a three-dimensional Fourier
+    transform on the equation, so
+
+        U(l1, l2, l3, t) = F[u(x, y, z, t)]
+        U_tt - c^2 (-l1 i)^2 U + (-l2 i)^2 U + (-l3 i)^2 U = 0.
+
+    Therefore
+
+        U_tt + c^2 (l1^2 + l2^2 + l3^2) U = 0.
+
+    Therefore
+
+        U(l1, l2, l3, t) = c1 cos(c norm(l) t) + c2 sin(c norm(l) t)
+
+    so c1 = 0 and based on u_t(l1, l2, l3, 0) = c2 c norm(l) = F[f]
+
+    Therefore U(l, t) = F[f]/(c norm(lambda)) sin(c norm(l) t)
+
+    so u(x, y, z, t) = F^-1[U]
+                     = F^-1[F[f] sin(c norm(l) t)/(c norm(l))]
+                     = f conv g
+
+    where g(x, y, z, t) = F^-1[sin(c norm(l) t)/(c norm(l))]
+
+    Note that
+
+        g(x, y, z, t) = 1/(2 pi)^3 INTEGRAL3 (-oo, oo) sin(norm(l) c t)/(c
+        lambda) exp(-i (l dot x)) dl.
+
+    The trick here is to pick a good coordinate change; in particular we want to
+    use a slight variation on spherical coordinates:
+
+        g(x, y, z, t) = 1/(2 pi)^3 INTEGRAL3 (0, oo), (0, 2 pi), (0, pi)
+        sin(rho c t)/(c rho) exp(-i rho r cos((phi))) rho^2 sin(phi) dphi
+        dtheta drho
+        = 1/((2 pi)^2 c r) INTEGRAL (0, oo) sin(c rho t) (exp(-i rho r
+        cos(phi))/i evaluated between pi and 0) drho
+        = -1/(8 pi^2 c r) INTEGRAL (0, oo) (exp(i rho(c t + r)) + exp(-i rho (c
+        t+ r)) - exp(i rho (c t - r)) - exp(-i rho (c t - r))) drho
+        = 1/(8 pi^2 c r) INTEGRAL (-oo, oo) (exp(i rho (c t - r)) + exp(i rho (c
+        t + r))) drho
+
+
+    Therefore
+
+        f(x) = 1/(2 pi) INTEGRAL (-oo, oo) exp(-i x lambda)
+        (INTEGRAL (-oo, oo) exp(i s lambda) f(s) ds) dlambda
+        = 1/(2 pi) INTEGRAL (-oo, oo) f(s) INTEGRAL (-oo, oo) exp(i lambda s - i
+        x lambda) dlambda ds
+        = INTEGRAL (-oo, oo) f(s) 1/(2 pi) (INTEGRAL (-oo, oo) exp(i x ( s - x))
+        ds) dlambda
+
+** Three Dimensions
+*** Wave Equation in 3D
+**** Zero initial position
+     if u_tt - c^2 (Delta u) = 0 and u(x,y,z,0) = 0, u_t(x,y,z,0) = f(x,y,z) then
+     we have that
+
+         u(x,y,z,t) = f conv g
+
+     where
+
+         g = F^(-1)[sin(abs(lambda) c t)/(abs(lambda) c)]
+
+     let r = norm([x, y, z], 2). Then
+
+     g(x,y,z,t) = 1/(u pi^2 c r) INTEGRAL (-oo, oo) exp(-i p (r - c t)) - exp(-i
+     p (-ct - r)) dp
+     = 1/(...) (delta(r - c t) - delta(-c t - r)).
+
+     Therefore
+
+     u(x,y,z,t) = 1/(...) INTEGRAL3 (-oo, oo) f(l1,l2,l3) delta(norm(X - Z) - c
+     t) - delta(norm(X - Z,2) + c t) dZ
+
+     where Z = [z1, z2, z3] and X = [x, y, z]. Note that the argument to the
+     second delta function is always positive; therefore its integral is
+     zero. Therfore
+     = 1/(...) INTEGRAL2 (-oo,oo) f(l1, l2, l3)/(c t) dS_(surface)
+     u = 1/(4 pi c) INTEGRAL (0, pi) INTEGRAL (0, 2 pi) f(x + c + cos(theta)
+     sin(phi), y _ c t sin(theta) sin(phi), z + c t cos(phi)) / (c t) * (c t)^2
+     sin(phi) dtheta dphi
+     = t/(4 pi) INTEGRAL (0, pi) (0, 2 pi) f(...) sin(phi) dtheta dphi.
+
+     Let
+
+         Ma[f] = 1/(4 pi a^2) INTEGRAL_sphere f(xi, eta, zeta) dS
+
+     where S is the sphere centered at (x,y,z) of radius a (closed). The form
+     people use a lot is u(x, y, z, t) = t M_(ct)[f] where M_ct is the average
+     value of f over the sphere of radius ct centered at (x, y, z).
+**** Zero initial velocity
+     Say that instead u(x, y, z, 0) = g(x, y, z) and u_t(x, y, z, 0) = 0.
+
+     Instead of this consider dv/dt = w. Then w_t(x,y,z,0) = d/dt(v(x,y,z,0))
+     = 0. Therefore we can solve this by previous work.
+**** Sound Interpretation
+     If f has compact support then after enough time any sphere centered at the
+     origin goes to u = 0.
+*** Wave Equation in 2D
+**** No Homogeneity (method of descents)
+     Consider u_tt - c^2 (u_xx + u_yy) = 0 where u(x,y,0) = f(x,y) and
+     u_t(x,y,0) = g(x,y). Instead of solving this problem we will do
+
+     u_tt = c^2 (u_xx + u_yy + u_zz) and u(x, y, z) = f(x, y) and u_t(x, y, z) =
+     g(x, y). This gives us solutions
+
+         u(x, y, t) = 1/(4 pi c^2 t) INTEGRAL2 (r = c t) f(xi, eta) dS +
+                      1/(4 pi c^2) d/dt INTEGRAL (1/t INTEGRAL2 (r = c t) g(xi,
+                      eta) dS)
+
+     now we treat our sphere as being centered at (x, y, 0), so
+
+         sqrt((xi - x)^2 + (eta - y)^2 + zeta^2) = c t
+         zeta = +/- sqrt((c t)^2 - (xi - x)^2 - (eta - y)^2)
+
+     so
+
+         dS = sqrt(1 + (dzeta/dxi)^2 + (dzeta/deta)^2) dxi deta
+            = ct /(sqr((ct^2) - (xi - x)^2 - (eta - y)^2)) dxi deta.
+
+     Therefore, rewritting our integral,
+
+         1/(4 pi c^2 t) INTEGRAL2 (r = c t) f(xi, eta) dS
+         = 2/(...) INTEGRAL_(hemisphere) f(xi, eta) ct /(sqrt(...)) dxi deta.
+* Burger's Equation
+** Overview
+   u_t + u u_x = c^2 u_xx
+** Hopf Transformation
+   Let
+
+       u = -2 c^2 v_x/v
+
+   Then
+
+       u_t = -2 c^2 (v_x v - v_x v_t)/v^2
+       u_x = -2 c^2 (v_xx v - (v_x)^2)/v^2
+       u_xx = -2 c^2 (v_xxxx v^2 - v v_x v_xx - 2 v v_x v_xx + 2 v_x^3 v)/v^3
+* Transport Equation
+** Results from Other Sources
+*** Farlow : Partial Differential Equations for Scientists and Engineers
+**** Introduction
+     Farlow is concerned about the generic form of the convection/reaction
+     equation:
+
+         a(x,t) ux + b(x,t) ut + c(x,t) u = 0
+         u(x,0) = phi(x)
+
+     where the idea is that initial solutions propagate (no diffusion term) in
+     time.
+**** Construction
+     Farlow's main trick is a change of coordinates. He defines the new
+     variables tau and s such that:
+     1. s = 0 at t = 0
+     2. dx/ds = a(x,t), dt/ds = b(x,t)
+     3. tau changes along the initial curve (that is t = 0), or x(0) = tau
+
+     By these choices we get that
+
+         du/ds = du/dx a(x,t) + du/dt b(x,t)
+
+     so the PDE is reduced to the ODE
+
+         du/ds + c(x, t) u = 0
+
+     which has solutions along the characteristics (x(s, tau), t(s, tau)) for
+     s > 0 (t > 0).
+*** Sarra  : The Method of Characteristics with Applications to Conservation Laws
+**** Overview
+     Solve the IVP associated with the first order linear PDE
+
+         a(x, t) ux + b(x, t) ut + c(x,t) u = 0; u(x, 0) = f(x).
+
+     Our goal is to change coordinates from (x, t) to (x0, s) such that *the PDE
+     becomes an ODE along certain curves* in the x-t plane. These curves
+
+         {(x(s), t(s)) : 0 < s < oo}
+
+     are called the _characteristic curves_ or _characteristics_. The new
+     variable 's' should vary along the curves and x0 should be constant on each
+     characteristic.
+
+     Choose dx/ds = a(x, t) and dt/ds = b(x, t) so that
+
+         du/ds = dx/ds du/dx + dt/ds du/dt = a(x, t) ux + b(x, t) ut
+
+     and along each characteristic we get du/ds + c(x, t) u = 0.
+**** General Strategy
+     1. Solve the two _characteristic equations_ (dx/ds = a(x, t) and dt/ds =
+        b(x,t)).
+     2. Find constants of integration by setting x(0) = x0, t(0) = 0.
+     3. Solve the ODE du/ds + c(x, t) u = 0 with initial condition u(0) = f(x0).
+     4. Solve for s and x0 in terms of x and t (using steps 1 and 2) to get the
+        result u(x, t) from u(s, x0).
+**** Example: Inviscid Burger's Equation
+     Start with
+
+         ut + u ux = 0.
+
+     Based on our previous theory we want to try to solve
+
+         dx/dt = u(x, t) /* characteristic */
+
+     If x(t) is a solution of this equation, then u(x(t), t) is the restriction
+     of u to this curve. Note that
+
+         d/dt u(x(t), t) = ux dx/dt + ut = u ux + ut = 0
+
+     so we have characteristic curves (solution does not change along
+     them). Therefore we can change our ODE in to
+
+         x'(t) = u(x0, 0)
+
+     which has a solution
+
+         x(t) = x0 + u(x0, 0) t = x0 + f(x0) t.
+
+     Therefore x0 = x - f(x0) t. Solving the other characteristic equation
+     yields t = s. Finally we get that
+
+         du/ds = 0 -> u = f(x0) = f(x - u t)
+
+     which is the solution.
+*** Wilson : First-order PDEs
+**** Overview
+     We can solve first-order partial differential equatiosn with the *method of
+     characteristics*. We will examine two variables.
+**** Wave Equation with Constant Speed
+     Consider the first-order wave equation with constant speed:
+
+         ut + c ux = 0
+
+     picking xi = x + c t and nu = x - c t we can reduce this (after a lot of
+     chain rule) down to an ODE, or
+
+         2 c du/dxi = 0.
+
+     This trick comes from the fact that the solution is constant along the
+     lines x - c t. If we parameterize the characteristics by r we should get
+     something like x = x(r), t = t(r), and du/dr = 0.
+
+     The main idea is that *we want to solve an ODE where u is constant along a
+     line.*
+**** Variable Speed
+     Consider the variable velocity case
+
+         ut + c(x, t) ux = 0.
+
+     Suppose a characteristic is given by x = x(r) and t = t(r). By the chain
+     rule
+
+         du/dr = du/dt dt/dr + du/dx dx/dr
+
+     This expression should be zero, which we can get by making it look like the
+     original linear operator (original equation):
+
+         dt/dr du/dt + dx/dr du/dx = du/dt + c(x, t) du/dx = 0.
+
+     Therefore pick dt/dr = 1 and dx/dr = c(x, t). /* paper lists c(x, r),
+     probably a typo */
+**** Inhomogeneous Case
+     Characteristics are still important here, but *the function value is no
+     longer a constant along characteristics*. Consider an example
+
+         ut + 2 x t ux = u
+
+     /* I do not think that I need this yet, so I will not fill out this
+     section. */
+**** Nonlinear Homogeneous Case
+     In general we can write any first-order homogeneous PDE in two variables as
+
+         ut + c(u, x, t) ux = 0
+
+     and the usual method of characteristics still applies. However, we will
+     usually get an implicit solution. The characteristics are given by
+
+         dx/dt = c(u, x, t)
+
+     /* all this work is for a specific characteristic associated with a
+     specific x0 */
+     with the parameterization t = r, where x is a some function of r and a
+     constant x0 (constant for a given characteristic). As usual we have that
+
+         du/dr = 0
+
+     so let u = F(x0) on the characteristic specified by x0. Therefore the
+     equation of the characteristic is just
+
+         dx/dt = c(F(x0), x, t)
+** Overview
+   The equation
+
+       u_t + c u_x = 0
+
+   corresponds to convection and conservation of some scalar quantity.
+** Solution
+   If c is a constant then, letting xi = x - ct;
+
+       du/dt = d/dt u(xi + c t, t) = u_x c + u_t = -
+
+   so along lines xi + c t the solution is constant, so
+
+       t = (x - xi)/c.
+
+   Therefore the function is just a combination of streamlines. Here f(xi) has
+   to be determined by a certain u on a curve in the x-t plane. Say that t = 0,
+   so u(x,0) = f(x); note that the curve can't be x < c t.
+
+   This is a 'quasi-linear' equation:
+
+       a(x, y, u) u_x + b(x, y, u) u_y = c(x, y, u)
+
+   if u(x, y) is a solution, the surface z = u(x, y) in (x, y, z) space is
+   called an integral surface of the quasi-linear equation. The vector (a,b,c)
+   defines a vector field in some region which is called the characteristic
+   direction of the quasi-linear equation.
+
+   Additionally the integral surface z = u(x,y) should have a normal vector
+   (u_x, u_y, -1) at each (x, y, z).
+
+   We have a family of characteristics curves which at eachpoint are tangent to
+   the vector field. Then, along a characteristic curve, we have
+
+       dx/dt = a(x, y, z); dy/dt = b(x, y, z); dz/dt = c(x, y, z)
+
+   where x, y, and z all depend on time. Assume that
+** Integral Surfaces and Characteristic Curves
+*** Statement
+    Let P(x0, y0, z0) be on the integral surface S, where z = (x, y) and let
+    gamma be the characteristic curve through P. Then gamma lies completely on
+    S.
+*** Proof
+    Let gamma = (x(t), y(t), z(t)) be the characteristic curve through P. Then
+    the time derivatives of each term are (a, b, c). Consider
+
+        u(t) = z(t) - (x+1, y+1)
+
+    so dU/dt = z' - u_x x' - u_y y'
+
+    We can construct an integral surface S by taking gamma in the y-z plane and
+    drawing characteristics; note that we have infinitely many integral surfaces
+    for gamma.
+*** Solve for Characteristic Curves
+**** Overview
+     Let f(s), g(s), h(s) be C1 in a neighborhood of s0. Let
+
+         p0 = (x0, y0, z0) = (f(s0), g(s0), h(s0)).
+
+     Then for each fixed s in the neighborhood we can solve the ODEs
+
+         dx/dt = a(x, y, z)
+         dy/dt = b(x, y, z)
+         dz/dt = c(x, y, z)
+
+     with initial conditions (f(s), g(s), h(s)). These curves form a surface. As
+     a, b, c are all C1 functions, by existence theorems we have a unique
+     solution for each s in the neighborhood. Call it
+
+         (X(t, s), Y(t, s), Z(t, s))
+
+     so with two parameters we have a surface. Therefore, if we can solve for t
+     and s from X and Y, we can write t = T(x, y) and s = S(x, y); this gives us
+     the overall solution Z(T(x, y), S(x, y)) (use implicit function theorem).
+**** Implicit Function Theorem Part
+     Say we have (t, s) = (0, s0). Then x0 = X(0, s0) and y0 = Y(0, s0). Put
+     another way, we should get that 0 = T(x0, y0) and s0 = S(x0, y0).
+
+     If we check the Jacobian we should get that
+
+         J = Ys Xt - Yt Xs at (x, y, t, s) = (x0, y0, 0, s0).
+*** Finding a solution
+    Try:
+
+        a(x, y, u) u_x + b(x, y, u) u_y = c(x, y, u)
+
+    Check:
+
+        a(x, y, u) u_x + b(x, y, u) u_y = a(x, y, z(T(x, y), S(x, y))) (Zt Tx +
+        Zs Sx) + b(x, y, Z(T, S)) (Zt Ty + Zs Sy)
+
+    but we know that x = X, y = Y at (x, y). Similarly
+
+        1 = Zt Tx + Xs Sx
+        0 = Xt Ty + Xs Sy
+        0 = Yt Tx + Ys Sx
+        1 = Yt Ty + Ys Sy /* why ? */
+
+    so we can get some solutions by Cramer's rule.
+
+    Therefore we get
+
+    a*((Zt Ys - Zs Yt)/(Zt Ys - Xs Yt)) + b*((-Zt Xs + Xt Zs)/(Xt Ys - Xs Yt))
+
+    This gives us a single characteristic curve through each point. This means
+    that we have uniqueness of solutions. The integral surface is the union of
+    the characteristic curves.
+*** Zero Jacobian
+    If J = 0 then we have that at (x0, y0, z0)
+
+        a(x0, y0, z0) g'(s) - b(x0, y0, z0) f'(s) = 0.
+
+    Let h(s) = u(s) = u(f(s), g(s)). Then
+
+        h'(s0) = ux(x0, y0) f(x0, y0) + uy(x0, y0) g'(s0)
+
+    from the equation, we know that
+
+        a(x0, y0, z0) u_x + b(x0, y0, z0) u_t = c(x0, y0, z0)
+
+    so b h' = b f' u_x + b u_y g' = a g' u_x + b g' u_y
+
+    As a h' = c f' we get that
+
+        a/f'(s0) = b/g'(s0) = c/h'(s0)
+
+    so (a, b, c) points in the same (or opposite) direction to (f', g',
+    h'). Therefore the the initial curve happens to be in the same direction as
+    the characteristic curve.
+
+    As P is a characteristic curve there are infinitely many solutions that we
+    can choose by picking any curve with J /= 0 which travels through a point p0
+    on the surface.
+*** Additional Variables
+    Consider the equation u = u(x1 .. xn) for
+
+        SUM ai(x1, x2, ..., xn u) u_xi = c(x1, ... xn, u)
+        dxi/dt = ai'
+
+    (previously we were working with the 2D version of this).
+
+    For the Cauchy problem we are given the n - 1 dimensional surface P, where
+
+        xi = fi(s1, ..., sn-1) and z = h(s1, ... sn-1).
+
+    Then we can solve these ODEs with an initial condition to get
+
+        xi = Xi(t, s1 ... sn-1)
+        z  = Z(t, s1 ... sn-1)
+
+    We need to solve
+
+        xi = Xi(t, s1 ... sn-1)
+
+    for t, s1, ... sn-1. We need
+
+        J = (df1/ds1, df2/ds1, ... ; df1/ds2 ... ; df1/dsn-1 ... dfn/dsn-1; a1
+        ... an).
+*** Example
+    uy + c ux = 0; u(x, 0) = h(x).
+
+    An initial curve is just x = s, y = 0, and z = h(s). Therefore
+
+        x = c t + s; y = t; z = h(s).
+
+    Put another way, z = h(x - c y). This gives us the solution
+
+        u(x, y) = h(x - c y).
+*** Nonlinear Example
+**** PDE Solution
+     Consider
+
+         u_y + u u_x = 0
+
+     where u(x, 0) = h(x). The initial curve gamma is x = s, y = 0, z =
+     h(s). Then
+
+         dx/dt = z, dy/dt = 1, dz/dt = 0.
+
+     This gives us x(0, s) = s, y(0, s) = 0, z(0, s) = h(s).
+
+     Let y = t + cy and z = cz. Then dx/dt = cz so x = cz t + cx. At t = 0,
+     then, we have that x = s = cx, y = c = 0, z = cz = h(s).
+
+     Therefore x = h(s) t + s, y = t, and z = h(s). Therefore we can solve
+     implicitly
+
+         x = u y + s, so s = x - u y.
+
+     Therefore u = h(x - u y), which is the implicit form of the solution.
+
+     Remember that to find s we need to use the implicit function theorem, which
+     requires that
+
+         /* recall that s = x - u y */
+         h'(s) y + 1 /= 0 -> y /= -1/h'(s)
+
+     then s can be found in terms of x and y and we have an explicit solution.
+     If h'(s) > 0 then we have for any y >= 0 that s = S(x, y). Therefore
+
+         u(x, y) = h(S(x, y)).
+**** Geometrical Interpretation
+     In the x-y plane on a line: x = h(s) y + s with some fixed s. Therefore u =
+     h(s). The solutions should be constant along stream lines.
+
+     If h'(s) > 0 then the slope 1/h(s) of the stream lines is decreasing. This
+     has a nice picture.
+
+     If h'(s) > 0 does not hold everywhere, then we could have two streamlines
+     that intersect each other. We would get something like
+
+         u(x0, y0) = h(s1)
+         u(x0, y0) = h(s2)
+
+     which must have different values (as the stream lines intersect). Therefore
+     the value of the solution at the point cannot be determined. Therefore u
+     should be discontinuous at that point (two different limits). Therefore the
+     solution is not valid at the intersection point (cannot be differentiated)
+     even if h is very smooth.
+**** Diffusion-Free Burger's Equation
+     The equation
+
+         u_t + u u_x = 0
+
+     will develop discontinuities. How does it make sense to define a solution
+     to this (because we cannot differentiate over said discontinuities)? Use
+     weak solutions.
+*** Another nonlinear example
+**** Problem
+     Find the solution of
+
+         ux uy = y^2, u(0, y) = y^2.
+**** Solution
+     As usual, let ux = p, uy = q. Then we have the equation p q - z
+     = 0. Therefore
+
+         dx/dt = q
+         dy/dt = p
+         dp/dt = -Fx - Fz p = p
+         dq/dt = -Fy - Fz q = q
+         dz/dt = Fp + Fq    = 2 p q
+
+     We can apply the initial conditions by noting that x = 0, y = s, and z =
+     s^2; similarly, based on
+
+         p(s) q(s) - s^2 = 0
+
+     we get that p(s) 0 + q(s) 1 = 2 s, so q(s) = 2 s, p(s) = s/2. From dp/dt =
+     p, we have that p = C e^t so p = s/2 e^t. Similarly q = C e^t and q(t, s) =
+     2 s e^t. Finally, dydt = 1/2 s e^t so y = s/2 e^t + C, so C = 1/2 s based
+     on the initial condition.
+
+     dz/dt = 2 (s/2) e^t * 2 s e^t, so dz/dt = 2 s^2 e^(2 t). Therefore
+
+         z = s^2 e^(2 t) + C
+
+     so c = 0 based on the initial condition. Finally,
+
+         y/x = 1/2 s (e^t + 1)/(2 (e^t + 1)) = (e^t + 1)/(4 (e^t - 1)).
+
+     Therefore e^t = (x + 4 y)/(4  - x). Therefore u = z = s^2 e^(2 t), and upon
+     substitution we get what we want.
+** General Form
+*** Solution
+    a(x, y, u) u_x + b(x, y, u) u_y = c(x, y, u)
+
+    Nonlinear, first-order PDEs: consider the equation
+
+        F(x, y, u_x, u_y, u) = 0
+
+    with initial conditions on Gamma : (x(s), y(s)) and u(x, y) = h(s). The
+    equations for the characteristic curves (for curves (x(t), y(t), z(t))) are
+
+        z = u(x, y) /* integral surface */ or z(t) = u(x(t), y(t)).
+
+    Let p(t) = ux(x(t), y(t)) and q(t) = uy(x(t), y(t)). Then
+
+        dp/dt = uxx dx/dt + uxy dy/dt
+        dq/dt = uxy dx/dt + uyy dy/dt
+
+     Taking x and y derivatives of what we started with:
+
+         Fx(x, y, ux, uy, u) + Fp uxx + Fq uxy + Fz ux = 0.
+         Fy(x, y, ux, uy, u) + Fp uxy + Fq uyy + Fz uy = 0.
+
+     Then Fp uxx + Fq uxy = - Fx - Fz p. Similarly, Fp uxy + Fq uyy = - Fy - Fz
+     q. If we let
+
+         dx/dt = Fp, dy/dt = Fq
+
+     then we get
+
+         dp/dt = -Fx - Fz p and dq/dt = - Fy - Fz q.
+
+     The last equation we need is for z; considering z(t) = u(x(t), y(t)) we get
+     that
+
+         dz/dt = ux dx/dt + uy dy/dt = p dx/dt + q dy/dt = p Fp + q Fq.
+
+     Therefore we are left with the equations
+
+         dx/dt = Fp, dy/dt = Fq, dp/dt = -Fx - p Fz, dq/dt = -Fy - q Fy
+         dq/dt = p Fp + q Fq.
+*** Initial Conditions
+    At t = 0 we have that x = f(s) y = g(s), and z = h(s). Note that by previous
+    work
+
+        F(f(s), g(s), p(s), q(s), h(s)) = 0.
+
+    so h'(s) = ux(x, y) x'(s) + uy y'(s)
+             = p(s) f'(s) + q(s) q'(s).
+
+    This converts the system in to an ODE.
+** General in More Than 2 Variables
+*** Introduction
+    In general, we can use the same approach as the general form for two
+    dimensions. Try:
+
+        F(x1, x2, ..., xn, ux1, ux2, ..., uxn, u) = 0
+        F(x1, x2, ..., xn, p1,  p2,  ...,  pn, z) = 0
+
+    Then we have an initial condition x1 = f1(s1, ..., sn-1), x2 = f2(s1, ...,
+    sn-1) etc. This gives us characteristic equations
+
+        dxi/dt = Fpi
+        dpi/dt = -Fxi - Fz pi
+        dz/dt = SUM pi Fpi
+
+    where at t = 0 we have xi(0, s1, ..., sn-1) = fi(s1, ..., sn-1). Then
+
+        u(x1(s), x2(s), ... xn(s)) = z(s)
+
+    and taking all the derivatives we get that
+
+        ux1 dx1/dsi + ux2 dx2/dsi + uxn dx1/dsi = dz/dsi
+
+    for each si. Therefore we have n equations with n unknowns.
+* Harmonic Functions and Laplace/Poisson Equations
+** Solving without boundary or initial conditions
+   Assume that u(x) = v(r), where r = euclidean distance to origin. This is the
+   symmetry assumption. Then
+
+       dr/dxi = 1/2 * (x1^2 + x2^2 + ...)^(-1/2) 2 xi
+              = xi/r.
+
+   Therefore du/dxi = dv/dr dr/dxi = v'(r) xi/r. We can also calculate the
+   second derivative:
+
+       d^2u/dxi^2 = v''(r) xi^2/r^2 + v'(r)/r - v'(r) xi/r.
+
+   Therefore
+
+       Delta u = v''(r) + (n - 1)/r v'(r) = 0.
+
+   Therefore
+
+       v''(r) / v'(r) = (1 - n)/r.
+
+   Therefore, taking the natural log of the left
+
+       (ln(v'(r)))' = (1 - n)/r.
+
+   Therefore v'(r) = b r^(1 - n), so v(r) = b/(2 - n) r^(2 - n) + C for n /= 2
+   and b ln(r) + C for n = 2. Therefore define
+
+       Phi(x) = 1/(n (n - 2) \alpha(n) abs(x)^(n - 2)) if n >= 3
+       Phi(x) = -1/(2 pi) ln (abs(x)) if n = 2
+
+   For x /= 0, this is called the fundamental solution of Laplace's
+   equation. WHen alpha(n) denotes the volume of the unit ball in RR^n.
+** Relating Phi and u
+*** Statement
+    u(x) = INTEGRAL RR^n Phi(x - s) f(s) ds is C^2(RR^n) and satisfies the
+    Poisson equation for a forcing term of f, if f is in C2 and has compact
+    support.
+*** Proof
+    u(x) = INTEGRAL Phi(s) f(x - s) ds
+
+    so (u(x + h ci) - u(x))/h = INTEGRAL phi(s) f(difference at x - s)
+    ds. Therefore, as h -> 0, we have that
+
+        du/dxi =  Phi(s) df(x - s)/dxi ds.
+
+    -Delta u = f: let B(0, epsilon) be a ball of radius epsilon centered
+    at 0. Then
+
+        Delta u = INTEGRAL RR^n     Phi(s) Deltax f(x - s) ds.
+                = INTEGRAL B        Phi(s) Deltax f(x - s) ds
+                + INTEGRAL RR^n - B Phi(s) Deltax f(x - s) ds.
+                = Iepsilon + Jepsilon.
+
+     abs(Iepsilon) <= C NORM(D^2 f)_C(RR^n) INTEGRAL B(0, epsilon) abs(Phi(s)) ds
+           <= C NORM(D^2 f)_C(RR^n) INTEGRAL B 1/r^(n - 2) or abs(ln(abs(r)))
+           <= C NORM(D^2 f)_C(RR^n) INTEGRAL B 1/r^(n - 2) or abs(ln(abs(r)))
+
+     Note that u = INTEGRAL Phi(x - s) f(s) is is the solution to the
+     Poisson equation; this works because Iepsilon -> 0 as epsilon ->
+     0.
+
+     The remaining part here is to calculate Jepsilon and get the
+     right number. Note that
+
+         Jepsilon = INTEGRAL RR^n - Bepsilon Phi(s) Delta_s f(x - s)
+         ds
+     so by integration by parts (Green's theorem) we get that
+
+         = -INTEGRAL (RR^n - Bepsilon) Grad_s Phi(s) dot Grad_s f(x -
+         s) ds + INTEGRAL (surface of Bepsilon) Phi(s) df(x - s)/dn
+         dGamma
+
+     Therefore abs(J2 /* surface integral */ <= norm(Df, oo) INTEGRAL
+     abs(Phi(s)) dGamma(s)
+
+     = C norm(D f, oo) * (2 pi epsilon ln(epsilon), n = 2;
+     1/epsilon^(n-2)*epsilon^(n-1), n >= 3)
+
+     This goes to zero as epsilon -> 0.
+
+     For J1 we get INTEGRAL (RR^n \ Bepsilon) Delta Phi(s) f(x - s)
+     ds - INTEGRAL (surface of Bepsilon) dPhi(s)/dn f(x - s)
+     dGamma(s). Note that we picked Phi(s) to be harmonic; therefore
+     the Delta term goes away. Therefore, considering the normal
+     vector, we get that
+
+     d Phi(s) / dn = 1(n alpha(n) norm(s)^(n - 1)) n on RHS
+     corresponds to dimension number.
+
+     J1epsilon = -1/(n alpha(n) epsilon^(n-1)) INTEGRAL (dB) f(x - s)
+     dG(s)
+
+     = - 1/(...) f(x - s~) INTEGRAL (dB) dG
+
+     As epsilon -> 0, s~ -> 0; therefore we get what we want.
+* Green's Functions
+** Overview
+   Let U in RR^n be an open and bounded set. Let du be C1; let -Delta
+   u = f in U and u restricted to delta U = g.
+
+   Let u in C2(Ubar); fix epsilon sufficiently small that B(x,
+   epsilon) in U (x is any point in U).
+** Green's Formula
+*** Overview
+    Recall that
+
+        INTEGRAL (U) (u(s) Delta v(s) - Delta u(s)) ds
+    = INTEGRAL (dU) (u(s) dv/dn(s) - v(s) du(s)/dn) dG.
+
+    We wish to apply this formula to u(s), Phi(s - x) /* we wish to
+    remove the singularity at x */
+*** Derivation
+   Let Veps = U \ Bepsilon (Bepsilon the ball of radius epsilon
+    centered at x). Therefore
+
+        INTEGRAL (Veps) (u(s) Delta Phi(s - x) - Phi(s - x) Delta
+        u(s)) ds
+
+    and as Phi(s - x) is harmonic
+
+        = INTEGRAL (Veps) (-Phi(s - x) Delta u(s)) ds.
+
+    We may equate this back to the Green's function:
+
+       = INTEGRAL dVeps (u(s) dPhi(s - x)/dn - Phi(s - x) du(s)/dn)
+       dG(s).
+
+    Note that on the boundary:
+
+       abs(INTEGRAL phi(s - x) du(s)/dn dG(s)) <= norm(D u, oo) C
+       eps^(n-1) * ln(eps) (n = 2) or e^(-(n - 2)) (n >= 3).
+
+    Therefore as epsilon -> 0, the whole thing goes to zero. By
+    similar work to before
+
+        INTEGRAL (dB) u(s) dPhi/dn(s - x) dG(s)
+
+    u(x) = INTEGRAL (dU) Phi(s - x) du(s)/dn - u(s) dPhi(s,x)/dn
+    dG(s) - INTEGRAL (U) Phi(s - x) Delta u(s) ds.
+
+    We know that Delta u = -f, u on the boundary is g, so
+
+    = INTEGRAL (dU) Phi(s - x) du/dn - u(s) dPhi(s, x)/dn dgamma(s)
+    - INTEGRAL (U)  Phi(s - x) Delta u(s) ds.
+*** Integration by Cross-section
+    Let phi^x = phi^x(y) (x in U). Then this satisfies Delta_y phi^x
+    = 0 for y in U. For y in dU we get that phi^x Phi(y -
+    x). Applying the Green's theorem thing and the same argument we get
+    that
+
+        INTEGRAL (U) -phi^x(s) Delta(u(s)) dS = INTEGRAL (dU) u'(s)
+        dphi^x(s)/dn - phi^x(s) du(s)/dn dG.
+
+    so u(x) - INTEGRAL (U) phi^x(s) Delta u(s) = INTEGRAL dU u(s)
+    dphi^x(s)/dn - u(s) dPhi(s - x)/dn dG.
+*** Green's Functions
+    We define Green's function as a function for U defined in Veps as
+
+        G(x, y) = Phi(y - x) - phi^x(y)
+
+    Where phi^x(y) is harmonic in U and phi^x = Phi(y - x) on dU.
+
+    Based on our previous work we have that
+
+        u(x) = - INTEGRAL (dU) u(s) dG/dn dGamma(s) - INTEGRAL (U) G(x),
+*** Half Space
+    Consider RR^n_+ = {x = (x1, ..., xn-1, xn) for xn > 0}. Let
+    x~ = (x1, x2, ... -xn). Let
+
+        phi^x(y) = Phi(y - x~) = Phi(y1 - x1, ... yn + xn)
+
+    this function is well defined based on the constraint for xn. Note that Phi
+    was defined to be harmonic. Then Deltay Phi(y - x~) = 0.
+
+    At the boundary, or yn = 0, we want phi^x = Phi(y - x). In our case
+
+        phi^x(y) = Phi(y1 - x1, ..., xn)
+        Phi(y - x) = Phi(y1 - x1, ..., -xn)
+
+    so when (xn)^2 (-xn)^2 we get what we want. Therefore we get
+
+        G(x, y) = Phi(y - x) - Phi(y - x~).
+*** Ball (WLOG B(0, 1))
+    Define x~ = x/NORM(x)^2; for x in the unit ball, define
+
+        phi^x(y) = Phi(NORM(x) (y - x~)).
+
+    It is 'easy' to check that phi^x(y) is harmonic. Therefore, on NORM(y) = 1
+    we have that
+
+        NORM(x)^2 NORM(y - x~)^2 = NORM(x)^2 (NORM(y)^2 - 2 y dot x/NORM(x)^2 +
+        1/NORM(x)^2)
+        = NORM(x - y)^2.
+
+    Therefore Phi(NORM(x) (y - x~)) = c/NORM(x - y)^(n - 2) = Phi(x - y).
+
+    Therefore G(x, y) = PHI(y - x) - Phi(NORM(x)^2 (y - x/NORM(x)^2)), for x, y
+    in B(0, 1), x /= y.
+***
+
+
+
