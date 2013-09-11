@@ -1,0 +1,12 @@
+* [[http://pauloortins.com/lessons-unit-tests/][12 Lessons I learned using unit tests]]
+** Overview
+   Test driven development has its own flow. Learn about mocking up internals,
+   mocking objects, etc. Study this.
+** Specific advice
+   + Try to keep the whole team using TDD. Partial use is terrible.
+   + Write a sufficient (perhaps not 100% coverage) test suite.
+   + Use a tool to determine coverage automatically.
+   + Tests should execute quickly.
+   + Do not ignore failing tests!
+   + Make sure that the test code is clean as well as the project code.
+   + Tests should be orthogonal (each has exactly one reason to fail)

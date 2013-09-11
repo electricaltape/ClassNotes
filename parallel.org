@@ -1,0 +1,616 @@
+* Overview of Course
+  We will do several kinds of parallel programming:
+  1. single memory space (OpenMP)
+  2. distributed memory (MPI)
+  3. higher and lower level frameworks (UPC, CUDA, PETSC)
+  4. Seven Dwarfs (we will do a lot of linear algebra)
+
+  Demmel wrote a book in '96. Try it.
+  Ian Foster's book, "Designing and Building Parallel Programming"
+  "Performance Optimization of Numerically Intensive Codes" by Goedecker and Hoisie
+* Introduction
+** Why do all computers have to be parallel computers?
+   Clock speed is roughly constant, but the number of cores on a processor is
+   increasing.
+** What happened to Moore's law?
+   The power required is increasing like V^2 I f
+   The manufacuring cost increases exponentially
+
+   Clock speed is either flat or may actually go down a little.
+** What does the future look like, based on current trends?
+   We will have a lot more cores, less total memory per core.
+** What are the big ideas?
+*** Amdahl's Law
+    Let s be the fraction of work done sequentially. Let P be the number of
+    processors. Then for time T
+
+    speedup = T / P
+           <= 1/(s + (1 -s)/P)
+           <= 1/s
+
+    As P -> oo. We need to get around low values of s.
+*** Granularity
+    We can't fire up n^3/3 processors to multiply two matricies.
+
+    We want big, fat tasks to perform: we want to fill up the L1, L2 and L3
+    caches. We want to *provably* minimize the amount of communication, not
+    necessarily arithmetic.
+*** Load Balancing
+    It is easy to divide this in mathematics: everyone gets an equal fraction of
+    the work. How about with mesh refinement? AI problems?
+
+    If we can do it ahead of time, we can do some combinatorics and get a nice
+    load balancing (static load balancing).
+
+    We can do something called 'work stealing' to get work done dynamically.
+    5. How do we coordinate the work?
+    6. How do we tune and profile the resulting programs?
+** Levels of Parallelism
+   1. Bit level (think about floating point arithmetic)
+   2. Instruction level (add four numbers at the same time)
+   3. Memory level (the processor can add numbers while pulling numbers out of
+      memory elsewhere)
+   4. OS parallelism (threads and processes)
+** There are 10 kinds of programmers...
+   We want kernel hackers and domain experts: the kernel hackers write
+   super-fast libraries and the domain experts piece libraries together to get
+   the job done.
+
+   The line is blurred (now) in parallel computing. We want to write at a high
+   level and glue stuff together. This is not always feasible.
+* Single Processor Machines
+** Uniprocessor Machines
+*** Overview
+    Most applications run at less than 10% of the 'peak' speed of a machine.
+    Where are the costs?
+
+    We care about the hierarchy of memory locations.
+*** Small Benchmarks
+    Say we want to add two numbers. We have to read both of them and put them in
+    registers (slow!) add them (faster!) and move the result back in to memory (slow!)
+*** Uniprocessor Machines
+    Registers and caches: store small amounts of data that we will need soon
+    (In a perfect world, a compiler would handle this; we don't live in a
+    perfect world)
+
+    Minor parallelism : vector instructions (as long as everything is in the
+    right place at the right time!)
+
+    pipelining : set up the next computation while the current one runs.
+
+    We want to balance between work that has already been done and our own
+    programs (abstract away the hard, low-level stuff).
+*** Memory Hierarchy
+    We want *spatial locality*: if we access a word in memory, we will access
+    words nearby. Think of cache missing.
+
+    We also have *temporal locality*: reusing items that were previously
+    accessed.
+
+    Processor has a cache (O(1 ns)), O(1 KiB)
+    secondary cache (O(10 ns)) O(1 MiB)
+    main memory (O(100 ns)) O(1 GiB) (improves about 7% a year; much slower (but
+    still exponential) rate than CPU improvement historically)
+
+    The problem here is that the difference between cache and main memory is
+    growing. CPUs are (still) getting faster at a better rate than DRAM.
+
+    Side note: DRAM = Dynamic Random-Access Memory. In most computers RAM is the
+    main supply of DRAM.
+*** Cache Basics
+**** Overview
+     Hidden from software; keeps a copy of data in main memory
+     Cache hit : can extract something from inside the cache instead of main
+     memory : cheap!
+
+     Caches try to guess where to start loading data from. This is done in
+     hardware. Sometimes it works, sometimes it doesn't.
+
+     Cache can only store so many words at once: just truncate the global memory
+     address space to the right number of bits.
+
+     Some caches are not implemented this way: say that we want to store n words
+     that end in 1101. We can do that (associative cache) but it is
+     slower. Engineering compromises.
+**** Multiple Cache Levels
+     On chip: expensive, small, fast
+     off chip: larger, cheaper, slower
+
+     Cray machines threw out a level of cache (less problems with cache misses)
+**** A Small Benchmark
+     We will try loading memory (an array) in to the cache. We will use
+     different values for the stride (every word, every other word, every fourth
+     word, etc)
+
+     If the data is small, we can load everything in to the cache on the first
+     try. We should get a horizontal line for a very small array. This will also
+     show how large the array is: if it is too big performance will crash
+     down. We should see performance increase again when we can fit everything
+     in the cache again (the fraction of the array we care about fits in the
+     cache).
+**** Experiment Results Sun Ultra-2i
+     16 KiB is about the size of the first cache: when everything fits, we get a
+     horizontal line (6 ns)
+
+     2 MiB is the size of the L2 cache: another, slightly higher horizontal
+     line (36 ns)
+
+     The main memory is huge and takes about 60 times longer than the L1 cache
+     (396 ns)
+
+     A quick story: at a poster session, someone reported similar results for a
+     modern intel chip. By the end of the evening there were five intel
+     engineers present arguing about why the results were what they were. Modern
+     hardware is complex!
+**** Stanza Triad: How smart is the prefetcher?
+     We are going to read L units, skip k units, read L units (the stanza), etc.
+
+     Modern hardware can do pattern recognition! Fancy!
+
+     Many processors have trouble with this. We will try to work with the
+     hardware.
+**** What should we take away from this?
+     Slight changes in architecture can make large changes in performance. This
+     is why the Intel MKL exists.
+
+     We want to know about how to tile or block data appropriately. How can we
+     load data in to the cache nicely?
+*** Hidden Parallelism
+**** Pipelining
+     Compare it to a laundromat. As soon as the washer is done, we can start
+     using the washing machine for another load.
+
+     One problem (in our model) is that the dryer is the bottleneck: we can
+     never turn it off and it runs for 20 extra minutes at the end.
+
+     Our *Bandwidth* is loads/hour. Our pipelining helps lower the
+     bandwidth. This is limited by the slowest pipeline stage.
+     Our *Latency* is how long it takes to do a load of laundry. Pipelining
+     doesn't help this.
+**** How does a processor look like our laundromat?
+     1. Go to the memory (hopefully cache) and get an instruction; decode the
+        instruction.
+     2. Get the necessary data for the instruction.
+     3. Do the instruction! We may have to compute an address.
+     4. Do any necessary memory access from the third step.
+     5. Save the result to memory.
+**** SSE and SSE2 (Intel) Instructions
+     SIMD: single instruction, multiple data. We can do four 'plus' operations
+     at the same time.
+
+     SSE2: handle 16 bytes at a time. If we want floats, we can do four; for
+     doubles, two.
+
+     This only works when things are nicely lined up in memory (things end in a
+     zero).
+**** FMA Instructions
+     Fused Multiply-Add : x = y + c*z; a common linear algebra operation
+     (accumulate a dot product).
+
+     We have to work *with* the compiler to get this stuff to run right.
+*** Matrix Multiplication
+**** Why?
+     Shows up everywhere in linear algebra
+     The inner loop for Gaussian elimination is this. This takes up the majority
+     of the time in most benchmarks.
+**** Naive 3 nested loops versus all (on a Sun Ultra-1/170)
+     Naive : 20 / 330 MFlops
+     Best  : about 270/330 MFlops
+**** Matrix Storage
+     Note that we need to access the rows of one matrix and the columns of the
+     other. Bah.
+**** Our simple model to optimize
+     Assume that we cannot fit everything in to fast memory.
+
+     We must add the number of floating point operations to the number of memory
+     operations. This largely depends on the hardware.
+
+     For matrix-vector multiply: we spend about 8x as long taking things out of
+     memory as we do using floating point arithmetic.
+
+     In practice, this simple model does a good job approximating how well DGEMV
+     performs (but DGEMV performs a little better than we predict).
+**** Where does the naive algorithm run in to trouble?
+     If we cache mix, we are in trouble. If we have TLB miss, we have even worse
+     trouble. We can miss the page and then it seeks to the disk!
+**** Tiled Multiplier
+     Let A, B, and C be tiled matricies of b x b subblocks.
+
+     Importantly: we can tune the size of the blocks to the sizes of our cache!
+     We want to fit three blocks in to a cache at once.
+**** Computational Intensity
+     Number of flops divided by number of slow memory accesses
+** Getting Past the Hardware
+*** General Ideas
+    We want to minimize time spent accessing slow memory.
+    How may we decompose an application in to simple steps (like matmul?)
+    Layers:
+    + Applications
+    + Algorithms
+    + Software Tools
+    + Hardware model
+*** Hong and Kung Theorem
+    A lower bound on the amount of data communicated by matmul: the number of
+    words moved between fast and slow memory (cache and dram) is
+    O(n^3/Mfast^(1/2)): equivalent for disk to dram.
+*** BLAS
+    Industry standard interface. It is recommended!
+
+    The first homework assignment will involve reinventing BLAS a little.
+
+    DGEMM is a lot more efficient than DGEMV! Better memory usage.
+*** Cache Oblivious Algorithms
+    We want to minimize the traffic between hierarchies. We don't need to know
+    how many levels or how big!
+
+    For example: by recursive matrix multiplication, we can break a matrix in to
+    four submatricies and recur. Claim: this algorithm minimizes communication
+    regardless of matrix or cache size.
+
+    For the first split, we are going to call the subroutine eight times with
+    smaller matricies. If we calculate the number of words moved between slow
+    and fast, we get n^3/O(sqrt(Mfast)).
+
+    The usual approach is to write an 8x8 or 64x64 'microkernel' to cut off the
+    recursion. This gives us about 2/3rds of the peak (DGEMM is closer to 95%).
+*** Recursive data structures
+    We want submatricies to be continuous! How can we do that? From analysis:
+    use a Z-Morton Ordering. This uses space-filling curves. It is a lot faster
+    but can be a pain to deal with.
+*** Matrix Multiply Algorithms
+    Strassen's: Asymptotic limit O(n^(2.81)); we want to use fewer
+    multiplies. We can use the typical divide and conquer algorithm, but with 7
+    matrix multiplies instead of 8 (log_2(7) instead of log_2(8)).
+
+    Coppersmith & Winograd, 2.376
+    Williams, 2.373
+
+    There is a possibility of a O(n^{2 + epsilon}) algorithm. All of these can
+    be stabilized. This result came from group theory (Cohn, Umans, Kleinberg,
+    2003).
+
+    We can do everything else in Linear Algebra by the same techniques.
+** Tuning Code In Practice
+*** Work
+    Tuning code can be tedious. We are only running at 7% of peak by
+    default. Some blocking gives us 14%. We can do 'other stuff' to get up to
+    about 60%.
+*** Automating the search
+    Can we write a computer program that generates a lot of different versions
+    and then pick the fastest one? Yes! (A former student of this class did
+    this).
+
+    We can pick a lot of parameters:
+    + block size
+    + unrolling (help the compiler!)
+    + remove false dependencies (use restrict pointers)
+    + fiddling with compiler flags
+    + copy optimization: should we store things differently in memory?
+
+    We get about the same speed for ATLAS as for vendor tuned code.
+
+    The main goal is to get arithmetical_operations / words_moved maximized.
+*** Summary
+    + Details of the machine are important.
+    + Processors hide some parallelism.
+    + Memories have hierarchy; communication is a big cost.
+    + We want locality. Cache oblivious algorithms are nice.
+* Parallel Machines and Models
+** Models
+   + Shared memory, shared address space (hardware and software)
+   + message passing (every process has its own private information)
+   + data parallel (can we do thousands of adds at the same time?)
+   + clusters (high performance wiring)
+   + grid (the Internet)
+
+   Hopefully the parallel machine is not coupled to the programming
+   model. Historically these were tightly coupled.
+** Generic architecture
+   A lot of processors, a lot of memory, and something that connects everything
+   together.
+
+   Does everyone talk to everyone? How do we share data? How do we synchronize?
+   What are the atomic (indivisible) operations?
+** A simple example
+*** Overview: a map and reduce scenario
+    foldl (+) $ map f A; where does A live? is it partitioned? What does each
+    processor do? How do we get a single sum?
+*** Shared memory
+    think openMP. We can create some number of threads at runtime. Each thread
+    gets local stuff.
+
+    The memory is divided in to num_threads + 1 places: shared memory and
+    thread-specific memory.
+
+    We will assume that num_threads << num_threads.
+*** What does the code look like?
+    fork(sum, a[0:n/2 - 1]); // create a thread that runs 'sum'
+    sum(a[n/2, n-1]);        // run the sum
+
+    if both of these use the same static integer s to hold the partial sum, then
+    the answer is indeterminant. This is sometimes called a 'race' condition
+    (who can get to s first?)
+
+    If we compile this: each thread will look at s, make a local copy (in its
+    register) and then put the new value back.
+
+    Any interleaving is possible! We only know that the instructions in each
+    thread will execute chronologically. We don't know how threads execute
+    relative to each other.
+
+    We are going to get around this problem by forming a partial sum per thread
+    and then using a lock on s. Only one thread is allowed to access s at
+    once. We want to minimize the number of locks.
+** Atomic operations
+   What things can *not* be interrupted? In our case, s += ... is not
+   atomic. Numbers are atomic (we cannot get part of a number).
+
+   Reading or writing single variables is atomic (we can't split it up).
+** Shared Memory (1a)
+*** Overview
+    Basic for a laptop; called SMP (symmetric multiprocessor) parallelism.
+
+    There is exactly one address space. This doesn't scale very well (the bus
+    will go crazy); the bus is a big bottleneck. In fact, anything that is
+    shared is a bottleneck. Every access may cause the bus to talk to everyone
+    else.
+*** Experiment: An Embarassingly Parallel Problem
+    If we share *nothing* then we should go twice as fast.
+
+    The bus turns in to a bottleneck; each thread is trying to access a lot of
+    data that is in DRAM.
+** Other Shared Memory (1b)
+*** Overview
+    We have a multithreaded processor; multiple thread contexts without full
+    processors.
+
+    One thread can go fetch from memory while another is computing.
+*** Eldorado Processor (old Cray box)
+    This requires a lot of hardware reorganization.
+
+    Say there are four programs; one is sequential, one does 2 things, another
+    does N things, etc. We don't want to give each process a processor.
+
+    If we have four cores (each can handle 16 threads) we keep the serial code
+    on one core, map the N core problem across as many as we can, put the
+    2-thread program on just one, etc.
+** Distributed Shared Memory
+*** Overview
+    We have multiple memory banks and multiple buses. However, the memory is
+    still shared (location 37 is exactly one place).
+
+    This scales all right (does well up to 512 processors).
+** Message Passing
+*** Introduction
+    This is the dominant model for large machines.
+
+    We use a standardized protocol (MPI) to send information. A message consists
+    of two parts: we send a value and then the receiver signals that they got
+    it.
+
+    We can hang (like if we have phones and get a busy signal!) if two computers
+    are waiting to receive from eachother.
+
+    This is a solved problem; there are many solutions in the MPI standard
+    library.
+
+    MPI will also run nicely on a small, shared-memory machine if we set it up
+    right.
+*** How about a machine with several cores per node?
+    MPI across nodes, shared memory on a node. The only way to communicate is by
+    passing and receiving messages.
+*** Beowulf
+    This was a turnaround in parallel computing; people buy cheap, commodity
+    hardware and glue it together rather than buying special-purchase hardware.
+
+    All that was needed was some message passing software (1994). This is now
+    the dominant (80%+) architecture for top 500 machines.
+
+    In 2005, fancy new computers were made by cell processors (playstation
+    3). More recently, people have used GPUs.
+*** Internet Machines (SETI@Home, FOLD@Home)
+    People download satellite data and image processing software to analyze
+    locally. The communication is very low. This is much larger than any
+    supercomputer, but needs no communication
+** Global Address Space
+   UPC, Co-Array Fortran, Titanium, Chapel? This makes it easier to program than
+   MPI paradigms.
+
+   This makes the code look like there is one address space; some lookups are
+   fast, others are slow
+** Data Parallel
+*** Overview
+    Say we have A = B + C; this should be done automatically in parallel. The
+    language allows us to ignore parallelism, but we need to be aware of it
+*** Machine Details
+    SIMD system: one master processor, many 'slave' processors. Originally the
+    compiler was responsible for managing the memory
+
+    Vector machines: like GPUs, but older. Could add whole registers together:
+    architecture deals with exact details.
+
+    This died out for awhile (use commodity hardware instead) but it is coming
+    back (SSE2). GPUs do it on a huge scale (thousands, instead of 4). The
+    economics have swung back in the favor of vector machines.
+
+    The reason for this is that the difference between clock speed and network
+    speed increased; in the days of Beowulf, processors were 10x faster than the
+    network; now they are 100x faster. Nowadays we have things like the Cray X1.
+*** How does SIMD vary from vector machines?
+    SIMD is the general idea; vector machines were the old Cray boxes that could
+    add 64 numbers at once or whatever.
+
+    The GPU people invented new terminology for the old stuff (vector).
+*** How does this work in practice?
+    Communication costs are harder to avoid with commodity hardware.
+** Hybrid Machines
+*** Overview
+    All machines do a little of everything. People throw GPUs on nodes, etc.
+*** Programming Models
+    + Assume that the machine has no hierarchy: use MPI on every level (between
+      machines and between threads)
+    + Use all the hardware: painful and difficult, but better use of hardware.
+*** GPUs and Clouds
+    GPU is all about data parallel. NVIDIA code is called CUDA, but the emerging
+    standard seems to be openCL.
+
+    GPUs suffer a lot from Amdahls law.
+
+    Cloud computing: started with MapReduce to manage huge amounts of
+    hardware. Hadoop is a bit more general.
+** What do we really want?
+   + Low communication
+   + Good locality
+
+   These depend greatly on the problem
+* Parallelism in Simulations
+** Levels
+   + Application, broken in to parts
+   + Algorithm
+   + Software
+   + Hardware
+
+   We will talk about the applications and try to break them down. For
+   scientific applications they break down along similar lines. Data locality
+   also occurs naturally.
+** Where can we gain parallelism?
+   Things that are far away tend to be easy to model. Far away billiard balls
+   won't collide.
+** Basic kinds of simulation
+   + Discrete systems: time is discrete, items are discrete. Think Conway.
+   + Particle systems: time is continuous, items are discrete. Think circuits,
+     particles, or pinball
+   + Lumped variables (ODEs): Spice, structual mechanics, etc.
+   + Continuous and continuous (PDEs): everything is continuous.
+
+   Typically, something falls in to a combination.
+** Example: circuits
+   + instruction level
+   + cycle level
+   + switch level
+   + circuit level
+   + device level
+
+   Some applications need very different levels.
+** Sharks and Fish
+   Rules for movement, breeding, death; forces between creatures and more.
+*** Discrete Event Systems
+    For discrete systems, we use *transition functions*: calculate the next step
+    based on the previous step.
+
+    Synchronous: everyone moves at the same time.
+    Asynchronous: no state change unless neighbor changes. Think Conway.
+
+    This is a good candidate for *domain decomposition*: we can split up the
+    work among the processors by decomposing the grids. We will do local
+    computations, wait until everyone is done (a 'barrier'), and then we extend
+    data with neighbors.
+*** Graphs and Circuits
+    A *circuit* is a graph made up of subcircuits connected by wires.
+
+    Graph partitioning is hard. It is easy for meshes, fortunately.
+*** Sharks & Fish With Loosely Connected Ponds
+    We don't want to synchronize unless we have to. We should only update if an
+    *event* occurs.
+
+    There are two ways to handle this.
+    1. We can have conservative simulation: only simulate up to the time stamp
+       of inputs.
+    2. We can speculate: assume no new events will occur and keep simulating. We
+       will need to back up if an event occurs in the past and resimulate.
+
+    Deadlocks can occur. Suppose that the three ponds form a circuit 1 -> 2 -> 3
+    -> 1. If no one updates past t0, then everyone is stuck (a deadlock). A node
+    can send a message to its neighbors to ask if they are stuck, so on and so
+    forth. If everyone is stuck, then we can move forward.
+** Forces in Particle Systems
+   Electric fields, Van der Waals, elliptic operators.
+
+   For forces on itself: embarassingly parallel. Not a problem.
+
+   Collisions: only need nearest neighbors.
+** Division by Quad Trees
+   We don't really want to divide just by taking the domain and dividing it in
+   to N equal squares. We should do something smarter. We divide every square in
+   to four blocks until the number of items in a block is some known constant.
+** Far-Field Forces
+   For inverse square laws we need to have everything communicate with
+   everything.
+
+   One way: do your own calculations, then pass your own particles in a
+   round-robin fashion.
+
+   Another: move things to a regular mesh and solve the relevant Poisson
+   problem.
+
+   Another: multigrid or FFT.
+
+   Another: compute the center of mass.
+** ODEs and DAEs
+   Kirchoff: classic DAE.
+
+   Most of these problems are very sparse (unlike n-body, where everyone needs
+   to talk to everyone).
+** Eigensolvers
+   What are the modes of vibration of some item? We can determine this by
+   calculating the eigenvalues (resonant frequencies) of the structure.
+* Parallel Programming
+** Introduction
+   Pthreads is the standard, low level, heavyweight.
+   OpenMP is more standard for parallel for-loops.
+** Common notation
+   + cobegin/coend: run every line in the block in parallel. Synchronise at coend.
+   + fork/join: create a new thread and run some process. join by waiting until
+     the thread returns.
+   + futures: v = future(job1(a1)); we don't need the value right away, so
+     compute it elsewhere.
+
+   for synchronisation:
+   + barrier: all threads wait for each other at this point. Barriers can be
+     relative.
+   + mutex (mutual exclusion): also called locks; only one thread can access
+     something at a time. Semaphores let N threads access something at once.
+** POSIX threads
+   Pthreads is the classic. There is no communication, just shared threads.
+
+   int pthread_create(pthread_t *, const pthread_attr_t *, void * (*) (void *),
+   void *) : very general call.
+
+   example:
+   errorcode = pthread_create(&thread_id, &thread_attribute, &thread_fun, *fun_arg)
+
+   thread_id : thread id or handle
+   thread_attribute : attributes (like max stack size)
+   thread_fun : function to be run. Takes and returns void*.
+   fun_arg : arguments to be passed.
+   errorcode: error number.
+** More Pthread stuff
+   pthread_yield() : causes thread to relinquish CPU.
+   pthread_exit()  : exit thread, pass value to joining thread
+   pthread_join()  : wait for a given thread to finish, place the exit value in
+                     a specified pointer.
+** Transactional Memory
+   Do we have hardware support for marking memory as 'in progress' or not?
+** OpenMP
+   Can we get "hheelllloo,,  wwoorrlldd"? No. stdout has locks.
+
+   OpenMP does not *need* to be implemented on top of pthreads. It can be
+   significantly faster due to compile-time work (everything for pthreads is at
+   runtime). Thread creation is heavy.
+** Trees?
+*** Performing operations in logarithmic time
+    We want to compute a function of n variables in log n time; think 'summation
+    of n integers'. We will do this in a binary tree.
+
+    One way to think about this: we may *reduce* a list of n entries in log n
+    operations. We start with n entries. After one round we have n/2, then n/4,
+    etc; total number of steps grows logarithmically.
+
+    This also applies to *broadcasting*: we can do this in log n steps instead
+    of n steps.
+* Architectures
+** Modern stuff
+   One big, fat processor won't cut it anymore. The Top50 machines are about
+   half MPP (specialized interconnect network) and half off the shelf clusters
+   (ethernet?)
+

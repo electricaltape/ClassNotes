@@ -1,0 +1,153 @@
+_Focus Hard. In reasonable bursts. One day at a time._
+Marumaki reccommends sitting down and practicing this every day.
+
+* Penn State, Schuylkill
+** Preparation Strategies
+*** Sleep
+    + Adequate rest and sleep
+    + No trouble staying awake when in class or reading
+    + Regular sleep schedule
+*** Diet
+    + 2 or 3 balanced meals a day
+    + No overindulgence in junk food or alcohol
+    + No drugs
+*** Physical Condition
+    + Hearing and vision checked in the last year
+    + When ill, rest extra
+    + When ill, seek medical attention
+    + Regular exercise
+*** Mental Health
+    + Meet problems calmly, rationally
+    + Confront, not avoid, reality
+    + Do not worry excessively
+    + Can handle stress
+** Eliminating Distractions
+*** Disinterest
+    + Work with classmates
+    + Try acquiring information about the topic from multiple angles
+    + Apply the information to everyday life
+    + Try to anticipate where the material leads
+*** Lack of Motivation
+    + Identify specific goals of the class
+    + Focus on positive aspects of the course or instructor
+    + Make the information relevant personally
+    + Use the information in new ways
+*** Self-Talk
+    Try to avoid the following behaviors:
+    + "I will never pass this exam"
+    + "I don't belong in college"
+    Instead focus on these:
+    + Make appropriate suggestions to oneself to positively influence feelings
+    + Statements like "I am prepared for this exam" or "I can finish this in time"
+    Efficient learners tend to focus on positive self-talk.
+* The Art of Manliness
+** Note Taking Programs
+   They recommend using Evernote; whatever, I have GNU/EMACS. They recommend
+   making heavy use of macros too.
+** Pen and Paper
+   Easier for classes with a lot of symbols, not a lot of long words.
+** Preparation for note-taking
+   + Do the assigned readings.
+   + Arrive 10 minutes early and review notes from last time.
+   + Turn off wifi.
+** What to write down
+   + Only record main points.
+   + Summary at the end and review at the beginning.
+   + Examples
+** Post note-taking
+   + Review and clarify notes immediately. Make sure you understand what you
+     wrote down.
+   + Recombine notes in to a master outline.
+* Dr. Pausch : Time Management
+* Dr. Pausch : Last Lecture
+* So Long, and Thanks for the PhD
+* Knownedge Workers are Bad at Working
+** Overview
+   + Taken from [http://calnewport.com/blog/2012/11/21/knowledge-workers-are-bad-at-working-and-heres-what-to-do-about-it/]
+   + This discusses the art of practice and skill refinement as applied to those
+     in brainy positions.
+** Thesis
+   Knowledge workers spend too much time doing *shallow work*: social media,
+   email, etc. We should spend more time doing *deep work* where we are mentally
+   challenged. Deep work gives us:
+
+   1. Continuous improvement in value of output
+   2. Increase in total quantity of output
+   3. Deeper satisfaction/passion for the work.
+** Doing deep work
+   Switching is not easy. Try cultivating a ritual for deep work; it is easier
+   to start the ritual than to start deep work. Once the ritual is started,
+   habits kick in and one is good to go.
+
+   *Example*: Shut down the computer, shutting off overhead lights, brewing a
+   cup of coffee, and putting up a 'do not disturb' sign.
+** Clarify
+   Getting work done requires clear goals (try stories?). The goals need to be
+   valuable. Hazy goals will not sustain concentration at high levels.
+
+   Try to define what success is and why it is important. This is not an easy
+   step.
+
+   *Example*: Try to immerse oneself in the literature. To do research, look for
+   open problems in the field and then solve them.
+** Stretch
+   Take a goal from the last step and find the next logical chunk of work to
+   do. Push for a result that is out of one's comfort zone. It should be hard
+   enough that one gets stuck.
+
+   Getting stuck is hard; stretching and going out of one's comfort zone is much
+   more difficult than answering emails.
+
+   *Example*: The author, as a computer scientist, can get bogged down in the
+   mathematical details and simply declare that his intuition is correct. His
+   stretch area is in doing the mathematical work.
+** Obsess
+   Deep work is a clear state of mind; one starts with the ritual, works for a
+   few hours, then rests. It is surprising how little time we spend doing this
+   correctly. Once we know what to look for, we can increase the number of hours
+   we send at this kind of work.
+** Other ideas
+   + Plan to do things every day. 5 minutes a day > an hour a month.
+* How I Used Deliberate Practice to Destroy my Computer Science Final
+** Thesis
+   "When it comes to studying, there is a huge difference between *doing work*
+   and *doing useful work*. If you're not putting a lot of thought into
+   navigating this distinction, you're probably mired in the former."
+
+   Aside: this was my experience studying for the real analysis final in
+   Fall 2012 with Camron. His studying strategies were much better than mine. It
+   was more exhausting and more useful.
+** Overview
+   A student took a midterm and a final exam in a data structures course.
+** Hard vs Hard To Do
+   "Students feel that big projects should be hard, so *hard to do* work habits
+   seem a natural fit."
+
+   A lot of stress is caused by not differentiating between these two.
+
+   After about half an hour it becomes more difficult to stay focused. One must
+   fight to keep going. This is called 'Hard Focus'. One has to build endurance
+   for this to run mental marathons.
+
+   It takes time to reach this level, but mental endurance is like physical
+   endurance; one must be able to work continuously for several hours at a time.
+** Grit vs. Grind
+   What separates the lauding of grit from the lauding of grind?
+
+   + Grind involves *treating overwork as the goal*, *not results as the goal*.
+   + Grit is about *persistently* accomplishing a reasonable amount of hard
+     work. This does not take many hours, but they are hard hours which require
+     a lot of focus.
+
+   The important part is that grit does not have a lot of hours; this should not
+   be a cause of overworking or stress.
+** Correct Practice
+   This is much like correct musical practice; do not spend time on what is
+   already easy: spend time on what is difficult and frustrating.
+* Dr. Ade : Notes in Biological Sciences
+** PowerPoint Strategy
+   Print them out and doodle on them. Another idea is to record the lectures and
+   visit them again later.
+** Pen Strategy
+   Use a main color. When something is emphasized or corrected, use a different
+   color.

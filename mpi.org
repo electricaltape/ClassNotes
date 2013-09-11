@@ -1,0 +1,16 @@
+* Getting boost_mpi working on a macintosh
+  Compile via
+
+      mpic++ -L/Users/drwells/Local/lib -I/Users/drwells/Local/include \
+      mpiboost2.cpp -o mpiboost2.out -lboost_mpi
+
+  where mpic++ links to the usual mpi library (and possibly mpi headers).
+
+  Make sure that the environment variable DYLD_LIBRARY_PATH is set to include the
+  boost libraries. Then execute as
+
+      mpirun -np 4 -x DYLD_LIBRARY_PATH ./a.out
+
+  or whatnot.
+
+

@@ -1,0 +1,346 @@
+* Topics
+** Semester 1
+*** DONE Basic linear algebra
+    CLOSED: [2013-08-05 Mon 21:19]
+*** DONE Sturm-Liouville problems
+    CLOSED: [2013-08-05 Mon 21:19]
+*** DONE second-order wave equation
+    CLOSED: [2013-08-05 Mon 21:19]
+*** DONE heat equation
+    CLOSED: [2013-08-05 Mon 21:19]
+*** DONE Poisson/Laplace's equation
+    CLOSED: [2013-08-15 Thu 10:12]
+*** DONE Fourier Transforms
+    CLOSED: [2013-08-05 Mon 21:19]
+*** DONE Separation of variables
+    CLOSED: [2013-08-05 Mon 21:19]
+*** DONE First Order PDEs
+    CLOSED: [2013-08-07 Wed 21:27]
+    Albeit I still need to tackle the (unlikely to be on the exam) nonlinear
+    case (nonlinearities in the derivatives)
+*** TODO Systems of ODEs
+** Semester 2
+*** DONE The weight thing
+    CLOSED: [2013-08-12 Mon 12:14]
+*** DONE classification of equations
+    CLOSED: [2013-08-12 Mon 12:14]
+*** DONE Elliptic PDEs
+    CLOSED: [2013-08-15 Thu 10:12]
+*** DONE Maximum/Minimum principles
+    CLOSED: [2013-08-15 Thu 10:12]
+*** TODO p-system
+*** TODO Characteristics
+*** TODO Weak solutions
+*** TODO Systems of conservation laws
+*** TODO Function spaces
+**** Riesz Representation Theorem
+*** TODO Green's functions
+* Notes
+** Review (previous coursework)
+*** Characteristic Polynomials
+*** Variation of Parameters
+    A useful technique from ODELand.
+** Theorems to Know
+*** PDE stuff
+**** DONE Garding's inequality
+     CLOSED: [2013-08-15 Thu 10:08]
+**** DONE Lax-Milgram
+     CLOSED: [2013-08-13 Tue 11:12]
+     It may be useful to review this one again.
+**** DONE Gronwall's inequality
+     CLOSED: [2013-08-15 Thu 11:40]
+**** DONE Rankine-Hugoniot Condition
+     CLOSED: [2013-08-15 Thu 14:21]
+     Split around a shock curve and apply a weighted version of the divergence
+     theorem.
+*** Analysis stuff
+**** DONE Inverse Function Theorem
+     CLOSED: [2013-08-04 Sun 13:53]
+     The proof is somewhat difficult. It is unlikely that I will have to prove
+     it on the test.
+**** DONE Implicit Function Theorem
+     CLOSED: [2013-08-04 Sun 13:09]
+     Needs the inverse function theorem.
+**** DONE Mean value theorem for integrals
+     CLOSED: [2013-08-15 Thu 10:12]
+     _From Wikipedia_: If G is continuous and phi is integrable (and does not
+     change sign on the interval), then there exists some x in the interval such
+     that
+
+         INTEGRAL G(t) phi(t) dx = G(x) INTEGRAL phi(t) dt.
+**** DONE Absolute Continuity
+     CLOSED: [2013-08-15 Thu 10:14]
+     f is *absolutely continuous* on some interval if for all eps, there exists
+     a delta such that (for pairwise disjoint intervals (x_k, y_k) comprising
+     the domain of integration)
+
+         SUM abs(x_k, y_k) < delta -> SUM abs(f(x_k) - f(y_k)) < eps.
+**** DONE Basic Lp proofs
+     CLOSED: [2013-08-16 Fri 12:47]
+     Holder, Minkowski, Cauchy, and Cauchy-Schwarz variants for Lp and related
+     inner product spaces.
+
+     *Holder*: start with ab <= a^p/p + b^q/q (Young's inequality). Normalize f
+     and g by the p and q norms and integrate, yielding
+
+         norm(f g, 1) <= 1 = norm(f, p) norm(g, q)
+
+     *Minkowski*: Just the triangle inequality.
+
+     *Cauchy*: Start with 0 <= (a - b)^2 -> a b <= a^2/2 + b^2/2. Reassign
+     variables as a := sqrt(2 eps) a and b := 1/sqrt(2 eps) b.
+
+     *Cauchy-Schwarz*: Also skip this proof.
+**** DONE The Triplets
+     CLOSED: [2013-08-16 Fri 12:51]
+     Dominated convergence, monotone convergence, Fatou. They are useful, but I
+     probably will not need the proofs.
+
+     *Dominated convergence*: Suppose abs(f_n(x)) <= g(x) and f_n -> f
+     pointwise. Then
+
+         limit(n, inf, INTEGRAL abs(f_n - f)) = 0.
+
+     *Monotone convergence*: If {f_n} is a sequence of monotonically increasing
+     functions, then
+
+         limit(n, inf, INTEGRAL f_n dm) = INTEGRAL (limit, n, inf, f_n).
+
+     *Fatou's Lemma*: Let {f_n} be a sequence of nonnegative measurable
+     functions. Then
+
+         INTEGRAL (lim inf f_n) <= lim inf INTEGRAL f_n
+
+     where the first lim inf is computed pointwise.
+** Semester 1
+*** Sturm-Liouville Problems
+    Corresponds to HW 6 from semester 1.
+
+    From SL.pdf:
+    1. Eigenvalues are real, countable, ordered; there is a smallest
+       eigenvalue. There is no largest eigenvalue.
+    2. For each eigenvalue lambda_n there is an eigenfunction phi_n with n - 1
+       zeros on (a, b).
+    3. The set of eigenfunctions is orthogonal (with respect to the norm weighted
+       by sigma(x)) and complete.
+*** l2 (sequence spaces)
+    Corresponds to HW 2 from semester 1. Probably not very important.
+** Semester 2
+*** Characteristic surfaces
+    *Single-variable case*: (grad phi)' A (grad phi) = 0, phi = 0, where A is the
+    quadratic form of the equation.
+*** Test functions
+    The integral of the derivative of a test function must be zero.
+*** 'The distributional sense'
+    f_k -> f *distributionally* if for every test function phi
+        INTEGRAL f_k phi -> INTEGRAL f phi
+    or something like that.
+*** Strictly Hyperbolic
+    There are several definitions of this term. Evans says that a *semilinear
+    system*
+
+        U_t + B(U) U_x = 0
+
+    is *strictly hyperbolic* if the eigenvalues of B(U) are real and distinct for
+    all points in the domain.
+*** Operators
+    Symmetric operators have real eigenvalues.
+
+    The adjoint of an operator L, L', satisfies (u, Lv) = (L' u, v) for all v in
+    the domain of L and u in the domain of L'.
+*** Maximum Principles
+**** Elliptic
+     Usually, 'weak' maximum principle refers to the existence of maximums and
+     the 'strong' part refers to where they are (can there be multiple maximums
+     on the interior and exterior?)
+     1. Assume Delta u = 0 on the interior and u = f >= 0 on the
+        boundary. If f is positive somewhere on the boundary, then u is strictly
+        positive on the interior of the domain.
+     2. If u is harmonic on the interior of a domain U, the maximum of u over U
+        equals the maximum of u on the boundary of U.
+     3. (Renardy & Rogers, weak maximum principle) If L u >= 0 in a bounded
+        domain and c(x) = 0 on said domain, then the maximum of u is achieved on
+        the boundary.
+     4. (Renardy & Rogers, strong maximum principle) Assume that L u >= 0 in a
+        bounded domain and u is not constant. If c = 0, then u does not achieve
+        its maximum in the interior of the domain. If c <= 0, then u cannot
+        achieve a non-negative maximum in the interior. Regardless of the sign of
+        c, u canot be zero at an interior maximum.
+
+     *Assisting lemma*: Suppose Omega is on one side of dOmega. Assume L u >= 0
+     and x0 in dOmega, u(x0) > u(x) for all x in the interior. Assume dOmega is
+     sufficiently smooth. Then if either c = 0, c <= 0 and u(x0) >= 0, or u(x0)
+     = 0, then du(x0)/dn > 0 (unit outward normal).
+**** Parabolic
+*** The 'Weights Game'
+    Useful for determining the type of a system of PDEs. The rules are:
+    1. Every equation gets a weight 's_i'.
+    2. Every variable gets a weight 't_j'.
+    3. The order of each entry L_ij must *not* exceed s_i + t_j.
+    4. The principle part now consists of the determinant of the system, only
+       using entries where s_i + t_j = order of L_ij.
+*** Characteristics and First-Order PDEs
+    Evans proves that characteristics take on the form
+
+        y(s) = (F'(g(x0)) s + x0, s)
+
+    for first-order PDEs (in particular for conservation law equations).
+
+    To solve linear and quasilinear problems, consider
+
+        p(s) = D u(x(s))
+        z(s) = u(x(s))
+
+     (that is, the derivative along the path and the path itself). Then, after
+     some manipulations
+
+         dz/ds = D_p F( ... ) dot p(s)
+         dx/ds = D_p(F( ... ))
+
+     where F(Du, u, x) = 0 is quasilinear. D_p refers to differentiating F by
+     the values of p (that is, u_x, u_y, u_t, etc).
+* Overviews of assignments
+** Semester 1
+*** HW 1
+    1. Holder spaces
+    2. Lipschitz functions
+    3. basic linear algebra
+*** HW 2
+    1. More basic linear algebra
+    2. Basic ODE theory (characteristic polynomials)
+*** HW 3
+    1. L2 inner product
+    2. Eigenvalues and eigenvectors of -u'' = lambda u
+    3. Implicit function theorem
+*** HW 4
+    1. Setting up the heat equation.
+    2. Setting up the wave equation with dampening.
+*** HW 5
+    1. Determining where solutions to the wave equation vanish
+    2. Separation of variables
+    3. Series solutions
+*** HW 6
+    1. Sturm Liouville definition
+    2. Eigenvalues/Eigenvectors of Sturm Liouville problems
+    3. Series solutions
+*** HW 7
+    1. Fourier transforms XD
+    2. Cosine transform
+    3. Variation of parameters was useful.
+*** HW 8
+    1. First-order PDEs.
+** Semester 2
+*** HW 1
+    1. Classification of equations
+    2. Canonical forms
+    3. Principal parts
+    4. Characteristic surfaces
+    5. Symbol of a PDE
+*** HW 2
+    1. Test functions and weak solutions.
+    2. Distributions.
+*** HW 3
+    1. Strict Hyperbolicity.
+    2. Conservation laws.
+*** HW 4
+*** HW 5
+    1. Maximum principles for elliptic and parabolic problems.
+*** DONE HW 6
+    CLOSED: [2013-08-15 Thu 17:44]
+    1. Holder's inequality.
+    2. Lp spaces.
+    3. Cauchy's inequality for integrals.
+    4. Inner product spaces.
+*** DONE HW 7
+    CLOSED: [2013-08-15 Thu 17:52]
+    1. More on Hilbert spaces.
+    2. Variants on the Poincare-Fredrichs inequality.
+*** DONE HW 8
+    CLOSED: [2013-08-19 Mon 07:30]
+    1. The Lax-Milgram lemma.
+    2. Applications of Poincare-Fredrichs.
+*** DONE HW 9
+    CLOSED: [2013-08-15 Thu 16:28]
+    1. Adjoint operators and adjoint boundary conditions.
+    2. Greens' functions.
+*** DONE HW 10
+    CLOSED: [2013-08-15 Thu 17:02]
+    1. Galerkin's method.
+    2. Uniqueness of solutions for IBVPs.
+    3. Gronwall's inequality.
+* Things to memorize
+** TODO Fourier Transform (Evans' version)
+   Know the definition, convolution, a few basic transforms.
+** TODO Formulae for nonlinear, 1st order PDE
+** TODO Gronwall's Inequality
+*** Statement
+    If u'(t) <= b(t) u(t), then u(t) <= u(a) exp(INTEGRAL (a, t) b(s) ds)
+*** Proof
+    v(t) := exp(INTEGRAL (a, t) b(s) ds). Note that v'(t) = b(t) v(t). After
+    applying the quotient rule
+
+        d/dt u(t)/v(t) = 0
+
+    so u(t)/v(t) <= u(a)/v(a) (MVT) so u(t)/v(t) <= u(a), which is the desired
+    result.
+*** Recipe
+    1. Define the auxillary function v(t) := exp(INTEGRAL (a, t) b(s) ds).
+    2. Show that d/dt u(t)/v(t) <= 0, so u(a)/v(a) >= u(t)/v(t).
+    3. v(a) = 1, so we are done.
+** TODO Proof for Garding
+*** Statement
+    I will assume a second-order PDE (the general proof is much harder). Let
+    Omega be a bounded domain and L(x, D) be a second-order linear operator in
+    divergence form. Assume that all the coefficients are in L-infinity. Then
+    there exist constants c3 and lambdaG >= 0 such that
+
+    B(u, u) + lambdaG norm(u, L2)^2 >= c3 norm(u, H1)^2
+
+    where B = - SUM (i, j from 1 to n) INTEGRAL_Omega a_ij u_xj v_xi dx
+    + SUM (i from 1 to n) INTEGRAL b_i u_xi v dx
+           + INTEGRAL c(x) u v dx /* usual inner product */
+*** Proof
+    Applying Holder's inequality and the uniform ellipticity condition we
+    obtain
+
+    B(u, u) >= theta INTEGRAL (grad u)^2 dx
+    - max norm(b_i, L-infinity) INTEGRAL abs(grad u) abs(u) dx
+                - norm(c, L-infinity) INTEGRAL abs(u)^2 dx.
+
+    Then, using the identity
+
+        - a b >= -eps a^2 - 1/(4 eps) b^2
+
+    with a = abs(grad u) and b = max(norm(b_i, L-infinity), i) abs(u) and
+    integrating we end up with an L2 norm of grad u and and L2 norm of
+    u. Applying Poincare-Fredrichs gets the desired H1 norm of u.
+*** Recipe
+** TODO Proof for Lax-Migram
+** TODO Proof for Rankine-Hugoniot
+** TODO "can the value be achieved" problem
+* Things that will probably be on the exam
+  1. Proof of Garding.
+  2. Proof of Gronwall.
+  3. Proof of Lax-Milgram.
+  4. Proof of Rankine-Hugoniot.
+  5. Some conservation law problem.
+  6. Some 'weights game' problem.
+  7. Something about function spaces.
+* Things to review
+  1. The four proofs.
+  2. Adjoint problems.
+  3. Formulae for linear, first-order PDEs.
+  4. Max/min principles.
+* Things that could have gone better
+  1. The Lax-Milgram problem.
+  2. Know how to compute a mathematical description of a fan.
+  3. Know how to do separation of variables for a problem with a reaction term.
+  4. Know how to compute symbols/classifications of PDEs.
+  5. Know the equations for solving nonlinear first-order PDEs.
+  6. The Hilbert space problem (that one was hard)
+* Problems from August 2013
+** Hilbert Space Problem
+*** Statement
+    Show that if u in H01(0, 1) then norm(u, oo) <= C norm(u_x, 2)
+*** Solution
+    True by Sobolev embedding: see R&R page 209.

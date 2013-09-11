@@ -1,0 +1,144 @@
+* Introduction
+** Background
+   For the BVE, Ekman pumping and a double-gyre wind stress results in a mean
+   flow with a four-gyre structure. This flow has two main properties:
+   1. The inner gyres circulate like the wind stress.
+   2. The outer gyres do not and are driven by the eddy flux of potential
+      vorticity.
+   3. The dominant balance is between wind forcing and (divergence of) eddy flux
+      of potential vorticity.
+
+   More dissipation decreases the importance of the eddy flux of potential
+   vorticity. This causes the double-gyre system to reappear. The claim is that
+   the four-gyre system appears if dissipation is low (it does not have strong
+   dependence on the Rossby number, form of dissipation, or boundary
+   conditions). *The only thing that influences it is the total amount of
+   dissipation*.
+
+   For the BVE: we do not worry about tracers. Hence we only worry about
+   parameterizations of horizontal Reynolds stresses. Most mesoscale eddy
+   transport models have been dissipative.
+
+   Two stabilization methods are increasing the viscosity and modifying the
+   nonlinearity. The former has the aforementioned problems (and tends to
+   decrease variability) and the later is difficult (care must be taken to
+   conserve potential vorticity).
+** LANS-alpha (Lagrangian-averaged Navier-Stokes alpha)
+   A 'new' (relative to the paper) type of turbulence closure. Proposed and
+   tested for 3D incompressible flows.
+
+   The alpha part: alter the nonlinearity so that nonlinear terms at a scale
+   smaller than alpha are "nonlinearly swept by motions at larger length
+   scales". These scales do not cascade. This smooths the solution without
+   additional dissipation.
+
+   Explicitly: the transport velocity is filtered relative to the transported
+   velocity.
+** Goals of present work
+   Follow the LES approach: address turbulence transport by unresolved
+   eddies. Given an eddy-resolving simulation, reproduce its time-mean
+   circulation and a few important turbulence correlations at a coarser
+   resolution.
+
+   Eddy-driven transport tends to homogenize potential vorticity. LANS-alpha
+   does similar things by causing phenomena at length scales smaller than alpha
+   to be swept by motions at larger scales.
+
+   This work splits the alpha model into several LES-like mean stress
+   components. Their effects on preservation of the four-gyre circulation is
+   considered separately.
+
+   Turbulent flows are not modeled here. Instead, the work shows that nonlinear
+   eddy transport is the mechanism responsible for the four-gyre pattern. The
+   work *modifies the nonlinearity to model the transport effects of unresolved
+   eddies.*
+* Overview of LANS-alpha
+** Introduction and comparison to LES
+   LES: model dynamics of smaller resolved scales to reproduce energy transfer
+   between large resolved and smaller unresolved that would occur if the flow
+   was fully resolved.
+
+   LES is a turbulence closure (extra stress-strain relationship to model
+   unresolved scales).
+
+   LANS-alpha: describe Lagrangian mean motion of closed equations: assumes that
+   turbulence at length scales below alpha are 'frozen' into a mean flow.
+
+   the LANS-alpha equations are:
+
+       v_t + u dot grad v + grad u^T dot v
+       + grad (p - 1/2*norm(u)^2 - alpha^2/2 norm(grad u)^2)
+       - u cross f = nu laplacian v + F
+
+   where "u dot grad v + grad u^T dot v" is the modified nonlinearity. v is
+   defined as
+
+       v := u - alpha^2 laplacian u
+
+   and div u = 0.
+** Kelvin's circulation theorem
+   We get that the equation satisfies Kelvin's circulation theorem for a fluid
+   loop with Helmholtz-filtered velocity u (v is referred to as the unfiltered
+   velocity). The stress tensor for LANS-alpha has one more term (a
+   nonlinearity) on it that Leray drops for the Leray alpha model.
+** LANS-alpha and LES models
+   We may very, very cleverly rewrite the commutator of the advection and
+   helmholtz operators to get
+
+       (1 - alpha^2 laplacian) (u_t + u dot grad u - nu Delta u) + grad p
+       - u crossf - F + alpha^2 div tau = 0
+
+   where
+
+       tau = grad u dot grad u^T + grad u dot grad u - grad u^T dot grad u
+
+   The first term in tau is known as the Clark stress (tensor diffusivity
+   model). This is a term commonly used in LES (so we have something like an LES
+   model with extra terms).
+** Reduction to 2D
+   After some rewrites we get that
+
+       q_t + u dot grad (q + beta y) = nu laplacian q + zhat dot curl F
+
+   which is just the scalar vorticity equation in 2D, but q = curl v and u is
+   still defined in terms of v.
+
+   If we start in 2D we get an extra term {u_j, v^j} on the LHS of the above
+   equation:
+
+
+       {u_j, v^j} = zhat dot grad u_j cross grad v^j
+                  = (psi_xx - psi_yy) H_alpha psi_xy
+                  - psi_xy H_alpha (psi_xx - psi_yy)
+
+   where psi is the streamfunction and H_alpha = 1 - alpha^2 laplacian (the
+   Helmholtz operator relevant to this setup).
+
+   Note that potential vorticity is not conserved for the Leray-alpha model. We
+   must relinquish the Kelvin circulation theorem.
+** Numerical results
+   At 4x the grid scale, the model losesthe four-gyre solution. It cannot
+   resolve the viscous boundary layer either (here 0.02L is the Munk scale and
+   0.04L is the grid scale). This causes spurious oscillations.
+
+   The BV-alpha model is too energetic (insufficiently dissipative). Compared to
+   the DNS, there are elevated levels of mean and kinetic energy in the
+   system. The alpha model enhances transport in place of dissipation, so this
+   is the expected result.
+
+   a 4x and 8x, the BVE with no model is unable to capture the mean four-gyre
+   system. It also cannot resolve the Munk layer. The BV-alpha model overcomes
+   these problems at both resolutions. The BV-Leray-alpha model is less
+   successful (and only helps at 4x).
+
+   From a GFD perspective: the BV-alpha model show that the tendency of eddies
+   to mix potential vorticity can be successfully parameterized in a different
+   way from the downgradient form of eddy flux.
+
+   Why does this work? Consider Rossby wave dispersion, where
+
+       vorticity = U k - beta k /norm(vec(k))^2
+
+   where U is ambient zonal flow, vec(k) = k^2 + l^2, k is the east-west
+   wavenumber and l is the north-south wavenumber. Hence smaller Rossby waves
+   are 'frozen' by the alpha model and larger ones are allowed to propagate.

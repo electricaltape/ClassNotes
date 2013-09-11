@@ -1,0 +1,13 @@
+* Two Kingdoms
+  *Spectral* : global expansion method.
+  Interpolating and non-interpolating
+** Interpolating/Pseudospectral
+   + Associate grid with basis
+   + Force agreement with truncated series and forcing function
+   + For ODE/PDE: force residual to interpolate zero at points.
+     + Sometimes called colocation or interpolation points
+   + Interpolate at Gauss points? Like an integral method.
+** Noninterpolating
+   + Things like Galerkin and Tau methods
+   +
+

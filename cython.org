@@ -1,0 +1,5 @@
+* Types
+** bint
+   boolean integer
+** Typecasting
+   Use <void *> syntax (like C++):

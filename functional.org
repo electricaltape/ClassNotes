@@ -1,0 +1,68 @@
+* Dual Spaces
+** Friedberg, Insel, Spence
+*** Introduction
+    Note that the underlaying scalar field F associated with a vector space is
+    itself a vector space of dimension one over F.
+
+    A *linear functional* is any linear transformation which maps V on to F. Note
+    that this is still a mapping between vector spaces.
+*** Example 1
+    V : vector space of continuous, real-valued functions on [0, 2pi]. For some fixed
+    g in V,
+
+        h(x) = 1/(2 pi) INTEGRAL x(t) g(t) dt
+
+    is a linear functional on V.
+*** Example 2
+    The trace (sum of diagonal entries) is a linear functional from the vector
+    space of n x n matricies to its underlying field.
+*** Dual Spaces
+    For a vector space V(F) and field F, we say that the *dual space* of V is the
+    vector space L(V, F) denoted by V'.
+
+    V' is the vector space of all linear functionals on V. Note that
+
+        dim(V') = dim(L(V, F)) = dim(V) dim(F) = dim(V)
+
+    where L(V, F) is the space of linear operators mapping V -> F (and that is
+    isomorphic to the dim(V) x dim(F) matricies over F). Therefore V and V' are
+    isomorphic.
+
+    The ordered basis B' = {f1, f2, ... fn} of V' is the basis which satisfies
+    fi(xj) = dij ({x1, x2, ... xn} is a basis of V) is called the *dual basis*
+    of B.
+*** Example 3
+    Let B = {(2, 1), (3, 1)} be an ordered basis for RR2. Suppose that the dual
+    basis B' is given by {f1, f2}. Then f1 = -x + 3 y and f2 = x - 2 y are the
+    dual basis.
+*** Infinite dimensional case
+    Only a finite-dimensional vector space is isomorphic to its dual space. No
+    two of V, V', and V'' are isomorphic.
+* Hilbert Spaces
+** Definitions
+*** inner product
+    For an inner product:
+#+BEGIN_SRC LaTeX
+    \Langles{cdot, cdot} : V \times V \to \mathbb{C}
+#+END_SRC LaTeX
+    we assume that it is linear in the first argument and conjugate linear in
+    the second (opposite of what the book does).
+** Examples
+#+BEGIN_SRC LaTeX
+   L^2(X, mu) \mathrm{and} \mathbb{C}^n
+   \mathrm{and} C[a, b] : \Langles{f, g} = \int_a^b f(x) \overbar{g(x)} dx
+#+END_SRC LaTeX
+** Results
+*** Error estimate with an orthonormal set
+#+BEGIN_SRC LaTeX
+    \[\forall x \in V, \Norm{x}^2 = \sum_{n=1}^N \Langles{x, x_n}
+    + \Norm{x - \sum_{n=1}^N \Langles{x, x_n} x_n}^2 \]
+
+    \begin{proof}
+        Note that
+        \[x = \sum \Langles{x, x_n} x_n + (x - \sum \Langles{x, x_n} x_n)\]
+        where the two terms in the sum are orthogonal.
+    \end{proof}
+#+END_SRC LaTeX
+* Crane Spaces
+  Inner product space where the inner product is indefinite.

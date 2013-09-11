@@ -1,0 +1,6 @@
+* moving commands
+  change list: positions where changes occured that may be undone.
+  "g;" go to older position in change list.
+  "g," go to newer position in change list.
+* visual commands
+  "gv" : reselect last visual selection.

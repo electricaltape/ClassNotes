@@ -1,0 +1,160 @@
+* Approx. deconv. large eddy simulation of a barotropic ocean circ. model
+** Overview
+   A new LES closure model for 2D turbulent geophysical flows. Uses approximate
+   deconvolution for the closure model. Applies deconvolution to
+
+       dq/dt + J = D + F
+
+   where q := Ro vorticity + y, J is the determinant of the Jacobian matrix of
+   streamfunction and vorticity, defined so that
+
+       laplacian streamfunction = - vorticity
+
+   D is a scaled laplacian of vorticity:
+
+       D = (Munk scale/basin length)^3 Laplacian vorticity
+
+   and F is the double-gyre forcing (F = F0 sin(pi y)). The boundary conditions
+   are slip (so vorticity = 0 on the boundary) and impermeability (so
+   streamfunction = 0 on the boundary).
+** Use of AD
+*** Overview
+    No additional phenomenological , only mathematical arguments, involved. After
+    filtering with a rapid-decay spatial filter (using bar for filtered
+    quantities)
+
+        dqbar/dt + J(vorticitybar, streamfunctionbar) = Dbar + Fbar + S
+
+    where S is the subfilter-scale term:
+
+    S = -bar(J(vorticity, streamfunction)) + J(vorticitybar, streamfunctionbar)
+
+    In order to close the problem, S needs to be written in terms of vorticitybar
+    and streamfunctionbar.
+
+    *The goal in AD is to use repeated filtering to obtain approximations of the
+    unfiltered variables when approximations of the filtered variables are
+    available.* These approximations are used to 'close' the problem.
+*** Deriving the AD model
+    Let G be the spatial filtering operator (so G potential vorticity =
+    bar(potential vorticity)). As a nonconvergent series:
+
+        G = I - (I - G) -> G^-1 = SUM (i=1, oo) (I - G)^(i - 1).
+
+    We can approximate the deconvolution operator by truncation (van Cittert
+    approximate deconvolution):
+
+        Q_N = SUM(i=1, N) (I - G)^(i - 1).
+
+    Q_N does not converge as N -> oo, but is asymptotic as the filter radius
+    -> 0. Hence
+
+        q approx q* = Q_N qbar
+
+    yielding the closed model
+
+        dvorticitybar/dt + J(vorticitybar, streamfunctionbar) = Dbar + Fbar + S*
+
+    where S* = -bar(J(vorticity*, streamfunction*))
+             + J(vorticitybar, streamfunctionbar)
+
+*** Choice of the spatial filter
+    alpha fbar_(i-1) + fbar_i + alpha fbar_(i+1)
+    = (0.5 + alpha) (f_i + (f_(i-1) + f(i+1))/2)
+
+    is a second-order accurate filter resulting in a tridiagonal system. Higher
+    alpha value corresponds to lower dissipation.
+*** Implementation
+    Used second-order finite differences for discretizing the linear operators.
+
+    To switch between vorticity and streamfunction, a Poisson solver with the
+    discrete sine transform was used. In summary, the algorithm is:
+
+    1. Compute streamfunctionbar_n using the Poisson solver for
+
+           Laplacian streamfunctionbar_n = -1/Ro (vorticitybar_n - y)
+    2. Computer vorticitybar_n* and streamfunctionbar_n* from vorticitybar_n and
+       streamfunctionbar_n.
+    3. Compute both nonlinear Jacobian terms using the Arakawa scheme.
+    4. Compute the subfilter-scale term S* using the nonlinear Jacobian terms.
+    5. Compute the viscous dissipation term Dbar by central differences.
+    6. Use steps 1-5 for each stage of Runge-Kutta.
+    7. Adjust the time step based on the CFL condition.
+
+    For each time step.
+*** Experimental Methodology & Results
+    Same as the typical practice for LES:
+    1. Run a DNS computation on a fine mesh.
+    2. Run an under-resolved computation on a much coarser mesh.
+    3. Run the filtered model on the same coarse mesh.
+
+    The AD model recovers the correct time-averaged 4-gyre system. It also
+    recovers the correct amount of energy in the system. In general, the
+    pictures look 'similar' to that of the DNS (pretty good for a factor of 16
+    fewer DoFs).
+* Approx. deconv. large eddy simulation of a stratified two-layer QGE model
+** Overview
+   Wind forcing is the primary driver of ocean circulation. This paper uses the
+   two-layer QGE to simulate stratification.
+
+   We wish to capture flow in regions where the grid size is larger than the
+   Munk scale. LES is difficult to adapt to geophysical flows; most work on LES
+   assumes that the energy cascade is from high to low (3D) instead of low to
+   high (2D).
+
+   The main goal of this paper is to extend the results of the 2011 paper to use
+   the two-layer model.
+** Governing Equation
+   Simpler model, two isopycnal layers. This yields the pair of equations
+
+       dvorticity1/dt + J(streamfunction1, vorticity1) = D1 + F1
+       dvorticity2/dt + J(streamfunction2, vorticity2) = D2 + F2
+
+   The potential vorticities are coupled to the streamfunctions by
+
+       vorticity1 = laplacian streamfunction1 + beta y
+                  + f0^2/(g' H1) (streamfunction2 - streamfunction1)
+       vorticity2 = laplacian streamfunction2 + beta y
+                  + f0^2/(g' H2) (streamfunction1 - streamfunction2)
+
+   where the layers have thicknesses H1 and H2 and g' = g (rho2 - rho1)/rho1.
+
+   The Ekman pumping terms are
+
+       F1 = 1/(rho1 H1) khat curl(surface wind force stress)
+       F2 = -gamma laplacian streamfunction2
+
+   The boundary conditions are still homogeneous vorticity and homogeneous
+   streamfunction.
+** AD Method
+   Let G be the spatial filtering operator. Define Q_N in the same way as the
+   2011 paper. Adding in the filter, we obtain
+
+       dvorticity1/dt + J(streamfunction1, vorticity1)
+       = A laplacian^2 streamfunction1 + sin(2 pi y) + S1*
+       dvorticity2/dt + J(streamfunction2, vorticity2)
+       = A laplacian^2 streamfunction2 - sigma laplacian streamfunction2 + S2*
+
+   where Si* is defined the same way as the 2011 paper. The same tridiagonal
+   filter (parameterized by alpha, 0 <= alpha <= 0.5) is used. This implies that
+   there is some transfer function correlating the Fourier coefficients of f
+   with the Fourier coefficients of fbar. By Stanculescu, if the tranfer
+   function is positive, then we can prove existence and uniqueness under the AD
+   method.
+
+   An elliptic differential filter is also used:
+
+       fbar = f + lambda^2 laplacian f (fbar = f on boundary)
+** Numerical Methods
+   Arakawa avoids instabilities by conservation of energy, enstrophy, and
+   skew-symmetry. This is the scheme used for the nonlinear term. Time
+   integration is performed with third-order total variation diminishing
+   Runge-Kutta (same as the 2011 paper).
+
+   The elliptic subproblem is solved by what looks like a spectral method. The
+   'DNS' is performed by going down to the Munk scale (not Kolmogorov scale).
+
+   The tuning parameters require care. The Helmholtz length parameter should be
+   a smaller fraction of the spatial stepsize on a finer mesh and a larger
+   fraction on a coarser mesh (due to the relative importance of subgrid
+   phenomena).

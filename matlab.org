@@ -1,0 +1,6 @@
+* Profiling for memory usage
+  Use the following to reconfigure the profiler to show memory usage
+  information:
+#+BEGIN_SRC MATLAB
+  profile -memory on; trilinearSpeed; profreport
+#+END_SRC MATLAB

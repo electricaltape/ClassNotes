@@ -1,0 +1,924 @@
+* Chatterjee
+** Other names
+   Principal Component Analysis
+   Karhunen-Loeve Decomposition
+   Single Value Decomposition
+** Motivation
+   A good way to approximate a function over some domain:
+
+       z(x, t) = SUM a_k(t) phi_k(x)
+
+   There are many choices (Fourier, Chebyshev, Legendre, etc) that converge as
+   the space grows. We want the set to be orthonormal. We want to have the
+   'best' approximation (least-squares) for a given number of basis
+   functions. These are the *proper orthogonal modes* of z(x, t).
+** Finite Dimensional Case
+   Say that we have m state variables and we measure at N instants in time. We
+   have an N x m matrix of data A. We usually have zero-mean data. If
+
+       A = U S V^T
+
+   (that is, the singular value decomposition) we have that U is orthogonal and
+   N x N, V is orthogonal and m x m, and S is N x m and diagonal.
+
+   Let Q := U S. Hence A = Q V^T and Q is N x m. Then
+
+       A = Q V^T = SUM q_k v_k^T
+
+   which is the discrete form of the original equation. Approximations to this
+   by setting s_k+1 = s_k+2 = ... = 0 are *optimal* under the Frobenius norm
+   and the 2-norm.
+
+   Say that A is a list of N points in an m-dimensional space. For k <= m, we
+   want a k-dimensional subspace which minimizes the mean square distance of
+   the points from the subspace. The first k columns of V do this.
+** Method of Snapshots
+   Say that m >> N (recall that A is N x m).  Then it is much more efficient to
+   first compute U as the matrix of eigenvectors of A A^T (the resulting matrix
+   being N x N).
+
+   *Example*: if we have a 1000x1000 pixel image but 1000 total images, the
+   method of snapshots saves a lot of time. Once we have U we can do
+
+       U^T A = S V^T
+
+   For k nonzero singular values, the first k rows of S V^T are nonzero and
+   orthogonal. Their norms are the singular values, and normalizing them gives
+   the correct orthogonal modes v_i. This works because V is unitary and S is
+   diagonal.
+** Infinite-dimensional Cases
+   Say that we have finite in space and continuous in time. Then the inner
+   products for computing A^T A are integrals, or
+
+       B = A^T A -> B_ij = 1/T INTEGRAL (t0, t0 + T) z(xi, t) z(xj, t) dt
+
+   The factor of 1/T may be dropped (it will just scale the singular
+   values). It is assumed that this value should converge at T -> oo (that is,
+   the collection time should be much larger than any time scales in the
+   system).
+
+   Now consider B to be a function of two variables (x1 and x2). Then
+
+       B(x1, x2) = 1/T INTEGRAL (t0, t0 + T) z(x1, t) z(x2, t) dt
+
+   so we treat eigenvalues as
+
+       INTEGRAL (X) B(x1, x2) psi(x2) dx2 = lambda psi(x1)
+** Numerical Examples
+   Models waves poorly. For example: exp(-5*(x - t)^2) on a 200 x 200 grid has
+   the first ten singular values all on the same order of magnitude (and then
+   has a falloff).
+* Axler
+** SVD Decomposition
+   Suppose T in L(V) has singular values s1 ... sn. Then there exist
+   orthonormal bases (e1 ... en) and (f1 ... fn) of V such that
+
+       Tv = s1 (v, e1) f1 + ... + sn (v, en) fn
+** Commentary
+   The singular values fall off at an exponential rate (roughly; see Chaterjee
+   for some experimental data). This makes this basis really powerful for
+   approximation.
+* Akhtar, Borggaard, Iliescu, Wang 2011
+** Overview
+   This work proposes two new closure models for POD reduced order modeling of
+   turbulent flows (dynamic subgrid-scale model and variational multiscale
+   model).
+
+   Not much work has been done on closure models for POD (a few dozen models
+   compared to the hundreds for LES). The transfer of energy between POD modes
+   is similar to the tranfer of energy among Fourier modes in the nonlinearity
+   of Navier Stokes.
+
+   For two-level discretization of the vectors/matrices/tensors: all terms are
+   computed on the fine grid EXCEPT for the nonlinear closure model terms. Wang
+   (2011) showed that this algorithm gives about the same answer for 10% of the
+   computations.
+
+   This paper uses the two-level algorithm from Wang with two new ROMs: a
+   dynamic subgrid-scale model and a variational multiscale model. It compares
+   these new models tothe standard mixing-length closure model and the
+   Smagorinsky model.
+** POD ROMs
+   The POD basis is generated from post-processing data. Let
+
+       Y = {lambda x : y(x, t) in H s.t. t in (0, T)}
+
+   (for some Hilbert space H). The first POD basis vector is the average:
+
+       phi_1(x) = max(phi in H, norm(phi) = 1,
+           1/T INTEGRAL (0, T) (y(x, t), phi(x))^2 dt)
+
+   additional POD vectors come from seeking the above maximum in the orthogonal
+   complement of the span of the current POD vectors.
+
+   Let H = L2. Assume Y represents a single simulation. Then the POD basis
+   functions satisfy
+
+       INTEGRAL (Omega) R(x, x') phi_i(x') dx' = lambda_i phi_i(x)
+
+   where R(x, x') = 1/T INTEGRAL (0, T) y(x, t) y*(x', t) dt (spatial
+   autocorrelation kernel).
+
+   Each basis vector is a weighted time average. Hence each basis vector is
+   divergence free. We may reconstruct the flow by
+
+       u(x, t) ~~ u_r(x, t) === U(x) + SUM a_j(t) phi_j(x)
+
+   where we wish to find the a_j(t)s. This yields a dynamical system
+
+       adot = b + A a + a.T B a
+
+   where the pressure is neglegible for a sufficiently large domain. Here a is
+   the vector of weights, and b, A, and B depend on the POD vectors and the
+   mean flow.
+** POD with filters
+   LES uses spatial filters. POD does not. A natural filter is the Galerkin
+   projection
+
+       (u - ubar, phi) = 0 for all POD basis vectors phi.
+
+   Choosing the length scale in the filter is tricky.  This is done by
+   dimensional analysis and some averaging of the velocity fields.
+** POD Closure Models
+   The POD-G-ROM (Galerkin) fails on turbulent flows (but succeeds on laminar)
+   due to the effects of the truncated POD modes. The way around this is eddy
+   viscosity: the truncated modes should draw energy out of the system. The
+   general framework is
+
+       adot = (b + b~(a)) + (A + A~(a)) a + a.T B a
+
+   where the squiggly terms correspond to the numerical discretization of the
+   POD model.
+*** Mixing-Length POD ROM
+    First POD closure model. Uses eddy viscosity : nu_ML = alpha U_ML L_ML,
+    where alpha is O(1). Then
+
+        b_k~(a)  = -nu_ML (grad phi_k, (grad U + grad U.T)/2)
+        A_km~(a) = -nu_ML (grad phi_k, (grad phi_m + grad phi_m.T)/2)
+
+    Choice of alpha can alter flow characteristics. There are also more ways to
+    define nu_ML.
+*** Smagorinsky POD ROM
+    Instead of nu_ML (computed once) use nu_S, which is recomputed at every
+    time step. We have
+
+        nu_S = 2 (C_S delta)^2 norm(D(u_r), frobenius)
+
+    where C_S is the Smagorinsky constant, delta is the lengthscale (found
+    above) and D is the deformation tensor. This yields
+
+        b_km~(a) = -2 (C_S delta)^2 (grad phi_k,
+                                     norm(u_r, frobenius) (grad U + grad U.T)/2)
+        A_km~(a) = -2 (C_s delta)^2 (grad phi_k,
+                                     norm(u_r, frobenius)
+                                     (grad phi_m + grad phi_m.T)/2)
+
+    the two-level discretization makes it easier (computationally) to recompute
+    the viscosity at each step.
+*** Variational Multiscale POD ROM
+    Based on *locality* of energy transfer: energy is transfered between
+    neighboring scales. This is a natural choice for POD.
+
+    Decompose the POD modes into large resolved and small resolved modes, so
+
+        X_L = span(phi_1, phi_2, ..., phi_rL)
+        X_S = span(phi_rL+1, phi_rL+2, ...)
+
+    and similarly let ur = urL + urS (large and small resolved scales). The
+    model applies the eddy viscosity to small scales only (see paper for
+    formulae; they are long).
+*** Dynamic Subgrid-scale POD ROM
+    The derivation of this POD ROM requires a precise definition of the
+    filtering operation. The DS model is similar to LES DS models. We use the
+    filter with the POD projection instead of convolution (typical for LES).
+* Singler 2013
+** Actual Title
+   New POD Error Expressions, Error Bounds, and Asymptotic Results for Reduced
+   Order Models of Parabolic PDEs
+** Introduction
+   POD is well known and widely used for PDEs and dynamical systems. It takes
+   data and reduces the model by a Galerkin projection.
+
+   ROMs are not well understood. Sometimes changing the initial condition makes
+   the ROM worthless, sometimes not (same with equation parameters).
+
+   POD values depend on the Hilbert space chosen for solving a parabolic
+   PDE. Different ROMs arise for X = H01 or X = L2.
+
+   Some works prove that if the projection operator associated with the POD is
+   bounded, then the error term goes to 0. Proving that the projection
+   operator *is* bounded is difficult.
+
+   In this work, the authors vary time in two different Hilbert space
+   approximations (to something) and prove exact expressions for these POD data
+   approximation errors under different projections and norms (L2 and H01).
+** Overview of POD
+*** Summary
+    Brief overview of continuous POD theory for a collection of time-varying
+    functions taking values in a Hilbert space.
+*** Notation
+    Let X be a Hilbert space with inner product (linear in first argument)
+    (., .)_X and the induced norm norm(x) = (x, x)_X^(1/2).
+
+    The L2 inner product is (f, g)_L2 = INTEGRAL (I) f(t) bar(g(t)) dt with the
+    usual induced norm.
+*** Usual Problem
+    Assume that we have data w in L2(I, X). The POD problem for this data is to
+    find an orthonormal basis {phi_i} in X that minimizes the approximation
+    error
+
+        Er = norm(w - Pr(w))_L2^2 = INTEGRAL (I) norm(w(t) - Pr(w(t))) dt
+    for the data approximation
+
+        Pr(w(t)) = SUM (w(t), phi_i)_X phi_i.
+    to solve this problem: let K : L2(I) -> X by K(u) = INTEGRAL u(t) w(t)
+    dt. K is a compact operator. Therefore it has an SVD: it has singular
+    values {sigma_i} and singular vectors {f_i} subset L2(I), {phi_i} subset X
+    such that
+
+        K f_i = sigma_i phi_i and K* phi_i = sigma_i f_i
+    where K*(x) = lambda t : (x, w(t))_X. The singular vectors are orthonormal
+    bases for each space. K is Hilbert-Schmidt, so the sum of squares of the
+    singular values is finite.
+
+    It can be shown that the POD modes {phi_i} subset X are the singular
+    vectors above. The approximation error is
+
+        Er = norm(w - Pr(w))_L2(I, X) = INTEGRAL (I) norm(w(t) - Pr(w(t))) dt
+                                      = sum (i > r) sigma_i^2.
+    From the definition of K* and SVD equations for K we have
+
+        (w(t), phi_i)_X = bar((K*(phi_i))(t)) = sigma_i bar(f_i(t))
+    Therefore
+
+        Pr(w(t)) = SUM (i=1, r) sigma_i f_i(t) phi_i
+** POD Projections: Properties and Results
+*** Main assumptions
+    Let H and V be two Hilbert spaces, V subset H. Let
+
+        w_j in L2(I_j; H) intersect L2(I_j; V), j = 1 ... m.
+    be given (data). Ij = (aj, bj) (a time interval, possibly infinite).
+
+# The authors use H = L2(Omega) and V = H01(Omega).
+    Let {sigma_k, f_k, phi_k} subset RR x L2(I)^m x L2(Omega) denote singular
+    values and singular vectors of K : L2(I)^m -> L2(Omega).
+
+    Let {mu_k, g_k, psi_k} subset RR x L2(I)^m x H01(Omega) denote singular
+    values of K : L2(I)^M -> H01(Omega).
+
+    Note that even for the same problem, these two formulations use different
+    function spaces (so we will obtain different sets of basis vectors and
+    singular values). Assume that the singular values are given in decreasing
+    order.
+
+    Let Hr = span(phi_i, i <= r) and Vr = span(psi_i, i <= r). Define the
+    following projections. Each has the property that they minimize distance in
+    the appropriate norm.
+    1. Pr^H : H -> Hr. PrH(x) minimizes inf(x, norm(x - xr)_H).
+    2. Pr^V : V -> Hr.
+    3. Qr^H : H -> Vr.
+    4. Qr^V : V -> Vr.
+
+    if sigma_i > 0 for i <= r, then a lemma gives that Hr subset V, Pr^V is well
+    defined, and Pr^H has a codomain of V. One can prove that these projection
+    operators are bounded.
+*** Numerical Example: 2D Burgers Equation
+    The work considers the 2D Burgers equation solved with the group finite
+    element method (bilinears) and ode23s.
+
+    For POD: take the approximate solution values at each time step (w(t_k))
+    and form a piecewise constant function in time. On each interval the value
+    is the average of the endpoints. By Sirovich (1987) we can find the exact
+    POD basis with this setup.
+
+    The error formulae given above agree very closely with the computed errors.
+* Luo, Chen, Navon (2000?)
+* Computation of POD Basis Functions for Fluid Flows with Lanczos Methods
+** Abstract
+   We wish to compute a truncated SVD for the purposes of POD with the method
+   of snapshots for 2D Navier Stokes.
+** Overview
+   Some notation: L2 = L2(Omega). We also have the weighted inner product
+   (., .)_M = v.T M v (M is an SPD matrix).
+
+   Let ySNAP = {y_i(x)}, where each y_i(x) is a snapshot of the system at a
+   given instant in time. Each basis element is related to flow over the whole
+   domain, as opposed to the local nature of basis elements.
+
+   Say we wish to use M POD basis functions and have N snapshots. For M << N we
+   need far fewer test functions for the Galerkin projection (compared to the
+   usual FEM model). The POD problem 'find the jth pod vector' may be formulated
+   as 'find psi_j such that
+
+   SUM(i=1,N norm(y_i - sum(j=1,M norm(y_i, psi_j) psi_j)))
+
+   is minimized and psi_j is orthogonal to the other POD vectors. Reformulated
+   in the language of FE solutions, we have (for 2D Navier Stokes)
+
+   y(x, t_i) ~~ y^P(x, t_i) sum(j=1,P Y_ji, Y_{P+j,i}) phi_j(x)
+
+   Let Y be the data matrix formed by concatenating columns of finite element
+   weights horizontally (so Y in RR^(2 P x N)). Also note that given a finite
+   element basis representation,
+
+   (psi, psi) = vec(psi).T M vec(psi) (M is the mass matrix)
+
+   and let z in R^(2 P) such that
+
+   vec(psi).T M vec(psi) = z.T z
+
+   Therefore we reformulate the original minimization problem as
+
+   min(Z in R^(2 P x M), norm(A - Z Z.T A, F)^2), where Z.T Z = I.
+
+   here A = sqrt(M).T Y; sqrt(M) is the Cholesky factor of M (so that, by
+   definition of Cholesky decomposition, M = sqrt(M) sqrt(M).T). Since we are
+   minimizing over the Frobenius norm, we have a strong connection with the
+   SVD.
+** Overview of POD with NS
+*** Lemma 1: Computation of POD basis
+    Let Ysnap = {y^P(x, t_i)}_{i=1,N} be the ensemble of FE approximations to
+    the snapshot ensemble {y(x, t_i)}_{i=1,N}. Let
+
+    A = (M^(1/2)).T Y
+
+    and Y be the matrix of snapshots (each column indicating a FE solution at a
+    particular moment in time). Then the POD basis YPOD = {psi_i(x)}_{i=1,M} of
+    order M is given by
+
+    psi_i(x) = sum(j=1,P [Psi_{j,i}; Psi_{P+j,i}] phi_j(x))
+
+    where phi_j(x) is a FE basis function. The matrix Psi solves the equation
+
+    M^(1/2).T Psi = U^m
+
+    where U^m is the matrix consisting of the first M left singular vectors of
+    A.
+
+    This is just the rank M approximation by the SVD (which is optimal to
+    approximating A in the Frobenius norm).
+
+    Note that the POD basis functions are orthogonal in the weighted M-inner
+    product (which, when representing the basis functions as functions instead of
+    vectors of weights, is equivalent to orthogonality in L2).
+
+    The POD basis functions are divergence free (they are linear combinations of
+    divergence-free basis functions). Therefore they must also satisfy
+    homogeneous boundary conditions (same reasoning).
+*** Energy Criterion
+    A common heuristic for choosing M is
+
+    sum(j=1,M sigma_j^2)/sum(j=1,N sigma_j^2) >= epsilon
+
+    for some "percentage of energy" epsilon.
+*** From POD back to NS
+    Using the POD basis of order M:
+
+    yM(x, t) = SUM(j=1, M) aj(t) psij(x).
+
+    This yields a a nonlinear ODE a(t) + nu A a(t) + N(a, a) = F(t), a(0) =
+    a0. This is the POD low-order model. Note that the pressure term vanishes
+    because of the choice of a divergence-free space.
+
+    Fahl specifies how to calculate A and N(a, a), and proves the relationship
+    back to Navier Stokes.
+** Lanczos Methods for POD
+*** Overview
+    It is not possible to calculate a truncated SVD (TSVD) by a QR
+    algorithm. This has a lot of overhead if we only want to pick a few basis
+    functions. For a TSVD there are two main classes of algorithms:
+    1. algorithms based on QR,
+    2. Lanczos algorithms.
+
+    *Lanczos method*: iterative technique to solve large symmetric eigenvalue
+    problems. Only uses matvecs. Information about 'extremal' eigenvalues tends
+    to surface before all eigenvalues are computed.
+*** Lemma 3: Potential Eigenproblems
+    The eigenvalues of A.T A are sigma_i^2. The right singular vectors are the
+    corresponding orthonormal eigenvectors.
+
+    The eigenvalues of the symmetric matrix A A.T are sigma_i^2 and m - n
+    zeros. The left singular vectors u_i are the orthonormal eigenvectors.
+
+    The eigenvalues of the symmetric matrix
+
+    0   A
+    A.T 0
+
+    are sigma_i, -sigma_i, and m - n zeros. The vectors (sqrt(2)/2) [ui, vi].T
+    and (sqrt(2)/2) [ui, -vi].T are corresponding orthonormal eigenvectors for
+    the eigenvalues sigma_i and -sigma_i respectively.
+*** Review of Lanczos procedure
+    Skip this for now.
+*** An Efficient POD Lanczos Method
+    The third possibility for computing eigenvalues and eigenvectors is best
+    from a numerical perspective.
+
+    If we normalize with the (. , .)_M inner product, then we never need to
+    compute the Cholesky factor to build A, nor we have to solve systems like
+
+    M^(1/2).T Psi = U^(m)
+
+    to get the FE representation of POD basis functions. This is because the
+    POD basis functions must satisfy
+
+    Phi.T M Phi = I
+
+    the orthogonalization process is done by Gram-Schmidt. This process is much
+    faster than the SVD decomposition if we want many less POD vectors than the
+    number of snapshots.
+
+    It may be computationally less intense to deal with A.T A. However, this
+    matrix is frequently badly conditioned. Therefore the described Lanczos
+    method is a better choice in most circumstances.
+* Local Improvements to reduced-order models using sensitivity analysis...
+  of the proper orthogonal decomposition. Borgaard et al, 2009.
+* Reduced Order Modeling of Navier-Stokes (Jarvis, 2013)
+** Implementation of the nonlinear term
+   Naive approach: substitution of the POD basis into the FE
+   approximation. Jarvis claims that these terms are computed by assembling the
+   full-order nonlinear terms; I don't agree that this approach is unfeasible.
+
+   POD representation: find an order r representation of the nonlinear terms
+   using the POD basis functions.
+
+   Discrete Empirical Interpolation (DEIM) method:
+* Atwell's PhD Thesis
+** General POD Procedure
+   Say that we have a global Galerkin finite element basis {phi_i}, elements
+   are of order n, m total elements. We may represent the collection as a matrix
+   of dimensions n x m by setting the jth column of the matrix equal to the
+   coefficients of the jth element. For POD, we wish to maximize
+
+       f(psi) = SUM (j=1, m) (y_j, m)^2
+   where norm(psi) = 1. Assume psi is in the linear space spanned by
+   {phi_i(s)}. Let vec(psi) be a column vector of the coefficients of psi in
+   terms of the finite element basis.
+
+   Let M be the mass matrix of the given finite element space. Some
+   manipulations yield
+
+       f(vec(psi)) = vec(psi).T M Y Y.T M vec(psi)
+   and the constraint
+
+       norm(psi) = 1 -> g(vec(psi)) = vec(psi).T M vec(psi) - 1 = 0.
+   For optimality, we require
+
+       grad f = lambda grad g
+   which (after more manipulations) yields
+
+       Y Y.T M vec(psi) = lambda vec(psi)
+   so, assigning hat(Y) := sqrt(M) Y and u = sqrt(M) vec(psi) we have
+
+       hat(Y) hat(Y).T u = lambda u
+
+   which reduces down to finding the singular values of hat(Y). The second POD
+   vector is found by adding the constraint (psi1, psi2) = 0, which yields
+   vec(psi2) = M^(-1/2) u (where u is the normalized eigenvector corresponding
+   to the second largest eigenvalue of hat(Y) hat(Y).T).
+* Volkwein's Notes (2013)
+** The POD method in RR^m
+*** Introduction
+    This can also be done in CC^m. The goal of POD is to find an orthonormal
+    basis for the set of snapshots {y_1 .. y_n} subset RR^m. Assume that the
+    POD basis is of rank l and l <= m and n.
+
+    POD is formulated as a constrained optimization problem and is solved by a
+    Lagrangian framework. The optimality conditions end up being satisfied by
+    the SVD of the matrix Y of snapshots.
+
+    This section describes properties of the POD basis, extensions to weighted
+    inner products (so applications to PDEs), and systems of ODEs. For ODEs,
+    this work considers both snapshots and the whole solution trajectory.
+*** POD and SVD
+**** SVD
+     Let Y = [y1, ..., yn] be the m x n matrix of rank d. Each yj in RR^m. Let
+     ybar be the column-averaged mean of Y (the vector containing the averages
+     of the rows).
+
+     The SVD guarantees the existence of singular values and orthonoral matrices
+     Psi in RR^(m x m) and Phi in RR^(n x n) such that
+
+     Psi.T Y Phi = [D, 0; 0, 0] = sigma in RR^(m x n)
+
+     where D is the (descending) diagonal matrix of singular values. The 0s are
+     0 matrices of appropriate dimensions (they may be dimension zero). The
+     orthonormal matrices satisfy
+
+     Y phi_i = sigma_i psi_i, Y.T psi_i = sigma_i phi_i
+
+     (these are eigenvectors of Y Y.T and Y.T Y respectively). Remaining
+     eigenvectors that don't correspond to a positive entry in D correspond to
+     eigenvectors with eigenvalue 0. This gives us the usual form of the SVD
+
+     Y = Psi sigma Phi.T
+
+     or, truncating out the zero columns:
+
+     Y = psi^d D (phi^d).T
+
+     Let B^d = D (phi^d).T. Then B is d x n. Put another way, the column space
+     of Y may be represented in terms of the linearly independent columns of
+     Psi^d. By orthogonality, we get a projection version:
+
+     y_j = sum(i=1, d, (y_j, psi_i) psi_i).
+**** POD and the SVD
+     We wish to approximate all y_j simultaneously by a single, normalized
+     vector. Put another way, we want to find psibar s.t. psibar has a norm of
+     1 and psibar maximizes
+
+     sum(j=1,n abs((yj, psibar, RR^m))^2)
+
+     (that is, we want to maximize the projection onto a single-dimensional
+     space). This is a constrained optimization problem and may be solved with
+     Lagrange multipliers: Let e(psi) = 1 - norm(psi)^2. Therefore we have the
+     constraint e(psi) = 0. Note that
+
+     grad e(psi) = 2 psi.T
+
+     is linearly independent for psi /= 0. Let L be the Lagrange functional
+     associated with this problem, so
+
+     L(psi, lambda) = sum(j=1,n, abs((y_j, psi))^2) + lambda (1 - norm(psi)^2).
+
+     Suppose that psi is a solution to the optimization problem. This implies
+     that there is a unique lagrange multiplier satisfying grad L(psi, lambda)
+     = 0. Taking the derivative of L with respect to the components of psi, we
+     get that
+
+     Y Y.T psi = lambda psi
+
+     where Y Y.T is positive semi-definite. Hence it has m nonnegative
+     eigenvalues and the eigenvectors are orthonormal: this is what we want out
+     of the SVD. From dL/dlambda = 0 we obtain 1 = norm(psi)^2. Finally, due to
+     the SVD, we have (after some inner product expansions)
+
+     sum(j=1,n, abs((yj, psi1))^2) = lambda1.
+
+     psi1 satisfies the second-order necessary conditions for minimization. Let
+     psi1~ be another such solution: since {psi_i} is an orthonormal basis, we
+     may write psi1~ as a linear combination of psi_is. Upon expansion we get
+     that
+
+     sum(j=1,n, (abs((yj, psi1~)))) = sum(j=1,n, (abs((yj, psi1))))
+
+     which proves that psi1 solves the given optimization problem. The SVD
+     implies that the next vector (which we require to be orthogonal to psi1)
+     satisfies the next optimization problem.
+
+**** Theorem 1.1.1
+     Let Y = [y1, ..., yn] in RR^(m x n) be a given matrix with rank d. Let
+
+     Y = Psi Sigma Phi.T
+
+     be the SVD decomposition of Y, where Psi is m x m and Phi is n x n are
+     orthogonal matrices, and Sigma is m x n. Then the solution to
+
+     max(psi1, ..., psil in RR^m, sum(i=1,l sum(j=1,n abs((yj, psi_i))^2)))
+
+     such that the psi_is are orthonormal is given by the singular vectors
+     {psi_i} (the first l columns of Psi).
+
+     This is a constrained optimization problem (the l-dimensional case of the
+     one considered above).
+
+*** Properties of the POD basis
+    The POD basis is optimal relative to all rank l approximations to the
+    columns of Y under the Frobenius norm. It is also optimal in representing
+    the mean of the columns as a linear combination f an orthonormal basis of
+    rank l.
+
+    A statistical property: the POD coefficients are not correlated.
+*** POD and weighted inner products
+**** Derivation
+     Let us work with the inner product (x, y)_W = x.T W y and the relevant
+     implied norm. Example: approximation of the L2 inner product by the
+     trapezoidal rule. We may write W as a diagonal matrix in this case. We now
+     replace the original optimization problem by one with the weighted inner
+     product and norm resulting from choice of W, with e defined equivalently.
+
+     The following work done by Volkwein depends heavily on W being SPD: we
+     obtain the generalized eigenvalue problem
+
+         (W Y) (W Y).T psi = lambda W psi.
+
+     as W is SPD, we may write W^alpha = Q diag(eta_i^alpha) Q.T (the PDP^-1
+     decomposition). In particular, we have norm(psi, W) = norm(W^(1/2) psi,
+     RR^m). Let Ybar = W^(1/2) Y. Multiplying by M^(-1/2) we have that
+
+     Ybar Ybar.T psibar = lambda psibar.
+**** Theorem 1.3.2
+     Let Y in RR^(m x n) and let W be SPD. Let Ybar = W^(1/2) Y. The solution
+     to the optimization problem is then given by psi_i = W^(-1/2) psibar_i,
+     where the psibar_is are the columns of Psibar and Ybar = Psibar sigma
+     Phibar.T.
+
+     For the method of snapshots: we want to solve
+
+     Y.T W Y phibar_i = lambda_i phibar_i.
+
+     Then set psi_i = 1/sqrt(lambda_i) Y psibar_i
+
+     which does not require computation of W^(1/2). This is useful for m >> n.
+*** POD for time-dependent systems
+**** Overview
+     Consider the ODE
+
+     y_t = A y + f(t, y); y(0) = y0.
+
+     Assume that f is continuous and Lipschitz in y. This problem then has a
+     unique solution for some maximum point in time. This problem has a general
+     solution
+
+     y(t) = y0 exp(t A) + INTEGRAL(0, t; exp((t - s) A) f(s, y(s)) ds) where
+     exp(t A) is given by the power series expansion of exp.
+
+     We wish to capture the time-dependent ensemble
+
+     yj = y(tj) = y0 exp(tj A) + INTEGRAL(0, tj; exp((tj - s) A) f(s, y(s)) ds)
+
+     for j = 1 .. n with the usual optimality condition.
+**** 1D Heat Equation Example (via snapshots)
+     After finite difference discretization, we have
+
+     y_t = A y; y(0) = y0
+
+     in the discrete space (where A corresponds to a centered finite difference
+     stencil). We use the Lagrangian framework here. After some extra work we
+     get
+
+     Y D Y.T W psi_i = lambda_i psi_i
+
+     where D is a diagonal matrix of (not yet specified) weights alpha_i, D is
+     n x n and real. Let psi_i = W^(-1/2) psibar_i. Let
+
+     Ybar = W^(1/2) Y D^(1/2) (m x n)
+
+     so we have the symmetric eigenvalue problem
+
+     Ybar Ybar.T psibar_i = lambda_i psibar_i.
+**** Continuous Version
+     The solution we just derived depends on the chosen time snapshots. We also
+     have not specified the alpha_i weights in D. We need to investigate
+     answers to two questions:
+     1. What are good time snapshots to use?
+     2. How can we chose the weights?
+
+     These require a *continuous* version of POD: to describe the
+     space-discretized heat equation (our dynamical system), we should use an
+     integral over all times instead of snapshots:
+
+     min(psibar_1, psibar_2, ... in RR^m;
+         INTEGRAL(norm(y(t) - SUM(i=1,l; (y(t), psibar_i)_W psibar_i))) dt)
+
+     such that the chosen basis functions are orthonormal. This argument is
+     similar to the one used in the previous optimization problems: we want to
+     maximize the norm of the projection coefficients such that all of the
+     chosen basis functions are normalized. We arrive at the problem
+
+     INTEGRAL (y(t), psi)_W y(t) dt = lambda psi (in RR^m).
+
+     Let R : RR^m -> RR^m be
+     R psi = INTEGRAL(0, T, (y(t), psi)_W y(t)) dt.
+
+     As it happens, R is linear, bounded, nonnegative, and
+     self-adjoint. Therefore we arrive at the operator eigenvalue problem
+
+     R psi = lambda psi.
+**** Theorem 1.4.3
+     Assume that the given problem (in our case, the heat equation discretized
+     in time) has a unique solution y : [0, T] -> RR^m. Then the POD basis of
+     rank l solving the related POD minimization problem is given by the
+     eigenvectors of R corresponding to the l largest eigenvalues.
+
+     Let y phi = INTEGRAL(0, T, phi(t) y(t) dt) (so y : L2(0, T) -> RR^m). By
+     direct calculation, R psi = y y* psi. Solving the problem (y* y phi)(t),
+     or K(phi)(t) := (y* y phi)(t) is a linear, bounded, nonnegative, and
+     self-adjoint operator. K is also compact. Therefore we may compute the POD
+     basis as
+
+     K phi_i = lambda phi_i; (phi_i, phi_j)_(0, T) = dirac_ij
+
+     and set
+
+     psi_i = 1/sqrt(lambda_i) y phi_i. This is an infinite-dimensional
+     symmetric eigenvalue problem.
+
+     A useful result for computing alphas:
+
+     sum(j=1,n alpha_j norm(y(t_j))^2_W) = sum(i=1,m lambda_i^n)
+     for all n in NN. To ensure convergence of the sum with the alphas above to
+     the integral, we need to pick the alphas in some specified way. Consider
+     the choice of trapezoidal weights (so alpha_1 = dt/2; alpha_j = dt; alpha_n
+     = dt/2).
+
+     Suppose that the given dynamical system has a unique solution. Assume that
+     the sum of the eigenvalues between l + 1 and m is nonzero and that the sum
+     of squares Fourier coefficients from l + 1 to m is also nonzero. Then we
+     have that R^n -> R in the L(RR^m) norm. Here R^n u = sum(j=1,n alpha_j
+     f_psi(t_j)) where f_psi(t) = (y(t), psi)_W y(t).
+
+     Even nicer: we may prove that norm(R^n - R)_L2(R^m) <= 2 dt norm(y)^2_C1.
+** POD for PDEs
+*** Introduction
+    We require separable Hilbert spaces; our main goal is to derived ROMs for
+    parabolic and elliptic PDEs. This work will discuss the treatment of
+    nonlinearities too.
+
+    Assume that V and H are real, separable Hilbert spaces and that V is dense
+    in H with a compact embedding.
+*** POD for parabolic PDEs
+**** Linear evolution equations
+     Let T > 0 be the final time. Assume that we can express the problem with a
+     time-dependent bilinear form
+
+     a(t; phi, psi) <= beta norm(phi, V) norm(psi, V)
+     a(t, phi, phi) >= k norm(phi, V)^2 - eta norm(phi, H)^2
+
+     By embedding: V embedded in H -> H' (dual of H) embedded in V' (they are
+     equivalent).
+
+     Example: consider for y0 in H, f in L2(0, T; V') the linear evolution
+     equation
+
+     d/dt (y(t), phi)_H + a(t, y(t), phi) = (f(t), phi)_(V', V)
+     for almost all t in [0, T], and for all phi in V. Additionally, assume
+     that (y(0), phi)_H = (y0, phi)_H.
+
+     Consider the linear heat equation, with Sigma = (0, T) x Gamma, Gamma =
+     dOmega, H = L2(Omega), and V = H1(Omega). Let y0 in H, f in L2(0, T; H),
+     and g in L2(0, t; L2(Gamma_C)):
+
+     y_t(t, x) - divergence (c(t, x) grad y(t, x)) + a(t, x) y(t, x) = f(t, x)
+     c(t, s) dy/dn t(s) = g(t, s) on Sigma,
+     y(0, x) = y0(x) on Omega.
+
+     Assume that c is continuous in time and in L_inf in space, and c(t, x) >=
+     c_a > 0 almost everywhere. Let the associated bilinear form be
+
+     a(t; phi, psi) = INTEGRAL(Omega; c(t) grad phi dot grad psi + a(t) phi
+     psi) dx, phi, psi in V.
+
+     and consider the linear functional on the RHS to be
+     (f(t), phi)_(V', V) = (f(t), phi)_H + INTEGRAL(Gamma_N g(t) phi) ds.
+     for almost all t and phi, psi in V. The weak formulation of the heat
+     equation is given by these. An easier example is to set the boundary
+     conditions as homogeneous.
+**** Continuous POD for linear evolution equations
+     Let f in L2(0, T; V') and y0 in V be arbitrary, so that y in W(0, T)
+     belongs to C([0, T]; V) \_> C([0, T]; X) (X is H or V) (\_> means
+     'continuously embedded'). Then
+
+     VV = span({y(t) | t in [0, T]}) subset V subset X.
+
+     if y0 /= 0 then VV /= {0}. However, VV may have infinite dimension. Define
+     a bounded linear operator y : L2(0, T) -> X by
+
+     y(phi) = INTEGRAL(0, T; phi(t) y(t) dt).
+     The adjoint y* : X -> L2(0, T) satisfies (y phi, psi)_X = (phi, y* psi)_L2
+     for (phi, psi) in L2(0, T) x X. Let R = y y* : X -> VV subset X, so
+
+     R(psi) = INTEGRAL(0, T; (psi, y(t))_X y(t) dt).
+
+     Let K = y* y : L2(0, T) -> L2(0, T), defined by
+     (K phi)(t) = INTEGRAL(0, T; (y(s), y(t))_X phi(s) ds).
+
+     It turns out the R is bounded, compact, nonnegative, and symmetric. K has
+     the same eigenvalues as C. We may move between eigenvectors in a similar
+     way to the finite dimensional cases:
+
+     phi_i(t) = 1/sqrt(lambda_i) (y* phi_i)(t)
+              = 1/sqrt(lambda_i) (phi_i, y(t))_X.
+
+     # TODO I need to finish outlining some results in this section.
+**** The Truth Approximation for linear evolution equations
+     Consider the case where snapshots are given by the finite element
+     method. Let {phi1 ... phim} be linearly independent FEM basis
+     functions. Define the m-dimensional subspace
+
+     Vh = span(phi1, ..., phim) subset V
+     endowed with the topology in V. Using a standard Galerking scheme, we wish
+     to find some yh such taht
+
+     d/dt (yh, phih)_H + a(t; yh(t), phih) = (f(t), phih)_(V', V)
+     (yh(0), phih)_H = (y0, phih)_H.
+
+     Galerkin ansatz: yh(t) = SUM(i=1,m eta_i^h(t) phi_i(x)), which gives us
+     the modal coefficient vector for each FEM solution. This gives us an ODE
+
+     M deta/dt + A(t) eta(t) = b(t) for almost all t in [0, T], and M eta^h(0)
+     = eta0. Here M is the mass matrix, A(t) is the matrix of inner products
+     from the bilinear form, and b is the load vector. Note that based on how
+     we defined our spaces: let u and v be arbitrary vectors in RR^m. Then
+     u^h(x) and v^h(x) are elements in V^h, and
+
+     (U^h, v^h)_H = (u, v)_W; norm(u^h, H) = norm(u, W).
+
+     where W is the mass matrix (SPD) or the stiffness matrix. We may construct
+     a low-dmiension orthonormal basis by solving the optimization problem
+
+     min(psibar1, psibar2, ...)
+     INTEGRAL(0, T; norm(etah(t) - sum(i=1,l (etah(t), psibar_i)_W psibar_i)),
+     W)^2 dt.
+
+     This allows us to get the POD basis by solving R^h psi_i = lambda_i psi_i.
+
+     For temporal discretization: assume (other methods may be used) that we
+     use implicit Euler for time integration. Then we generate a sequence of
+     snapshots by an implicit formula. This has the usual formulation of an
+     optimization problem (all done in the W-weighted inner product or
+     norm). WE may define the operator R^h,n by
+
+     R^h,n psi = sum(j=1,n alpha_l (eta_j, psi)_W eta_j)
+
+     so we wish to solve R^h,n psi_i = lambda_i psi_i. We can qualify the POD
+     error as the sum of the remaining eigenvalues.
+** Reduced-Order Models for Finite-Dimensional Dynamical Systems
+*** Reduced-Order Modeling
+    Suppose that we have a POD basis to something. We make the ansatz that
+
+    yl(t) = sum(j=1,l (yl(t), phij)_W phi(j))
+
+    That is: we determine the Fourier coefficients with the W-weighted inner
+    product. The Fourier coefficients are functions mapping [0, T] -> RR. Since
+    (by how we derived the POD) the l = m case is exact, this is an
+    approximation for y when l < d.
+* Galerkin Proper Orthogonal Decompositions Methods for Parabolic Equations
+  the 2002 and 2003 (or 2001 and 2002?) papers.
+* My own notes
+** Computing from Finite Elements
+   Say that we extract 100 POD modes from a 100,000 DoF finite element
+   model. After the POD reduction, all the system matrices (mass, stiffness,
+   etc; well, the mass matrix is the identity matrix by the orthonormality of
+   the POD basis) are 100x100 dense matrices (instead of 100,000 x 100,000
+   sparse matrices): much easier for computation. The POD basis functions are
+   linear combinations of the FEM basis functions (so, in principle, each one
+   could have a nonzero weight on every basis function) but the POD basis
+   functions are orthonormal and we can just compute
+
+   The procedure outlined in Atwell's thesis describes how to compute a POD
+   basis for a single finite element solution.
+** Snapshots and the SVD
+*** Overview
+    Say that
+#+BEGIN_SRC python
+   U, S, V = np.linalg.svd(A)
+   V = np.copy(V.T)
+#+END_SRC python
+    Then we have (assuming that np.diag(S) has the right shape; it will require
+    padding for non-square A)
+#+BEGIN_SRC python
+   np.dot(np.dot(U, np.diag(S)), V[0:2, :].T)
+#+END_SRC python
+    returns the first two columns of A. Therefore V corresponds to time
+    coefficients and U corresponds to space coefficients.
+*** One decomposition
+    Let
+#+BEGIN_SRC python
+    Q = np.dot(U, np.diag(S))
+#+END_SRC python
+    so now Q is N x m and V is m x m. Each row of V corresponds to weights at a
+    given time, so
+#+BEGIN_SRC python
+    sum([Q[:, i]*V[0, i] for i in range(len(V))])
+#+END_SRC python
+    is exactly the first column of A.
+*** Another decomposition
+    Let
+#+BEGIN_SRC python
+    W = np.dot(np.diag(S), V.T)
+#+END_SRC python
+    so the first m rows of W are nonzero (and the remainder are zeros). Hence,
+    only the first m columns of U have any impact on the final result. This
+    is not surprising (as the dimension of the column space of A is at most m).
+
+    Therefore: we can compute the first time snapshot by
+#+BEGIN_SRC python
+    np.dot(U, W[:, 0:1])
+#+END_SRC python
+    or (making the POD vectors more obvious)
+#+BEGIN_SRC python
+    sum([U[:, i].reshape((10, 1))*W[i, 0] for i in range(4)])
+#+END_SRC python
+*** Conclusions
+    Computing POD basis vectors by the method of snapshots is as simple (but
+    this is perhaps not the most computationally efficient approach) as forming
+    an N x m matrix (N DoF, m snapshots in time), weighing it by something like
+    the square root of the mass matrix, and computing its SVD. The POD basis
+    vectors are the columns of U (in the finite element sense, these are very
+    large basis functions consisting of a linear combination of all basis
+    functions. Therefore each weight in the POD solution has global effect).
+
+    This has some nice advantages. If the basis functions satisfy the boundary
+    conditions, then the POD solution will as well. If the basis functions are
+    divergence-free, then the POD solution will be too.
+
+    An open question: for our Argyris implementation, we consistently force the
+    solution to be zero on the boundary. Will this carry over to the POD basis?
+    Put another way, are we projecting our solution on to one with the desired
+    boundary conditions?
+
+    Another open question: this section addresses how to *compute* the POD
+    basis, but does not really describe it (outside of the usual SVD
+    description). Atwell does not really describe how to compute POD with
+    snapshots; will the sqrt(mass) trick work?

@@ -1,0 +1,206 @@
+* Midterm Examination
+** Overview
+   + Know how to define anything that we have done so far.
+   + Know how to apply results we have discussed as needed.
+   + Similar to HW problems.
+** Specific Theorems to know
+*** The List
+    + 3.8, finite positive measures.
+    + 3.18, what happens when we try to average an L^1_loc function.
+    + 3.23, derivatives of increasing functions.
+    + 3.32, absolute continuity wrt m
+
+    Feel free to appeal to Lemma 3.7, Theorem 3.17, Theorem 3.22, etc, without
+    proving them.
+*** Theorem 3.8
+**** Statement
+     This is from what we covered in class (not Folland's more general version).
+
+     Let nu be a finite measure and mu a finite measure. There exist unique
+     measures lambda and rho on (X, MM) such that
+
+         lambda perp mu, rho << mu, and nu = lambda + rho.
+
+     There also exists some extended mu-integrable function f : X -> RR such that
+     drho = f dmu.
+**** Proof
+*** Theorem 3.18
+**** Statement
+     If f is locally integrable, then
+
+         LIMIT (r -> 0) A_r f(x) = f(x)
+
+     almost everywhere.
+**** Proof
+     Let x in RR^n. Assume for N in NN, abs(x) <= N. Assume r < 1. Therefore
+     the integral in the definition of A_r only depends on values of f(y) for
+     abs(y) <= N + 1. The goal of this is to justify replacing f with
+
+         f chi_B(N+1, 0)
+
+     which is in L^1.
+
+     Given epsilon > 0, by Theorem 2.41 we can find a continuous, integrable
+     function g such that
+
+         INTEGRAL abs(g(y) - f(y)) dy < epsilon.
+
+     Therefore, by continuity of g, for any x in RR^n and delta > 0 there exists
+     some r > 0 such that
+
+         abs(y - x) < r -> abs(g(y) - g(x)) < delta.
+
+     Therefore
+
+# Note that 1/m(B(r,x))*INTEGRAL (B(r,x)) g(x) = g(x).
+         A_r g(x) - g(x) = 1/m(B(r,x)) abs(INTEGRAL (B(r,x)) g(y) - g(x) dy)
+                         < delta.
+
+     Therefore A_r g(x) -> g(x) as r -> 0. Therefore
+
+         limsup (r -> 0) abs(A_r f(x) - f(x)) =
+             limsup abs((r -> 0) A_r (f - g) + (A_r g - g) + (g - f))
+             <= H(f - g) + 0 + abs(f - g)(x).
+# The zero comes from the previous result: as r -> 0 we know that
+# abs(A_r(g(x)) - g(x) -> 0).
+
+    Let alpha > 0. If
+
+        E_alpha = {x  : limsup (r -> 0) abs(A_r f(x) - f(x)) > alpha}
+        F_alpha = {x  : abs(f(x) - g(x)) > alpha}
+
+    we have that
+
+        E_alpha .subset. F_(alpha/2) U {x : H(f(x) - g(x)) > alpha/2}
+# because if x in E_alpha, then for alpha/2,
+# H(f - g)(x) + abs(f - g)(x) >= alpha.
+
+    However, (alpha/2) m(F_alpha/2) <=
+    INTEGRAL (F_alpha/2) abs(f - g)(x) dx < epsilon
+# as on F_alpha/2, f - g > alpha/2, but the integral over the whole space is less
+# than epsilon by choice of g. Therefore we get that
+# m(F_alpha/2) <= 2 epsilon/alpha.
+    Similarly, by the maximal theorem,
+
+        m({x : H(f(x) - g(x)) > alpha/2}) <=
+        2 C / alpha INTEGRAL abs(f(x) - g(x)) dx <=
+        2 C epsilon/alpha.
+
+    Therefore M(E_alpha) <= (2/alpha + 2 C/alpha) epsilon. The choice of epsilon
+    is arbitrary, so M(E_alpha) = 0.
+**** Recipe
+     1. Construct a continuous function g such that INTEGRAL abs(f - g) < epsilon.
+     2. Show that A_r(g(x)) - g(x) = 0 as r -> 0.
+     3. Break limsup (r -> 0) abs(A_r(f(x)) - f(x)) down with +/- A_r(g(x)) and
+        +/- g(x).
+     4. As
+        {x : limsup (r -> 0) abs(A_r(f(x)) - f(x)) > alpha} .subseteq.
+        {x : abs(f(x) - g(x)) > alpha/2} U {x : H(f(x) - g(x)) > alpha/2}
+
+        we can show that the measure of the set on the left must be zero for any
+        alpha as INTEGRAL abs(f - g) dm.
+*** Theorem 3.23
+**** Statement
+     Let F : RR -> RR be increasing, and let G(x) + F(x+).
+     1. The set of points at which F is discontinuous is countable.
+     2. F and G are differentiable a.e. and F' = G' a.e.
+**** Proof
+     _Part (a)_
+     Let D = {x : F(x+) = F(x-)}. Let x, y in D, x < y, so
+
+         F(x-) < F(x+) < F(y-) < F(y+).
+
+     Therefore (F(x-), F(x+)) and (F(y-), F(y+)) are two disjoint intervals.
+     Associate each interval with some rational number; therefore there is a 1-1
+     correspondence between intervals and some subset of the rationals, so D is
+     at most countable.
+
+     _Part (b)_
+     Let H(x) = F(x) - G(x), so H(x) >= 0, H(x) = 0 a.e.. Let {x1, x2, ...} be an
+     enumeration of D. Define
+
+         delta_x(E) = ((if x in E) 1 0)
+         mu(E)      = SUM H(xj) delta_xj(E)
+
+     so mu(E) = SUM (x in E intersect D) H(x). Therefore
+
+         mu((a, b]) = SUM H(x) .LEQ. F(b) - F(a).
+
+     Therefore mu is regular, so we may differentiate it. As mu(D^c) = 0 and
+     m(D) = 0, mu perp m, so
+
+         mu(B(r,x))/m(B(r,x)) -> 0 as r -> 0.
+
+     Therefore as
+
+         abs(H(x +/- r) - H(x)) <= H(x +/- r) - H(x) <= mu(B(r + r, x))
+         m(B(2 r, x)) = 4 r
+
+     we have that
+
+         abs(H(x +/- r) - H(x))/r <= 4/4 mu(B(2 r, x))/r
+                                   = 4 mu(B(2 r, x))/m(B(2 r, x))
+
+     so H'(x) = 0 a.e., so F' = G' a.e..
+**** Recipe
+     1. For part a: let D be the set of discontinuities. Show that for x and y
+        in D that there are two disjoint intervals (F(x-), F(x+)) and
+        (F(y-), F(y+)); therefore each interval is associated with a unique
+        rational number, so the number of discontinuities is at most countable.
+     2. Let H = F - G. Define the point mass measure and let the sum
+
+            mu(E) = SUM H(xj) delta_xj(E)
+
+        be another measure. The measure mu is regular and mutually singular to m
+        (it is zero on D^c) so mu(B(r,x))/m(B(r,x)) -> 0 as r -> 0.
+     3. We can bound abs(H(x +/- r) - H(x)) by mu(B(2 r), x). This gives us that
+        as r -> 0, (H(x +/- r) - H(x))/r -> 0 so H' = 0 a.e. so F' = G' a.e.
+*** Theorem 3.32
+**** Statement
+     If F in NBV then F is absolutely continuous iff mu_F << m.
+**** Proof
+     (->) Assume that mu_F << m. By 3.5, mu_F << m iff for all epsilon there
+     exists a delta such that m(E) < delta -> abs(mu_F(E)) < epsilon, which is
+     the condition for absolute continuity.
+
+     (<-) Assume that F is absolutely continuous. Let E be a Borel set such that
+     m(E) = 0. By a theorem from chapter 1 we have that
+
+         mu_F(E) = inf({mu_F(U) : U open, E subset U})
+
+     where each Uj is a disjoint union of open intervals. As F is absolutely
+     continuous
+
+         SUM abs(mu_F((aj^k, bj^k))) <= SUM abs(F(bj^k) - F(aj^k)) < epsilon
+
+     for any finite sum. Consider the limit as the number of summation terms goes
+     to oo; then for any Uj, abs(mu_F(Uj)) < epsilon, so abs(mu_F(E)) < epsilon,
+     so mu_F(E) = 0, so mu_F << m.
+**** Recipe
+** Technical Terms
+*** Absolutely Continuous
+    We say that F : RR -> RR is *absolutely continuous* if for every epsilon > 0
+    there exists some delta > 0 such that for any finite set of disjoint
+    intervals {(ai, bi)}
+
+        SUM (bi - ai) < delta -> SUM abs(F(bi) - F(ai)) < epsilon.
+*** NBV
+    We say that
+*** Borel Measures
+    Same as chapter 1: if F is nondecreasing on RR, then mu_F is a conventional
+    measure.
+*** Regular
+    We say that a Borel measure nu on RR^n is *regular* if
+    1. nu(K) < oo for every compact K
+    2. nu(E) = inf({nu(U), U open, E subset U}) for every E in BB_RR^n.
+
+    Every regular measure is sigma-finite. A signed measure nu is called regular
+    if abs(nu) is regular.
+*** (extended) mu-integrable
+    extended: one of INTEGRAL f^+, INTEGRAL f^- is finite.
+    regular : INTEGRAL abs(f) dmu < oo
+** Other Theorems
+*** 3.5 : Another way to examine absolute continuity.
+    Let nu be a finite signed measure and mu be a positive measure on (X, MM).
+    Then nu << mu iff for every epsilon > 0 there exists delta > 0 such that
+    abs(nu(E)) < epsilon whenever mu(E) < delta.
