@@ -1,9 +1,6 @@
 * General Terminology
-
 ** Geostrophic
-
 *** Dr. Iliescu
-
     several forcing effects - wind, solar, ice.
     wind is the major one in the middle of the ocean.
 
@@ -15,42 +12,57 @@
     (not steady state)
 
     Charney Jules - invented QGE
-
 *** From Introduction to Geophysical Fluid Dynamics (Chapter 1)
-
     Quasi-Geostrophic models - Phillips (1956) developed a 2-layer model that
     predicted realistic cyclones in the wrong places and times
 
     QG models fail near the equator (only remedy - use full equations. Bad!)
     full equations - more sensitive to initial data, need smaller time steps.
+** Barotropic Vorticity Equation
+   Uses hydrostatic balance, beta-plane, geostrophic balance, and horizontal
+   eddy viscosity.
 
+   Long time integrations incur large costs.
+** Rhines scale
+   Rhines scale = (basin dimension) sqrt(Ro)
 
+   From San, Staples, Iliescu 2012: measure of the nonlinearity force.
+** Munk scale
+   Munk scale = (basin dimension) (1/Re Ro)^(1/3)
+
+   From San, Staples, Iliescu 2012: dissipative behavior of the system.
+** Eddy flux
+*** From Wikipedia
+    Bulk horizontal flow can be imagined as a large combination of small
+    eddies. Eddy flux is really covariance between deviation in vertical wind
+    speed from the mean and deviation in gas concentration from the mean.
+** Isopycnal
+   Surface of constant potential density.
+** Mesoscale
+*** From Wikipedia
+    On the order of 5-500 kilometers. Includes sea breezes.
+** Rossby wave
+** Ekman Pumping
+** Stommel scale
+** Reynolds stress
+** Kelvin's Theorem
 * Motivation
-
 ** From Introduction to Geophysical Fluid Dynamics (Chapter 1)
-
 *** Goals
-
     Numerical GFD - not limited to weather prediction.
     Gain insight in to particular phenomena, role of forces, etc
     'Only way to experiment with the planet'
     hindcast, nowcast, forecast - estimate previous, current, or future data
     based on limited information.
-
 *** Difficulties
-
     As Lorenz showed - inherently unstable.
     Richardson tried with a room full of people with slide rules, with T = 6
     hours; far too unstable.
 
     Better choice than Richardson - Charney picked a more simplified model,
     less variation in pressure. Far more successful.
-
-
 * Scale of Motion
-
 ** From Introduction to Geophysical Fluid Dynamics (Chapter 1)
-
    Determine if a physical process is dynamically important (does it induce a
    large change?)
 
@@ -58,19 +70,13 @@
 
    other scales - stratification (changes in density) is measured by change in
    density per length (Delta rho and H)
-
 *** Example for a ship
-
     Consider waves of the same length as the ship L, velocities the same as the
     ship U, and time scale L/U.
-
 *** Rotation and Scale
-
     If the fluid flow evolves on a time scale of over a day we should consider
     the earth's rotation. So consider rotation for QGE.
-
 *** Stratification and Scale
-
     Gravity sorts fluids with dense on bottom and less dense on top, but fluid
     flows tend to work against this
 
@@ -94,9 +100,7 @@
 
     as a length scale. Therefore for the ocean we should pick about 60km as the
     length scale and 4 m/s as the velocity scale.
-
 *** Scale analysis and Finite Differences
-
     Strong relationship between scale analysis and numerical requirements.
 
     Since we have a discrete time scale, we approximate derivatives by
@@ -108,23 +112,16 @@
 
     Atlantic Ocean - to resolve eddies and stratified water masses we need
     about 10 million grid points for step size of 10^4 meters.
-
 **** Aliasing
-
      Finite Difference methods fail when the time step is not low
      enough. Lowest sampling frequency is the Nyquist frequency.
-
 * Ocean and Atmosphere Distinctions
-
 ** From Introduction to Geophysical Fluid Dynamics (Chapter 1)
-
    Flows of several kilometers to earth-scale
 
    Oceans - islands and continents get in the way. Driven by many things (wind,
    tides, temperature delta between air and water, etc)
    Atmosphere - deal with moisture. Driven by solar energy.
-
-
 * Describing Vorticity and Stream Functions
 
 ** Vorticity
@@ -204,20 +201,14 @@
 
     No strong effect on geophysical flows (recall that we ignore the z direction)
 
-
 * Physical Constants
-
 ** Rossby Number
-
 *** From lec16.pdf
-
     Ro = V / (fL)
     where V is the speed of a horizontal current
           L is the horizontal scale
           f is the coriolis parameter (some times a constant)
-
 *** From Introduction to Geophysical Fluid Dynamics
-
     (Page 481) For Ro < 1 : rotational effects significant
     Ro is the ratio of inertial to rotational forces
     Purely geostrophic - balance between pressure gradient and coriolis
@@ -226,24 +217,14 @@
     Ro_T = 1 / (Omega T) where Omega is the angular rotation rate of the planet
     and T is the time scale. ('time span over which the flow field evolves
     substantially')
-
-
 ** Eckman Number
-
 *** From Introduction to Geophysical Fluid Dynamics
-
     (Page 482) Ek = nu_E / (Omega H^2)
-
-
 ** f-plane
-
 *** From ch13.pdf
-
     Coriolis parameter f - some trigonometric function of latitude (ch13)
     f-plane approximation - replace occurances of f with a constant f0
-
 **** From ch13.pdf : Better Approximation - Beta-plane
-
      Allow f to vary in north-south direction linearly:
 
      f = f0 + beta * (y - y0)
@@ -252,36 +233,22 @@
      (so beta is the linearization constant for moving in direction y)
 
      typical choice - phi_0 = 45 degrees -> beta = 1.62e-11 m^-1 s^-1
-
 * Notation
-
   (a;b,c) is something like a * (b x c)
-
-
 * Boussinesq
-
   Starting equation for QGE
-
 ** Wikipedia
 
    eliminate vertical coordinate from flow, but retain some vertical effects.
    (interested in wave propagation - not much in vertical direction)
 
 * QGE Soup
-
 ** Ingredients
-
    Rossby Number
-
    Boussinesq - the starting equation.
-
    Stream Functions
-
    Vorticities
-
-
 ** Result
-
    partial q / partial t + J(Psi, q) = 0
 
    where Psi is the stream function
@@ -290,26 +257,16 @@
      + beta_0 * y
    N^2(z) = -(g/rho_0) * d(bar(rho)) / dz (should be a constant, roughly, for
    water)
-
 * Important Books
-
 **  Joseph Pedlosky - Geophysical Fluid Dynamics
-
     Rigorous derivation of QGE and the length scale analysis.
 
     Dr. Iliescu says -- somewhat dry. Majda better.
-
-
 ** Andrew Majda - Introduction to PDEs and waves for the atmosphere and ocean
-
    Only currently available mathematical text on these equations. I bought a copy.
-
 * Properties of the Fluid
-
 ** From Introduction to Geophysical Fluid Dynamics
-
    stratified flows - sorted by density (gravitational force important)
    perturbations maintained over time can cause fluid flows (like temperature
    deltas)
-
 * Implementation
